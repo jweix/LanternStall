@@ -1,0 +1,120 @@
+#lantern-stall-preview{--ls-atlas:url('__INGREDIENT_ATLAS__');--ls-scene:url('__STALL_SCENE__');--ls-cooking:url('__COOKING_ATLAS__');display:flex;justify-content:center;padding:8px 0;color-scheme:light;}
+#lantern-stall-preview *{box-sizing:border-box;}
+#lantern-stall-preview [hidden]{display:none!important;}
+#lantern-stall-preview .ls-phone{position:relative;isolation:isolate;width:min(100%,390px);overflow:hidden;border:1px solid #835331;border-radius:18px;background:#35221b var(--ls-scene) center top/100% 100% no-repeat;color:#ffefc9;font:14px/1.4 'PingFang SC','Microsoft YaHei',sans-serif;box-shadow:0 15px 40px #20170e30;}
+#lantern-stall-preview button{font:inherit;-webkit-tap-highlight-color:transparent;}
+#lantern-stall-preview button:focus-visible{outline:3px solid #f9cb68;outline-offset:2px;}
+#lantern-stall-preview .ls-header{position:relative;height:92px;}
+#lantern-stall-preview .ls-header h1{position:absolute;left:22%;right:22%;top:43px;margin:0;color:#fff0be;text-align:center;font-family:'STKaiti','KaiTi','Songti SC',serif;font-size:25px;line-height:1.25;font-weight:900;letter-spacing:1px;text-shadow:0 1px 2px #2f160e;white-space:nowrap;}
+#lantern-stall-preview .ls-open-sign{position:absolute;top:75px;left:calc(50% - 25px);width:50px;padding:0 3px;line-height:16px;text-align:center;color:#6b4022;background:#f3d798;border:1px solid #c69a57;border-radius:5px;letter-spacing:2px;font-size:10px;font-weight:700;transform:rotate(-2deg);}
+#lantern-stall-preview .ls-header-actions{position:absolute;top:9px;left:9px;display:flex;gap:7px;z-index:2;}
+#lantern-stall-preview .ls-round{display:grid;place-items:center;width:28px;height:28px;padding:0;border:2px solid #8b582a;border-radius:50%;box-shadow:0 2px 1px #090d1990;background:#ffedbc;color:#754425;font-size:14px;font-weight:800;}
+#lantern-stall-preview .ls-round:disabled{opacity:.6;}
+#lantern-stall-preview .ls-business{position:relative;height:34px;margin:0 13px;padding:2px 10px 9px;display:flex;align-items:center;justify-content:space-between;background:#182335dc;border-radius:5px;font-size:12px;color:#e8d7ad;}
+#lantern-stall-preview .ls-income strong{margin-left:6px;color:#ffe2a0;font-size:20px;font-weight:750;line-height:1;}
+#lantern-stall-preview .ls-income b{font-variant-numeric:tabular-nums;}
+#lantern-stall-preview .ls-goal strong{color:#f8ddaa;margin-left:7px;font-size:15px;}
+#lantern-stall-preview .ls-meter{position:absolute;height:3px;bottom:3px;left:9px;right:9px;border:0;border-radius:3px;overflow:hidden;background:#afa17e30;}
+#lantern-stall-preview .ls-meter i{display:block;width:0;height:100%;background:#e9bf68;transition:width .3s;}
+#lantern-stall-preview .ls-orders-area{position:relative;padding:10px 10px 0;}
+#lantern-stall-preview .ls-order-rail{position:absolute;left:0;right:0;top:9px;height:2px;background:#ae7b3d;box-shadow:0 1px #ebc17a88;}
+#lantern-stall-preview .ls-orders{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+#lantern-stall-preview .ls-ticket{position:relative;min-width:0;height:101px;padding:7px 6px 3px;background:linear-gradient(115deg,#fff6dd,#fce6bd);border:1px solid #c89a61;border-radius:8px 8px 5px 5px;box-shadow:0 3px #98622d66,0 4px 6px #140c0b44;color:#624126;}
+#lantern-stall-preview .ls-ticket:before{content:'';position:absolute;left:calc(50% - 4px);top:-8px;width:8px;height:14px;z-index:1;background:linear-gradient(90deg,#c48b48,#915a2d);border-radius:2px;box-shadow:0 1px 2px #20140f55;}
+#lantern-stall-preview .ls-ticket.focused{box-shadow:0 0 0 1px #e6ba73,0 3px #98622d66;}
+#lantern-stall-preview .ls-ticket-select{display:block;width:100%;height:100%;padding:0;text-align:left;color:inherit;background:transparent;border:0;}
+#lantern-stall-preview .ls-ticket-select:disabled{opacity:1;}
+#lantern-stall-preview .ls-ticket-meta{display:flex;justify-content:space-between;align-items:center;white-space:nowrap;font-size:10px;color:#947654;line-height:1.3;}
+#lantern-stall-preview .ls-ticket-meta strong{font-size:11px;color:#936227;font-weight:750;}
+#lantern-stall-preview .ls-ticket h2{font-size:15px;font-weight:800;line-height:1.3;white-space:nowrap;margin:3px 0 1px;color:#5b3b23;}
+#lantern-stall-preview .ls-recipe{display:flex;justify-content:center;align-items:center;min-height:31px;gap:1px;}
+#lantern-stall-preview .ls-ingredient{position:relative;display:inline-flex;flex:0 1 29px;min-width:0;}
+#lantern-stall-preview .ls-ingredient .ls-food{width:100%;aspect-ratio:1;}
+#lantern-stall-preview .ls-ingredient.ready:after{content:'✓';position:absolute;right:-1px;bottom:0;width:10px;height:10px;border-radius:50%;background:#739a49;color:#fff9df;display:grid;place-items:center;font-size:8px;line-height:1;border:1px solid #fff7dd;}
+#lantern-stall-preview .ls-ticket-state{display:block;height:15px;color:#9b7b47;text-align:center;font-size:10px;line-height:15px;}
+#lantern-stall-preview .ls-ticket.cooking .ls-ticket-state{color:#ae592a;font-weight:700;}
+#lantern-stall-preview .ls-ticket.cooking{border-color:#daa94e;box-shadow:inset 0 -2px #e0b45b66,0 3px #98622d66;}
+#lantern-stall-preview .ls-prep{padding:5px 8px 0;}
+#lantern-stall-preview .ls-section-heading{display:flex;align-items:center;justify-content:space-between;height:27px;padding:0 4px 2px;border-bottom:1px solid #a87b3a77;}
+#lantern-stall-preview .ls-section-heading strong{background:#172131d9;border-radius:5px;padding:1px 9px;font-family:'STKaiti','KaiTi','Songti SC',serif;font-size:17px;letter-spacing:1px;color:#ffeab7;}
+#lantern-stall-preview .ls-section-heading small{font-size:10px;color:#dfc695;}
+#lantern-stall-preview .ls-board{position:relative;aspect-ratio:1.02;}
+#lantern-stall-preview .ls-tile-field{position:absolute;inset:3px 0 0;}
+#lantern-stall-preview .ls-tile{position:absolute;width:var(--ls-tile-size,17.4%);height:var(--ls-tile-size,17.4%);display:grid;place-items:center;padding:1px;border:1px solid #c49b65;border-radius:8px;background:linear-gradient(135deg,#fff6df,#ffe9c4);box-shadow:0 4px #c09a65,0 6px 2px #26160f50,inset 0 1px #fffdef;transform:rotate(var(--tile-angle,0deg));transition:filter .13s,transform .13s;}
+#lantern-stall-preview .ls-tile .ls-food{width:95%;height:95%;}
+#lantern-stall-preview .ls-tile.covered{background:#c8ae85;border-color:#b38b59;box-shadow:0 3px #a68456,0 5px 1px #26160f30;}
+#lantern-stall-preview .ls-tile.covered .ls-food{opacity:.3;filter:saturate(.6);}
+#lantern-stall-preview .ls-tile.wanted:after{content:'';position:absolute;right:4px;top:4px;width:3px;height:3px;border-radius:50%;background:#dfba6d;}
+#lantern-stall-preview .ls-tile:not(:disabled):hover{transform:translateY(-1px) rotate(var(--tile-angle,0deg));filter:brightness(1.04);}
+#lantern-stall-preview .ls-tile:active{transform:translateY(1px);}
+#lantern-stall-preview .ls-tile.demo-target:before{content:'';position:absolute;inset:2px;border:3px solid #ffefb4;box-shadow:0 0 0 3px #f0c76366;border-radius:50%;z-index:2;}
+#lantern-stall-preview .ls-tile.ghost{pointer-events:none;opacity:.13;z-index:0!important;box-shadow:none;}
+#lantern-stall-preview .ls-food{display:inline-block;flex-shrink:0;background-image:var(--ls-atlas);background-size:300% 400%;background-repeat:no-repeat;}
+#lantern-stall-preview .ls-kitchen-dock{display:flex;align-items:flex-start;gap:7px;min-height:108px;padding:6px 10px 0;}
+#lantern-stall-preview .ls-tray-area{flex:1;min-width:0;padding-top:2px;}
+#lantern-stall-preview .ls-tray-heading{height:24px;display:flex;align-items:center;}
+#lantern-stall-preview .ls-tray-heading strong{font-size:12px;color:#ebd2a0;font-weight:500;}
+#lantern-stall-preview .ls-tray-heading span{font-size:11px;letter-spacing:1px;margin-left:5px;font-variant-numeric:tabular-nums;}
+#lantern-stall-preview .ls-tray{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;padding:4px;border:2px solid #f0c888;border-radius:7px;box-shadow:0 2px 0 #80532c,inset 0 0 0 1px #bd874b;background:#bc8549;}
+#lantern-stall-preview .ls-slot{aspect-ratio:.83;border-radius:3px;background:#be8f59;box-shadow:inset 0 1px 2px #6d3c2260,inset 0 0 0 1px #e4b97d;display:grid;place-items:center;}
+#lantern-stall-preview .ls-slot .ls-food{width:100%;aspect-ratio:1;}
+#lantern-stall-preview .ls-slot.filled{background:linear-gradient(#fff4d9,#f8dbaa);box-shadow:0 1px 1px #7e4a2460;}
+#lantern-stall-preview .ls-tray.danger{border-color:#e6a56e;background:#b37444;}
+#lantern-stall-preview .ls-tray.extended{grid-template-columns:repeat(8,minmax(0,1fr));}
+#lantern-stall-preview .ls-reserve-row{display:flex;align-items:center;gap:5px;margin-top:5px;font-size:10px;color:#d9bd8e;}
+#lantern-stall-preview .ls-reserve-row>div{display:flex;gap:3px;}
+#lantern-stall-preview .ls-reserve-row .ls-slot{width:24px;height:24px;}
+#lantern-stall-preview .ls-cook-stage{position:relative;width:104px;height:100px;flex-shrink:0;z-index:7;}
+#lantern-stall-preview .ls-cook-caption{position:absolute;left:-6px;right:-3px;top:0;text-align:center;font-size:10px;line-height:20px;white-space:nowrap;color:#e9c589;}
+#lantern-stall-preview .ls-wok-anchor{position:absolute;left:0;right:0;top:18px;height:83px;}
+#lantern-stall-preview .ls-cooking-art{display:block;background-image:var(--ls-cooking);background-size:400% 200%;background-repeat:no-repeat;}
+#lantern-stall-preview .ls-wok-wrap{position:absolute;left:-6px;top:-9px;width:118px;height:100px;background-position:0 0;transform-origin:45% 70%;z-index:2;}
+#lantern-stall-preview .ls-flame-glow{position:absolute;left:10px;right:15px;bottom:8px;height:15px;z-index:1;background:#57b8e499;border-radius:50%;filter:blur(7px);opacity:.45;}
+#lantern-stall-preview .ls-cooked-mix{position:absolute;left:15px;top:21px;width:62px;height:29px;background-position:33.3333% 0;z-index:4;opacity:0;}
+#lantern-stall-preview .ls-spatula{position:absolute;width:38px;height:42px;left:63px;top:-10px;background-position:66.6667% 100%;transform:rotate(28deg);transform-origin:75% 25%;z-index:7;opacity:0;}
+#lantern-stall-preview .ls-seasoning{position:absolute;width:33px;height:40px;left:2px;top:-6px;background-position:100% 100%;transform:rotate(62deg);z-index:7;opacity:0;}
+#lantern-stall-preview .ls-steam{position:absolute;left:20px;top:0;width:61px;height:40px;z-index:8;pointer-events:none;opacity:0;}
+#lantern-stall-preview .ls-steam i{position:absolute;left:5px;top:5px;width:9px;height:28px;border-radius:50%;background:#f6e6c0aa;filter:blur(4px);}
+#lantern-stall-preview .ls-steam i:nth-child(2){left:27px;top:-3px;}
+#lantern-stall-preview .ls-steam i:nth-child(3){left:46px;top:9px;}
+#lantern-stall-preview .ls-season-drops{position:absolute;left:28px;top:35px;width:3px;height:4px;border-radius:50%;background:#e7ab52;box-shadow:6px 4px #f2cf7c,12px 1px #9e5e31,17px 8px #e6ba62;z-index:8;opacity:0;}
+#lantern-stall-preview .ls-cook-bits{position:absolute;inset:0;z-index:9;pointer-events:none;}
+#lantern-stall-preview .ls-cook-bit{position:absolute;left:0;top:0;width:29px;height:29px;filter:drop-shadow(0 2px 1px #25140e66);}
+#lantern-stall-preview .ls-dish-wrap{position:absolute;left:-5px;top:24px;width:113px;height:72px;z-index:10;opacity:0;pointer-events:none;}
+#lantern-stall-preview .ls-cook-coin{position:absolute;top:-2px;left:12px;color:#ffdf78;font-size:17px;font-weight:800;text-shadow:0 2px 1px #633c20;opacity:0;z-index:12;pointer-events:none;white-space:nowrap;}
+#lantern-stall-preview .ls-cook-stage[data-phase="stir"] .ls-cooked-mix{opacity:1;}
+#lantern-stall-preview .ls-cook-stage[data-phase="stir"] .ls-spatula{opacity:1;animation:ls-stir .28s 3;}
+#lantern-stall-preview .ls-cook-stage[data-phase="season"] .ls-seasoning{opacity:1;}
+#lantern-stall-preview .ls-cook-stage[data-phase="season"] .ls-season-drops{opacity:1;animation:ls-season .18s 2;}
+#lantern-stall-preview .ls-cook-stage[data-phase="stir"] .ls-steam,#lantern-stall-preview .ls-cook-stage[data-phase="season"] .ls-steam{opacity:1;animation:ls-steam .55s 2;}
+#lantern-stall-preview .ls-cook-stage[data-phase="stir"] .ls-flame-glow{opacity:1;}
+#lantern-stall-preview .ls-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 12px 7px;border-top:1px solid #ac764554;}
+#lantern-stall-preview .ls-tool{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;height:45px;padding:2px 3px;border:1px solid #f6cf8b;border-bottom:3px solid #a96c33;border-radius:11px;background:linear-gradient(#fff3d1,#f5dbad);color:#6b4024;box-shadow:0 2px 2px #1d110b40;}
+#lantern-stall-preview .ls-tool b{display:block;font-size:12px;font-weight:800;white-space:nowrap;}
+#lantern-stall-preview .ls-tool small{display:block;font-size:9px;color:#a38253;white-space:nowrap;}
+#lantern-stall-preview .ls-tool-symbol{color:#b96736;font-size:23px;font-family:Arial,sans-serif;font-weight:800;width:22px;line-height:1;}
+#lantern-stall-preview .ls-tool:disabled{filter:saturate(.8);opacity:.65;}
+#lantern-stall-preview .ls-tool:active{transform:translateY(1px);}
+#lantern-stall-preview .ls-bottom-mark{min-height:17px;padding:0 6px 5px;text-align:center;font-size:9px;letter-spacing:1px;color:#e5c596;text-shadow:0 1px 1px #643818;}
+#lantern-stall-preview .ls-sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+#lantern-stall-preview .ls-overlay{position:absolute;inset:0;z-index:30;background:#15131777;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px);}
+#lantern-stall-preview .ls-modal{width:100%;max-width:320px;padding:22px 18px;border:2px solid #c79b5d;border-radius:19px;background:#fff0d2;color:#745131;box-shadow:0 8px 0 #553d2944,0 20px 40px #130e0b55;}
+#lantern-stall-preview .ls-modal h2{font-size:23px;text-align:center;margin:0 0 12px;font-weight:800;color:#6e4026;}
+#lantern-stall-preview .ls-modal p,#lantern-stall-preview .ls-modal li{font-size:12px;line-height:1.8;}
+#lantern-stall-preview .ls-modal ul{padding-left:17px;margin:9px 0;}
+#lantern-stall-preview .ls-modal-detail{padding:10px 12px;margin:13px 0;background:#ead8b6aa;border-radius:10px;font-size:12px;line-height:1.8;}
+#lantern-stall-preview .ls-modal-actions{display:flex;gap:9px;margin-top:15px;}
+#lantern-stall-preview .ls-modal-actions button{flex:1;min-height:42px;padding:7px 4px;border:1px solid #caa46a;border-bottom:3px solid #b1864c;border-radius:10px;background:#fae7bd;color:#785031;font-size:12px;font-weight:700;}
+#lantern-stall-preview .ls-modal-actions .primary{background:#cc8c4e;color:#fff2cf;border-color:#bd8041;border-bottom-color:#976131;}
+#lantern-stall-preview .ls-result-value{text-align:center;font-size:47px;font-weight:800;color:#a8702d;line-height:1.3;}
+#lantern-stall-preview .ls-result-label{text-align:center;font-size:12px;}
+#lantern-stall-preview .ls-flying{position:absolute;z-index:22;pointer-events:none;inset:0;}
+#lantern-stall-preview .ls-flight{position:absolute;width:42px;height:42px;pointer-events:none;z-index:22;animation:ls-to-tray .24s cubic-bezier(.2,.65,.3,1) forwards;}
+#lantern-stall-preview .ls-tile-field.mixing .ls-tile:not(.ghost){animation:ls-mix .3s ease;}
+@keyframes ls-to-tray{from{transform:translate(0,0) scale(1)}to{transform:translate(var(--dx),var(--dy)) scale(.55);opacity:0}}
+@keyframes ls-stir{50%{transform:translate(-9px,9px) rotate(4deg)}}
+@keyframes ls-season{to{transform:translate(2px,12px);opacity:0}}
+@keyframes ls-steam{0%{transform:translateY(7px);opacity:0}30%{opacity:.85}100%{transform:translateY(-10px);opacity:0}}
+@keyframes ls-mix{50%{transform:scale(.85) rotate(4deg)}}
+@media(max-width:360px){#lantern-stall-preview .ls-header h1{font-size:22px;}#lantern-stall-preview .ls-header{height:85px;}#lantern-stall-preview .ls-header h1{top:39px;}#lantern-stall-preview .ls-open-sign{top:68px;}#lantern-stall-preview .ls-ticket{padding-left:4px;padding-right:4px;height:94px;}#lantern-stall-preview .ls-ticket h2{font-size:13px;}#lantern-stall-preview .ls-cook-stage{width:91px;}#lantern-stall-preview .ls-wok-wrap{left:-6px;width:105px;height:91px;}#lantern-stall-preview .ls-cooked-mix{left:13px;top:19px;width:55px;height:27px;}#lantern-stall-preview .ls-dish-wrap{width:103px;height:68px;left:-6px;}#lantern-stall-preview .ls-cook-caption{font-size:9px;}#lantern-stall-preview .ls-tool{gap:3px;}#lantern-stall-preview .ls-tool b{font-size:11px;}#lantern-stall-preview .ls-tool small{font-size:9px;}#lantern-stall-preview .ls-tool-symbol{font-size:21px;width:18px;}#lantern-stall-preview .ls-tools{gap:6px;padding-left:9px;padding-right:9px;}}
+@media(prefers-reduced-motion:reduce){#lantern-stall-preview *,#lantern-stall-preview *:before,#lantern-stall-preview *:after{animation:none!important;transition:none!important;}}

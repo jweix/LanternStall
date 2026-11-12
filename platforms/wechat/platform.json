@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "wechat",
+  "displayName": "微信小游戏",
+  "status": "planned",
+  "runtime": null,
+  "source": "src",
+  "assets": "assets/manifest.json",
+  "output": "dist/wechat",
+  "build": null
+}

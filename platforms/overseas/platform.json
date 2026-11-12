@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "overseas",
+  "displayName": "境外发行",
+  "status": "planned",
+  "runtime": null,
+  "source": "src",
+  "assets": "assets/manifest.json",
+  "output": "dist/overseas",
+  "build": null
+}

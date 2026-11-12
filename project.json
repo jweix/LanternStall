@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "name": "LanternStall",
+  "shared": {
+    "scripts": [
+      "shared/core/game-engine.js"
+    ],
+    "assets": "shared/assets/manifest.json"
+  },
+  "platforms": {
+    "web-preview": "platforms/web-preview/platform.json",
+    "wechat": "platforms/wechat/platform.json",
+    "douyin": "platforms/douyin/platform.json",
+    "xiaohongshu": "platforms/xiaohongshu/platform.json",
+    "overseas": "platforms/overseas/platform.json"
+  }
+}

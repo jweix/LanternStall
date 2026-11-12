@@ -1,0 +1,7 @@
+# 各平台构建产物可由源码重新生成。
+/dist/
+/logs/
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store

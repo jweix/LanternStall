@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "xiaohongshu",
+  "displayName": "小红书",
+  "status": "planned",
+  "runtime": null,
+  "source": "src",
+  "assets": "assets/manifest.json",
+  "output": "dist/xiaohongshu",
+  "build": null
+}

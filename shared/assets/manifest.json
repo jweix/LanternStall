@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "assets": {
+    "ingredientAtlas": {
+      "runtime": {
+        "path": "runtime/video-style/ingredients.webp",
+        "mimeType": "image/webp"
+      },
+      "source": {
+        "path": "source/cozy-stall/cozy-stall-atlas-source.png",
+        "mimeType": "image/png"
+      }
+    },
+    "stallScene": {
+      "runtime": {
+        "path": "runtime/video-style/stall.jpg",
+        "mimeType": "image/jpeg"
+      },
+      "source": {
+        "path": "source/video-style/stall-source.png",
+        "mimeType": "image/png"
+      }
+    },
+    "cookingAtlas": {
+      "runtime": {
+        "path": "runtime/video-style/cooking-atlas.webp",
+        "mimeType": "image/webp"
+      },
+      "source": {
+        "path": "source/video-style/cooking-atlas-source.png",
+        "mimeType": "image/png"
+      }
+    }
+  }
+}

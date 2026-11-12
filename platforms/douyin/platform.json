@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "douyin",
+  "displayName": "抖音小游戏",
+  "status": "planned",
+  "runtime": null,
+  "source": "src",
+  "assets": "assets/manifest.json",
+  "output": "dist/douyin",
+  "build": null
+}

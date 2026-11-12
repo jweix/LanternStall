@@ -1,0 +1,17 @@
+灯火排挡 手绘夜市视觉资产
+工具：内置 image_gen
+参考：用户提供的夜市烧烤小游戏画面，仅作画风参考。
+
+[12 格食材与道具图集]
+Use case: stylized-concept. Asset type: ONE transparent 3-column by 4-row mobile-game sprite atlas, exactly 12 separate sprites. Use the attached image as STYLE REFERENCE ONLY: warm Chinese night-market food puzzle game, bold irregular dark-brown ink outlines, flat cel-shaded colors, subtle hand-painted grain and hatch marks, warm yellow-orange highlights, tactile appealing food, charming 2D illustrated game art. Do NOT copy the screenshot UI or any social-media interface. Not glossy 3D, not photorealistic, not watercolor without outlines.
+Canvas ratio 3:4. Every cell is an exactly equal SQUARE. Center each sprite at its cell center with 18% transparent padding on all sides. No cell dividers, no tiles, no squares behind the sprites, no text, no numbers, no letters, no watermark. Absolutely transparent background.
+Exact cell content, read left to right by row:
+Row 1: one whole red tomato with green leaves; one cracked egg with pale eggshell and a golden yolk; one plump pink raw boneless chicken thigh.
+Row 2: one round brown shiitake mushroom with a cream cross cut; one small bunch of scallions with white roots and green leaves; one golden corn cob with a green husk.
+Row 3: one yellow butter block with a single small slice; one nest of golden uncooked noodles without bowl; one orange carrot with green tops.
+Row 4: a worn metal cooking spatula with a dark wooden handle tilted slightly; a small round woven bamboo basket; one warmly lit red paper lantern with short tassel.
+Food icons must be immediately distinguishable at 40 pixels. Consistent warm thick-line 2D drawing throughout, same apparent scale, three-quarter view. Keep all 12 objects wholly within their own cells.
+
+[木板与炭火场景]
+Use case: stylized-concept. Asset type: one SQUARE hand-painted 2D background texture for an original Chinese night-market cooking puzzle game. Input images are STYLE REFERENCES only: the social screenshot for dark hand-drawn wood and charcoal atmosphere, and the ingredient atlas for compatible dark ink outlines. Do not copy any existing UI or social interface.
+Composition: camera almost straight on, no perspective vanishing point. A richly illustrated wall / counter backing made of 5 broad vertical dark walnut wooden planks fills the entire square. Knots, long curved wood grain, thin scratches, warm-brown painted surfaces, deep burgundy-brown shadows, bold irregular dark-brown linework, subtle warm rim lighting. The central upper 80% must be EMPTY wooden plank texture, with no objects or decorations, so interactive food tiles can be laid over it. At the very bottom 18% of the square, stretching edge to edge, draw a shallow charcoal barbecue brazier with dark teal, weathered metal front, rivets, orange-red glowing coals, and dark parallel grill bars. Keep the grill wholly within the bottom 18%, aligned horizontally. The brazier should look hand-illustrated, warm, cozy and tactile, with a little orange reflected light on the lower wood. Clear readable in a small mobile game, thick ink contours and controlled textured color, NOT photorealistic, NOT glossy 3D, NOT a minimalist UI pattern. No food, no plates, no people, no tiles, no UI cards, NO TEXT, no letters, no numbers, no logos, no watermarks. Opaque background.

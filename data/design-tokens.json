@@ -1,0 +1,33 @@
+{
+  "name": "灯火大排档",
+  "style": "rounded-2.5d-night-stall",
+  "colors": {
+    "creamTop": "#FFF5DB",
+    "creamBottom": "#E0AE73",
+    "ink": "#60331B",
+    "woodLight": "#E4AA67",
+    "woodDark": "#A65F2B",
+    "night": "#253B3B",
+    "activeEdge": "#ED9368",
+    "check": "#72A33C",
+    "fire": "#4ED1FF"
+  },
+  "imageFit": "contain-visible-bbox",
+  "fontFallback": [
+    "HanziPen SC",
+    "Kaiti SC",
+    "STKaiti",
+    "PingFang SC",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "sans-serif"
+  ],
+  "fixed": {
+    "title": "灯火大排档",
+    "curvedTitle": true,
+    "settingsSide": "left",
+    "slots": 7,
+    "columns": 5,
+    "speedStars": false
+  }
+}

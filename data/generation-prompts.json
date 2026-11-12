@@ -1,0 +1,308 @@
+[
+  {
+    "id": "ingredient-tomato",
+    "kind": "ingredient",
+    "assetId": "tomato",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, one plump ripe red tomato, small fresh green calyx. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-egg",
+    "kind": "ingredient",
+    "assetId": "egg",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, one opened eggshell with a large golden yolk and a little translucent egg white, no plate. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-pepper",
+    "kind": "ingredient",
+    "assetId": "pepper",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, one rounded glossy green bell pepper with a short stem. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-pork",
+    "kind": "ingredient",
+    "assetId": "pork",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, two thick boneless pink pork belly slices with clear cream fat layers, appetizing toy food, no blood. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-chicken",
+    "kind": "ingredient",
+    "assetId": "chicken",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, two rounded boneless pale pink raw chicken thigh pieces, no skin bumps, no blood. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-shiitake",
+    "kind": "ingredient",
+    "assetId": "shiitake",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, one plump brown shiitake mushroom with a cream cross cut on its cap and a short thick stem. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-scallion",
+    "kind": "ingredient",
+    "assetId": "scallion",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, a compact bunch of two spring onions with short white bulbs and fresh green leaves. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-broccoli",
+    "kind": "ingredient",
+    "assetId": "broccoli",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, a compact bunch of three plump broccoli florets with green crowns and pale green stalks. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-shrimp",
+    "kind": "ingredient",
+    "assetId": "shrimp",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, three peeled curled plump pale coral pink shrimp, no heads or shells. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-beef",
+    "kind": "ingredient",
+    "assetId": "beef",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, a small fan of three boneless lean red beef slices with subtle cream marbling, no blood. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-celery",
+    "kind": "ingredient",
+    "assetId": "celery",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, three short crisp pale green celery stalks with a few tiny leafy tips. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-tofu",
+    "kind": "ingredient",
+    "assetId": "tofu",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, three soft ivory tofu cubes with rounded edges, clearly tofu not butter or cheese. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-carrot",
+    "kind": "ingredient",
+    "assetId": "carrot",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, one short orange carrot with a small green top and two thick carrot coins beside it. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "ingredient-wood_ear",
+    "kind": "ingredient",
+    "assetId": "wood_ear",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE ingredient icon, a compact cluster of three brown black wood ear mushroom pieces with soft wavy folds. Camera: consistent three-quarter view from slightly above, centered, compact almost square silhouette. No bowl, plate, tray, card, border, badge, hands, utensils, or other food. One ingredient type only. Square 1024 by 1024 canvas.",
+    "reference": "reference/approved-master-v13.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d01",
+    "kind": "dish",
+    "assetId": "d01",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 番茄炒蛋. The ONLY recognizable food components are juicy red tomato wedges and fluffy golden scrambled egg curds. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d02",
+    "kind": "dish",
+    "assetId": "d02",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 青椒肉片. The ONLY recognizable food components are bright green bell pepper chunks and tender pink golden cooked pork slices. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d03",
+    "kind": "dish",
+    "assetId": "d03",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 香菇鸡丁. The ONLY recognizable food components are brown shiitake mushroom slices and golden chicken thigh cubes. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d04",
+    "kind": "dish",
+    "assetId": "d04",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 西兰花虾仁. The ONLY recognizable food components are bright green broccoli florets and plump coral shrimp. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d05",
+    "kind": "dish",
+    "assetId": "d05",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 芹菜牛肉. The ONLY recognizable food components are crisp green celery segments and glossy caramel brown beef slices. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d06",
+    "kind": "dish",
+    "assetId": "d06",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 豆腐炒蛋. The ONLY recognizable food components are soft ivory tofu cubes and fluffy golden egg curds. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d07",
+    "kind": "dish",
+    "assetId": "d07",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 胡萝卜肉丝. The ONLY recognizable food components are short orange carrot matchsticks and tender golden pink pork strips. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d08",
+    "kind": "dish",
+    "assetId": "d08",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 葱爆牛肉. The ONLY recognizable food components are thick green and white scallion sections and caramel brown beef slices. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d09",
+    "kind": "dish",
+    "assetId": "d09",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 木耳炒蛋. The ONLY recognizable food components are soft dark brown wood ear folds and fluffy golden scrambled egg. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d10",
+    "kind": "dish",
+    "assetId": "d10",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 香菇豆腐. The ONLY recognizable food components are brown shiitake slices and ivory lightly golden seared tofu cubes. Use exactly these 2 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d11",
+    "kind": "dish",
+    "assetId": "d11",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 葱香香菇鸡丁. The ONLY recognizable food components are shiitake mushroom slices, golden chicken cubes, and green and white scallion segments. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d12",
+    "kind": "dish",
+    "assetId": "d12",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 青椒胡萝卜牛肉. The ONLY recognizable food components are green bell pepper chunks, orange carrot slices, and caramel brown beef slices. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d13",
+    "kind": "dish",
+    "assetId": "d13",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 芹菜木耳肉片. The ONLY recognizable food components are green celery segments, dark wood ear folds, and tender golden pork slices. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d14",
+    "kind": "dish",
+    "assetId": "d14",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 西兰花胡萝卜虾仁. The ONLY recognizable food components are green broccoli florets, orange carrot coins, and coral curled shrimp. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d15",
+    "kind": "dish",
+    "assetId": "d15",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 番茄豆腐炒蛋. The ONLY recognizable food components are red tomato wedges, ivory tofu cubes, and golden scrambled egg curds. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d16",
+    "kind": "dish",
+    "assetId": "d16",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 青椒香菇鸡丁. The ONLY recognizable food components are green bell pepper chunks, brown shiitake slices, and golden chicken cubes. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d17",
+    "kind": "dish",
+    "assetId": "d17",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 木耳胡萝卜炒蛋. The ONLY recognizable food components are dark wood ear folds, orange carrot slivers, and fluffy golden scrambled egg. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d18",
+    "kind": "dish",
+    "assetId": "d18",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 青椒虾仁炒蛋. The ONLY recognizable food components are green bell pepper chunks, coral shrimp, and golden egg curds. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d19",
+    "kind": "dish",
+    "assetId": "d19",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 葱香豆腐牛肉. The ONLY recognizable food components are green white scallion pieces, soft ivory tofu cubes, and caramel brown beef slices. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  },
+  {
+    "id": "dish-d20",
+    "kind": "dish",
+    "assetId": "d20",
+    "prompt": "Use case: stylized-concept. Asset type: an individual production PNG sprite for the Chinese casual cooking game 灯火大排档. Input image is ONLY a style reference; do not copy its sheet layout or unrelated objects. Match its rounded cute 2.5D painted toy-food illustration, soft small highlights, warm appetizing colors, thick plump shapes, gentle ambient occlusion, and top-left soft lighting. Clearly illustrated, not a photograph, not flat vector, not highly shiny plastic. True transparent alpha background, no baked checkerboard, no colored rectangle, no ground plane, no cast shadow outside the object, no text, no watermark. Keep the whole object fully inside the canvas with at least 12% clear padding. Crisp clean edge and enough detail to read at 60 screen pixels.\nPrimary request: exactly ONE finished stir-fry dish: 香菇西兰花肉片. The ONLY recognizable food components are brown shiitake slices, green broccoli florets, and tender golden pork slices. Use exactly these 3 pantry ingredients; cooking oil and a light glossy sauce are implicit. NO unlisted garnish: especially do not add scallion, parsley, sesame, chili, rice, noodles, onion or garlic unless explicitly listed above. Served on the same simple shallow warm ivory ceramic plate with a small rim, no pattern. Low three-quarter camera, plate opening a shallow ellipse, visible plate width about twice its total food-and-plate height. Entire plate centered with a balanced small mound of food, not an overflowing mountain. Clean self-contained cutout, no steam cloud or sparkle effect baked in. Square 1024 by 1024 canvas with a centered wide object; unused canvas must remain transparent.",
+    "reference": "assets/ui/legacy-cooking-atlas.png",
+    "method": "built-in-image-generation",
+    "transparent_background": true
+  }
+]

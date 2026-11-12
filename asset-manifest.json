@@ -1,0 +1,1078 @@
+{
+  "version": "1.0",
+  "referencePriority": [
+    "reference/approved-master-v13.png",
+    "reference/approved-animation-v13.mp4",
+    "docs/01-style-and-ui.txt"
+  ],
+  "assets": [
+    {
+      "id": "d01",
+      "kind": "dish",
+      "path": "assets/dishes/d01.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 90,
+        "w": 884,
+        "h": 587
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "5cfcddbf3bad3605aefe2d978d06d98e4d91a50876b9b8c424aa5590c5f14044",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d01",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d02",
+      "kind": "dish",
+      "path": "assets/dishes/d02.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 89,
+        "w": 884,
+        "h": 589
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "e45e850e08ecff6b00a4536390592c02958099fc7ae9eacddc516262fa728224",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d02",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d03",
+      "kind": "dish",
+      "path": "assets/dishes/d03.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 91,
+        "w": 884,
+        "h": 585
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "f3101ec99a24364fc87592ae7740f72cdcebde8711c30ad52c589579da8ff31a",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d03",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d04",
+      "kind": "dish",
+      "path": "assets/dishes/d04.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 88,
+        "w": 884,
+        "h": 591
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "f2c442088cacc9a74009681f3c46ba95500220445c4557c66428ffe8771045df",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d04",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d05",
+      "kind": "dish",
+      "path": "assets/dishes/d05.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 95,
+        "w": 884,
+        "h": 577
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "6fc9822c626f2077dcc035c41c1342fbee9b29ef0ab162bf45a2ba1259a450ef",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d05",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d06",
+      "kind": "dish",
+      "path": "assets/dishes/d06.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 93,
+        "w": 884,
+        "h": 581
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "6f618aead8115029752a8197ce2c08a8e884815a9f1e9a7097cea35809ad5326",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d06",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d07",
+      "kind": "dish",
+      "path": "assets/dishes/d07.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 95,
+        "w": 884,
+        "h": 577
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "948004d029a48a82997c9f49636759524ea88228d278ab1f9811700b17ba4483",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d07",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d08",
+      "kind": "dish",
+      "path": "assets/dishes/d08.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 101,
+        "w": 884,
+        "h": 565
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "10e17abc1038d29eeab0e4128ea7fdc3a4737933925fe559ad772564a4c34b72",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d08",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d09",
+      "kind": "dish",
+      "path": "assets/dishes/d09.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 89,
+        "w": 884,
+        "h": 590
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "3121d61fd0a5c8e78d5dc902a7a9b7e1a9a66b98249abb048857c183f82fa9f9",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d09",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d10",
+      "kind": "dish",
+      "path": "assets/dishes/d10.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 97,
+        "w": 884,
+        "h": 573
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "931e1c24326cc38c4c4e98f54f2fa89ea797f32c91b5ed71b42ab53277bbce40",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d10",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d11",
+      "kind": "dish",
+      "path": "assets/dishes/d11.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 94,
+        "w": 884,
+        "h": 580
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "15dc24fea079d9e3eb2423ab9794ce65ef7211b2fb84dcf3c5834ecdfaf131e0",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d11",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d12",
+      "kind": "dish",
+      "path": "assets/dishes/d12.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 86,
+        "w": 884,
+        "h": 595
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "672c14f6dff1f7e1f891d31bfc90efea254f89d90b5c0ad8852edf082273c1cd",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d12",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d13",
+      "kind": "dish",
+      "path": "assets/dishes/d13.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 81,
+        "w": 884,
+        "h": 605
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "12b209ebb6579157b32ed9bb5852d2a13a16e01aa011cbf07e99e8e7abc1af15",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d13",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d14",
+      "kind": "dish",
+      "path": "assets/dishes/d14.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 90,
+        "w": 884,
+        "h": 588
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "07c8aa479aeabe930659838bd69cfb32de6aeca28d769b976508ade9e4dcf669",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d14",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d15",
+      "kind": "dish",
+      "path": "assets/dishes/d15.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 92,
+        "w": 884,
+        "h": 584
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "69d3892dcc81748459600716e79d7cccccf4a7ff0547855811a6fe7c3460f7f4",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d15",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d16",
+      "kind": "dish",
+      "path": "assets/dishes/d16.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 92,
+        "w": 884,
+        "h": 584
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "d4ec09de0fcac2330d4999ef0279d13b38babbeb2d28e8dc29125347ac540541",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d16",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d17",
+      "kind": "dish",
+      "path": "assets/dishes/d17.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 88,
+        "w": 884,
+        "h": 591
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "d19aa853f8f1c39f4fed4ae4a0f2afa6a42bbc88b9faccd53edd78ddc70b1547",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d17",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d18",
+      "kind": "dish",
+      "path": "assets/dishes/d18.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 89,
+        "w": 884,
+        "h": 590
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "ab4ae8d13551176ec052e45b0d1def302d8f63e797e6b5cad8cddf0315a546ab",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d18",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d19",
+      "kind": "dish",
+      "path": "assets/dishes/d19.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 91,
+        "w": 884,
+        "h": 585
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "ab916ffe3b7c5fa2f113049c86ff3f7c05ecce77552d9406894a64ab16773c89",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d19",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "d20",
+      "kind": "dish",
+      "path": "assets/dishes/d20.png",
+      "width": 1024,
+      "height": 768,
+      "bbox": {
+        "x": 70,
+        "y": 84,
+        "w": 884,
+        "h": 599
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "7ca471512dbb486b9089dd9781870ca3eb4c0cad7ae82b774d99bebd3149fce0",
+      "source": "built-in-image-generation",
+      "promptId": "dish-d20",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "beef",
+      "kind": "ingredient",
+      "path": "assets/ingredients/beef.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 71,
+        "w": 424,
+        "h": 369
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "c65474672183045d3e60cbf92c306ebe5f8c7023a9095ca290c4c3886dd3725c",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-beef",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "broccoli",
+      "kind": "ingredient",
+      "path": "assets/ingredients/broccoli.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 47,
+        "w": 424,
+        "h": 417
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "b4b697597cb0acf950cdc93ed7c28646e9a36502eeb5e6aaf6738ac76229b889",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-broccoli",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "carrot",
+      "kind": "ingredient",
+      "path": "assets/ingredients/carrot.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 50,
+        "y": 44,
+        "w": 411,
+        "h": 424
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "c6753fde650d4cd9aba46b1b9379eea17fc6947768e372dcc80877202232e5f1",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-carrot",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "celery",
+      "kind": "ingredient",
+      "path": "assets/ingredients/celery.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 48,
+        "y": 44,
+        "w": 415,
+        "h": 424
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "a3fd2b36c2babb01502fcf7240dde90a5cf789bd6fd13ae722914a101951b457",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-celery",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "chicken",
+      "kind": "ingredient",
+      "path": "assets/ingredients/chicken.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 75,
+        "w": 424,
+        "h": 361
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "a95ce64f95feea9893076bb8093082605264642909be379771516decbb01a6a9",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-chicken",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "egg",
+      "kind": "ingredient",
+      "path": "assets/ingredients/egg.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 59,
+        "w": 424,
+        "h": 393
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "e24ab4789223fc0fb3a985cc2040722dff61fea6649938c8ef453410efa29ba4",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-egg",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "pepper",
+      "kind": "ingredient",
+      "path": "assets/ingredients/pepper.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 59,
+        "y": 44,
+        "w": 394,
+        "h": 424
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "b9090050896cc47ad7723b6037a84d4378d7374756a1e75be8597ba750d0a2c7",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-pepper",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "pork",
+      "kind": "ingredient",
+      "path": "assets/ingredients/pork.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 79,
+        "w": 424,
+        "h": 353
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "7ceb95789d8d1030c6b75e0c015f9350c33ce0ea260b3af8e67aac026f29f38a",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-pork",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "scallion",
+      "kind": "ingredient",
+      "path": "assets/ingredients/scallion.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 45,
+        "y": 44,
+        "w": 422,
+        "h": 424
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "09498e11754e01351d44e9809be2e0e5bb8578067beef14113182e16e367b091",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-scallion",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "shiitake",
+      "kind": "ingredient",
+      "path": "assets/ingredients/shiitake.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 67,
+        "w": 424,
+        "h": 378
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "e2c72bec4abb9f0e21442ac6418117c147c1380738eab4d6441cd679810304b5",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-shiitake",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "shrimp",
+      "kind": "ingredient",
+      "path": "assets/ingredients/shrimp.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 75,
+        "w": 424,
+        "h": 362
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "5503a1be8ab847333050700cadd50e1a01be67cc763f12f39e014c851c396b06",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-shrimp",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "tofu",
+      "kind": "ingredient",
+      "path": "assets/ingredients/tofu.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 56,
+        "w": 424,
+        "h": 399
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "786f751c99d79a2feb50a97510c11f13258d268f9858f28fd5af8b780bb5cea9",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-tofu",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "tomato",
+      "kind": "ingredient",
+      "path": "assets/ingredients/tomato.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 45,
+        "w": 424,
+        "h": 422
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "d269c894188c60246efe6b6872dc3eee5bf6d71658e31fde1191ed700ed8facb",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-tomato",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "wood_ear",
+      "kind": "ingredient",
+      "path": "assets/ingredients/wood_ear.png",
+      "width": 512,
+      "height": 512,
+      "bbox": {
+        "x": 44,
+        "y": 84,
+        "w": 424,
+        "h": 344
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "alpha": true,
+      "sha256": "354463630226c52383088d3affc05a4cbe9ba702fbb26bb5d0132b7d0fed4f33",
+      "source": "built-in-image-generation",
+      "promptId": "ingredient-wood_ear",
+      "alphaRange": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "base-scene-reference",
+      "path": "assets/ui/base-scene-reference.png",
+      "width": 928,
+      "height": 1695,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 928,
+        "h": 1695
+      },
+      "alpha": false,
+      "alphaRange": [
+        255,
+        255
+      ],
+      "sha256": "586549714c21c4c1cc2d644e9fb5aa1c6a448a618abceddc5737cac6dfe55587",
+      "kind": "source-reference",
+      "source": "legacy-approved-source",
+      "usage": "包含历史静态文字，只作源图层参考；不是最终干净背景。"
+    },
+    {
+      "id": "cloche",
+      "path": "assets/ui/cloche.png",
+      "width": 500,
+      "height": 250,
+      "bbox": {
+        "x": 77,
+        "y": 73,
+        "w": 346,
+        "h": 140
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "42c9b0a8581804f4f822b0001ba91931d207fad7e31e1c71b358aec4d4eeeb14",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "独立餐盖，无蒸汽烘焙；与盘子同心并通过代码抬起。"
+    },
+    {
+      "id": "empty-plate",
+      "path": "assets/ui/empty-plate.png",
+      "width": 500,
+      "height": 250,
+      "bbox": {
+        "x": 39,
+        "y": 68,
+        "w": 422,
+        "h": 169
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "4f23180e8db1dfd75cd720fc4798780d7df11586a3a69a6ac9d302ed54cb3ff3",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "空盘；只用于配齐后候菜及倒菜阶段。"
+    },
+    {
+      "id": "income-tag",
+      "path": "assets/ui/income-tag.png",
+      "width": 496,
+      "height": 152,
+      "bbox": {
+        "x": 8,
+        "y": 13,
+        "w": 480,
+        "h": 130
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "effc4571aec754435affb9b796b9b627ece60b37c3935c0a6315daab9815d67b",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "收入小挂牌空底；收入数字另画。"
+    },
+    {
+      "id": "ingredient-card-preview-atlas",
+      "path": "assets/ui/ingredient-card-preview-atlas.png",
+      "width": 1008,
+      "height": 272,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 1008,
+        "h": 272
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "4b1fa39a712301fd1890f46970e89e9a46b9a913dc38d21d3425c96e44d6b72c",
+      "kind": "preview-atlas",
+      "source": "composed-from-new-ingredients",
+      "usage": "离线预览图集；正式工程应单独绘制卡色与透明食材。"
+    },
+    {
+      "id": "legacy-cooking-atlas",
+      "path": "assets/ui/legacy-cooking-atlas.png",
+      "width": 1254,
+      "height": 1254,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 1254,
+        "h": 1254
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "8c1372317daa8ee318228f19bb2951f74644569c17f720e2882380dde35af619",
+      "kind": "source-atlas",
+      "source": "legacy-approved-source",
+      "usage": "旧动效图集，使用已知frame；新菜优先用独立PNG。"
+    },
+    {
+      "id": "order-card",
+      "path": "assets/ui/order-card.png",
+      "width": 536,
+      "height": 512,
+      "bbox": {
+        "x": 8,
+        "y": 13,
+        "w": 520,
+        "h": 478
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "1ece5297aafef8716631625c0f13719723a2fe3c7b1135155b2eafcf35811ccc",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "奶油订单空卡；桌号、菜名、原料、状态另画。"
+    },
+    {
+      "id": "prep-empty",
+      "path": "assets/ui/prep-empty.png",
+      "width": 178,
+      "height": 218,
+      "bbox": {
+        "x": 18,
+        "y": 18,
+        "w": 142,
+        "h": 182
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "434f9e13e81e13ddefe3afac79a41ac44a489181a3b4f8bebb6281f0a7ef485d",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "单个空槽参考；满槽须替换整个槽底，不在其中嵌小卡。"
+    },
+    {
+      "id": "wok",
+      "kind": "ui",
+      "path": "assets/ui/wok.png",
+      "width": 565,
+      "height": 428,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 565,
+        "h": 428
+      },
+      "alpha": true,
+      "source": "approved-cooking-atlas-crop",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "ae595fdfbad98bae2e7807167e77019694669511582a5758e91bb631cd2110ab",
+      "usage": "炒锅独立透明资源；按可见框等比例绘制。"
+    },
+    {
+      "id": "wood-button",
+      "path": "assets/ui/wood-button.png",
+      "width": 530,
+      "height": 230,
+      "bbox": {
+        "x": 7,
+        "y": 13,
+        "w": 516,
+        "h": 206
+      },
+      "alpha": true,
+      "alphaRange": [
+        0,
+        255
+      ],
+      "sha256": "5f352aee6b4b79fd945891780aeb4ac5d7e874166d905c08c87884e26eaa4550",
+      "kind": "ui",
+      "source": "approved-canvas-component-export",
+      "usage": "空按钮底；文字和图标另画。"
+    }
+  ],
+  "counts": {
+    "dish": 20,
+    "ingredient": 14,
+    "ui": 7,
+    "sourceOrPreview": 3,
+    "total": 44
+  },
+  "bboxConvention": "x,y,w,h of nonzero-alpha pixels in source image pixels; do not stretch visible objects"
+}

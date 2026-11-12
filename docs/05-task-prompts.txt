@@ -1,0 +1,17 @@
+任务模板 复现界面
+读取总提示词与approved-master-v13.png。按data/layout.json复现主招牌、收入小挂牌、三张奶油订单、5×5错层食材、7格满槽备菜、炒锅和三项工具。先不增加功能。给出390宽与320宽的截图，检查字体、按钮和原生安全区域。
+
+任务模板 接入业务
+保持渲染不变，接入src/game-core.js。把ingredientPicked、ingredientArrived、recipeAccepted、cookingStarted、dishOut、dishServed、orderReplaced、levelWon映射到相应视觉任务。业务不能等待飞行或DOM动画完成回调。先运行node src/verify.cjs，再用三份配方快速入槽验证多单并发。
+
+任务模板 新增菜品
+复用现有20道的盘型、视角、暖色2.5D材质和透明背景。每次只生成一道，不生成带文字的菜谱页。准确显示配方的2或3种食材，不添加未列出的葱花和蔬菜。给独立PNG、稳定ID、完整菜名、最多6字的displayName、ingredients和资源bbox，更新manifest和测试。
+
+任务模板 新增食材
+按14种食材的比例和高光生成独立透明PNG，不含卡片、碟子、边框或文字。适配512×512留白，分别在奶油底和深蓝绿底检查边缘。图案可缩放，不可拉伸；卡片底由程序生成。
+
+任务模板 移植小程序
+保留game-core和motion计算，按docs/08-platform-porting.txt实现平台适配层。把Canvas创建、图片加载、触摸坐标、安全区域、后台暂停、存档和音频入口替换到项目内。不能直接把浏览器DOM或window.openai带入小程序。先完成一关，再扩展关卡配置。
+
+任务模板 验收
+逐项执行docs/07-acceptance-checklist.txt。提供资源完整性测试、状态逻辑测试、透明PNG深浅底检查、快手连续配菜、上桌退单与独立补单的录像。不把固定时间轴样片描述成已经完成可自由操作的关卡。

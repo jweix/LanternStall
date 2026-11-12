@@ -1,0 +1,47 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>灯火大排档 已确认动效</title><style>body{margin:0;padding:20px;background:#f4eadb;font-family:-apple-system,"PingFang SC",sans-serif}main{max-width:640px;margin:auto}h1{font-size:20px;color:#633d26;margin:0 0 14px}button{cursor:pointer}*{box-sizing:border-box}</style></head><body><main><h1>灯火大排档 已确认动效</h1><div id="dd-flow-v13" aria-label="灯火大排档满槽备菜与快速换单">
+
+    <div class="oc-controls" aria-label="动画控制">
+      <button type="button" data-action="pause">播放</button>
+      <button type="button" data-action="replay">重播</button>
+      <button type="button" data-seek="3.40">看出锅</button>
+      <button type="button" data-seek="1.88">看满槽</button>
+      <button type="button" data-seek="10.90">看通关</button>
+    </div>
+    <div class="oc-stage viz-dotted-background"><div class="oc-phone">
+      <canvas width="928" height="1695" role="img" aria-label="灯火大排档。已备食材直接铺满整个槽位，图案不拉伸。出锅后盘子立即移动，飞行距离加长；成品在菜单区域出现、结算后立即退出，逐桌补入新订单。">灯火大排档订单动画</canvas>
+      <div class="oc-hit-layer" aria-label="食材点击区"></div>
+      <div class="oc-result" role="dialog" aria-modal="true" aria-labelledby="clear-title-v13" aria-describedby="clear-detail-v13" hidden>
+        <h2 id="clear-title-v13" class="oc-sr">通关成功</h2>
+        <p id="clear-detail-v13" class="oc-sr" data-result-detail>本关用时00:10。要进入下一关吗？</p>
+        <button type="button" class="oc-result-button cursor-interaction" data-result-action="next">下一关</button>
+        <button type="button" class="oc-result-button cursor-interaction" data-result-action="rest">先休息一下</button>
+      </div>
+    </div></div>
+    <div class="oc-caption" aria-live="polite"></div>
+  
+</div>
+<style>
+
+#dd-flow-v13{--oc-ink:light-dark(#603921,#f9e2c1);--oc-control:light-dark(#fff4e1,#35271e);--oc-line:light-dark(#dfc4a0,#75573e);--oc-active:light-dark(#8e492c,#efc08a);--oc-on:light-dark(#fff7e9,#3c271b);color:var(--oc-ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;width:100%}
+#dd-flow-v13 .oc-controls{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+#dd-flow-v13 .oc-controls button{font:500 13px/1.3 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;padding:8px 10px;min-height:36px;border:1px solid var(--oc-line);border-radius:10px;background:var(--oc-control);color:var(--oc-ink)}
+#dd-flow-v13 .oc-controls button[aria-pressed="true"]{background:var(--oc-active);color:var(--oc-on);border-color:var(--oc-active)}
+#dd-flow-v13 .oc-stage{display:flex;justify-content:center;padding:8px 0}
+#dd-flow-v13 .oc-phone{position:relative;width:min(100%,410px)}
+#dd-flow-v13 canvas{display:block;width:100%;height:auto;aspect-ratio:928/1695;border-radius:18px;background:#70411f;box-shadow:0 12px 34px #0003;pointer-events:none}
+#dd-flow-v13 .oc-hit-layer{position:absolute;inset:0;pointer-events:none}
+#dd-flow-v13 .oc-food-hit{position:absolute;padding:0;border:0;border-radius:14px;background:transparent;pointer-events:auto}
+#dd-flow-v13 .oc-food-hit:focus-visible{outline:3px solid #ffedbf;outline-offset:-4px}
+#dd-flow-v13 .oc-caption{text-align:center;font-size:13px;line-height:1.5;min-height:22px;margin-top:8px}
+@media(pointer:coarse){#dd-flow-v13 .oc-controls button{min-height:44px}}
+@media(max-width:360px){#dd-flow-v13 .oc-controls{gap:4px}#dd-flow-v13 .oc-controls button{padding:8px 7px}#dd-flow-v13 .oc-stage{padding:4px 0}}
+
+
+#dd-flow-v13 .oc-result{position:absolute;inset:0;z-index:4;pointer-events:auto}
+#dd-flow-v13 .oc-result[hidden]{display:none}
+#dd-flow-v13 .oc-result-button{position:absolute;min-height:44px;padding:0;border:0;border-radius:15px;background:transparent;color:transparent;font:500 16px/1.3 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+#dd-flow-v13 .oc-result-button:focus-visible{outline:3px solid #fff1c0;outline-offset:-5px}
+#dd-flow-v13 .oc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+</style>
+<script src="../data/approved-assets.js"></script><script src="../src/approved-v13.js"></script></main></body></html>

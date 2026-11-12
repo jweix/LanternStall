@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-12",
+  "assetCounts": {
+    "dish": 20,
+    "ingredient": 14,
+    "ui": 7,
+    "sourceOrPreview": 3,
+    "total": 44
+  },
+  "recipeSplit": {
+    "twoIngredients": 10,
+    "threeIngredients": 10
+  },
+  "all34GeneratedPNGsHaveRealAlpha": true,
+  "generatedArtPaddedAndUnclipped": true,
+  "manifestHashesVerified": true,
+  "coreVerification": {
+    "tests": 12,
+    "recipes": 20,
+    "twoIngredients": 10,
+    "threeIngredients": 10,
+    "ingredients": 14,
+    "status": "passed"
+  },
+  "browserVerification": {
+    "errors": [],
+    "recipes": [
+      {
+        "id": "d01",
+        "pay": 32,
+        "revenue": 160,
+        "expected": 32
+      },
+      {
+        "id": "d02",
+        "pay": 36,
+        "revenue": 164,
+        "expected": 36
+      },
+      {
+        "id": "d03",
+        "pay": 36,
+        "revenue": 164,
+        "expected": 36
+      },
+      {
+        "id": "d04",
+        "pay": 40,
+        "revenue": 168,
+        "expected": 40
+      },
+      {
+        "id": "d05",
+        "pay": 38,
+        "revenue": 166,
+        "expected": 38
+      },
+      {
+        "id": "d06",
+        "pay": 28,
+        "revenue": 156,
+        "expected": 28
+      },
+      {
+        "id": "d07",
+        "pay": 30,
+        "revenue": 158,
+        "expected": 30
+      },
+      {
+        "id": "d08",
+        "pay": 38,
+        "revenue": 166,
+        "expected": 38
+      },
+      {
+        "id": "d09",
+        "pay": 28,
+        "revenue": 156,
+        "expected": 28
+      },
+      {
+        "id": "d10",
+        "pay": 30,
+        "revenue": 158,
+        "expected": 30
+      },
+      {
+        "id": "d11",
+        "pay": 63,
+        "revenue": 191,
+        "expected": 63
+      },
+      {
+        "id": "d12",
+        "pay": 66,
+        "revenue": 194,
+        "expected": 66
+      },
+      {
+        "id": "d13",
+        "pay": 60,
+        "revenue": 188,
+        "expected": 60
+      },
+      {
+        "id": "d14",
+        "pay": 69,
+        "revenue": 197,
+        "expected": 69
+      },
+      {
+        "id": "d15",
+        "pay": 57,
+        "revenue": 185,
+        "expected": 57
+      },
+      {
+        "id": "d16",
+        "pay": 66,
+        "revenue": 194,
+        "expected": 66
+      },
+      {
+        "id": "d17",
+        "pay": 54,
+        "revenue": 182,
+        "expected": 54
+      },
+      {
+        "id": "d18",
+        "pay": 63,
+        "revenue": 191,
+        "expected": 63
+      },
+      {
+        "id": "d19",
+        "pay": 66,
+        "revenue": 194,
+        "expected": 66
+      },
+      {
+        "id": "d20",
+        "pay": 63,
+        "revenue": 191,
+        "expected": 63
+      }
+    ],
+    "bounds": {
+      "width": 390,
+      "viewport": 390
+    },
+    "offline": true
+  },
+  "documentVerification": {
+    "pdfPages": 12,
+    "allPagesVisuallyReviewed": true,
+    "chineseTextExtractable": true,
+    "pairedDocxAndPdf": true
+  },
+  "scope": "Offline demos and runnable reference logic verified. Target mini-program integration, real-device performance and level balancing remain implementation work."
+}

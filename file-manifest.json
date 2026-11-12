@@ -1,0 +1,469 @@
+{
+  "files": [
+    {
+      "path": "00-START-HERE.txt",
+      "bytes": 2572,
+      "sha256": "d8b53258d5753969c15faffef7c10d51ddfbf70f246688838a21a9ec5ba53f8a"
+    },
+    {
+      "path": "asset-manifest.json",
+      "bytes": 23876,
+      "sha256": "b6460767dd6b5a872eb374aa9f96ded7618db9f2ad970f6245f4f048cab2345d"
+    },
+    {
+      "path": "assets/dishes/d01.png",
+      "bytes": 725713,
+      "sha256": "5cfcddbf3bad3605aefe2d978d06d98e4d91a50876b9b8c424aa5590c5f14044"
+    },
+    {
+      "path": "assets/dishes/d02.png",
+      "bytes": 755791,
+      "sha256": "e45e850e08ecff6b00a4536390592c02958099fc7ae9eacddc516262fa728224"
+    },
+    {
+      "path": "assets/dishes/d03.png",
+      "bytes": 733808,
+      "sha256": "f3101ec99a24364fc87592ae7740f72cdcebde8711c30ad52c589579da8ff31a"
+    },
+    {
+      "path": "assets/dishes/d04.png",
+      "bytes": 812492,
+      "sha256": "f2c442088cacc9a74009681f3c46ba95500220445c4557c66428ffe8771045df"
+    },
+    {
+      "path": "assets/dishes/d05.png",
+      "bytes": 773951,
+      "sha256": "6fc9822c626f2077dcc035c41c1342fbee9b29ef0ab162bf45a2ba1259a450ef"
+    },
+    {
+      "path": "assets/dishes/d06.png",
+      "bytes": 702491,
+      "sha256": "6f618aead8115029752a8197ce2c08a8e884815a9f1e9a7097cea35809ad5326"
+    },
+    {
+      "path": "assets/dishes/d07.png",
+      "bytes": 748927,
+      "sha256": "948004d029a48a82997c9f49636759524ea88228d278ab1f9811700b17ba4483"
+    },
+    {
+      "path": "assets/dishes/d08.png",
+      "bytes": 757723,
+      "sha256": "10e17abc1038d29eeab0e4128ea7fdc3a4737933925fe559ad772564a4c34b72"
+    },
+    {
+      "path": "assets/dishes/d09.png",
+      "bytes": 733684,
+      "sha256": "3121d61fd0a5c8e78d5dc902a7a9b7e1a9a66b98249abb048857c183f82fa9f9"
+    },
+    {
+      "path": "assets/dishes/d10.png",
+      "bytes": 733710,
+      "sha256": "931e1c24326cc38c4c4e98f54f2fa89ea797f32c91b5ed71b42ab53277bbce40"
+    },
+    {
+      "path": "assets/dishes/d11.png",
+      "bytes": 747098,
+      "sha256": "15dc24fea079d9e3eb2423ab9794ce65ef7211b2fb84dcf3c5834ecdfaf131e0"
+    },
+    {
+      "path": "assets/dishes/d12.png",
+      "bytes": 773003,
+      "sha256": "672c14f6dff1f7e1f891d31bfc90efea254f89d90b5c0ad8852edf082273c1cd"
+    },
+    {
+      "path": "assets/dishes/d13.png",
+      "bytes": 794561,
+      "sha256": "12b209ebb6579157b32ed9bb5852d2a13a16e01aa011cbf07e99e8e7abc1af15"
+    },
+    {
+      "path": "assets/dishes/d14.png",
+      "bytes": 788866,
+      "sha256": "07c8aa479aeabe930659838bd69cfb32de6aeca28d769b976508ade9e4dcf669"
+    },
+    {
+      "path": "assets/dishes/d15.png",
+      "bytes": 717653,
+      "sha256": "69d3892dcc81748459600716e79d7cccccf4a7ff0547855811a6fe7c3460f7f4"
+    },
+    {
+      "path": "assets/dishes/d16.png",
+      "bytes": 746691,
+      "sha256": "d4ec09de0fcac2330d4999ef0279d13b38babbeb2d28e8dc29125347ac540541"
+    },
+    {
+      "path": "assets/dishes/d17.png",
+      "bytes": 761801,
+      "sha256": "d19aa853f8f1c39f4fed4ae4a0f2afa6a42bbc88b9faccd53edd78ddc70b1547"
+    },
+    {
+      "path": "assets/dishes/d18.png",
+      "bytes": 771703,
+      "sha256": "ab4ae8d13551176ec052e45b0d1def302d8f63e797e6b5cad8cddf0315a546ab"
+    },
+    {
+      "path": "assets/dishes/d19.png",
+      "bytes": 758239,
+      "sha256": "ab916ffe3b7c5fa2f113049c86ff3f7c05ecce77552d9406894a64ab16773c89"
+    },
+    {
+      "path": "assets/dishes/d20.png",
+      "bytes": 789953,
+      "sha256": "7ca471512dbb486b9089dd9781870ca3eb4c0cad7ae82b774d99bebd3149fce0"
+    },
+    {
+      "path": "assets/ingredients/beef.png",
+      "bytes": 224725,
+      "sha256": "c65474672183045d3e60cbf92c306ebe5f8c7023a9095ca290c4c3886dd3725c"
+    },
+    {
+      "path": "assets/ingredients/broccoli.png",
+      "bytes": 222189,
+      "sha256": "b4b697597cb0acf950cdc93ed7c28646e9a36502eeb5e6aaf6738ac76229b889"
+    },
+    {
+      "path": "assets/ingredients/carrot.png",
+      "bytes": 189899,
+      "sha256": "c6753fde650d4cd9aba46b1b9379eea17fc6947768e372dcc80877202232e5f1"
+    },
+    {
+      "path": "assets/ingredients/celery.png",
+      "bytes": 180648,
+      "sha256": "a3fd2b36c2babb01502fcf7240dde90a5cf789bd6fd13ae722914a101951b457"
+    },
+    {
+      "path": "assets/ingredients/chicken.png",
+      "bytes": 167113,
+      "sha256": "a95ce64f95feea9893076bb8093082605264642909be379771516decbb01a6a9"
+    },
+    {
+      "path": "assets/ingredients/egg.png",
+      "bytes": 180958,
+      "sha256": "e24ab4789223fc0fb3a985cc2040722dff61fea6649938c8ef453410efa29ba4"
+    },
+    {
+      "path": "assets/ingredients/pepper.png",
+      "bytes": 171366,
+      "sha256": "b9090050896cc47ad7723b6037a84d4378d7374756a1e75be8597ba750d0a2c7"
+    },
+    {
+      "path": "assets/ingredients/pork.png",
+      "bytes": 194146,
+      "sha256": "7ceb95789d8d1030c6b75e0c015f9350c33ce0ea260b3af8e67aac026f29f38a"
+    },
+    {
+      "path": "assets/ingredients/scallion.png",
+      "bytes": 167117,
+      "sha256": "09498e11754e01351d44e9809be2e0e5bb8578067beef14113182e16e367b091"
+    },
+    {
+      "path": "assets/ingredients/shiitake.png",
+      "bytes": 196749,
+      "sha256": "e2c72bec4abb9f0e21442ac6418117c147c1380738eab4d6441cd679810304b5"
+    },
+    {
+      "path": "assets/ingredients/shrimp.png",
+      "bytes": 205073,
+      "sha256": "5503a1be8ab847333050700cadd50e1a01be67cc763f12f39e014c851c396b06"
+    },
+    {
+      "path": "assets/ingredients/tofu.png",
+      "bytes": 220142,
+      "sha256": "786f751c99d79a2feb50a97510c11f13258d268f9858f28fd5af8b780bb5cea9"
+    },
+    {
+      "path": "assets/ingredients/tomato.png",
+      "bytes": 219484,
+      "sha256": "d269c894188c60246efe6b6872dc3eee5bf6d71658e31fde1191ed700ed8facb"
+    },
+    {
+      "path": "assets/ingredients/wood_ear.png",
+      "bytes": 174806,
+      "sha256": "354463630226c52383088d3affc05a4cbe9ba702fbb26bb5d0132b7d0fed4f33"
+    },
+    {
+      "path": "assets/ui/base-scene-reference.png",
+      "bytes": 2561217,
+      "sha256": "586549714c21c4c1cc2d644e9fb5aa1c6a448a618abceddc5737cac6dfe55587"
+    },
+    {
+      "path": "assets/ui/cloche.png",
+      "bytes": 37461,
+      "sha256": "42c9b0a8581804f4f822b0001ba91931d207fad7e31e1c71b358aec4d4eeeb14"
+    },
+    {
+      "path": "assets/ui/empty-plate.png",
+      "bytes": 16482,
+      "sha256": "4f23180e8db1dfd75cd720fc4798780d7df11586a3a69a6ac9d302ed54cb3ff3"
+    },
+    {
+      "path": "assets/ui/income-tag.png",
+      "bytes": 18111,
+      "sha256": "effc4571aec754435affb9b796b9b627ece60b37c3935c0a6315daab9815d67b"
+    },
+    {
+      "path": "assets/ui/ingredient-card-preview-atlas.png",
+      "bytes": 287893,
+      "sha256": "4b1fa39a712301fd1890f46970e89e9a46b9a913dc38d21d3425c96e44d6b72c"
+    },
+    {
+      "path": "assets/ui/legacy-cooking-atlas.png",
+      "bytes": 1448925,
+      "sha256": "8c1372317daa8ee318228f19bb2951f74644569c17f720e2882380dde35af619"
+    },
+    {
+      "path": "assets/ui/order-card.png",
+      "bytes": 49085,
+      "sha256": "1ece5297aafef8716631625c0f13719723a2fe3c7b1135155b2eafcf35811ccc"
+    },
+    {
+      "path": "assets/ui/prep-empty.png",
+      "bytes": 6980,
+      "sha256": "434f9e13e81e13ddefe3afac79a41ac44a489181a3b4f8bebb6281f0a7ef485d"
+    },
+    {
+      "path": "assets/ui/wok.png",
+      "bytes": 261868,
+      "sha256": "ae595fdfbad98bae2e7807167e77019694669511582a5758e91bb631cd2110ab"
+    },
+    {
+      "path": "assets/ui/wood-button.png",
+      "bytes": 26207,
+      "sha256": "5f352aee6b4b79fd945891780aeb4ac5d7e874166d905c08c87884e26eaa4550"
+    },
+    {
+      "path": "data/animation-spec.json",
+      "bytes": 3541,
+      "sha256": "8646184a842a44c1777c5c5f4cf858b8234753ceec30465a7949c306ddf2e3ac"
+    },
+    {
+      "path": "data/approved-assets.js",
+      "bytes": 531428,
+      "sha256": "4500bf28f58a3dd872a79ade83eac77e23848ac4b068f7558b49e218de5d8614"
+    },
+    {
+      "path": "data/catalog.js",
+      "bytes": 11630,
+      "sha256": "98d4b5f4aa3d5a09b7cc5b582958296224fc20f954b1a5f06dbf71e182292967"
+    },
+    {
+      "path": "data/design-tokens.json",
+      "bytes": 679,
+      "sha256": "e7098b462630933ac2897b03ad19f71618c28d39b4aff179270ef6fbaa8f5400"
+    },
+    {
+      "path": "data/generation-prompts.json",
+      "bytes": 57003,
+      "sha256": "44cb305e14517782fe33b0b96cfbe63ce8794351513a577cfff36a7072f7a30d"
+    },
+    {
+      "path": "data/ingredients.json",
+      "bytes": 4777,
+      "sha256": "bff1ee3a71a41d005cdd3f3c75682f0d53fda08e17d7e7a29eaaf5ed55ce81ec"
+    },
+    {
+      "path": "data/layout.json",
+      "bytes": 1178,
+      "sha256": "2f44d9f341bc32d3f7ce854e59660b7183d4091b5d28925bacea44cca7f2d0ac"
+    },
+    {
+      "path": "data/preview-assets.js",
+      "bytes": 6147555,
+      "sha256": "3755ebbd1c6161a5f638af4600a1709d1ed623c2eb974d022147e60ffa98c3c1"
+    },
+    {
+      "path": "data/recipes.json",
+      "bytes": 9937,
+      "sha256": "30aa1747f851b331cb29ed0405ecc7d3d06530ad68f0331e5ce07cb3723001f8"
+    },
+    {
+      "path": "data/ui-component-data.json",
+      "bytes": 1957,
+      "sha256": "601e8fedd4d71d193c795cee122e21888cf3ef79b2f94e3651197269b7ddca76"
+    },
+    {
+      "path": "demo/approved-animation.html",
+      "bytes": 4488,
+      "sha256": "5519acdef44190854860208c93834d50bdcf448f326e844eec4b2edbb2c2c8d3"
+    },
+    {
+      "path": "demo/asset-lab.html",
+      "bytes": 8051,
+      "sha256": "c0b4c7e40cc8b79fa638d5cf4574645da52543d646ca8a5e86a07a29f1cc998b"
+    },
+    {
+      "path": "docs/01-style-and-ui.txt",
+      "bytes": 3439,
+      "sha256": "f9953b337dbaee695146b2ffe854a4ccbef7b312aacdefd12d923d32d5d7f9f4"
+    },
+    {
+      "path": "docs/02-game-rules.txt",
+      "bytes": 3533,
+      "sha256": "00a711526b010ef7d4e6cabe803bb881ae142142bf667f4c91f3ebd063486869"
+    },
+    {
+      "path": "docs/03-ai-master-prompt.txt",
+      "bytes": 2110,
+      "sha256": "604cd895fc206e321b6494d28abf111dfe7e22ee37cb881e4071de868262b4ed"
+    },
+    {
+      "path": "docs/04-motion-implementation.txt",
+      "bytes": 5796,
+      "sha256": "81448d7c7e2076f1e2ff568cde45949dd08caf0366b5dc006ccf139950cd6d97"
+    },
+    {
+      "path": "docs/05-task-prompts.txt",
+      "bytes": 1907,
+      "sha256": "9ddf3e4766cc19eabfcfb8efb8111f4e84e2acfcc9bdcbff8754ca2beacc3caa"
+    },
+    {
+      "path": "docs/06-resource-catalog.txt",
+      "bytes": 2345,
+      "sha256": "4d14fbae2ee625fdad9fcd5d117902779ad589553501fd909bbda71f98d911d2"
+    },
+    {
+      "path": "docs/07-acceptance-checklist.txt",
+      "bytes": 1917,
+      "sha256": "8becd48d6413e1772b6e096340a9e6aef5b07d3e4568f4dd542ddc03648964fc"
+    },
+    {
+      "path": "docs/08-platform-porting.txt",
+      "bytes": 2884,
+      "sha256": "d595d0c38bca5ab8c0428e790ec491b9ed44df0abdb19bfb1fe0749fbed88f72"
+    },
+    {
+      "path": "docs/灯火大排档制作交接说明.docx",
+      "bytes": 5457570,
+      "sha256": "a325a888e77f357651f1b0b0be175187c294ccc1e8638595d41989b170973b13"
+    },
+    {
+      "path": "docs/灯火大排档制作交接说明.pdf",
+      "bytes": 1570617,
+      "sha256": "73933c5fb689159497099043630d68e6760fc7ec3367a3dfad676e1b72268228"
+    },
+    {
+      "path": "previews/14-ingredients-overview.png",
+      "bytes": 396152,
+      "sha256": "51e89fb69915fe843158f8360d25835cf72398a57c42e1b72a87e99947fab84c"
+    },
+    {
+      "path": "previews/20-dishes-overview.png",
+      "bytes": 1524459,
+      "sha256": "e8c512de448d642780d9c46e3f6f25745edc4ed2ca4431ecfd179d67f8bd0b08"
+    },
+    {
+      "path": "previews/alpha-edge-check.png",
+      "bytes": 625563,
+      "sha256": "32811970ece67d28ceab89108f873be59c322df774016388419a7f378efa3094"
+    },
+    {
+      "path": "previews/asset-lab.png",
+      "bytes": 1013619,
+      "sha256": "9ba9615ae85bde0417d25c56a1e0fd0e26903496ae52e843f14f8dd54f09e748"
+    },
+    {
+      "path": "previews/ingredients-dark.png",
+      "bytes": 393110,
+      "sha256": "90fe40f1122eff48be13f9ceca0fba0e81f351a610e7a337eca17651a97385c2"
+    },
+    {
+      "path": "previews/motion-route.png",
+      "bytes": 58390,
+      "sha256": "872ac62c7128b9320f77eb2155002fa1d4e975badea51eab332c50a9ce327359"
+    },
+    {
+      "path": "previews/offline-approved-demo.png",
+      "bytes": 443045,
+      "sha256": "2914cab2ae3aea3a1bb900ce92ba6ff7f74d97137430a8cb42bcfb1165593a26"
+    },
+    {
+      "path": "previews/three-ingredients-dark.png",
+      "bytes": 1130466,
+      "sha256": "4c839e8836a36b739134c8dcabe3c556ae8d554b633e4cc72e3ff55f2892a412"
+    },
+    {
+      "path": "previews/three-ingredients-wide.png",
+      "bytes": 1117075,
+      "sha256": "d841dbadcd14ed6152d52860e0b480924ac8665675a4f7d04e4c417d950e15e5"
+    },
+    {
+      "path": "previews/three-ingredients.png",
+      "bytes": 866141,
+      "sha256": "f0bd8b46c2277a1101d38a20dd900e84b389247f8dd7a2fc4f59129c1afd6d16"
+    },
+    {
+      "path": "previews/two-ingredients-dark.png",
+      "bytes": 1106883,
+      "sha256": "23a5864ae11a42ba7c0b1503d98a504c5688f1fc6ad1de40ffd850789781077f"
+    },
+    {
+      "path": "previews/two-ingredients-wide.png",
+      "bytes": 1094339,
+      "sha256": "ec4ccc3c1f4c726f112f21595ad404a144460d4a0538d86dcd38e6de68596fdd"
+    },
+    {
+      "path": "previews/two-ingredients.png",
+      "bytes": 841460,
+      "sha256": "2f3653708605a06861d526d082f0e1cb66ff15de2b897ff67b7a2a7b4674d012"
+    },
+    {
+      "path": "reference/approved-animation-v13.mp4",
+      "bytes": 1851365,
+      "sha256": "cc9a858fb12fbb450359f3da6edfbfbeed9a090dcf7347a5843ca02445325c89"
+    },
+    {
+      "path": "reference/approved-master-v13.png",
+      "bytes": 2344629,
+      "sha256": "44d870dd187c2032536416bf93588d25b3e7c954a47b6bad5ba1c5bdc993289b"
+    },
+    {
+      "path": "reference/clear-dialog-v13.png",
+      "bytes": 1116454,
+      "sha256": "4b344e9a742c9ef3cf26dda0575f8d341a8f38140b07fc94e530fefd76221e60"
+    },
+    {
+      "path": "reference/order-turnover-v13.png",
+      "bytes": 285103,
+      "sha256": "f933e2cbf2e660c632913597f681e2987b632ad29a4cc6c99d9033de7fa7d461"
+    },
+    {
+      "path": "reference/prep-full-slot-v13.png",
+      "bytes": 151444,
+      "sha256": "796e483106a468ac2b23d1938e38075b1e2552ae9c4d53dd5402916aae8e51d7"
+    },
+    {
+      "path": "src/approved-v13.js",
+      "bytes": 41511,
+      "sha256": "c26ec7a5a3b8e03428c093c95880c4740ae946876a60bb5dbf5d12a8880f2c2f"
+    },
+    {
+      "path": "src/asset-preview.js",
+      "bytes": 43321,
+      "sha256": "a473af1aef65365a65b52470f3d73a6d7f9e2c6f1838df76daae264b0b5f29c3"
+    },
+    {
+      "path": "src/game-core.js",
+      "bytes": 9328,
+      "sha256": "7e52f0b7d67b160a4872445ec099ce02d9b07e33c75e8514acf8e45b3f63eeba"
+    },
+    {
+      "path": "src/motion.js",
+      "bytes": 2981,
+      "sha256": "685fa05242a2c44f14498945e85516bb63b4be970c821327bd3337df83a0a450"
+    },
+    {
+      "path": "src/platform-adapter.example.js",
+      "bytes": 1520,
+      "sha256": "2d8bba54394a42801918d27b7f932469a370544262ca171f3d3182ec87921145"
+    },
+    {
+      "path": "src/verify.cjs",
+      "bytes": 5440,
+      "sha256": "865c2849d12ab627c6b3a6d84a73b0c9e212b1a8d64712bd335b24dc22be2670"
+    },
+    {
+      "path": "validation-report.json",
+      "bytes": 3071,
+      "sha256": "c8bb0e8ec91a58e793b4918685713ee8760e07d75fb01b48d94d607fa0aa8a54"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "tomato",
+    "name": "番茄",
+    "description": "one plump ripe red tomato, small fresh green calyx",
+    "asset": "assets/ingredients/tomato.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 45,
+      "w": 424,
+      "h": 422
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "egg",
+    "name": "鸡蛋",
+    "description": "one opened eggshell with a large golden yolk and a little translucent egg white, no plate",
+    "asset": "assets/ingredients/egg.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 59,
+      "w": 424,
+      "h": 393
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "pepper",
+    "name": "青椒",
+    "description": "one rounded glossy green bell pepper with a short stem",
+    "asset": "assets/ingredients/pepper.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 59,
+      "y": 44,
+      "w": 394,
+      "h": 424
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "pork",
+    "name": "猪肉",
+    "description": "two thick boneless pink pork belly slices with clear cream fat layers, appetizing toy food, no blood",
+    "asset": "assets/ingredients/pork.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 79,
+      "w": 424,
+      "h": 353
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "chicken",
+    "name": "鸡肉",
+    "description": "two rounded boneless pale pink raw chicken thigh pieces, no skin bumps, no blood",
+    "asset": "assets/ingredients/chicken.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 75,
+      "w": 424,
+      "h": 361
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "shiitake",
+    "name": "香菇",
+    "description": "one plump brown shiitake mushroom with a cream cross cut on its cap and a short thick stem",
+    "asset": "assets/ingredients/shiitake.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 67,
+      "w": 424,
+      "h": 378
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "scallion",
+    "name": "葱",
+    "description": "a compact bunch of two spring onions with short white bulbs and fresh green leaves",
+    "asset": "assets/ingredients/scallion.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 45,
+      "y": 44,
+      "w": 422,
+      "h": 424
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "broccoli",
+    "name": "西兰花",
+    "description": "a compact bunch of three plump broccoli florets with green crowns and pale green stalks",
+    "asset": "assets/ingredients/broccoli.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 47,
+      "w": 424,
+      "h": 417
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "shrimp",
+    "name": "虾仁",
+    "description": "three peeled curled plump pale coral pink shrimp, no heads or shells",
+    "asset": "assets/ingredients/shrimp.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 75,
+      "w": 424,
+      "h": 362
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "beef",
+    "name": "牛肉",
+    "description": "a small fan of three boneless lean red beef slices with subtle cream marbling, no blood",
+    "asset": "assets/ingredients/beef.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 71,
+      "w": 424,
+      "h": 369
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "celery",
+    "name": "芹菜",
+    "description": "three short crisp pale green celery stalks with a few tiny leafy tips",
+    "asset": "assets/ingredients/celery.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 48,
+      "y": 44,
+      "w": 415,
+      "h": 424
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "tofu",
+    "name": "豆腐",
+    "description": "three soft ivory tofu cubes with rounded edges, clearly tofu not butter or cheese",
+    "asset": "assets/ingredients/tofu.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 56,
+      "w": 424,
+      "h": 399
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "carrot",
+    "name": "胡萝卜",
+    "description": "one short orange carrot with a small green top and two thick carrot coins beside it",
+    "asset": "assets/ingredients/carrot.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 50,
+      "y": 44,
+      "w": 411,
+      "h": 424
+    },
+    "width": 512,
+    "height": 512
+  },
+  {
+    "id": "wood_ear",
+    "name": "木耳",
+    "description": "a compact cluster of three brown black wood ear mushroom pieces with soft wavy folds",
+    "asset": "assets/ingredients/wood_ear.png",
+    "countUnit": "份",
+    "bbox": {
+      "x": 44,
+      "y": 84,
+      "w": 424,
+      "h": 344
+    },
+    "width": 512,
+    "height": 512
+  }
+]

@@ -1,0 +1,31 @@
+平台接入步骤
+
+一 先复现可运行参考
+解压后双击demo/approved-animation.html，确认设备浏览器可显示。它保留完整v13时间轴，只用于视觉对照。
+再打开demo/asset-lab.html，选择20道菜逐项检查新素材和相同的出锅换单节奏。它是单菜预览，不是完整关卡。
+装有Node时在本包根目录执行 node src/verify.cjs。无需npm安装，也不需要服务端或网络。
+
+二 分清三个模块
+game-core.js管理材料、配方、锅、送菜任务、订单刷新与收入。它没有DOM和图像依赖，可直接移植。
+motion.js提供纯计算与等比绘制辅助。它的设计坐标和时间参数可复用。
+approved-v13.js与asset-preview.js是浏览器Canvas视觉参考，含DOM按钮和可选宿主状态接口；不能直接当作小程序Page代码。
+
+三 建平台适配层
+通过src/platform-adapter.example.js的createGameRuntime，把Engine、Motion、帧循环、渲染与结果回调连接到目标项目；图片加载放在项目自己的资源适配层。
+小程序中采用项目支持的Canvas2D节点；使用平台图片对象加载本地PNG，将全部触摸点先换算到928×1695设计坐标。不要将window、document或浏览器事件对象直接复制过去。
+进入后台暂停engine和效果时钟，返回前台重设上一帧时间，避免一次跳过几分钟。
+根据安全区域求可用宽高，再缩放绘制并使用同一变换做命中。渲染分辨率与DPR相关，业务坐标不乘两次DPR。
+
+四 动态分层
+将静态夜街、棚布、木架作为背景；食材、文字、数值、锅、蒸汽、火苗、飞行与通关按钮独立绘制。
+不要把base-scene-reference.png中的旧收入、订单和文字作为最终固定画面。它是旧图层来源；参考源码已经覆盖这些区域，生产项目应拆层或由程序重画。
+出锅副本单独存于effects数组，pointerEvents概念上为none；触摸只检查当前可选牌和有效按钮。
+
+五 初始化与重开
+从data/recipes.json与ingredients.json加载数据，使用data/layout.json初始化牌位。实际关卡应传入具体牌堆和初始订单，不直接使用演示中从收入128开始的中途画面。
+生产关卡默认从收入0开始。目标300和三料×1.5可以保留；新增菜价、牌堆与失败门槛需要实机调整。
+nextLevel必须创建新Engine，清空旧的effects、incoming、queue、deliveries、stash和输入锁；不能只把收入数字归零。
+
+六 工程化
+将素材按项目的主包与分包策略接入，不把所有高分辨率PNG和预览用base64数据一起塞入首屏。data/approved-assets.js和preview-assets.js只为离线预览，不应进入正式小程序包。
+静态HTML能验证视觉与逻辑接口，但不代表已经完成目标平台的打包、真机性能、登录、存档、音频和审核发布。

@@ -1,0 +1,133 @@
+{
+  "units": "seconds",
+  "coordinateSystem": "928x1695-design-pixels",
+  "businessDrivenByRenderer": false,
+  "effects": [
+    {
+      "id": "A01",
+      "name": "点击环",
+      "duration": 0.32,
+      "trigger": "ingredientPicked",
+      "rule": "半径16到49，透明度1到0，不接收触摸"
+    },
+    {
+      "id": "A02",
+      "name": "取菜入槽",
+      "duration": 0.3,
+      "trigger": "ingredientPicked",
+      "rule": "easeInOutCubic，弧高62，终点槽位中心，容器69×89，图案等比"
+    },
+    {
+      "id": "A03",
+      "name": "下层露出",
+      "duration": 0.65,
+      "trigger": "layerMayReveal",
+      "rule": "解除全部遮挡后亮起，暖边短暂提示，牌保持原坐标"
+    },
+    {
+      "id": "A04",
+      "name": "配齐确认",
+      "duration": 0.4,
+      "trigger": "recipeAccepted",
+      "rule": "整卡只回弹一次，最大1.025；原料0.15秒收拢"
+    },
+    {
+      "id": "A05",
+      "name": "满槽显示",
+      "duration": 0,
+      "trigger": "ingredientArrived",
+      "rule": "整格铺满颜色；不叠小卡片，没有内圈空白"
+    },
+    {
+      "id": "A06",
+      "name": "消费与释放",
+      "duration": 0,
+      "trigger": "recipeAccepted",
+      "rule": "业务立即消费itemId并释放格位，不等动画"
+    },
+    {
+      "id": "A07",
+      "name": "原料入锅",
+      "duration": 0.28,
+      "trigger": "cookingStarted",
+      "rule": "逐份错开0.018秒，弧高42，缩至小碎块"
+    },
+    {
+      "id": "A08",
+      "name": "颠锅",
+      "duration": 0.6,
+      "trigger": "stirAt",
+      "rule": "角度振幅0.11，平移7和11，食物抛高约58"
+    },
+    {
+      "id": "A09",
+      "name": "火苗",
+      "duration": null,
+      "trigger": "cookingStarted",
+      "rule": "持续小幅变化，工作约19高，待机约12高"
+    },
+    {
+      "id": "A10",
+      "name": "锅气",
+      "duration": null,
+      "trigger": "cookingStarted",
+      "rule": "3条轻线向上弯曲漂移，不烘焙在成品图内"
+    },
+    {
+      "id": "A11",
+      "name": "倒菜落盘",
+      "duration": 0.32,
+      "trigger": "pourAt",
+      "rule": "最大0.64弧度，由锅沿落到盘心，成品渐显"
+    },
+    {
+      "id": "A12",
+      "name": "出锅移动",
+      "duration": 0.62,
+      "trigger": "dishOut",
+      "rule": "静止0，Y1484到1244，进度0.40开始缩小淡出"
+    },
+    {
+      "id": "A13",
+      "name": "菜单显现",
+      "duration": 0.16,
+      "trigger": "dishOut + 0.62",
+      "rule": "目标右24下48到盘位，淡入前0.07秒完成，隐形等待0"
+    },
+    {
+      "id": "A14",
+      "name": "揭盖",
+      "duration": 0.16,
+      "trigger": "menuReveal",
+      "rule": "抬高55并淡出，与送达同步，不再次生盖"
+    },
+    {
+      "id": "A15",
+      "name": "收入反馈",
+      "duration": 0.42,
+      "trigger": "dishServed",
+      "rule": "立即结算一次，收入牌最大1.018回弹"
+    },
+    {
+      "id": "A16",
+      "name": "旧单退出",
+      "duration": 0.16,
+      "trigger": "dishServed",
+      "rule": "停留0，整卡上移45并淡出"
+    },
+    {
+      "id": "A17",
+      "name": "新单补入",
+      "duration": 0.12,
+      "trigger": "orderReplaced",
+      "rule": "直接不透明显示，从上12轻落位；立即可接料"
+    },
+    {
+      "id": "A18",
+      "name": "通关弹窗",
+      "duration": 0.34,
+      "trigger": "levelWon + 0.60",
+      "rule": "背景压暗，面板0.94到1，用时在达标时冻结"
+    }
+  ]
+}

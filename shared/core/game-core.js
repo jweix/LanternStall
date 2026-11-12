@@ -7,7 +7,7 @@
  const clone=value=>JSON.parse(JSON.stringify(value));
  class Engine{
   constructor(config){
-   this.config=Object.assign({},DEFAULTS,config.motion||{});this.recipes=config.recipes.map(clone);this.target=config.target||300;this.revenue=config.initialRevenue||0;
+   this.config=Object.assign({},DEFAULTS,config.motion||{});this.recipes=config.recipes.map(clone);this.revenue=config.initialRevenue||0;
    this.now=0;this.playTime=0;this.wonAt=null;this.status='playing';this.paused=false;this.events=[];this.sequence=0;this.tableSequence=0;this.recipeCursor=0;
    this.nodes=(config.tiles||[]).map((n,i)=>Object.assign({id:'tile-'+i,removed:false,layer:1},clone(n)));
    this.buffer=[];this.incoming=[];this.queue=[];this.wok=null;this.deliveries=[];this.stashItems=[];this.tools=Object.assign({undo:1,stash:2,hint:1},config.tools||{});
@@ -70,7 +70,6 @@
      order.state='exiting';order.exitAt=this.now+this.config.cardExit;
      if(!order.credited&&this.status==='playing'){order.credited=true;const pay=job.recipe.payout!==undefined?job.recipe.payout:Math.round(job.recipe.basePrice*(job.recipe.ingredients.length===3?this.config.bonus:1));
       this.revenue+=pay;this._emit('dishServed',{slot:job.slot,table:job.table,recipeId:job.recipe.id,payout:pay,revenue:this.revenue});
-      if(this.revenue>=this.target){this.status='won';this.wonAt=this.playTime;this._emit('levelWon',{elapsed:this.wonAt,revenue:this.revenue,target:this.target});}
      }
     }
     for(let slot=0;slot<3;slot++){const order=this.orders[slot];if(order.exitAt!==null&&order.exitAt<=due+1e-9){
@@ -81,9 +80,14 @@
    this._advanceClock(target);this._checkFail();
   }
   _checkFail(){
-   if(this.status!=='playing'||this.incoming.length||this.wok||this.queue.length||this.deliveries.length||this.orders.some(o=>o.exitAt!==null))return;
+   if(this.status!=='playing'||this.incoming.length||this.wok||this.queue.length||this.deliveries.length)return;
+   // Revenue is a record only. Win after every ingredient has been consumed
+   // and the final dish has actually arrived, including any stashed ingredients.
+   const emptyBoard=this.nodes.length&&this.nodes.every(n=>n.removed);
+   if(emptyBoard&&!this.buffer.length&&!this.stashItems.length){this.status='won';this.wonAt=this.playTime;this._emit('levelWon',{elapsed:this.wonAt,revenue:this.revenue});return;}
+   if(this.orders.some(o=>o.exitAt!==null))return;
    if(this.buffer.length>=this.config.capacity&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'prep-full'});}
-   else if(this.nodes.length&&this.nodes.every(n=>n.removed)&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'stock-exhausted'});}
+   else if(emptyBoard&&!this.stashItems.length&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'stock-exhausted'});}
   }
   undo(){
    if(this.status!=='playing'||this.paused||this.tools.undo<1||!this.buffer.length)return false;
@@ -107,7 +111,7 @@
   }
   pause(value){this.paused=value!==false;}
   drainEvents(){const all=this.events;this.events=[];return all;}
-  snapshot(){return clone({now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,target:this.target,buffer:this.buffer,incoming:this.incoming,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems});}
+  snapshot(){return clone({now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems});}
  }
  return{Engine,DEFAULTS,subset,overlap};
 });

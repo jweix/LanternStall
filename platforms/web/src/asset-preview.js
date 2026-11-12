@@ -5,9 +5,9 @@
  const canvas=root.querySelector('canvas'),c=canvas.getContext('2d');
  const caption=root.querySelector('.oc-caption'),pause=root.querySelector('[data-action="pause"]');
 
- const W=928,H=1695,TOTAL=13.2,BASE=128,TARGET=300,STOCK=40,DEPART=.62,MENU_REVEAL=.16,FLIGHT=DEPART+MENU_REVEAL;
+ const W=928,H=1695,TOTAL=13.2,BASE=128,STOCK=40,DEPART=.62,MENU_REVEAL=.16,FLIGHT=DEPART+MENU_REVEAL;
  const ff='"HanziPen SC","Kaiti SC","STKaiti","PingFang SC",sans-serif';
- const names={mushroom:'香菇',chicken:'鸡肉',tomato:'番茄',egg:'鸡蛋',pepper:'青椒',pork:'肉片',scallion:'葱'};
+ const names=Object.assign({mushroom:'香菇'},Object.fromEntries(window.GAME_CATALOG.ingredients.map(i=>[i.id,i.name])));
  const first=['mushroom','chicken','tomato','egg','pepper','pork','scallion','mushroom','tomato','chicken','pepper','egg','pork','scallion','mushroom','chicken','tomato','scallion','pepper','egg','mushroom','pork','egg','chicken','tomato','egg','pepper','chicken','mushroom','scallion'];
  const crop={"tomato": [0, 0, 144, 136], "egg": [144, 0, 144, 136], "pepper": [288, 0, 144, 136], "pork": [432, 0, 144, 136], "chicken": [576, 0, 144, 136], "shiitake": [720, 0, 144, 136], "scallion": [864, 0, 144, 136], "broccoli": [0, 136, 144, 136], "shrimp": [144, 136, 144, 136], "beef": [288, 136, 144, 136], "celery": [432, 136, 144, 136], "tofu": [576, 136, 144, 136], "carrot": [720, 136, 144, 136], "wood_ear": [864, 136, 144, 136], "mushroom": [720, 0, 144, 136]};
  const events=[
@@ -162,7 +162,7 @@
   const bump=dishes.reduce((a,d)=>{const age=now-d.arrive;return Math.max(a,age>=0&&age<.42?Math.sin(age/.42*Math.PI):0);},0);
   c.save();c.translate(b.x+b.w/2,b.y+b.h/2);c.scale(1+.018*bump,1+.018*bump);c.translate(-b.x-b.w/2,-b.y-b.h/2);
   panel(b.x,b.y,b.w,b.h,23,'wood');smallText('收入',b.x+18,b.y+b.h/2,32,'#60311b','left');
-  smallText(revenue(now)+'/'+currentTarget(),b.x+b.w-15,b.y+b.h/2,34,bump>.2?'#7c3a1b':'#542913','right',700);
+  smallText(String(revenue(now)),b.x+b.w-15,b.y+b.h/2,34,bump>.2?'#7c3a1b':'#542913','right',700);
   c.restore();
  }
  function drawMenuCard(d,now,x,y,w,h,phase,slot){
@@ -389,9 +389,9 @@
   if(now<dishes[0].fly)return '已放食材的整格铺满底色 · 食材保持比例';
   if(now<dishes[0].arrive)return '出锅即移动 · 实际路线更长 · 没有停顿';
   if(now<6.45)return '上桌即退单 · 紧接着补新单';
-  if(now<CLEAR_AT)return '继续营业 · 冲向收入目标';
+  if(now<CLEAR_AT)return '继续营业 · 做菜动效参考';
   if(resultDismissed)return '本关已完成 · 可以重播观看';
-  return '通关成功 · 用时在达标时冻结';
+  return '结算动效参考 · 实际通关须用完食材';
  }
  let nextPreview=false,resultDismissed=false,dialogShown=false;
  const CLEAR_AT=dishes[3].arrive,RESULT_AT=CLEAR_AT+.60;
@@ -399,14 +399,13 @@
  const nextButton=root.querySelector('[data-result-action="next"]'),restButton=root.querySelector('[data-result-action="rest"]');
  const resultAreas={next:{x:204,y:1054,w:520,h:128},rest:{x:294,y:1196,w:340,h:128}};
  for(const [key,b] of [['next',nextButton],['rest',restButton]]){const r=resultAreas[key];b.style.left=r.x/W*100+'%';b.style.top=r.y/H*100+'%';b.style.width=r.w/W*100+'%';b.style.height=r.h/H*100+'%';}
- function currentTarget(){return nextPreview?360:TARGET;}
  function usedTime(){const seconds=Math.ceil(CLEAR_AT);return String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');}
  function resultVisible(now){return !nextPreview&&!resultDismissed&&now>=RESULT_AT;}
  function syncClearUI(now){
   const visible=resultVisible(now);resultDialog.hidden=!visible;
   root.querySelector('.oc-hit-layer').inert=visible||(!nextPreview&&now>=CLEAR_AT);
   root.dataset.dialog=String(visible);root.dataset.level=nextPreview?'2':'1';
-  if(visible){resultDetail.textContent='通关成功。本关用时'+usedTime()+'，收入322，目标300。要进入下一关吗？';}
+  if(visible){resultDetail.textContent='通关成功。本关用时'+usedTime()+'，收入322。要进入下一关吗？';}
   if(visible&&!dialogShown)nextButton.focus({preventScroll:true});
   dialogShown=visible;
  }
@@ -437,7 +436,7 @@
   const glow=c.createRadialGradient(464,620,12,464,620,133);glow.addColorStop(0,'#ffd37866');glow.addColorStop(1,'#ffd37800');ell(464,620,133,110,glow);
   victoryCoin(410,637,34);victoryCoin(519,638,34);victoryCoin(464,607,58);
   sparkle(342,587,11,.75);sparkle(575,588,8,.85);sparkle(551,688,6,.7);sparkle(383,687,6,.7);
-  smallText('本关收入',464,764,31,'#91633e');txt('¥322 / 300',464,819,59,'#a84025','center',700);
+  smallText('本关收入',464,764,31,'#91633e');txt('322 金币',464,819,59,'#a84025','center',700);
   smallText('本关用时',464,885,31,'#91633e');txt(usedTime(),464,938,66,'#6a3921','center',700);
   smallText('要继续挑战下一关吗？',464,1008,32,'#7a4c2c');
   const b=resultAreas.next;panel(b.x,b.y,b.w,b.h,34,'wood');
@@ -458,7 +457,7 @@
   }
   taps=taps.filter(a=>performance.now()-a.at<900);for(const a of taps)ring(a.x,a.y,(performance.now()-a.at)/1000);
   victory(now);syncClearUI(now);const label=captionFor(now);if(label!==lastCaption){caption.textContent=label;lastCaption=label;}
-  root.dataset.revenue=String(revenue(now));root.dataset.stock=String(remaining(now));root.dataset.buffer=String(buffer(now).length);root.dataset.columns=String(cols);root.dataset.time=now.toFixed(3);root.dataset.clicks=String(clicks);root.dataset.won=String(revenue(now)>=currentTarget());
+  root.dataset.revenue=String(revenue(now));root.dataset.stock=String(remaining(now));root.dataset.buffer=String(buffer(now).length);root.dataset.columns=String(cols);root.dataset.time=now.toFixed(3);root.dataset.clicks=String(clicks);root.dataset.won=String(!nextPreview&&now>=CLEAR_AT);
  }
  function sync(){root.querySelectorAll('[data-cols]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.cols)===cols)));pause.textContent=nextPreview?'播放演示':playing?'暂停':'播放';}
  function persist(){window.openai?.setWidgetState?.({modelContent:{orderCardDesign:design,gridColumns:5,layerLayout:'staggered'},privateContent:{playing}})?.catch(()=>{});}
@@ -467,7 +466,7 @@
  root.querySelector('[data-action="replay"]').addEventListener('click',()=>resetDemo(true));
  root.querySelectorAll('[data-seek]').forEach(b=>b.addEventListener('click',()=>{nextPreview=false;resultDismissed=false;t=Number(b.dataset.seek);taps=[];playing=false;sync();draw(t);}));
  window.addEventListener('openai:set_globals',e=>{const n=e.detail?.globals?.widgetState?.modelContent?.gridColumns;if(n===5){cols=5;makeHits();sync();draw(t);}});
- root.animation={prepGeometry(i=0){return prepGeometry(i);},orderSnapshot(now=t){return orderSnapshot(now);},delivery(){return{...DELIVERY,departureSeconds:DEPART,menuSeconds:MENU_REVEAL,totalSeconds:FLIGHT};},tileFit(w,h){return tileMetrics(w,h);},layout(){return{...COMPACT,board:{...BOARD}};},layers(now=t){return layerSummary(now);},lid(){return plateGeometry(76,244,248);},eventOrigin(i){return eventGeom(events[i]);},seek(now){nextPreview=false;resultDismissed=false;t=now;taps=[];playing=false;sync();draw(t);},play(){if(nextPreview){resetDemo(true);}else{playing=true;last=performance.now();sync();}},setColumns(n){cols=5;t=0;taps=[];makeHits();sync();draw(0);},pose(i,now){return getPose(dishes[i],now);},cooking(i,now){return cookingMotion(dishes[i],now);},orderState(i,now){const d=dishes[i],phase=orderPhase(d,now);return{phase,showIngredients:phase==='collecting',showRecipePlate:false,titleBackdrop:false,creamBackground:true,ingredientFrame:false,accepted:phase!=='collecting',main:phase==='ready'?'配齐啦':phase==='cooking'?(design==='ticket'?'开炒啦':'大厨忙活中'):phase==='serving'?(design==='ticket'?'上菜喽':'香喷喷来啦'):phase==='served'?'好香，开饭啦':'',sub:'',design};},state(){return{time:t,ready,playing,level:nextPreview?2:1,nextLevelPreview:nextPreview,dialogVisible:resultVisible(t),elapsedSeconds:CLEAR_AT,elapsedLabel:usedTime(),design,columns:cols,frontTiles:cols*5,revenue:revenue(t),target:currentTarget(),stock:remaining(t),buffer:buffer(t).length,won:revenue(t)>=currentTarget(),clicks,duration:TOTAL,flightSeconds:FLIGHT,departureSeconds:DEPART,menuRevealSeconds:MENU_REVEAL,hiddenHoldSeconds:0,stationaryAfterPour:0,servedHoldSeconds:0,slotFill:'entire-slot',dishes:dishes.map(d=>({table:d.table,base:d.base,mult:d.mult,pay:d.pay,match:d.match,arrive:d.arrive,leave:d.leave,next:d.next,fly:d.fly,pour:d.pour,stir:d.stir})),tileWidthAt390:geom(0).w*390/W,incomeLocation:'secondary-shop-sign',freedHeight:62,foodAspectPreserved:true,visibleLayers:2,lowerOffset:{x:BOARD.underDX,y:BOARD.underDY}};}};
+ root.animation={prepGeometry(i=0){return prepGeometry(i);},orderSnapshot(now=t){return orderSnapshot(now);},delivery(){return{...DELIVERY,departureSeconds:DEPART,menuSeconds:MENU_REVEAL,totalSeconds:FLIGHT};},tileFit(w,h){return tileMetrics(w,h);},layout(){return{...COMPACT,board:{...BOARD}};},layers(now=t){return layerSummary(now);},lid(){return plateGeometry(76,244,248);},eventOrigin(i){return eventGeom(events[i]);},seek(now){nextPreview=false;resultDismissed=false;t=now;taps=[];playing=false;sync();draw(t);},play(){if(nextPreview){resetDemo(true);}else{playing=true;last=performance.now();sync();}},setColumns(n){cols=5;t=0;taps=[];makeHits();sync();draw(0);},pose(i,now){return getPose(dishes[i],now);},cooking(i,now){return cookingMotion(dishes[i],now);},orderState(i,now){const d=dishes[i],phase=orderPhase(d,now);return{phase,showIngredients:phase==='collecting',showRecipePlate:false,titleBackdrop:false,creamBackground:true,ingredientFrame:false,accepted:phase!=='collecting',main:phase==='ready'?'配齐啦':phase==='cooking'?(design==='ticket'?'开炒啦':'大厨忙活中'):phase==='serving'?(design==='ticket'?'上菜喽':'香喷喷来啦'):phase==='served'?'好香，开饭啦':'',sub:'',design};},state(){return{time:t,ready,playing,level:nextPreview?2:1,nextLevelPreview:nextPreview,dialogVisible:resultVisible(t),elapsedSeconds:CLEAR_AT,elapsedLabel:usedTime(),design,columns:cols,frontTiles:cols*5,revenue:revenue(t),stock:remaining(t),buffer:buffer(t).length,won:!nextPreview&&t>=CLEAR_AT,clicks,duration:TOTAL,flightSeconds:FLIGHT,departureSeconds:DEPART,menuRevealSeconds:MENU_REVEAL,hiddenHoldSeconds:0,stationaryAfterPour:0,servedHoldSeconds:0,slotFill:'entire-slot',dishes:dishes.map(d=>({table:d.table,base:d.base,mult:d.mult,pay:d.pay,match:d.match,arrive:d.arrive,leave:d.leave,next:d.next,fly:d.fly,pour:d.pour,stir:d.stir})),tileWidthAt390:geom(0).w*390/W,incomeLocation:'secondary-shop-sign',freedHeight:62,foodAspectPreserved:true,visibleLayers:2,lowerOffset:{x:BOARD.underDX,y:BOARD.underDY}};}};
  function staticCloche(x,faceY,w,now,lift=0){
   c.save();c.translate(x,faceY-lift);const rx=w*.45,ry=w*.235;
   c.shadowColor='#86481c25';c.shadowBlur=4;c.shadowOffsetY=2;

@@ -1,41 +1,41 @@
 资源目录
 成品20张 双食材10张 三食材10张 透明PNG 1024×768
-d01 番茄炒蛋 | 番茄＋鸡蛋 | assets/dishes/d01.png
-d02 青椒肉片 | 青椒＋猪肉 | assets/dishes/d02.png
-d03 香菇鸡丁 | 香菇＋鸡肉 | assets/dishes/d03.png
-d04 西兰花虾仁 | 西兰花＋虾仁 | assets/dishes/d04.png
-d05 芹菜牛肉 | 芹菜＋牛肉 | assets/dishes/d05.png
-d06 豆腐炒蛋 | 豆腐＋鸡蛋 | assets/dishes/d06.png
-d07 胡萝卜肉丝 | 胡萝卜＋猪肉 | assets/dishes/d07.png
-d08 葱爆牛肉 | 葱＋牛肉 | assets/dishes/d08.png
-d09 木耳炒蛋 | 木耳＋鸡蛋 | assets/dishes/d09.png
-d10 香菇豆腐 | 香菇＋豆腐 | assets/dishes/d10.png
-d11 葱香香菇鸡丁 | 香菇＋鸡肉＋葱 | assets/dishes/d11.png
-d12 青椒胡萝卜牛肉 | 青椒＋胡萝卜＋牛肉 | assets/dishes/d12.png
-d13 芹菜木耳肉片 | 芹菜＋木耳＋猪肉 | assets/dishes/d13.png
-d14 西兰花胡萝卜虾仁 | 西兰花＋胡萝卜＋虾仁 | assets/dishes/d14.png
-d15 番茄豆腐炒蛋 | 番茄＋豆腐＋鸡蛋 | assets/dishes/d15.png
-d16 青椒香菇鸡丁 | 青椒＋香菇＋鸡肉 | assets/dishes/d16.png
-d17 木耳胡萝卜炒蛋 | 木耳＋胡萝卜＋鸡蛋 | assets/dishes/d17.png
-d18 青椒虾仁炒蛋 | 青椒＋虾仁＋鸡蛋 | assets/dishes/d18.png
-d19 葱香豆腐牛肉 | 葱＋豆腐＋牛肉 | assets/dishes/d19.png
-d20 香菇西兰花肉片 | 香菇＋西兰花＋猪肉 | assets/dishes/d20.png
+d01 番茄炒蛋 | 番茄＋鸡蛋 | shared/assets/dishes/d01.png
+d02 青椒肉片 | 青椒＋猪肉 | shared/assets/dishes/d02.png
+d03 香菇鸡丁 | 香菇＋鸡肉 | shared/assets/dishes/d03.png
+d04 西兰花虾仁 | 西兰花＋虾仁 | shared/assets/dishes/d04.png
+d05 芹菜牛肉 | 芹菜＋牛肉 | shared/assets/dishes/d05.png
+d06 豆腐炒蛋 | 豆腐＋鸡蛋 | shared/assets/dishes/d06.png
+d07 胡萝卜肉丝 | 胡萝卜＋猪肉 | shared/assets/dishes/d07.png
+d08 葱爆牛肉 | 葱＋牛肉 | shared/assets/dishes/d08.png
+d09 木耳炒蛋 | 木耳＋鸡蛋 | shared/assets/dishes/d09.png
+d10 香菇豆腐 | 香菇＋豆腐 | shared/assets/dishes/d10.png
+d11 葱香香菇鸡丁 | 香菇＋鸡肉＋葱 | shared/assets/dishes/d11.png
+d12 青椒胡萝卜牛肉 | 青椒＋胡萝卜＋牛肉 | shared/assets/dishes/d12.png
+d13 芹菜木耳肉片 | 芹菜＋木耳＋猪肉 | shared/assets/dishes/d13.png
+d14 西兰花胡萝卜虾仁 | 西兰花＋胡萝卜＋虾仁 | shared/assets/dishes/d14.png
+d15 番茄豆腐炒蛋 | 番茄＋豆腐＋鸡蛋 | shared/assets/dishes/d15.png
+d16 青椒香菇鸡丁 | 青椒＋香菇＋鸡肉 | shared/assets/dishes/d16.png
+d17 木耳胡萝卜炒蛋 | 木耳＋胡萝卜＋鸡蛋 | shared/assets/dishes/d17.png
+d18 青椒虾仁炒蛋 | 青椒＋虾仁＋鸡蛋 | shared/assets/dishes/d18.png
+d19 葱香豆腐牛肉 | 葱＋豆腐＋牛肉 | shared/assets/dishes/d19.png
+d20 香菇西兰花肉片 | 香菇＋西兰花＋猪肉 | shared/assets/dishes/d20.png
 
 食材14张 透明PNG 512×512
-tomato 番茄 | assets/ingredients/tomato.png
-egg 鸡蛋 | assets/ingredients/egg.png
-pepper 青椒 | assets/ingredients/pepper.png
-pork 猪肉 | assets/ingredients/pork.png
-chicken 鸡肉 | assets/ingredients/chicken.png
-shiitake 香菇 | assets/ingredients/shiitake.png
-scallion 葱 | assets/ingredients/scallion.png
-broccoli 西兰花 | assets/ingredients/broccoli.png
-shrimp 虾仁 | assets/ingredients/shrimp.png
-beef 牛肉 | assets/ingredients/beef.png
-celery 芹菜 | assets/ingredients/celery.png
-tofu 豆腐 | assets/ingredients/tofu.png
-carrot 胡萝卜 | assets/ingredients/carrot.png
-wood_ear 木耳 | assets/ingredients/wood_ear.png
+tomato 番茄 | shared/assets/ingredients/tomato.png
+egg 鸡蛋 | shared/assets/ingredients/egg.png
+pepper 青椒 | shared/assets/ingredients/pepper.png
+pork 猪肉 | shared/assets/ingredients/pork.png
+chicken 鸡肉 | shared/assets/ingredients/chicken.png
+shiitake 香菇 | shared/assets/ingredients/shiitake.png
+scallion 葱 | shared/assets/ingredients/scallion.png
+broccoli 西兰花 | shared/assets/ingredients/broccoli.png
+shrimp 虾仁 | shared/assets/ingredients/shrimp.png
+beef 牛肉 | shared/assets/ingredients/beef.png
+celery 芹菜 | shared/assets/ingredients/celery.png
+tofu 豆腐 | shared/assets/ingredients/tofu.png
+carrot 胡萝卜 | shared/assets/ingredients/carrot.png
+wood_ear 木耳 | shared/assets/ingredients/wood_ear.png
 
-PNG使用asset-manifest.json中的bbox等比例显示。所有新增独立素材均已实际生成，不要把总览图按网格切成正式素材。
-完整生成提示词与内置生成方式在data/generation-prompts.json。
+PNG使用shared/asset-manifest.json中的bbox等比例显示。所有新增独立素材均已实际生成，不要把总览图按网格切成正式素材。
+完整生成提示词与内置生成方式在shared/data/generation-prompts.json。

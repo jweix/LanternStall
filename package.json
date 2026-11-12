@@ -1,0 +1,11 @@
+{
+  "name": "lantern-stall",
+  "version": "0.1.0",
+  "private": true,
+  "description": "灯火大排档：按菜谱配料的夜市消除小游戏，微信首发。",
+  "scripts": {
+    "build:wechat": "node scripts/build-wechat.cjs",
+    "test": "node tests/verify-core.cjs && node tests/verify-game.cjs && node tests/verify-wechat.cjs",
+    "serve": "node scripts/serve.cjs"
+  }
+}

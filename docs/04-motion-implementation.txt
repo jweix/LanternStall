@@ -1,8 +1,8 @@
 灯火大排档 所有动效的执行说明
 
 运行与坐标
-先打开demo/approved-animation.html与asset-lab.html。所有数值以928×1695为参考设计坐标，单位为秒；屏幕适配用src/motion.js的viewport与toDesign。图片用drawContained，按manifest的bbox取可见物体，不拉伸宽高。
-src/approved-v13.js提供已经确认的完整绘制源码，全部帧函数可直接查看。以下参数也保存在data/animation-spec.json。
+先打开platforms/web/demo/approved-animation.html与asset-lab.html。所有数值以928×1695为参考设计坐标，单位为秒；屏幕适配用shared/core/motion.js的viewport与toDesign。图片用drawContained，按manifest的bbox取可见物体，不拉伸宽高。
+platforms/web/src/approved-v13.js提供已经确认的完整绘制源码，全部帧函数可直接查看。以下参数也保存在shared/data/animation-spec.json。
 
 A01 点击环
 食材选中时，中心使用实际牌中心。0.32秒内半径从16增到49，透明度从1到0，线宽5。环只绘制，不接收输入。对应motion.ring。
@@ -59,7 +59,7 @@ A17 新订单补入
 每桌退场结束立即创建并显示新单，透明度从一开始就是1；0.12秒内由上方12落回原位。新单逻辑已是collecting，轻落位不是输入锁。不要让三桌等待一个共享动画队列。
 
 A18 通关弹窗
-第一次达到营业额目标冻结用时。结算后0.60秒出现大弹窗；0.34秒内遮罩淡入，面板scale从0.94到1。成功、收入、用时、下一关／休息为独立文字和点击区域，不把它们烘焙进背景。
+全部食材消耗完、最后一道菜送达时冻结用时。结算后0.60秒出现大弹窗；0.34秒内遮罩淡入，面板scale从0.94到1。成功、收入、用时、下一关／休息为独立文字和点击区域，不把它们烘焙进背景。
 触摸遮罩隔离棋盘，键盘焦点限制在两个动作按钮中。成就时刻之后的浏览时间不继续计时。
 
 帧循环

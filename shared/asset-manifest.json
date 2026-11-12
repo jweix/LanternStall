@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "referencePriority": [
-    "reference/approved-master-v13.png",
-    "reference/approved-animation-v13.mp4",
-    "docs/01-style-and-ui.txt"
+    "../reference/approved-master-v13.png",
+    "../reference/approved-animation-v13.mp4",
+    "../docs/01-style-and-ui.txt"
   ],
   "assets": [
     {

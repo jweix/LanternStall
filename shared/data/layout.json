@@ -53,13 +53,19 @@
     "radius": 18
   },
   "wok": {
-    "x": 762,
-    "y": 1416,
-    "width": 263
+    "x": 742,
+    "y": 1417,
+    "width": 280,
+    "body": {
+      "x": 620,
+      "y": 1325,
+      "w": 280,
+      "h": 160
+    }
   },
   "outPlate": {
     "x": 837,
-    "y": 1484,
+    "y": 1412,
     "width": 145
   },
   "orderPlate": {
@@ -70,10 +76,7 @@
     "width": 211,
     "lidWidth": 180,
     "lidRadius": 85,
-    "innerPlateRadius": 88.62,
-    "lidArtWidth": 170,
-    "lidArtCenterOffsetY": -21.5,
-    "plateArtCenterOffsetY": 8
+    "innerPlateRadius": 88.62
   },
   "result": {
     "panel": [
@@ -83,16 +86,16 @@
       940
     ],
     "nextButton": [
-      204,
-      1054,
-      520,
-      128
+      200,
+      1032,
+      528,
+      132
     ],
     "restButton": [
       294,
       1196,
       340,
-      128
+      100
     ]
   },
   "servingPoint": {
@@ -107,9 +110,22 @@
     "interactive": false
   },
   "kitchenBadge": {
-    "x": 337,
-    "y": 1333,
-    "w": 242,
-    "h": 44
+    "x": 638,
+    "y": 1337,
+    "w": 218,
+    "h": 44,
+    "textX": 747,
+    "textY": 1359,
+    "backing": false
+  },
+  "boardMatte": {
+    "top": 496,
+    "left": 24,
+    "right": 904,
+    "bottom": 1521,
+    "ellipticalCorner": {
+      "rx": 57,
+      "ry": 114
+    }
   }
 }

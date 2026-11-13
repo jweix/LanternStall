@@ -162,7 +162,7 @@ near(M.timing.cardExit, spec.handoff.cardExit);
 near(M.timing.newCue, spec.handoff.newCueDuration);
 near(M.timing.reveal, DEFAULTS.deliveryReveal);
 const start = M.departurePose(0), rise = M.departurePose(.62 - 1e-9), reveal = M.departurePose(.62), end = M.departurePose(.78);
-near(start.x, 837); near(start.y, 1484); near(rise.y, 1208);
+near(start.x, 837); near(start.y, 1412); near(rise.y, 1136);
 assert(M.departurePose(.01).y < start.y); assert(rise.alpha < 1e-7);
 near(reveal.x, 751); near(reveal.y, 198.5); near(reveal.w, 65);
 near(end.x, layout.servingPoint.x); near(end.y, layout.servingPoint.y); near(end.w, 96);
@@ -200,7 +200,7 @@ console.log('PASS four full difficulty levels with .01-second burst inputs, seve
 // The recorder implements Canvas transforms/alpha so assertions cover actual draws.
 function record(view) {
   let matrix = [1, 0, 0, 1, 0, 0], stack = [], circle;
-  const draws = [], labels = [], checks = [];
+  const draws = [], labels = [], checks = [], shapes = [];
   const ctx = new Proxy({ globalAlpha: 1,
     save() { stack.push({ matrix: matrix.slice(), alpha: this.globalAlpha }); },
     restore() { const s = stack.pop(); matrix = s.matrix; this.globalAlpha = s.alpha; },
@@ -210,6 +210,7 @@ function record(view) {
     rotate(angle) { const [a, b, c, d] = matrix, co = Math.cos(angle), si = Math.sin(angle); matrix.splice(0, 4, a * co + c * si, b * co + d * si, c * co - a * si, d * co - b * si); },
     measureText(value) { return { width: value.length * 26 }; },
     createLinearGradient() { return { addColorStop() {} }; },
+    createRadialGradient() { return { addColorStop() {} }; },
     drawImage(im, ...args) {
       const [x, y, w, h] = args.length === 8 ? args.slice(4) : args;
       draws.push({ id: im.id, alpha: this.globalAlpha, x: matrix[0] * (x + w / 2) + matrix[2] * (y + h / 2) + matrix[4],
@@ -218,16 +219,23 @@ function record(view) {
     fillText(value) { labels.push({ value, alpha: this.globalAlpha }); },
     beginPath() { circle = null; },
     ellipse(x, y, rx, ry) { circle = { x, y, rx, ry }; },
-    fill() { if (circle && this.fillStyle === '#78a94c') checks.push({ alpha: this.globalAlpha }); }
+    fill() {
+      if (!circle) return;
+      if (this.fillStyle === '#72a33c') checks.push({ alpha: this.globalAlpha });
+      shapes.push({ color: this.fillStyle, alpha: this.globalAlpha,
+        x: matrix[0] * circle.x + matrix[2] * circle.y + matrix[4],
+        y: matrix[1] * circle.x + matrix[3] * circle.y + matrix[5],
+        rx: circle.rx * Math.hypot(matrix[0], matrix[1]), ry: circle.ry * Math.hypot(matrix[2], matrix[3]) });
+    }
   }, { get: (target, key) => key in target ? target[key] : () => {} });
   const images = { scene: { id: 'scene', width: 928, height: 1695 } };
-  for (const asset of require('../shared/asset-manifest.json').assets) {
-    images[asset.id] = { id: asset.id, width: asset.bbox.w, height: asset.bbox.h };
+  for (const [id, asset] of Object.entries(require('../shared/assets/runtime/asset-index.json'))) {
+    images[id] = { id, width: asset.width, height: asset.height };
   }
   require('../shared/rendering/scene.js').createRenderer(ctx, images, { recipes, ingredients: require('../shared/data/ingredients.json'), layout })
     .draw(view, { width: 928, height: 1695, dpr: 1 });
   assert(draws.every(d => Number.isFinite(d.alpha) && Number.isFinite(d.x) && Number.isFinite(d.y)));
-  return { draws, labels, checks };
+  return { draws, labels, checks, shapes };
 }
 const visual = new Session({ recipes, layout });
 visual.engine = new Engine({ recipes, orderPlan: [['d17', 'd06'], [], []] });
@@ -239,21 +247,29 @@ assert.equal(drawing.draws.find(d => d.id === 'wood_ear').alpha, 1);
 assert.equal(drawing.draws.find(d => d.id === 'egg').alpha, 1);
 assert.equal(drawing.checks.length, 1);
 assert(drawing.checks.every(c => c.alpha === 1));
-assert(!drawing.draws.some(d => d.id === 'cloche' || d.id === 'empty-plate'));
+assert(!drawing.shapes.some(d => d.color === '#ae733d40'), 'Collecting cards have no cloche');
 assert(drawing.labels.some(t => t.value === '1/3' && t.alpha === 1));
+const buttons = require('../shared/data/game-ui.js').buttons;
+for (const [id, rect] of Object.entries(buttons).filter(([id]) => ['sound', 'settings', 'undo', 'stash', 'hint'].includes(id))) {
+  const draw = drawing.draws.find(d => d.id === 'button-' + id);
+  near(draw.x, rect[0] + rect[2] / 2); near(draw.y, rect[1] + rect[3] / 2);
+  near(draw.w, rect[2]); near(draw.h, rect[3]);
+}
+assert.equal(drawing.draws.filter(d => d.id === 'scene').length, 1);
+assert.equal(buttons.stored[0][1] > 1331 && buttons.stored[0][1] + buttons.stored[0][3] < 1398, true, 'Stash retrieval stays between board and tray');
 visual.engine.putIngredient('wood_ear'); visual.engine.putIngredient('egg'); visual.collectEvents(); visual.advance(.3); visual.advance(.16);
 drawing = record(visual.view());
-const lid = drawing.draws.find(d => d.id === 'cloche'), plate = drawing.draws.find(d => d.id === 'empty-plate');
-near(lid.x, plate.x); near(lid.w, layout.orderPlate.lidArtWidth); near(plate.w, 211);
-near(lid.w / lid.h, 346 / 140);
+const lid = drawing.shapes.find(d => d.color === '#ae733d40'), plate = drawing.shapes.find(d => d.color === '#e9cba0');
+near(lid.x, plate.x); near(lid.rx, 85); near(plate.rx, 211 * .39);
+assert(lid.rx < 211 * .42, 'Native lid fits inside the plate rim');
 assert(drawing.labels.some(t => t.value === '交给大厨啦'));
 visual.advance(.26); drawing = record(visual.view());
-assert(!drawing.draws.some(d => d.id === 'cloche' || d.id === 'empty-plate'));
+assert(!drawing.shapes.some(d => d.color === '#ae733d40'));
 assert(drawing.labels.some(t => t.value === '豆腐炒蛋' && t.alpha === 1));
 visual.advance(1.56); drawing = record(visual.view());
 const servedArt = drawing.draws.find(d => d.id === 'd17');
 near(servedArt.x, 735); near(servedArt.y, 188);
-assert(!drawing.draws.some(d => d.id === 'cloche'));
+assert(!drawing.shapes.some(d => d.color === '#ae733d40'));
 const queuedVisual = fixtureSession(); queuedVisual.advance(1.2);
 drawing = record(queuedVisual.view());
 assert(drawing.draws.filter(d => ['pepper', 'pork'].includes(d.id)).every(d => d.w <= 26), 'Queued cooking must not pull old 69px prep tiles again');
@@ -287,7 +303,7 @@ near(prepDraws.find(d => d.id === 'celery' && d.y > 1398).x, M.prepSlot(0).cx);
 near(prepDraws.find(d => d.id === 'carrot' && d.y > 1398).x, M.prepSlot(1).cx);
 prep.pointer({ x: 464, y: 1570 }); // Stash carrot; existing cells stay packed.
 put(prep, ['pepper']);
-prep.pointer({ x: 672, y: 1284 }); // Returned carrot precedes in-flight pepper.
+prep.pointer({ x: 402, y: 1356 }); // Returned carrot precedes in-flight pepper.
 aligned(prep);
 assert.deepEqual(prep.engine.buffer.map(i => i.food), ['celery', 'carrot']);
 prep.advance(.3); aligned(prep);

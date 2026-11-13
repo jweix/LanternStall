@@ -1,0 +1,188 @@
+{
+  "source": "Level 1, Engine + Session + shared renderer, real solution clicks",
+  "acceptedAt": 1.05,
+  "trace": [
+    {
+      "age": 0.16,
+      "now": 1.21,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-2",
+          "state": "confirming"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "cooking"
+        }
+      ]
+    },
+    {
+      "age": 0.35,
+      "now": 1.4,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-2",
+          "state": "exiting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "cooking"
+        }
+      ]
+    },
+    {
+      "age": 0.42,
+      "now": 1.47,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-4",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "cooking"
+        }
+      ]
+    },
+    {
+      "age": 0.54,
+      "now": 1.59,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-4",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "cooking"
+        }
+      ]
+    },
+    {
+      "age": 1.2,
+      "now": 2.25,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-4",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "delivering"
+        }
+      ]
+    },
+    {
+      "age": 1.9,
+      "now": 2.95,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-4",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 0,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "delivering"
+        }
+      ]
+    },
+    {
+      "age": 1.98,
+      "now": 3.0300000000000002,
+      "orders": [
+        {
+          "orderId": "order-1",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-4",
+          "state": "collecting"
+        },
+        {
+          "orderId": "order-3",
+          "state": "collecting"
+        }
+      ],
+      "revenue": 28,
+      "jobs": [
+        {
+          "jobId": "job-3",
+          "orderId": "order-2",
+          "state": "served"
+        }
+      ]
+    }
+  ]
+}

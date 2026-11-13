@@ -50,7 +50,7 @@
       "name": "已消费材料收走",
       "duration": 0.2,
       "trigger": "recipeAccepted",
-      "rule": "按消费itemId视觉副本仅飞一次；错开0.012秒，弧高38。锅忙去(458,1355)，否则去(742+(i-1)×18,1405)。开炒不再从备菜槽拉料。"
+      "rule": "按消费itemId视觉副本仅飞一次；错开0.012秒，弧高38。锅忙去(747,1355)，否则去(742+(i-1)×18,1405)。开炒不再从备菜槽拉料。"
     },
     {
       "id": "A08",
@@ -64,7 +64,7 @@
       "name": "火苗",
       "duration": null,
       "trigger": "cookingStarted",
-      "rule": "持续小幅变化，工作约19高，待机约12高"
+      "rule": "按交付版透明flame组件在(680,1466)绘制蓝火，与炉架分层，不叠旧火焰或图集。"
     },
     {
       "id": "A10",
@@ -78,14 +78,14 @@
       "name": "倒菜落盘",
       "duration": 0.32,
       "trigger": "pourAt",
-      "rule": "最大0.64弧度，由锅沿落到盘心，成品渐显"
+      "rule": "负向0.18弧度，由锅沿落到盘心，成品渐显"
     },
     {
       "id": "A12",
       "name": "出锅移动",
       "duration": 0.62,
       "trigger": "dishOut",
-      "rule": "起点(837,1484)，连续上行至Y1208，X朝固定点(735,188)插值；进度0.40开始宽145到15、alpha1到0。"
+      "rule": "起点(837,1412)，连续上行至Y1136，X朝固定点(735,188)插值；进度0.40开始宽145到15、alpha1到0。"
     },
     {
       "id": "A13",
@@ -130,7 +130,7 @@
       "rule": "背景压暗，面板0.94到1，用时在食材全部用完且最后上菜后冻结"
     }
   ],
-  "version": "v16-event-driven",
+  "version": "v12-visual-event-driven",
   "timeOrigin": "recipeAccepted after final ingredient arrival (pick flight excluded)",
   "handoff": {
     "coveredPlateConfirmation": 0.28,
@@ -164,7 +164,7 @@
     "stagger": 0.012,
     "arcHeight": 38,
     "queuedTarget": {
-      "x": 458,
+      "x": 747,
       "y": 1355
     },
     "idleTargetX": "742+(ingredientIndex-1)*18",
@@ -174,10 +174,10 @@
   "delivery": {
     "start": {
       "x": 837,
-      "y": 1484
+      "y": 1412
     },
     "departure": 0.62,
-    "departureEndY": 1208,
+    "departureEndY": 1136,
     "fadeStartProgress": 0.4,
     "startWidth": 145,
     "endWidth": 15,

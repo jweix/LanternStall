@@ -213,7 +213,7 @@
       c.save(); c.translate(viewport.x, viewport.y); c.scale(viewport.scale, viewport.scale); c.beginPath(); c.rect(0, 0, 928, 1695); c.clip();
       if (v.screen !== 'game') { ({ home, decor, recipes, market }[v.tab] || home)(); footer(); }
       else if (v.game.resultReady && v.game.state.status === 'won' && !v.game.panel) {
-        if (!v.state.tutorialDone && v.state.cleared.length === 1) hits.push({ rect: [204, 1054, 520, 128], action: 'leave', label: '回店挑灯串' });
+        if (!v.state.tutorialDone && v.state.cleared.length === 1) hits.push({ rect: catalog.layout.result.nextButton, action: 'leave', label: '回店挑灯串' });
         if (v.adAvailable && v.settlement && !v.settlement.adTaken && v.daily.ads < 3) button('可选视频 · 补贴200', [230, 1342, 468, 85], 'ad');
       }
       modal();

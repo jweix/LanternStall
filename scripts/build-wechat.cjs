@@ -5,6 +5,7 @@ const { spawnSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const platform = path.join(root, 'platforms/wechat');
 const out = path.join(platform, 'game');
+require('./prepare-assets.cjs')();
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 for (const dir of ['core', 'runtime', 'rendering']) {
@@ -12,6 +13,7 @@ for (const dir of ['core', 'runtime', 'rendering']) {
 }
 fs.mkdirSync(path.join(out, 'shared/data'), { recursive: true });
 fs.copyFileSync(path.join(root, 'shared/data/progression.js'), path.join(out, 'shared/data/progression.js'));
+fs.copyFileSync(path.join(root, 'shared/data/game-ui.js'), path.join(out, 'shared/data/game-ui.js'));
 for (const name of ['recipes.json', 'ingredients.json', 'layout.json']) {
   const data = JSON.parse(fs.readFileSync(path.join(root, 'shared/data', name), 'utf8'));
   // Mini Game require loads JS modules, not Node-style JSON modules.

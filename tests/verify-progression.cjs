@@ -93,7 +93,7 @@ console.log('PASS real engine → first clear → wallet → home → buy/equip 
 
 const gradient = { addColorStop() {} }, texts = [];
 const ctx = new Proxy({ globalAlpha: 1 }, { get: (t, k) => k in t ? t[k] : k === 'measureText' ? v => ({ width: v.length * 25 }) : k === 'fillText' ? v => texts.push(v) : /create.*Gradient/.test(k) ? () => gradient : () => {} });
-const images = Object.fromEntries(['scene', 'd01', ...ingredients.map(i => i.id)].map(id => [id, { width: 100, height: 80 }]));
+const images = Object.fromEntries(Object.keys(require('../shared/assets/runtime/asset-index.json')).map(id => [id, { width: 100, height: 80 }]));
 const renderer = createRenderer(ctx, images, { recipes, ingredients, layout });
 for (const tab of ['home', 'decor', 'recipes', 'market']) {
   app.handle('tab', tab); app.hits = renderer.draw(app.view(), { width: 390, height: 844, dpr: 3, insets: { top: 95, bottom: 34 } });

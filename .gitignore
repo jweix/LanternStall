@@ -1,6 +1,7 @@
 # 各平台构建产物可由源码重新生成。
 /dist/
 /platforms/wechat/game/
+/shared/assets/runtime/
 **/project.private.config.json
 /logs/
 __pycache__/

@@ -8,9 +8,13 @@ assert.equal(config.appid, 'wx09cfd51ad5bcdb2f'); assert.equal(config.compileTyp
 assert.equal(config.miniprogramRoot, 'game/');
 assert(fs.existsSync(path.join(root, 'game/game.js')), 'Run npm run build:wechat first');
 const index = require('../platforms/wechat/game/asset-index.js');
-assert.equal(Object.keys(index).length, 38);
+assert.equal(Object.keys(index).length, 60);
 assert(!Object.keys(index).some(id => id.endsWith('-collected')), 'WeChat must reuse original ingredient sprites for received icons');
 for (const asset of Object.values(index)) assert(fs.existsSync(path.join(root, 'game', asset.path)));
+for (const asset of Object.values(index)) {
+  const shared = path.resolve(__dirname, '../shared/assets/runtime', path.basename(asset.path));
+  assert.deepEqual(fs.readFileSync(shared), fs.readFileSync(path.join(root, 'game', asset.path)), 'Web and WeChat ship identical image bytes');
+}
 let bytes = 0;
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -25,7 +29,7 @@ function walk(dir) {
   }
 }
 walk(path.join(root, 'game')); assert(bytes < 4 * 1024 * 1024);
-console.log('PASS self-contained WeChat package, AppID, 38 original-colour images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
+console.log('PASS self-contained WeChat package, AppID, 60 identical web/WeChat images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
 
 const { createPlatform } = require('../platforms/wechat/src/platform.js');
 const partial = createPlatform({
@@ -45,7 +49,7 @@ const ctx = new Proxy({ globalAlpha: 1 }, { get: (target, name) => name in targe
   name === 'restore' ? () => { target.globalAlpha = alphaStack.pop(); } :
   name === 'measureText' ? value => ({ width: value.length * 26 }) :
   name === 'fillText' ? value => labels.push(value) :
-  name === 'fill' ? () => { if (target.fillStyle === '#78a94c') checks.push(target.globalAlpha); } :
+  name === 'fill' ? () => { if (target.fillStyle === '#72a33c') checks.push(target.globalAlpha); } :
   name === 'drawImage' ? image => { draws++; imageDraws.push({ path: image.path, alpha: target.globalAlpha }); } :
   /create.*Gradient/.test(name) ? () => gradient : () => {} });
 const handlers = {}, storage = {};

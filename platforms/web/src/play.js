@@ -2,21 +2,15 @@
   'use strict';
   const canvas = document.getElementById('game'), status = document.getElementById('status');
   try {
-    const [recipes, ingredients, layout, manifest] = await Promise.all([
-      'data/recipes.json', 'data/ingredients.json', 'data/layout.json', 'asset-manifest.json'
+    const [recipes, ingredients, layout, index] = await Promise.all([
+      'data/recipes.json', 'data/ingredients.json', 'data/layout.json', 'assets/runtime/asset-index.json'
     ].map(path => fetch('../../shared/' + path).then(r => { if (!r.ok) throw Error(path); return r.json(); })));
-    const assets = manifest.assets.filter(a => ['dish', 'ingredient'].includes(a.kind) ||
-      ['wok', 'cloche', 'empty-plate', 'base-scene-reference'].includes(a.id));
-    const images = Object.fromEntries(await Promise.all(assets.map(asset => new Promise((resolve, reject) => {
+    const images = Object.fromEntries(await Promise.all(Object.entries(index).map(([id, asset]) => new Promise((resolve, reject) => {
       const image = new Image(); image.onerror = reject;
       image.onload = () => {
-        if (asset.id === 'base-scene-reference') { resolve(['scene', image]); return; }
-        const b = asset.bbox, sprite = document.createElement('canvas');
-        sprite.width = b.w; sprite.height = b.h;
-        sprite.getContext('2d').drawImage(image, b.x, b.y, b.w, b.h, 0, 0, b.w, b.h);
-        resolve([asset.id, sprite]);
+        resolve([id, image]);
       };
-      image.src = '../../shared/' + asset.path;
+      image.src = '../../shared/assets/runtime/' + asset.path.split('/').pop();
     }))));
     function read(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (_) { return fallback; } }
     function write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (_) { return false; } }

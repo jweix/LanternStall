@@ -1,16 +1,11 @@
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory(
-    require('../core/game-core.js'), require('../core/motion.js'), require('../core/levels.js'));
-  else root.DapaidangSession = factory(root.DapaidangCore, root.DapaidangMotion, root.DapaidangLevels);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Motion, Levels) {
+    require('../core/game-core.js'), require('../core/motion.js'), require('../core/levels.js'), require('../data/game-ui.js'));
+  else root.DapaidangSession = factory(root.DapaidangCore, root.DapaidangMotion, root.DapaidangLevels, root.DapaidangGameUI);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Motion, Levels, UI) {
   'use strict';
   const inside = (p, r) => p.x >= r[0] && p.y >= r[1] && p.x <= r[0] + r[2] && p.y <= r[1] + r[3];
-  const buttons = {
-    sound: [25, 15, 80, 80], settings: [120, 15, 80, 80],
-    undo: [65, 1530, 255, 95], stash: [337, 1530, 255, 95], hint: [609, 1530, 255, 95],
-    stored: [[624, 1260, 96, 65], [730, 1260, 96, 65]],
-    resume: [204, 770, 520, 110], reduced: [204, 900, 520, 100], restart: [204, 1030, 520, 100]
-  };
+  const buttons = UI.buttons;
 
   class Session {
     constructor(options) {

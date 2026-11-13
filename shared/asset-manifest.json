@@ -1,9 +1,8 @@
 {
-  "version": "1.0",
+  "version": "v12-complete-ui",
   "referencePriority": [
-    "../reference/approved-master-v13.png",
-    "../reference/approved-animation-v13.mp4",
-    "../docs/01-style-and-ui.txt"
+    "../../dapaidang-handoff-v12-complete/灯火大排档-菜单反馈预览.html",
+    "../../dapaidang-handoff-v12-complete/灯火大排档 AI制作交付说明.docx"
   ],
   "assets": [
     {
@@ -1065,6 +1064,234 @@
       "kind": "ui",
       "source": "approved-canvas-component-export",
       "usage": "空按钮底；文字和图标另画。"
+    },
+    {
+      "id": "scene",
+      "kind": "game-background",
+      "path": "assets/backgrounds/background-main.png",
+      "width": 928,
+      "height": 1695,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 928,
+        "h": 1695
+      },
+      "sha256": "9e99f09252edc993a73baa9e11d5fbef5427daf47c49a85383f2b8517c0bef3b",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "button-sound",
+      "kind": "game-button",
+      "path": "assets/buttons/source/sound.png",
+      "width": 76,
+      "height": 70,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 70
+      },
+      "sha256": "e651b67369e83eef9908f5a21ebd9b3b2d372feeef527d830041822e1119ac5b",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "button-settings",
+      "kind": "game-button",
+      "path": "assets/buttons/source/settings.png",
+      "width": 76,
+      "height": 70,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 76,
+        "h": 70
+      },
+      "sha256": "f9ff006459c5b20f8ec475af5a5dd203f6e02dd0b7d671b15623a29906d6c5cb",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "button-undo",
+      "kind": "game-button",
+      "path": "assets/buttons/source/undo.png",
+      "width": 265,
+      "height": 96,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 265,
+        "h": 96
+      },
+      "sha256": "873d1e0390e864538ff44e9595b2409ec6f5ddcbdb21e6805f275262b220bd37",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "button-stash",
+      "kind": "game-button",
+      "path": "assets/buttons/source/stash.png",
+      "width": 235,
+      "height": 96,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 235,
+        "h": 96
+      },
+      "sha256": "6c6f84ed08dd787600af98d09f52591c41e7edcdf2cf7e4a443c933be35a0185",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "button-hint",
+      "kind": "game-button",
+      "path": "assets/buttons/source/hint.png",
+      "width": 265,
+      "height": 96,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 265,
+        "h": 96
+      },
+      "sha256": "c27e8a9bdaba6c37e97ee74e0250dfd148aa17421cd1e5a3637f23524595b4c5",
+      "source": "dapaidang-handoff-v12-complete"
+    },
+    {
+      "id": "overlay-clip-blue",
+      "kind": "game-overlay",
+      "path": "assets/ui/clip-blue.png",
+      "width": 156,
+      "height": 166,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 166
+      },
+      "sha256": "b420cfbabbe6888fcf41e51e6522cde3242a62c73cfe828e702425598ac85172",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 30,
+        "h": 35
+      },
+      "padding": 24,
+      "pixelRatio": 2
+    },
+    {
+      "id": "overlay-stove",
+      "kind": "game-overlay",
+      "path": "assets/ui/stove.png",
+      "width": 546,
+      "height": 170,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 546,
+        "h": 170
+      },
+      "sha256": "2b4185f43a666a7d17ae26267b85fc547cded9b9a8dd172fff99d0dcbd90fde8",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 225,
+        "h": 37
+      },
+      "padding": 24,
+      "pixelRatio": 2
+    },
+    {
+      "id": "overlay-coin",
+      "kind": "game-overlay",
+      "path": "assets/ui/coin.png",
+      "width": 148,
+      "height": 148,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 148,
+        "h": 148
+      },
+      "sha256": "5e6afd60659ecd3f9a3a0a67aa9f172c68bc4249ea7482957d1f5cdacc49ea7c",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 26,
+        "h": 26
+      },
+      "padding": 24,
+      "pixelRatio": 2
+    },
+    {
+      "id": "overlay-clip-red",
+      "kind": "game-overlay",
+      "path": "assets/ui/clip-red.png",
+      "width": 156,
+      "height": 166,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 166
+      },
+      "sha256": "bda9617e4bb7bfc53cc5c520eec586b484c3ff81c112a9c781d6c4c67a3b6aa1",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 30,
+        "h": 35
+      },
+      "padding": 24,
+      "pixelRatio": 2
+    },
+    {
+      "id": "overlay-flame",
+      "kind": "game-overlay",
+      "path": "assets/ui/flame.png",
+      "width": 364,
+      "height": 168,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 364,
+        "h": 168
+      },
+      "sha256": "0175c69893a662a730c484a53900e133cf01e43463bce763a82d049144c0c6e4",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 134,
+        "h": 36
+      },
+      "padding": 24,
+      "pixelRatio": 2
+    },
+    {
+      "id": "overlay-clip-green",
+      "kind": "game-overlay",
+      "path": "assets/ui/clip-green.png",
+      "width": 156,
+      "height": 166,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 156,
+        "h": 166
+      },
+      "sha256": "433fd9a0fde7cad1e495670d16f3aebe6ca6b6346c4e33fb525ff71dadb80e96",
+      "source": "dapaidang-handoff-v12-complete",
+      "body": {
+        "x": 24,
+        "y": 24,
+        "w": 30,
+        "h": 35
+      },
+      "padding": 24,
+      "pixelRatio": 2
     }
   ],
   "counts": {

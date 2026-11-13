@@ -26,7 +26,7 @@ function createPlatform(api, canvas) {
       }))).then(entries => Object.fromEntries(entries));
     },
     read(key, fallback) { try { return api.getStorageSync(key) || fallback; } catch (_) { return fallback; } },
-    write(key, value) { try { api.setStorageSync(key, value); } catch (error) { console.warn('本地存档失败', error); } },
+    write(key, value) { try { api.setStorageSync(key, value); return true; } catch (error) { console.warn('本地存档失败', error); return false; } },
     resize() {
       const g = geometry();
       canvas.width = Math.round(g.width * g.dpr);

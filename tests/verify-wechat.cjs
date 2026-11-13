@@ -71,9 +71,12 @@ let frame;
 global.requestAnimationFrame = fn => { frame = fn; return 1; };
 require('../platforms/wechat/game/game.js');
 setImmediate(() => {
-  assert(frame); frame(0); frame(16); assert(draws > 40); assert.equal(canvas.width, 1170);
+  assert(frame); frame(0); frame(16); assert(draws >= 8); assert.equal(canvas.width, 1170);
+  assert(labels.includes('小摊') && labels.includes('装扮') && labels.includes('菜谱') && labels.includes('夜市'));
   const M = require('../shared/core/motion.js');
   const view = M.viewport(390, 844, { top: 95, bottom: 34 });
+  handlers.touch({ touches: [{ clientX: view.x + 464 * view.scale, clientY: view.y + 1340 * view.scale }] });
+  frame(20); assert(storage['lantern-stall-v2'].activeAttempt, 'Native home button must start and durably identify a game');
   handlers.touch({ touches: [{ clientX: view.x + 160 * view.scale, clientY: view.y + 53 * view.scale }] });
   labels = []; frame(32); assert(labels.includes('歇一会儿'), 'Native touch must open settings at the drawn coordinates');
   handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + 825 * view.scale }] });

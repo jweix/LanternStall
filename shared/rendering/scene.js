@@ -1,11 +1,12 @@
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('../core/motion.js'));
-  else root.DapaidangScene = factory(root.DapaidangMotion);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (M) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('../core/motion.js'), require('./stall-art.js'));
+  else root.DapaidangScene = factory(root.DapaidangMotion, root.DapaidangStallArt);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (M, Art) {
   'use strict';
 
   function createRenderer(c, images, catalog) {
     const W = 928, H = 1695;
+    let appearance = null;
     const ingredients = Object.fromEntries(catalog.ingredients.map(i => [i.id, i]));
     const colors = { tomato: '#ffdbbd', egg: '#ffe6ae', pepper: '#e1edbd', pork: '#f8d5c7',
       chicken: '#f8deca', shiitake: '#ecd4b1', scallion: '#e2ecc1', broccoli: '#d7e6b3',
@@ -65,7 +66,7 @@
     }
     function wood(x, y, w, h) {
       const g = c.createLinearGradient(0, y, 0, y + h);
-      g.addColorStop(0, '#bc824d'); g.addColorStop(1, '#9e602e'); fill(x, y, w, h, g, 25);
+      g.addColorStop(0, appearance ? appearance.tables.wood : '#bc824d'); g.addColorStop(1, '#9e602e'); fill(x, y, w, h, g, 25);
       for (let i = 0; i < 44; i++) fill(x + 8, y + 8 + i * (h - 16) / 44, w - 16, 1.3, '#f4c28a15');
     }
     function age(view, type, predicate) {
@@ -101,6 +102,9 @@
         c.scale(view.reducedMotion ? 1 : pose.scale, view.reducedMotion ? 1 : pose.scale);
         c.translate(-x - 124, -y - 113);
         panel(x, y, 248, 226, false, 30);
+        if (appearance && appearance.menu.id !== 'base') {
+          fill(x + 18, y + 8, 212, 5, appearance.menu.color, 2);
+        }
         fill(x + 110, y - 16, 28, 32, ['#d97343', '#81a94c', '#6597a5'][order.slot], 8);
         if (!r) {
           text('本桌已上齐', x + 124, 352, 30, '#96643f');
@@ -208,6 +212,9 @@
       const pose = job && !view.reducedMotion ? M.wokPose(p, pour) : { angle: 0, dx: 0, dy: 0 };
       c.save(); c.translate(762 + pose.dx, 1416 + pose.dy); c.rotate(pose.angle);
       art('wok', 0, 0, 263, 136);
+      if (appearance && appearance.wok.id !== 'base') {
+        c.strokeStyle = appearance.wok.color; c.lineWidth = 8; c.beginPath(); c.ellipse(-12, -9, 87, 26, 0, 0, Math.PI * 2); c.stroke();
+      }
       if (job) {
         job.recipe.ingredients.forEach((id, i) => {
           const bounce = stir && !view.reducedMotion ? Math.max(0, Math.sin(p * Math.PI * 4 + i * .7)) * 58 : 0;
@@ -216,6 +223,7 @@
       }
       c.restore(); steam(740, 1374, s.now, job ? .5 : .14);
       if (pour) {
+        if (appearance) ellipse(837, 1484, 77, 29, appearance.plate.color);
         art('empty-plate', 837, 1484, 145, 65);
         const u = M.ease(p);
         // Start at the transformed rim rather than teleporting a finished plate.
@@ -227,6 +235,7 @@
         });
         art(job.recipe.id, 837, 1484, 145, 145 * .70, u);
       }
+      if (appearance) Art.chef(c, 858, 1350, .44, appearance.chef);
     }
     function effects(view) {
       const s = view.state;
@@ -292,6 +301,7 @@
           panel(204, 900, 520, 100, false, 30); text('减少动效：' + (view.reducedMotion ? '开' : '关'), 464, 950, 34);
         }
         panel(204, 1030, 520, 100, false, 30); text('重新开摊', 464, 1080, 36);
+        if (view.homeEnabled) { panel(204, 1148, 520, 68, false, 24); text('回小摊', 464, 1182, 30); }
         return;
       }
       panel(104, 404, 720, 940, true, 48); panel(120, 420, 688, 907, false, 37);
@@ -302,16 +312,22 @@
       text('本关用时', 464, 885, 31, '#91633e');
       const seconds = Math.ceil(s.wonAt === null ? s.playTime : s.wonAt);
       text(String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0'), 464, 938, 66);
-      text(won ? '下一摊，也要热气腾腾！' : '留意配方，给备菜栏留点空位', 464, 1008, 29, '#94623c');
-      panel(204, 1054, 520, 128, true, 34); text(won ? '下一关' : '再试一次', 464, 1118, 47);
-      text('先休息一下', 464, 1260, 32, '#8b623f');
+      text(won && view.settlement ? (view.settlement.sandbox ? '试玩关卡 · 不计经营奖励' : '本次入账 +' + view.settlement.credited + ' · 钱包 ' + view.wallet) : won && view.saveError ? '存档未成功，点按钮重试结算' : won ? '下一摊，也要热气腾腾！' : '留意配方，给备菜栏留点空位', 464, 1008, 27, '#94623c');
+      panel(204, 1054, 520, 128, true, 34); text(won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : '再试一次', 464, 1118, view.introduceStore ? 39 : 47);
+      text(view.homeEnabled ? '回小摊看看' : '先休息一下', 464, 1260, 32, '#8b623f');
+      if (won && view.settlement && !view.settlement.sandbox) {
+        const receipt = view.settlement;
+        text(receipt.rewards.length ? '新收藏：' + receipt.rewards[0] : receipt.newly.length ? '点亮 ' + receipt.newly.length + ' 道家常菜' : '菜谱与夜市进度已记录', 464, 1308, 24, '#97734d');
+      }
     }
     function draw(view, geometry) {
+      appearance = view.appearance || null;
       const g = geometry, v = M.viewport(g.width, g.height, g.insets);
       c.setTransform(g.dpr, 0, 0, g.dpr, 0, 0); fill(0, 0, g.width, g.height, '#1b3937');
       c.save(); c.translate(v.x, v.y); c.scale(v.scale, v.scale);
       c.beginPath(); c.rect(0, 0, W, H); c.clip();
-      c.drawImage(images.scene, 0, 0, W, H);
+      if (appearance) { fill(0, 0, W, H, appearance.background.night); Art.header(c, appearance); }
+      else c.drawImage(images.scene, 0, 0, W, H);
       // The historical image contains baked text and cards: every dynamic area
       // is covered before live rendering. It is never used as a stretched UI.
       fill(50, 215, 828, 270, '#293e37');

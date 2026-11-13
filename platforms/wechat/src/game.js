@@ -1,6 +1,6 @@
 'use strict';
-const { Session } = require('./shared/runtime/game-session.js');
-const { createRenderer } = require('./shared/rendering/scene.js');
+const { App } = require('./shared/runtime/stall-app.js');
+const { createRenderer } = require('./shared/rendering/stall-scene.js');
 const Motion = require('./shared/core/motion.js');
 const recipes = require('./shared/data/recipes.js');
 const ingredients = require('./shared/data/ingredients.js');
@@ -49,14 +49,12 @@ function start() {
   platform.loadImages(index).then(images => {
     const settings = platform.read('lantern-settings-v1', {});
     const progress = platform.read('lantern-progress-v1', { level: 1 });
-    const level = Number.isSafeInteger(progress.level) && progress.level > 0 ? Math.min(progress.level, 10000) : 1;
-    session = new Session({ recipes, layout, level, reducedMotion: !!settings.reducedMotion,
-      onProgress: value => platform.write('lantern-progress-v1', value),
-      onSettings: value => platform.write('lantern-settings-v1', value) });
+    session = new App({ recipes, layout, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
+      save: value => platform.write('lantern-stall-v2', value) });
     session.setHidden(hidden);
     renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });
     function frame(ms) {
-      if (!hidden) renderer.draw(session.frame(ms), geometry);
+      if (!hidden) session.hits = renderer.draw(session.frame(ms), geometry);
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);

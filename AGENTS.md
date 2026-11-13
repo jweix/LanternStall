@@ -18,9 +18,11 @@
 - `shared/`：业务、动效、渲染、菜谱/布局及原始素材；禁止平台 API 和 DOM。`platforms/wechat/src/`：微信适配；`platforms/web/`：浏览器试玩，`demo/` 仅为固定时间轴展示。新增平台各建目录，复用核心。
 - 微信 AppID `wx09cfd51ad5bcdb2f`，`compileType: game`。`platforms/wechat/game/` 是生成目录，勿手改；开发者工具导入 `platforms/wechat/`。
 - 环境：Node.js 18+、Python 3 + Pillow。构建 `npm run build:wechat`，随后 `npm test`；试玩 `npm run serve`。
-- 当前是可操作原型，仅存解锁关卡和减少动效设置。真机触摸/性能、真人难度校准、音频和发布验收未完成。
+- 已接通小摊/装扮/菜谱/夜市与真实闯关，`shared/core/profile.js`管经营事务，`shared/data/progression.js`管经济与物品；两端本机存档`lantern-stall-v2`含金币、购买装备、收藏与活动，迁移旧关卡。真机触摸/性能、真人难度校准、音频、云同步、商业化和发布验收未完成。
 
 ## 按需文档
+
+- [经营需求与验收](docs/11-product-requirements.md)、[运营与经济配置](docs/12-operations-and-economy.md)：修改页面、金币、装扮、存档或活动时先读，并同步维护规则与实现边界。
 
 - [关卡难度设计与实现](docs/09-level-generation.md)：涉及难度设计、调参、发牌/堆叠/补单算法或可解性与难度验证时，先读取与任务相关的章节；无关任务无需预读全文，以节省 token。`npm run analyze:levels` 可复现策略难度对比。
 - 修改上述算法、参数或验证口径时，必须同步修订该文档的原理、参数、当前结果和适用边界；替换过时内容，保持完整、简洁，不追加开发流水账。

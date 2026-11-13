@@ -20,6 +20,7 @@
       this.restart(options.level || 1);
     }
     restart(level) {
+      if (this.options.onStart && this.options.onStart(level) === false) return false;
       this.level = level;
       this.config = Levels.createLevel(this.options.recipes, this.options.layout, level);
       this.engine = new Core.Engine(this.config);
@@ -75,7 +76,8 @@
         this.effects.push({ event, born: event.time, origins });
         if (event.type === 'levelWon') {
           this.wonAt = event.time;
-          if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, revenue: event.revenue });
+          if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, completedLevel: this.level,
+            revenue: event.revenue, dishes: this.engine.jobs.filter(j => j.state === 'served').map(j => j.recipeId) });
         }
       }
       this.alignPrep();
@@ -107,12 +109,15 @@
           this.reducedMotion = !this.reducedMotion;
           if (this.options.onSettings) this.options.onSettings({ reducedMotion: this.reducedMotion });
         } else if (inside(p, buttons.restart)) this.restart(this.level);
+        else if (this.options.onHome && inside(p, [204, 1148, 520, 68])) this.options.onHome();
         return true;
       }
       if (e.status !== 'playing') {
         if (!this.view().resultReady) return true;
         if (inside(p, result.nextButton)) this.restart(this.level + (e.status === 'won' ? 1 : 0));
-        else if (inside(p, result.restButton)) this.setPanel('rest');
+        else if (inside(p, result.restButton)) {
+          if (this.options.onHome) this.options.onHome(); else this.setPanel('rest');
+        }
         return true;
       }
       if (inside(p, buttons.settings)) { this.setPanel('pause'); return true; }

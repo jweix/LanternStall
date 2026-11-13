@@ -84,6 +84,11 @@
       const s = view.state;
       for (const order of s.orders) {
         const x = 76 + order.slot * 264, r = order.recipe;
+        if (!r) {
+          panel(x, 244, 248, 226, false, 30);
+          text('本桌已上齐', x + 124, 352, 30, '#96643f');
+          continue;
+        }
         c.save();
         if (order.state === 'exiting' || order.state === 'completed') {
           const p = M.orderExit(s.now - (order.exitAt === null ? s.now - .16 : order.exitAt - .16));
@@ -253,7 +258,7 @@
         text(['↶ 撤回', '▣ 暂存', '☀ 提示'][i], x + 115, 1570, 40);
         text('剩余 ' + s.tools[id] + ' 次', x + 128, 1605, 20, '#9c713f');
       }
-      text('第 ' + view.level + ' 摊 · 点亮牌，按菜谱备菜', 464, 1664, 25, '#fff1d1');
+      text('第 ' + view.level + ' 摊 · ' + (view.difficultyName || '家常') + ' · 按菜谱备菜', 464, 1664, 25, '#fff1d1');
       if (view.toast) { panel(124, 1150, 680, 66, false, 24); text(view.toast, 464, 1183, 27); }
     }
     function overlay(view) {

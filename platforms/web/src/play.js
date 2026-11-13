@@ -22,8 +22,10 @@
     function write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) { /* Private browsing can disable storage. */ } }
     const progress = read('lantern-progress-v1', { level: 1 });
     const settings = read('lantern-settings-v1', {});
+    const requested = Number(new URLSearchParams(location.search).get('level'));
+    const startLevel = Number.isSafeInteger(requested) && requested > 0 ? requested : progress.level;
     const session = new DapaidangSession.Session({ recipes, layout,
-      level: Number.isSafeInteger(progress.level) && progress.level > 0 ? Math.min(progress.level, 10000) : 1,
+      level: Number.isSafeInteger(startLevel) && startLevel > 0 ? Math.min(startLevel, 10000) : 1,
       reducedMotion: !!settings.reducedMotion,
       onProgress: value => write('lantern-progress-v1', value), onSettings: value => write('lantern-settings-v1', value) });
     const renderer = DapaidangScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });

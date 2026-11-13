@@ -69,7 +69,7 @@
     }
     view() {
       return { state: this.engine.snapshot(), effects: this.effects, slots: this.slots,
-        panel: this.panel, reducedMotion: this.reducedMotion, level: this.level,
+        panel: this.panel, reducedMotion: this.reducedMotion, level: this.level, difficultyName: this.config.difficultyName,
         toast: this.toast && this.toast.until > this.engine.now ? this.toast.text : '',
         resultReady: this.engine.status === 'failed' ||
           (this.engine.status === 'won' && this.engine.now >= this.wonAt + Motion.timing.resultDelay) };

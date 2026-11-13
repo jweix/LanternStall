@@ -10,11 +10,24 @@
    this.config=Object.assign({},DEFAULTS,config.motion||{});this.recipes=config.recipes.map(clone);this.revenue=config.initialRevenue||0;
    this.now=0;this.playTime=0;this.wonAt=null;this.status='playing';this.paused=false;this.events=[];this.sequence=0;this.tableSequence=0;this.recipeCursor=0;
    this.nodes=(config.tiles||[]).map((n,i)=>Object.assign({id:'tile-'+i,removed:false,layer:1},clone(n)));
+   this.orderPlan=config.orderPlan?clone(config.orderPlan):null;this.orderCursors=[0,0,0];
+   if(this.orderPlan){
+    if(!Array.isArray(this.orderPlan)||this.orderPlan.length!==3||this.orderPlan.some(lane=>!Array.isArray(lane)||lane.some(id=>!this.recipes.some(r=>r.id===id))))throw Error('Invalid finite order plan.');
+    // Every possible concurrent pair must be compatible, regardless of delivery timing.
+    for(let a=0;a<3;a++)for(let b=a+1;b<3;b++)for(const x of this.orderPlan[a])for(const y of this.orderPlan[b]){
+     const r=this.recipes.find(r=>r.id===x),s=this.recipes.find(r=>r.id===y);
+     if(subset(r.ingredients,s.ingredients)||subset(s.ingredients,r.ingredients))throw Error('Conflicting finite orders.');
+    }
+   }
    this.buffer=[];this.incoming=[];this.queue=[];this.wok=null;this.deliveries=[];this.stashItems=[];this.tools=Object.assign({undo:1,stash:2,hint:1},config.tools||{});
    this.orders=[];for(let i=0;i<3;i++){const id=config.initialRecipes&&config.initialRecipes[i];this.orders.push(this._order(i,id));}
   }
   _emit(type,data){this.events.push(Object.assign({type,time:this.now},data||{}));}
   _order(slot,recipeId){
+   if(this.orderPlan){
+    recipeId=this.orderPlan[slot][this.orderCursors[slot]++];
+    if(!recipeId)return{slot,table:'',recipe:null,state:'completed',exitAt:null,matchedAt:null,credited:false};
+   }
    let recipe=recipeId&&this.recipes.find(r=>r.id===recipeId);
    if(!recipe){for(let attempt=0;attempt<this.recipes.length*2;attempt++){
     const candidate=this.recipes[this.recipeCursor++%this.recipes.length],collecting=this.orders.filter(o=>o.state==='collecting');
@@ -73,7 +86,7 @@
      }
     }
     for(let slot=0;slot<3;slot++){const order=this.orders[slot];if(order.exitAt!==null&&order.exitAt<=due+1e-9){
-     order.exitAt=null;if(this.status==='playing'){this.orders[slot]=this._order(slot);this._emit('orderReplaced',{slot,table:this.orders[slot].table,recipeId:this.orders[slot].recipe.id});this._resolve();}else order.state='completed';
+     order.exitAt=null;if(this.status==='playing'){this.orders[slot]=this._order(slot);const next=this.orders[slot];this._emit(next.recipe?'orderReplaced':'tableCompleted',{slot,table:next.table,recipeId:next.recipe?next.recipe.id:null});this._resolve();}else order.state='completed';
     }}
     this._checkFail();
    }

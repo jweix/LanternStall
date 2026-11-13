@@ -5,7 +5,8 @@
   "description": "灯火大排档：按菜谱配料的夜市消除小游戏，微信首发。",
   "scripts": {
     "build:wechat": "node scripts/build-wechat.cjs",
-    "test": "node tests/verify-core.cjs && node tests/verify-game.cjs && node tests/verify-wechat.cjs",
-    "serve": "node scripts/serve.cjs"
+    "test": "node tests/verify-core.cjs && node tests/verify-game.cjs && node tests/verify-levels.cjs && node tests/verify-wechat.cjs",
+    "serve": "node scripts/serve.cjs",
+    "analyze:levels": "node scripts/analyze-levels.cjs"
   }
 }

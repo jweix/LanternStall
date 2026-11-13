@@ -15,9 +15,10 @@ for (let level = 1; level <= 100; level++) {
     assert(engine.available(id), 'Solution must respect geometric occlusion');
     assert(engine.selectTile(id).ok);
     engine.tick(.3);
-    if (engine.wok) engine.tick(3);
+    if (engine.wok || engine.queue.length || engine.deliveries.length) engine.tick(10);
     assert(engine.buffer.length + engine.incoming.length <= 7);
   }
+  engine.tick(10);
   assert.equal(engine.status, 'won', 'Level ' + level + ' must be winnable');
   assert.equal(config.solution.length, 40);
   assert(engine.nodes.every(n => n.removed));
@@ -37,7 +38,7 @@ s.restart(1);
 for (const id of s.config.solution) {
   const tile = s.engine.nodes.find(n => n.id === id);
   assert(s.pointer(tile)); s.advance(.3);
-  if (s.engine.wok) s.advance(3);
+  if (s.engine.wok || s.engine.queue.length || s.engine.deliveries.length) s.advance(10);
 }
 assert.equal(s.engine.status, 'won'); assert.equal(saved, 1);
 const time = s.engine.wonAt, revenue = s.engine.revenue;

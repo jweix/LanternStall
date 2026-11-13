@@ -1,6 +1,6 @@
 请作为游戏UI与程序实现助手，读取这份交接包并延续“灯火大排档”。
 
-先看reference/approved-master-v13.png和approved-animation-v13.mp4，再读01-style-and-ui.txt、02-game-rules.txt、04-motion-implementation.txt。它们是当前基准，不重新选择美术方向。
+整体美术先看reference/approved-master-v13.png和approved-animation-v13.mp4；行为先读10-menu-handoff.md，再读01-style-and-ui.txt、02-game-rules.txt、04-motion-implementation.txt。菜单交接与上菜采用v16，覆盖旧v13冲突规则，不重新选择美术方向。
 
 固定事项：
 1. 品牌为弧形五字“灯火大排档”，圆润可爱的2.5D暖夜市风格；大排档小炒，不要烧烤。
@@ -8,13 +8,13 @@
 3. 三张订单使用奶油底，菜名无独立底色；原料阶段不放碟子，不给食材另套按钮框。
 4. 食材台5×5、下层错位，不原格补牌。7格备菜满槽补色，图案不拉伸。
 5. 配齐自动扣料并释放格位；单锅FIFO，出锅即释放锅，飞行和下一道炒菜并行。
-6. 出锅无静止，实际路线加长；0.62秒出锅段＋0.16秒菜单段，隐形等待0。送到即结算、立即开始0.16秒退单；新单完整显示，只轻落位0.12秒。
+6. 配齐后0.28秒盘盖确认＋0.14秒整卡退场；0.42秒新单完整显示并可接料，轻落0.12秒。厨房任务独立保存levelId/jobId/orderId/桌号/配方/金额快照，不能按当前卡槽结算。出锅无静止，0.62秒上行至Y1208＋0.16秒在收入牌旁(735,188)显现，隐形等待0；仅真实送达入账一次，不触发菜单揭盖或退单。
 7. 飞行效果不阻挡食材点击。每桌独立刷新，不等其他订单或整段动画。
 8. 收入只记录本关累计金币，三食材×1.5；用完全部食材并完成最后上菜后通关；通关大弹窗显示成功、收入、用时、下一关／休息，不显示剩余食材，不按用时评星。
 
 资源：20道独立透明成品PNG，双食材与三食材各10道；14种透明食材PNG。按shared/data/recipes.json与shared/asset-manifest.json加载，不凭菜名猜配方，不把预览总览图按格切成正式素材。
 
-请先复现当前界面与一条完整制作链路，再接入shared/core/game-core.js的业务事件。platforms/web/src/approved-v13.js是已确认视觉参考，shared/core/motion.js可复用动效计算，tests/verify-core.cjs用于验证。不要把固定时间轴预览误称为完整关卡。
+请先复现当前界面与一条完整制作链路，再接入shared/core/game-core.js的业务事件。platforms/web/src/approved-v13.js仅保留历史整体美术参考，v16行为以共享真实引擎和10-menu-handoff.md为准，shared/core/motion.js可复用动效计算，tests/verify-core.cjs与tests/verify-handoff.cjs用于验证。不要把固定时间轴预览误称为完整关卡。
 
 这次具体任务是：
 【在这里填写要接入的平台、要实现的模块或要新增的菜品】

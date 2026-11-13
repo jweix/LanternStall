@@ -9,6 +9,7 @@ assert.equal(config.miniprogramRoot, 'game/');
 assert(fs.existsSync(path.join(root, 'game/game.js')), 'Run npm run build:wechat first');
 const index = require('../platforms/wechat/game/asset-index.js');
 assert.equal(Object.keys(index).length, 38);
+assert(!Object.keys(index).some(id => id.endsWith('-collected')), 'WeChat must reuse original ingredient sprites for received icons');
 for (const asset of Object.values(index)) assert(fs.existsSync(path.join(root, 'game', asset.path)));
 let bytes = 0;
 function walk(dir) {
@@ -24,7 +25,7 @@ function walk(dir) {
   }
 }
 walk(path.join(root, 'game')); assert(bytes < 4 * 1024 * 1024);
-console.log('PASS self-contained WeChat package, AppID, 38 images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
+console.log('PASS self-contained WeChat package, AppID, 38 original-colour images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
 
 const { createPlatform } = require('../platforms/wechat/src/platform.js');
 const partial = createPlatform({
@@ -37,8 +38,16 @@ console.log('PASS incomplete simulator safe-area and capsule data never produce 
 const gradient = { addColorStop() {} };
 let draws = 0;
 let labels = [];
-const ctx = new Proxy({}, { get: (_, name) => name === 'measureText' ? value => ({ width: value.length * 26 }) :
-  name === 'fillText' ? value => labels.push(value) : name === 'drawImage' ? () => { draws++; } : /create.*Gradient/.test(name) ? () => gradient : () => {} });
+let imageDraws = [], checks = [];
+const alphaStack = [];
+const ctx = new Proxy({ globalAlpha: 1 }, { get: (target, name) => name in target ? target[name] :
+  name === 'save' ? () => alphaStack.push(target.globalAlpha) :
+  name === 'restore' ? () => { target.globalAlpha = alphaStack.pop(); } :
+  name === 'measureText' ? value => ({ width: value.length * 26 }) :
+  name === 'fillText' ? value => labels.push(value) :
+  name === 'fill' ? () => { if (target.fillStyle === '#78a94c') checks.push(target.globalAlpha); } :
+  name === 'drawImage' ? image => { draws++; imageDraws.push({ path: image.path, alpha: target.globalAlpha }); } :
+  /create.*Gradient/.test(name) ? () => gradient : () => {} });
 const handlers = {}, storage = {};
 const canvas = { getContext: () => ctx };
 global.wx = {
@@ -46,7 +55,7 @@ global.wx = {
   createImage() {
     const image = {};
     Object.defineProperty(image, 'src', { set(value) {
-      assert(fs.existsSync(path.join(root, 'game', value))); image.width = 192; image.height = 192;
+      assert(fs.existsSync(path.join(root, 'game', value))); image.path = value; image.width = 192; image.height = 192;
       queueMicrotask(() => image.onload());
     } }); return image;
   },
@@ -69,6 +78,16 @@ setImmediate(() => {
   labels = []; frame(32); assert(labels.includes('歇一会儿'), 'Native touch must open settings at the drawn coordinates');
   handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + 825 * view.scale }] });
   labels = []; frame(48); assert(!labels.includes('歇一会儿'));
+  const level = require('../shared/core/levels.js').createLevel(require('../shared/data/recipes.json'), require('../shared/data/layout.json'), 1);
+  const carrot = level.tiles.find(n => n.food === 'carrot' && n.layer === 1);
+  handlers.touch({ touches: [{ x: view.x + carrot.x * view.scale, y: view.y + carrot.y * view.scale }] });
+  frame(148); frame(248); frame(348);
+  labels = []; imageDraws = []; checks = []; frame(448);
+  assert(labels.includes('1/3'), 'Native ingredient touch must update the collecting menu');
+  const carrots = imageDraws.filter(d => d.path === 'assets/carrot.png');
+  assert(carrots.length >= 2 && carrots.every(d => d.alpha === 1), 'Menu and board must reuse the opaque original orange carrot');
+  assert(checks.length > 0 && checks.every(alpha => alpha === 1), 'Received marker stays an opaque green check');
+  console.log('PASS WeChat native touch receives carrot with original sprite/opacity, green check and 1/3 progress');
   handlers.hide(); frame(300000); handlers.show(); frame(600000); handlers.resize();
   for (const [w, h, top, bottom] of [[320, 568, 20, 0], [390, 844, 95, 34]]) {
     const v = M.viewport(w, h, { top, bottom });

@@ -26,17 +26,17 @@
     },
     {
       "id": "A04",
-      "name": "配齐确认",
-      "duration": 0.4,
+      "name": "餐盘交单确认",
+      "duration": 0.28,
       "trigger": "recipeAccepted",
-      "rule": "整卡只回弹一次，最大1.025；原料0.15秒收拢"
+      "rule": "卡轻抬；食材0.11秒收拢淡出，盘盖0.12秒显现，盖0.16秒落下10像素；只表示交给大厨啦，不入账。"
     },
     {
       "id": "A05",
       "name": "满槽显示",
       "duration": 0,
       "trigger": "ingredientArrived",
-      "rule": "整格铺满颜色；不叠小卡片，没有内圈空白"
+      "rule": "整格铺满颜色；不叠小卡片，没有内圈空白。消费/撤回/暂存后剩余食材按原顺序立即左补齐；已到槽在左，在途预约依次在右，更新飞行落点；消费副本固定原槽位置。"
     },
     {
       "id": "A06",
@@ -47,10 +47,10 @@
     },
     {
       "id": "A07",
-      "name": "原料入锅",
-      "duration": 0.28,
-      "trigger": "cookingStarted",
-      "rule": "逐份错开0.018秒，弧高42，缩至小碎块"
+      "name": "已消费材料收走",
+      "duration": 0.2,
+      "trigger": "recipeAccepted",
+      "rule": "按消费itemId视觉副本仅飞一次；错开0.012秒，弧高38。锅忙去(458,1355)，否则去(742+(i-1)×18,1405)。开炒不再从备菜槽拉料。"
     },
     {
       "id": "A08",
@@ -85,21 +85,21 @@
       "name": "出锅移动",
       "duration": 0.62,
       "trigger": "dishOut",
-      "rule": "静止0，Y1484到1244，进度0.40开始缩小淡出"
+      "rule": "起点(837,1484)，连续上行至Y1208，X朝固定点(735,188)插值；进度0.40开始宽145到15、alpha1到0。"
     },
     {
       "id": "A13",
-      "name": "菜单显现",
+      "name": "收入牌旁显现",
       "duration": 0.16,
       "trigger": "dishOut + 0.62",
-      "rule": "目标右24下48到盘位，淡入前0.07秒完成，隐形等待0"
+      "rule": "立即从(751,198.5)到(735,188)，宽65到96；前0.07秒淡入，隐形等待0；不飞回菜单。"
     },
     {
       "id": "A14",
-      "name": "揭盖",
+      "name": "送达成品退出",
       "duration": 0.16,
-      "trigger": "menuReveal",
-      "rule": "抬高55并淡出，与送达同步，不再次生盖"
+      "trigger": "dishServed",
+      "rule": "固定出餐点成品立即向右20、上8缩小8%并淡出；不揭新卡餐盖，不触发换单。金额反馈0.45秒。"
     },
     {
       "id": "A15",
@@ -110,17 +110,17 @@
     },
     {
       "id": "A16",
-      "name": "旧单退出",
-      "duration": 0.16,
-      "trigger": "dishServed",
-      "rule": "停留0，整卡上移45并淡出"
+      "name": "旧菜单整卡收起",
+      "duration": 0.14,
+      "trigger": "recipeAccepted + 0.28",
+      "rule": "桌号、菜名、夹子和盘盖整卡上移34、缩至0.935并淡出；0.42秒完成，与厨房进度独立。"
     },
     {
       "id": "A17",
-      "name": "新单补入",
+      "name": "新菜单补入",
       "duration": 0.12,
-      "trigger": "orderReplaced",
-      "rule": "直接不透明显示，从上12轻落位；立即可接料"
+      "trigger": "orderReplaced at recipeAccepted + 0.42",
+      "rule": "从上方10像素轻落位，0.54秒落稳；alpha始终1，出现即收料，暖边提示0.75秒，各槽独立。"
     },
     {
       "id": "A18",
@@ -129,5 +129,105 @@
       "trigger": "levelWon + 0.60",
       "rule": "背景压暗，面板0.94到1，用时在食材全部用完且最后上菜后冻结"
     }
-  ]
+  ],
+  "version": "v16-event-driven",
+  "timeOrigin": "recipeAccepted after final ingredient arrival (pick flight excluded)",
+  "handoff": {
+    "coveredPlateConfirmation": 0.28,
+    "cardExit": 0.14,
+    "replacementVisibleAt": 0.42,
+    "newCardSettle": 0.12,
+    "newCardStableAt": 0.54,
+    "newCueDuration": 0.75,
+    "exitShiftY": -34,
+    "exitScale": 0.935,
+    "entryShiftY": -10,
+    "entryAlpha": 1,
+    "ingredientsFade": 0.11,
+    "plateFadeIn": 0.12,
+    "lidSettle": 0.16,
+    "lidDrop": 10,
+    "wording": "交给大厨啦",
+    "useNewSticker": false
+  },
+  "ingredientStatus": {
+    "scope": "ingredient art inside collecting order cards only",
+    "collectedAlpha": 1,
+    "collectedSaturation": 1,
+    "collectedCheckAlpha": 1,
+    "missingAlpha": 1,
+    "missingSaturation": 1,
+    "marker": "opaque green check only; preserve original ingredient art and colours"
+  },
+  "acceptedIngredientFlight": {
+    "duration": 0.2,
+    "stagger": 0.012,
+    "arcHeight": 38,
+    "queuedTarget": {
+      "x": 458,
+      "y": 1355
+    },
+    "idleTargetX": "742+(ingredientIndex-1)*18",
+    "idleTargetY": 1405,
+    "pullFromPrepAgainWhenCookingStarts": false
+  },
+  "delivery": {
+    "start": {
+      "x": 837,
+      "y": 1484
+    },
+    "departure": 0.62,
+    "departureEndY": 1208,
+    "fadeStartProgress": 0.4,
+    "startWidth": 145,
+    "endWidth": 15,
+    "fixedServingPoint": {
+      "x": 735,
+      "y": 188
+    },
+    "revealStart": {
+      "x": 751,
+      "y": 198.5
+    },
+    "reveal": 0.16,
+    "revealStartWidth": 65,
+    "revealEndWidth": 96,
+    "fadeIn": 0.07,
+    "hiddenHold": 0,
+    "servedExit": 0.16,
+    "rewardFeedback": 0.45,
+    "incomePulse": 0.42,
+    "targetIsCurrentOrderCard": false,
+    "reopenClocheOnNewCard": false
+  },
+  "kitchen": {
+    "separateFromDisplaySlots": true,
+    "immutableJobIdentity": [
+      "levelId",
+      "jobId",
+      "orderId",
+      "table",
+      "recipeId",
+      "ingredients",
+      "payout"
+    ],
+    "capacity": 7,
+    "includeIncomingReservations": true,
+    "pickFlight": 0.3,
+    "consumeOnceAtRecipeAccepted": true,
+    "releasePrepImmediately": true,
+    "normalCooking": {
+      "load": 0.28,
+      "stir": 0.6,
+      "pour": 0.32,
+      "total": 1.2
+    },
+    "creditOn": "dishServed",
+    "idempotencyKey": [
+      "levelId",
+      "jobId"
+    ],
+    "continuousAcceleration": false
+  },
+  "levelCompletion": "All finite ingredients consumed including prep/incoming/stash; no queued/cooking/delivering/handoff tasks. Revenue is a record, never a target."
 }

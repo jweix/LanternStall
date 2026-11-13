@@ -25,6 +25,7 @@
       this.engine = new Core.Engine(this.config);
       this.effects = [];
       this.slots = {};
+      this.prepItems = [];
       this.panel = null;
       this.lastFrame = null;
       this.toast = null;
@@ -42,19 +43,42 @@
       this.lastFrame = null;
     }
     say(text) { this.toast = { text, until: this.engine.now + 1.8 }; }
+    alignPrep() {
+      this.prepItems = this.prepItems.filter(i => i.arrived).concat(this.prepItems.filter(i => !i.arrived));
+      this.slots = Object.fromEntries(this.prepItems.map((item, slot) => [item.id, slot]));
+    }
     collectEvents() {
+      let eventTime = null, acceptedSlots = null;
       for (const event of this.engine.drainEvents()) {
-        if (event.type === 'ingredientPicked') {
-          const occupied = this.engine.buffer.concat(this.engine.incoming)
-            .filter(i => i.id !== event.item.id).map(i => this.slots[i.id]);
-          this.slots[event.item.id] = Array.from({ length: 7 }, (_, i) => i).find(i => !occupied.includes(i));
+        if (event.levelId !== this.engine.levelId) continue;
+        if (event.time !== eventTime) {
+          this.alignPrep(); eventTime = event.time; acceptedSlots = null;
         }
-        this.effects.push({ event, born: event.time });
+        let origins = null;
+        if (event.type === 'recipeAccepted') {
+          // Simultaneous recipes leave from their original cells. Compact only
+          // after capturing those immutable origins, including across late frames.
+          if (!acceptedSlots) acceptedSlots = Object.assign({}, this.slots);
+          origins = event.items.map(item => acceptedSlots[item.id]);
+          this.prepItems = this.prepItems.filter(item => !event.consumedItemIds.includes(item.id));
+        } else if (event.type === 'ingredientPicked' || event.type === 'ingredientReturned') {
+          this.prepItems.push({ id: event.item.id, arrived: event.type === 'ingredientReturned' });
+          this.alignPrep();
+        } else if (event.type === 'ingredientArrived') {
+          const item = this.prepItems.find(item => item.id === event.item.id);
+          if (item) item.arrived = true;
+          this.alignPrep();
+        } else if (event.type === 'ingredientUndone' || event.type === 'ingredientStashed') {
+          this.prepItems = this.prepItems.filter(item => item.id !== event.item.id);
+          this.alignPrep();
+        }
+        this.effects.push({ event, born: event.time, origins });
         if (event.type === 'levelWon') {
           this.wonAt = event.time;
           if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, revenue: event.revenue });
         }
       }
+      this.alignPrep();
       this.effects = this.effects.filter(e => this.engine.now - e.born <= 2.5);
     }
     advance(seconds) {
@@ -95,11 +119,7 @@
       if (inside(p, buttons.sound)) { this.say('音效素材待接入，当前为静音试玩'); return true; }
       for (let i = 0; i < buttons.stored.length; i++) {
         if (e.stashItems[i] && inside(p, buttons.stored[i])) {
-          const item = e.stashItems[i];
-          const occupied = e.buffer.concat(e.incoming).map(i => this.slots[i.id]);
-          const slot = Array.from({ length: 7 }, (_, j) => j).find(j => !occupied.includes(j));
-          if (e.returnStash(i)) this.slots[item.id] = slot;
-          else this.say('备菜栏放不下啦');
+          if (!e.returnStash(i)) this.say('备菜栏放不下啦');
           this.collectEvents(); return true;
         }
       }

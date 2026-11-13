@@ -64,9 +64,16 @@
   },
   "orderPlate": {
     "firstX": 200,
-    "y": 382,
-    "width": 180,
-    "stepX": 264
+    "stepX": 264,
+    "baseY": 385,
+    "faceY": 387,
+    "width": 211,
+    "lidWidth": 180,
+    "lidRadius": 85,
+    "innerPlateRadius": 88.62,
+    "lidArtWidth": 170,
+    "lidArtCenterOffsetY": -21.5,
+    "plateArtCenterOffsetY": 8
   },
   "result": {
     "panel": [
@@ -87,5 +94,22 @@
       340,
       128
     ]
+  },
+  "servingPoint": {
+    "x": 735,
+    "y": 188,
+    "width": 96,
+    "revealStart": {
+      "x": 751,
+      "y": 198.5,
+      "width": 65
+    },
+    "interactive": false
+  },
+  "kitchenBadge": {
+    "x": 337,
+    "y": 1333,
+    "w": 242,
+    "h": 44
   }
 }

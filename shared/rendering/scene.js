@@ -80,54 +80,65 @@
       c.save(); c.globalAlpha = 1 - a / .65; c.strokeStyle = '#fff0ae'; c.lineWidth = 4;
       round(x - 70, y - 66, 140, 132, 25); c.stroke(); c.restore();
     }
+    function coveredPlate(x, pose) {
+      const r = catalog.layout.orderPlate;
+      // Visible PNG anchors: plate face and lid rim share the same centre.
+      // Rim radius 85 is smaller than the plate's inner radius 88.62.
+      art('empty-plate', x, r.baseY + r.plateArtCenterOffsetY, r.width, 100);
+      art('cloche', x, r.faceY + r.lidArtCenterOffsetY - pose.lidLift, r.lidArtWidth, 100);
+    }
     function orders(view) {
-      const s = view.state;
+      const s = view.state, layout = catalog.layout.orders;
       for (const order of s.orders) {
-        const x = 76 + order.slot * 264, r = order.recipe;
-        if (!r) {
-          panel(x, 244, 248, 226, false, 30);
-          text('本桌已上齐', x + 124, 352, 30, '#96643f');
-          continue;
-        }
+        const x = layout.firstX + order.slot * layout.stepX, y = layout.y, r = order.recipe;
+        const accepted = order.matchedAt !== null, matchedAge = accepted ? s.now - order.matchedAt : 0;
+        const entryY = order.bornAt > 0 ? M.orderEnter(s.now - order.bornAt).dy : 0;
+        const pose = accepted ? M.handoffPose(matchedAge) : { alpha: 1, dy: 0, scale: 1 };
+        pose.dy += entryY;
         c.save();
-        if (order.state === 'exiting' || order.state === 'completed') {
-          const p = M.orderExit(s.now - (order.exitAt === null ? s.now - .16 : order.exitAt - .16));
-          c.globalAlpha *= p.alpha; c.translate(0, p.dy);
-        } else {
-          const a = age(view, 'orderReplaced', e => e.slot === order.slot);
-          if (a < .12) c.translate(0, view.reducedMotion ? 0 : M.orderEnter(a).dy);
+        c.globalAlpha *= pose.alpha;
+        c.translate(x + 124, y + 113 + (view.reducedMotion ? 0 : pose.dy));
+        c.scale(view.reducedMotion ? 1 : pose.scale, view.reducedMotion ? 1 : pose.scale);
+        c.translate(-x - 124, -y - 113);
+        panel(x, y, 248, 226, false, 30);
+        fill(x + 110, y - 16, 28, 32, ['#d97343', '#81a94c', '#6597a5'][order.slot], 8);
+        if (!r) {
+          text('本桌已上齐', x + 124, 352, 30, '#96643f');
+          c.restore(); continue;
         }
-        const matched = age(view, 'recipeAccepted', e => e.table === order.table);
-        if (matched < .4 && !view.reducedMotion) {
-          const scale = 1 + Math.sin(matched / .4 * Math.PI) * .025;
-          c.translate(x + 124, 357); c.scale(scale, scale); c.translate(-x - 124, -357);
-        }
-        panel(x, 244, 248, 226, false, 30);
-        fill(x + 110, 228, 28, 32, ['#d97343', '#81a94c', '#6597a5'][order.slot], 8);
         text(order.table + '桌', x + 22, 277, 26, '#855334', 'left');
         text('● +' + r.payout, x + 226, 277, 26, '#aa6729', 'right');
         let size = 35;
         c.font = 'bold ' + size + 'px sans-serif';
         while (c.measureText(r.displayName || r.name).width > 226 && size > 23) { size--; c.font = 'bold ' + size + 'px sans-serif'; }
         text(r.displayName || r.name, x + 124, 316, size);
-        if (order.state === 'collecting') {
+        const materialAlpha = accepted ? pose.ingredientsAlpha : 1;
+        if (materialAlpha > .001) {
+          c.save(); c.globalAlpha *= materialAlpha;
           const remaining = s.buffer.map(i => i.food);
           let collected = 0;
           r.ingredients.forEach((id, i) => {
-            const xx = x + 124 + (i - (r.ingredients.length - 1) / 2) * 71;
+            const xx = x + 124 + (i - (r.ingredients.length - 1) / 2) * 71 * materialAlpha;
+            const index = remaining.indexOf(id), done = accepted || index >= 0;
+            if (index >= 0) remaining.splice(index, 1);
+            if (done) collected++;
             art(id, xx, 383, 65, 67);
-            const index = remaining.indexOf(id);
-            if (index >= 0) { remaining.splice(index, 1); collected++; check(xx + 20, 405); }
+            if (done) check(xx + 20, 405);
           });
           text(collected + '/' + r.ingredients.length, x + 124, 447, 29, '#84512e');
-        } else if (order.state !== 'exiting' && order.state !== 'completed') {
-          const delivery = s.deliveries.find(d => d.table === order.table);
-          const reveal = delivery ? M.clamp((s.now - delivery.flyAt - .62) / .16) : 0;
-          art('empty-plate', x + 124, 393, 211, 75);
-          art('cloche', x + 124, 372 - reveal * 55, 180, 86, 1 - reveal);
-          text(order.state === 'queued' ? '交给大厨啦' : order.state === 'cooking' ? '大厨忙活中' : '香喷喷来啦',
-            x + 124, 447, 24, '#96643f');
-        } else art(r.id, x + 124, 382, 180, 110);
+          c.restore();
+        }
+        if (accepted) {
+          c.save(); c.globalAlpha *= pose.plateAlpha;
+          coveredPlate(x + 124, pose);
+          text('交给大厨啦', x + 124, 447, 29, '#a9502c'); c.restore();
+        }
+        const newAge = s.now - order.bornAt;
+        if (order.bornAt > 0 && newAge < M.timing.newCue) {
+          c.save(); c.globalAlpha *= .55 * (1 - M.clamp(newAge / M.timing.newCue));
+          c.strokeStyle = '#f2b75e'; c.lineWidth = 3;
+          round(x + 5, y + 5, 238, 216, 26); c.stroke(); c.restore();
+        }
         c.restore();
       }
     }
@@ -173,11 +184,12 @@
       const s = view.state, job = s.wok;
       wood(30, 1331, 867, 194);
       panel(50, 1336, 196, 43, true, 22); text('备菜 ' + (s.buffer.length + s.incoming.length) + '/7', 148, 1358, 29);
-      panel(338, 1335, 242, 43, false, 22); text('凑齐自动入锅', 459, 1357, 27);
+      panel(337, 1333, 242, 44, false, 22);
+      text(job ? (s.queue.length ? '快炒中 · 待' + s.queue.length : '快炒中') : '自动快炒', 458, 1355, 28);
       panel(42, 1386, 555, 115, false, 27);
       for (let i = 0; i < 7; i++) {
         const r = M.prepSlot(i);
-        fill(r.x, r.y, r.w, r.h, '#dbae73', 18);
+        if (!s.buffer.some(item => view.slots[item.id] === i)) fill(r.x, r.y, r.w, r.h, '#dbae73', 18);
       }
       for (const item of s.buffer) {
         const r = M.prepSlot(view.slots[item.id]); tile(item.food, r.cx, r.cy, r.w, r.h);
@@ -192,14 +204,14 @@
       }
       const stir = job && s.now >= job.stirAt && s.now < job.pourAt;
       const pour = job && s.now >= job.pourAt;
-      const p = job ? (s.now - (pour ? job.pourAt : job.stirAt)) / (pour ? .32 : .6) : 0;
+      const p = job ? (s.now - (pour ? job.pourAt : job.stirAt)) / (pour ? job.endAt - job.pourAt : job.pourAt - job.stirAt) : 0;
       const pose = job && !view.reducedMotion ? M.wokPose(p, pour) : { angle: 0, dx: 0, dy: 0 };
       c.save(); c.translate(762 + pose.dx, 1416 + pose.dy); c.rotate(pose.angle);
       art('wok', 0, 0, 263, 136);
-      if (job && s.now >= job.stirAt) {
+      if (job) {
         job.recipe.ingredients.forEach((id, i) => {
           const bounce = stir && !view.reducedMotion ? Math.max(0, Math.sin(p * Math.PI * 4 + i * .7)) * 58 : 0;
-          art(id, -40 + i * 22, 5 - bounce, 26, 24, pour ? 1 - M.ease(p) : 1);
+          art(id, -40 + i * 22, 5 - bounce, 26, 24, pour ? 1 - M.ease(p) : M.ease((s.now - job.startAt) / .28));
         });
       }
       c.restore(); steam(740, 1374, s.now, job ? .5 : .14);
@@ -213,16 +225,7 @@
           art(id, M.mix(rim.x + i * 4, 837 + (i - 1) * 10, u),
             M.mix(rim.y, 1484, u) - Math.sin(u * Math.PI) * 20, 20, 18, 1 - u);
         });
-        art(job.recipe.id, 837, 1484, 145, 90, u);
-      }
-      if (job && s.now < job.stirAt) {
-        job.items.forEach((item, i) => {
-          const origin = M.prepSlot(view.slots[item.id]);
-          const u = M.ease((s.now - job.startAt - i * .018) / (.28 - i * .018));
-          tile(item.food, M.mix(origin.cx, 742 + (i - 1) * 18, u),
-            M.mix(origin.cy, 1405, u) - Math.sin(u * Math.PI) * 42,
-            M.mix(69, 24, u), M.mix(89, 25, u));
-        });
+        art(job.recipe.id, 837, 1484, 145, 145 * .70, u);
       }
     }
     function effects(view) {
@@ -234,11 +237,26 @@
         tile(item.food, pose.x, pose.y, pose.w, pose.h, false, view.reducedMotion ? 0 : pose.rotation);
       }
       for (const delivery of s.deliveries) {
-        const p = M.departurePose(s.now - delivery.flyAt, delivery.slot);
-        art(delivery.recipe.id, p.x, p.y, p.w, p.w * .65, p.alpha);
+        const p = M.departurePose(s.now - delivery.flyAt);
+        art(delivery.recipeId, view.reducedMotion ? 735 : p.x, view.reducedMotion ? 188 : p.y, p.w, p.w * .70, p.alpha);
       }
       for (const effect of view.effects) {
         const a = s.now - effect.born, event = effect.event;
+        if (event.type === 'recipeAccepted' && a < M.timing.acceptedFlight) {
+          event.items.forEach((item, i) => {
+            const slot = effect.origins[i], p = M.acceptedPose(slot, i, a, event.queued), origin = M.prepSlot(slot);
+            c.save(); c.globalAlpha *= p.alpha;
+            tile(item.food, view.reducedMotion ? origin.cx : p.x, view.reducedMotion ? origin.cy : p.y, p.w, p.h, false, view.reducedMotion ? 0 : p.rotation);
+            c.restore();
+          });
+        }
+        if (event.type === 'dishServed' && a < M.timing.reward) {
+          if (a < M.timing.servedExit) {
+            const p = M.servedPose(a); art(event.recipeId, p.x, p.y, p.w, p.w * .70, p.alpha);
+          }
+          c.save(); c.globalAlpha *= 1 - M.ease(a / M.timing.reward);
+          text('+' + event.payout, 625, 220 - (view.reducedMotion ? 0 : a * 45), 32, '#ffdf8d'); c.restore();
+        }
         if (event.type === 'ingredientPicked' && a < .32 && event.item.source) {
           const p = M.ring(a); c.save(); c.globalAlpha = p.alpha;
           c.strokeStyle = '#fff3c4'; c.lineWidth = 5; c.beginPath();

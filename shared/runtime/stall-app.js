@@ -7,7 +7,7 @@
     constructor(options) {
       this.options = options; this.profile = new Profiles.Profile(options); this.tab = 'home'; this.screen = 'home';
       this.sub = { decor: 'scene', recipes: 'recipes', market: 'current' }; this.category = 'lamp'; this.theme = 'warm';
-      this.page = 0; this.preview = null; this.modal = null; this.hits = []; this.hidden = false; this.toast = null;
+      this.page = 0; this.categoryPage = 0; this.preview = null; this.modal = null; this.hits = []; this.hidden = false; this.toast = null;
       this.session = null; this.settlement = null; this.pending = null; this.selection = null;
       if (options.previewLevel) this.start(options.previewLevel, options.previewLevel > this.profile.nextLevel);
     }
@@ -49,7 +49,7 @@
       const themePreview = this.screen === 'home' && this.tab === 'decor' && this.sub.decor === 'themes' && !this.selection;
       const previewEquipment = themePreview ? Object.fromEntries(C.slots.map(slot => [slot, this.theme + '-' + slot])) :
         this.preview ? Object.assign({}, state.equipped, { [C.byId[this.preview].slot]: this.preview }) : null;
-      return { screen: this.screen, tab: this.tab, sub: this.sub, category: this.category, theme: this.theme, page: this.page,
+      return { screen: this.screen, tab: this.tab, sub: this.sub, category: this.category, theme: this.theme, page: this.page, categoryPage: this.categoryPage,
         preview: this.preview, selection: this.selection, modal: this.modal, state, nextLevel: this.profile.nextLevel, settlement: this.settlement,
         daily: this.profile.daily(), appearance: this.profile.appearance(previewEquipment), themePreview,
         game: this.session ? Object.assign(this.session.view(), { appearance: this.profile.appearance(), settlement: this.settlement,
@@ -63,7 +63,7 @@
       const hit = this.hits.slice().reverse().find(h => point.x >= h.rect[0] && point.y >= h.rect[1] && point.x <= h.rect[0] + h.rect[2] && point.y <= h.rect[1] + h.rect[3]);
       if (hit) {
         if (this.screen === 'game' && this.session.engine.status === 'won' && !this.credit()) return true;
-        this.handle(hit.action, hit.value); return true;
+        this.handle(hit.action, hit.value); this.hits = []; return true;
       }
       if (this.modal) return true;
       if (this.screen === 'game') {
@@ -74,26 +74,33 @@
     }
     handle(action, value) {
       const s = this.profile.state;
+      if (action === 'sound') { this.say('当前暂未接入声音，可在设置中调整动效'); return; }
+      if (action === 'category-page') { this.categoryPage = value ? 1 : 0; this.category = value ? 'plate' : 'lamp'; this.page = 0; this.selection = null; this.preview = null; return; }
+      if (action === 'event-reward') {
+        const item = C.byId[value]; if (!item || !s.owned.includes(item.id)) return;
+        this.tab = 'decor'; this.category = item.slot; this.sub.decor = item.slot === 'chef' ? 'chef' : item.slot === 'background' ? 'background' : 'scene';
+        this.categoryPage = ['plate', 'wok'].includes(item.slot) ? 1 : 0; this.selection = item.id; this.preview = item.id; this.page = Math.floor(C.items.filter(i => i.slot === item.slot).findIndex(i => i.id === item.id) / 4); return;
+      }
       if (action === 'tab') { this.tab = value; this.page = 0; this.preview = null; this.selection = null; return; }
-      if (action === 'sub') { this.sub[this.tab] = value; this.page = 0; this.selection = null; this.preview = null; return; }
+      if (action === 'sub') { this.categoryPage = 0; this.sub[this.tab] = value; this.page = 0; this.selection = null; this.preview = null; return; }
       if (action === 'category') { this.category = value; this.page = 0; this.selection = null; this.preview = null; return; }
       if (action === 'page') { this.page = Math.max(0, this.page + value); return; }
       if (action === 'play') { this.start(this.profile.nextLevel); return; }
       if (action === 'level') { this.start(value); return; }
       if (action === 'map') { this.page = Math.floor((this.profile.nextLevel - 1) / 20); this.modal = { type: 'map' }; return; }
-      if (action === 'ledger' || action === 'settings') { this.page = 0; this.modal = { type: action }; return; }
+      if (action === 'ledger' || action === 'settings') { this.toast = null; this.page = 0; this.modal = { type: action }; return; }
       if (action === 'close') { this.modal = null; this.selection = null; return; }
       if (action === 'leave') { this.home(true); return; }
       if (action === 'reduced') { this.check(this.profile.settings(!s.reducedMotion)); if (this.session) this.session.reducedMotion = this.profile.state.reducedMotion; return; }
       if (action === 'wish') { this.check(this.profile.wish(value)); this.say('已设为小摊的下一个愿望'); return; }
-      if (action === 'wish-open') { this.tab = 'decor'; this.category = C.byId[s.wish].slot; this.sub.decor = ['plate', 'wok'].includes(this.category) ? 'kitchen' : this.category === 'chef' ? 'chef' : 'scene'; this.selection = s.wish; this.preview = s.wish; this.page = 0; return; }
+      if (action === 'wish-open') { this.tab = 'decor'; this.category = C.byId[s.wish].slot; this.sub.decor = this.category === 'background' ? 'background' : this.category === 'chef' ? 'chef' : 'scene'; this.categoryPage = ['plate', 'wok'].includes(this.category) ? 1 : 0; this.selection = s.wish; this.preview = s.wish; this.page = Math.floor(C.items.filter(i => i.slot === this.category).findIndex(i => i.id === s.wish) / 4); return; }
       if (action === 'item') { this.selection = value; this.preview = value; return; }
       if (action === 'buy') {
         const item = C.byId[value];
         if (!item || item.source !== 'coins' || s.owned.includes(value)) { this.say('这件装扮已有其他获取方式或已拥有'); return; }
         if (s.cleared.length < item.unlock) { this.say('首通' + item.unlock + '关后开放'); return; }
         if (s.coins < item.price) { this.say('还差 ' + (item.price - s.coins) + ' 金币，继续开摊攒一攒'); return; }
-        this.modal = { type: 'purchase', item: value }; return;
+        this.toast = null; this.modal = { type: 'purchase', item: value }; return;
       }
       if (action === 'confirm-buy') {
         if (this.check(this.profile.purchase(value), '金币不足或物品已拥有')) {

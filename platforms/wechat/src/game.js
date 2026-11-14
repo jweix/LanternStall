@@ -27,7 +27,7 @@ if (wx.onWindowResize) wx.onWindowResize(() => { geometry = platform.resize(); i
 function pointer(x, y) {
   if (!Number.isFinite(x) || !Number.isFinite(y) || hidden) return;
   if (session) session.pointer(Motion.toDesign(x, y,
-    Motion.viewport(geometry.width, geometry.height, geometry.insets)));
+    renderer.coordinates(geometry, session.screen)));
   else if (loadFailed) start();
 }
 let lastTouchAt = -Infinity;

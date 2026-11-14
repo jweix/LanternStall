@@ -12,8 +12,9 @@ for (const dir of ['core', 'runtime', 'rendering']) {
   fs.cpSync(path.join(root, 'shared', dir), path.join(out, 'shared', dir), { recursive: true });
 }
 fs.mkdirSync(path.join(out, 'shared/data'), { recursive: true });
-fs.copyFileSync(path.join(root, 'shared/data/progression.js'), path.join(out, 'shared/data/progression.js'));
-fs.copyFileSync(path.join(root, 'shared/data/game-ui.js'), path.join(out, 'shared/data/game-ui.js'));
+for (const name of fs.readdirSync(path.join(root, 'shared/data')).filter(n => n.endsWith('.js'))) {
+  fs.copyFileSync(path.join(root, 'shared/data', name), path.join(out, 'shared/data', name));
+}
 for (const name of ['recipes.json', 'ingredients.json', 'layout.json']) {
   const data = JSON.parse(fs.readFileSync(path.join(root, 'shared/data', name), 'utf8'));
   // Mini Game require loads JS modules, not Node-style JSON modules.

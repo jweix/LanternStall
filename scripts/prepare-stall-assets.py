@@ -27,7 +27,7 @@ def prepare(root, out):
     export('stall-body', body, (640, 600), 128)
     atlas = Image.open(source / 'props-atlas-v2.png').convert('RGBA')
     cells = ['awning', 'lamp', 'tables', 'ornament', 'menu', 'wok', 'plate', 'chef', 'sign']
-    sizes = [(384, 190), (80, 138), (240, 180), (104, 138), (112, 150), (144, 112), (112, 88), (112, 180), (384, 190)]
+    sizes = [(384, 190), (144, 248), (240, 180), (104, 138), (112, 150), (144, 112), (112, 88), (112, 180), (384, 190)]
     hues = {'base': None, 'warm': .015, 'bamboo': .24, 'sea': .53, 'festival': .84}
 
     def cloth_variant(image, hue, theme):

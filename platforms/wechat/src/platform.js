@@ -9,11 +9,22 @@ function createPlatform(api, canvas) {
     try { capsule = api.getMenuButtonBoundingClientRect ? api.getMenuButtonBoundingClientRect() : null; } catch (_) { /* Some runtimes omit it. */ }
     const finite = (value, fallback) => Number.isFinite(value) ? value : fallback;
     const capsuleBottom = capsule ? finite(capsule.bottom, finite(capsule.top + capsule.height, 0)) : 0;
-    return { width, height, dpr: Math.min(info.pixelRatio || 1, 3), insets: {
+    const edges = {
       left: Math.max(0, finite(safe.left, 0)), right: Math.max(0, width - finite(safe.right, width)),
-      top: Math.max(finite(safe.top, 0), capsuleBottom ? capsuleBottom + 8 : 0),
       bottom: Math.max(0, height - finite(safe.bottom, height))
-    } };
+    };
+    const statusTop = Math.max(0, finite(safe.top, 0));
+    // The new lobby has an intentional empty native-menu region. Let scenery
+    // start below the status bar, keeping the wallet below the real capsule.
+    let lobbyTop = statusTop;
+    for (let n = 0; n < 5; n++) {
+      const scale = Math.min((width - edges.left - edges.right) / 887, (height - edges.bottom - lobbyTop) / 1774);
+      lobbyTop = Math.max(statusTop, capsuleBottom ? capsuleBottom + 8 - 114 * scale : statusTop);
+    }
+    return { width, height, nativeCapsule: true, dpr: Math.min(info.pixelRatio || 1, 3),
+      insets: Object.assign({}, edges, { top: Math.max(statusTop, capsuleBottom ? capsuleBottom + 8 : 0) }),
+      lobbyInsets: Object.assign({}, edges, { top: lobbyTop }) };
+
   }
   return {
     geometry,

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "01-小摊首页.png",
+    "width": 887,
+    "height": 1774,
+    "sha256": "14fb8e20004a8ea4388966448f2938eda2c57e4ac24012e0f621357f5d2b7db9"
+  },
+  {
+    "file": "02-小摊装扮.png",
+    "width": 887,
+    "height": 1774,
+    "sha256": "f7bc933a75d1567c554eef54a3408db23b38332716c8c665d2c9005b22fd2380"
+  },
+  {
+    "file": "03-家常菜谱.png",
+    "width": 887,
+    "height": 1774,
+    "sha256": "5cf1056deefd15da7d8f73ece688909e933e672a8f10ffdd3764e8de2bff02e0"
+  },
+  {
+    "file": "04-夜市活动.png",
+    "width": 887,
+    "height": 1774,
+    "sha256": "093a1a66dcb3293d4e623c21f4a964cb04f3f37e1e1b21ee1cc27cc67198c192"
+  }
+]

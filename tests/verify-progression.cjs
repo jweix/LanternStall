@@ -100,12 +100,13 @@ for (const tab of ['home', 'decor', 'recipes', 'market']) {
   assert.equal(app.hits.filter(h => h.action === 'tab').length >= 4, true);
   for (const h of app.hits) assert(h.rect.every(Number.isFinite));
 }
-assert(texts.includes('小摊') && texts.includes('装扮') && texts.includes('菜谱') && texts.includes('夜市'));
+assert(['小摊', '装扮', '菜谱', '夜市'].every(name => app.hits.some(h => h.action === 'tab' && h.label === name)), 'Artwork navigation must retain semantic actions for keyboard and touch');
 const firstUi = new App({ recipes, layout, now: () => now }); firstUi.handle('play'); solve(firstUi);
 firstUi.hits = renderer.draw(firstUi.view(), { width: 928, height: 1695, dpr: 1 });
 assert(firstUi.pointer({ x: 464, y: 1118 })); assert.equal(firstUi.screen, 'home'); assert.equal(firstUi.modal.type, 'first');
 firstUi.hits = renderer.draw(firstUi.view(), { width: 928, height: 1695, dpr: 1 });
-assert(firstUi.pointer({ x: 464, y: 1290 })); assert.equal(firstUi.tab, 'decor'); assert.equal(firstUi.selection, 'warm-lamp');
+const tutorialHit = firstUi.hits.find(h => h.action === 'tutorial'); assert(tutorialHit);
+assert(firstUi.pointer({ x: tutorialHit.rect[0] + tutorialHit.rect[2] / 2, y: tutorialHit.rect[1] + tutorialHit.rect[3] / 2 })); assert.equal(firstUi.tab, 'decor'); assert.equal(firstUi.selection, 'warm-lamp');
 assert.equal(firstUi.modal, null);
 const savedOutfit = JSON.stringify(app.profile.state.equipped), savedCoins = app.profile.state.coins;
 app.handle('tab', 'decor'); app.handle('sub', 'themes'); app.handle('theme', 'sea');

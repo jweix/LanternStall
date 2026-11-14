@@ -17,6 +17,7 @@ result = {}
 
 def save(name, image):
     target = OUT / (name + '.png')
+    image = image.quantize(colors=256, method=Image.Quantize.FASTOCTREE)
     image.save(target, optimize=True)
     result[name] = {'path': 'assets/' + target.name, 'width': image.width, 'height': image.height}
 
@@ -58,5 +59,6 @@ for asset in manifest['assets']:
         save(name, source)
 
 result.update(runpy.run_path(str(ROOT / 'scripts/prepare-stall-assets.py'))['prepare'](ROOT, OUT))
+result.update(runpy.run_path(str(ROOT / 'scripts/prepare-lobby-assets.py'))['prepare'](ROOT, OUT))
 (OUT / 'asset-index.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print('Prepared %d shared runtime images' % len(result))

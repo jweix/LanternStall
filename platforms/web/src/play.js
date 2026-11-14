@@ -23,7 +23,8 @@
     const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });
     canvas.addEventListener('pointerdown', event => {
       const r = canvas.getBoundingClientRect();
-      app.pointer({ x: (event.clientX - r.left) * 928 / r.width, y: (event.clientY - r.top) * 1695 / r.height });
+      const size = renderer.designSize(app.screen);
+      app.pointer({ x: (event.clientX - r.left) * size.width / r.width, y: (event.clientY - r.top) * size.height / r.height });
     });
     document.addEventListener('visibilitychange', () => app.setHidden(document.hidden));
     app.setHidden(document.hidden);
@@ -47,12 +48,12 @@
           }
         }
       }
-      const signature = JSON.stringify(list);
+      const signature = app.screen + JSON.stringify(list);
       if (signature === previousControls) return; previousControls = signature;
       controls.replaceChildren(...list.map(hit => {
         const button = document.createElement('button'); button.type = 'button'; button.textContent = hit.label;
-        const [x, y, w, h] = hit.rect;
-        Object.assign(button.style, { left: x / 928 * 100 + '%', top: y / 1695 * 100 + '%', width: w / 928 * 100 + '%', height: h / 1695 * 100 + '%' });
+        const [x, y, w, h] = hit.rect, size = renderer.designSize(app.screen);
+        Object.assign(button.style, { left: x / size.width * 100 + '%', top: y / size.height * 100 + '%', width: w / size.width * 100 + '%', height: h / size.height * 100 + '%' });
         const invoke = event => { event.preventDefault(); app.pointer({ x: x + w / 2, y: y + h / 2 }); };
         button.addEventListener('pointerdown', invoke); button.addEventListener('click', event => { if (event.detail === 0) invoke(event); });
         return button;
@@ -60,7 +61,12 @@
     }
     function frame(ms) {
       if (!document.hidden) {
-        const view = app.frame(ms); app.hits = renderer.draw(view, { width: 928, height: 1695, dpr: 1 }); accessibleControls(view);
+        const view = app.frame(ms), size = renderer.designSize(view.screen);
+        if (canvas.width !== size.width || canvas.height !== size.height) {
+          canvas.width = size.width; canvas.height = size.height; canvas.style.aspectRatio = size.width + '/' + size.height;
+          canvas.style.width = 'min(92vw,420px,calc((100dvh - 40px)*' + size.width + '/' + size.height + '))';
+        }
+        app.hits = renderer.draw(view, { width: size.width, height: size.height, dpr: 1 }); accessibleControls(view);
         const summary = view.toast || (view.screen === 'game' ? view.game.state.status === 'won' ?
           '通关完成，本次入账 ' + (view.settlement?.credited || 0) + ' 金币；钱包 ' + view.state.coins :
           '第 ' + view.game.level + ' 关 · 本局收入 ' + view.game.state.revenue + ' · 钱包 ' + view.state.coins :

@@ -8,7 +8,8 @@ assert.equal(config.appid, 'wx09cfd51ad5bcdb2f'); assert.equal(config.compileTyp
 assert.equal(config.miniprogramRoot, 'game/');
 assert(fs.existsSync(path.join(root, 'game/game.js')), 'Run npm run build:wechat first');
 const index = require('../platforms/wechat/game/asset-index.js');
-assert.equal(Object.keys(index).length, 105);
+assert.deepEqual(index, require('../shared/assets/runtime/asset-index.json'));
+for (const id of ['lobby-brand-logo','lobby-card','lobby-button-primary','lobby-scene-counter','lobby-scene-chef-base']) assert(index[id], 'New shared skin ' + id);
 assert(!Object.keys(index).some(id => id.endsWith('-collected')), 'WeChat must reuse original ingredient sprites for received icons');
 for (const asset of Object.values(index)) assert(fs.existsSync(path.join(root, 'game', asset.path)));
 for (const asset of Object.values(index)) {
@@ -29,7 +30,7 @@ function walk(dir) {
   }
 }
 walk(path.join(root, 'game')); assert(bytes < 4 * 1024 * 1024);
-console.log('PASS self-contained WeChat package, AppID, 105 identical web/WeChat images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
+console.log('PASS self-contained WeChat package, AppID, identical web/WeChat images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
 
 const { createPlatform } = require('../platforms/wechat/src/platform.js');
 const partial = createPlatform({
@@ -75,11 +76,13 @@ let frame;
 global.requestAnimationFrame = fn => { frame = fn; return 1; };
 require('../platforms/wechat/game/game.js');
 setImmediate(() => {
-  assert(frame); frame(0); frame(16); assert(draws >= 8); assert.equal(canvas.width, 1170);
-  assert(labels.includes('小摊') && labels.includes('装扮') && labels.includes('菜谱') && labels.includes('夜市'));
+  assert(frame); frame(0); frame(16); assert(draws > 0); assert.equal(canvas.width, 1170);
+  assert(imageDraws.some(d => d.path === 'assets/lobby-scene-counter.png'), 'Native entry must draw the approved new lobby skin');
   const M = require('../shared/core/motion.js');
   const view = M.viewport(390, 844, { top: 95, bottom: 34 });
-  handlers.touch({ touches: [{ clientX: view.x + 464 * view.scale, clientY: view.y + 1340 * view.scale }] });
+  const homeView = require('../shared/rendering/lobby-ui.js').viewport(390, 844, {top:47,bottom:34});
+  assert(homeView.y + 114*homeView.scale >= 95, 'Native wallet clears the real capsule without wasting the whole header');
+  handlers.touch({ touches: [{ clientX: homeView.x + 447 * homeView.scale, clientY: homeView.y + 1450 * homeView.scale }] });
   frame(20); assert(storage['lantern-stall-v2'].activeAttempt, 'Native home button must start and durably identify a game');
   handlers.touch({ touches: [{ clientX: view.x + 160 * view.scale, clientY: view.y + 53 * view.scale }] });
   labels = []; frame(32); assert(labels.includes('歇一会儿'), 'Native touch must open settings at the drawn coordinates');

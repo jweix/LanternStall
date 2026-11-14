@@ -1,0 +1,255 @@
+{
+  "version": 4,
+  "rule": "Each source file is one logical asset; no page skins or embedded functional controls.",
+  "assets": [
+    {
+      "id": "lobby-button-primary",
+      "file": "source/ui/button-primary.png",
+      "kind": "ui",
+      "maxSize": [
+        669,
+        144
+      ],
+      "slice": [
+        75,
+        45,
+        75,
+        45
+      ]
+    },
+    {
+      "id": "lobby-button-secondary",
+      "file": "source/ui/button-secondary.png",
+      "kind": "ui",
+      "maxSize": [
+        224,
+        72
+      ],
+      "slice": [
+        28,
+        24,
+        28,
+        24
+      ]
+    },
+    {
+      "id": "lobby-tab-active",
+      "file": "source/ui/tab-active.png",
+      "kind": "ui",
+      "maxSize": [
+        217,
+        80
+      ],
+      "slice": [
+        28,
+        24,
+        28,
+        24
+      ]
+    },
+    {
+      "id": "lobby-tab-normal",
+      "file": "source/ui/tab-normal.png",
+      "kind": "ui",
+      "maxSize": [
+        192,
+        77
+      ],
+      "slice": [
+        28,
+        24,
+        28,
+        24
+      ]
+    },
+    {
+      "id": "lobby-card",
+      "file": "source/ui/card.png",
+      "kind": "ui",
+      "maxSize": [
+        398,
+        171
+      ],
+      "slice": [
+        28,
+        24,
+        28,
+        24
+      ]
+    },
+    {
+      "id": "lobby-scene-chef",
+      "file": "source/scene/scene-chef.png",
+      "kind": "scene",
+      "maxSize": [
+        420,
+        450
+      ]
+    },
+    {
+      "id": "lobby-scene-counter",
+      "file": "source/scene/scene-counter.png",
+      "kind": "scene",
+      "maxSize": [
+        850,
+        650
+      ]
+    },
+    {
+      "id": "lobby-scene-awning",
+      "file": "source/scene/scene-awning.png",
+      "kind": "scene",
+      "maxSize": [
+        850,
+        300
+      ]
+    },
+    {
+      "id": "lobby-scene-stool",
+      "file": "source/scene/scene-stool.png",
+      "kind": "scene",
+      "maxSize": [
+        220,
+        250
+      ]
+    },
+    {
+      "id": "lobby-content-panel",
+      "file": "source/ui/content-panel.png",
+      "kind": "ui",
+      "maxSize": [
+        640,
+        1000
+      ],
+      "slice": [
+        52,
+        170,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "lobby-brand-logo",
+      "file": "source/brand/brand-logo.png",
+      "kind": "brand",
+      "maxSize": [
+        574,
+        215
+      ]
+    },
+    {
+      "id": "lobby-header-awning",
+      "file": "source/brand/header-awning.png",
+      "kind": "brand",
+      "maxSize": [
+        887,
+        57
+      ]
+    },
+    {
+      "id": "lobby-coin",
+      "file": "source/icons/coin.png",
+      "kind": "icon",
+      "maxSize": [
+        53,
+        50
+      ]
+    },
+    {
+      "id": "lobby-lamp-base",
+      "file": "source/scene/lamp-base.png",
+      "kind": "scene",
+      "maxSize": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "lobby-lamp-warm",
+      "file": "source/scene/lamp-warm.png",
+      "kind": "scene",
+      "maxSize": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "lobby-lamp-bamboo",
+      "file": "source/scene/lamp-bamboo.png",
+      "kind": "scene",
+      "maxSize": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "lobby-lamp-sea",
+      "file": "source/scene/lamp-sea.png",
+      "kind": "scene",
+      "maxSize": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "lobby-lamp-festival",
+      "file": "source/scene/lamp-festival.png",
+      "kind": "scene",
+      "maxSize": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "lobby-wood-grain",
+      "file": "source/ui/wood-grain.png",
+      "kind": "texture",
+      "maxSize": [
+        128,
+        128
+      ]
+    },
+    {
+      "id": "lobby-icon-sound",
+      "file": "source/icons/sound.png",
+      "kind": "icon",
+      "maxSize": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "lobby-icon-settings",
+      "file": "source/icons/settings.png",
+      "kind": "icon",
+      "maxSize": [
+        64,
+        64
+      ]
+    },
+    {
+      "id": "lobby-environment-night",
+      "file": "source/scene/environment-night.jpg",
+      "kind": "environment",
+      "format": "jpeg",
+      "maxSize": [
+        1000,
+        800
+      ]
+    }
+  ],
+  "generation": {
+    "mode": "built-in image_gen",
+    "prompts": {
+      "chef": "Use case: stylized-concept. Asset type: ONE independent production game sprite for a modular Chinese night-market game scene, NOT a UI page, NOT a screenshot, NOT an atlas or collage. Input image1 is the visual/style reference only: match its exact lovable rounded 2.5D painted toy-like rendering, cream highlights, rich honey/caramel wood where appropriate, warm gentle lighting, soft detailed materials and clean silhouette. Need a genuinely transparent background with no scene, no white matte, no checkerboard, no interface, no labels. Entire single object visible with modest transparent padding. Keep the close-front view with a slight view down matching the reference. Do not include any neighboring objects or controls. Subject: the SAME cheerful chubby young boy chef from image1, waist-up only, large cream puffy chef hat, brown short hair, round cheeks, simple warm smile, cream chef jacket and red apron with red straps. He leans very slightly forward as if cooking behind a counter. Image-left arm holds a single metal spatula raised at chest height; image-right hand gently extends sideways/down as if resting near a separately rendered wok handle. Chef+spatula is one character sprite. NO wok, NO pan, NO food, NO counter, NO stove, NO lantern, NO feet, no whole stall. Half-body cut at waist, no artificial rectangular bottom plate. Preserve original face/hat/apron personality, not a new cartoon character. This will be layered behind an independent wood counter and independent wok.",
+      "counter": "Use case: stylized-concept. Asset type: ONE independent production game sprite for a modular Chinese night-market game scene, NOT a UI page, NOT a screenshot, NOT an atlas or collage. Input image1 is the visual/style reference only: match its exact lovable rounded 2.5D painted toy-like rendering, cream highlights, rich honey/caramel wood where appropriate, warm gentle lighting, soft detailed materials and clean silhouette. Need a genuinely transparent background with no scene, no white matte, no checkerboard, no interface, no labels. Entire single object visible with modest transparent padding. Keep the close-front view with a slight view down matching the reference. Do not include any neighboring objects or controls. Subject: ONE EMPTY fixed wooden food-stall structure: wide rounded honeywood serving counter, shallow carved front with three inset curved panels, thick beveled top with tiny empty inset metal cooking surface at image-right; two wood support posts rise from the left/right ends to support a separately rendered canopy. The structure's OUTER bounding silhouette width:height should be approximately1.5:1 (wider and less tall than the old reference counter) matching the large kiosk in image1. Lower cabinet about40% height, exposed posts about60%. Completely transparent opening between posts above worktop; no wall inside the opening. NO canopy, NO roof, NO sign, NO lamps, NO chef, NO stools, NO food, NO plant, NO utensils, NO text, no UI. Complete entire structure and both posts. All fixed wood parts are one logical counter asset. Do not add a wood panel across the upper posts.",
+      "awning": "Use case: stylized-concept. Asset type: ONE independent production game sprite for a modular Chinese night-market game scene, NOT a UI page, NOT a screenshot, NOT an atlas or collage. Input image1 is the visual/style reference only: match its exact lovable rounded 2.5D painted toy-like rendering, cream highlights, rich honey/caramel wood where appropriate, warm gentle lighting, soft detailed materials and clean silhouette. Need a genuinely transparent background with no scene, no white matte, no checkerboard, no interface, no labels. Entire single object visible with modest transparent padding. Keep the close-front view with a slight view down matching the reference. Do not include any neighboring objects or controls. Subject: ONE standalone wide red-and-cream striped fabric market awning exactly like the large main stall canopy in image1. Very WIDE and LOW silhouette, width:height about4:1, thick padded rounded scalloped front valance, red top cylindrical rail, clear broad alternating cream/red stripes, slightly sloped roof fabric, cozy tactile folds and soft curved edging. NO wood counter, NO support posts, NO plaque, NO lettering, NO ropes, NO chef, NO lightbulbs, NO lanterns, no food. The canopy ends are complete, not cropped. Transparent beneath and around the cloth. It will mount to a separate counter asset.",
+      "stool": "Use case: stylized-concept. Asset type: ONE independent production game sprite for a modular Chinese night-market game scene, NOT a UI page, NOT a screenshot, NOT an atlas or collage. Input image1 is the visual/style reference only: match its exact lovable rounded 2.5D painted toy-like rendering, cream highlights, rich honey/caramel wood where appropriate, warm gentle lighting, soft detailed materials and clean silhouette. Need a genuinely transparent background with no scene, no white matte, no checkerboard, no interface, no labels. Entire single object visible with modest transparent padding. Keep the close-front view with a slight view down matching the reference. Do not include any neighboring objects or controls. Subject: ONE small rounded red molded plastic night-market stool, the same friendly substantial stool seen at lower-left in image1. Front3/4 view with slight view onto its rounded-square seat and circular hole, four sturdy short tapering legs with rounded rectangular side openings, warm red material, cream soft highlights, subtle wear-free tactile surface. Complete stool only, no table, no second stool, no floor. Transparent around the stool and through leg/seat holes. A minimal soft contact shadow only, not a large opaque rectangle.",
+      "panel": "Use case: stylized-concept. Asset type: ONE independent production game sprite for a modular Chinese night-market game scene, NOT a UI page, NOT a screenshot, NOT an atlas or collage. Input image1 is the visual/style reference only: match its exact lovable rounded 2.5D painted toy-like rendering, cream highlights, rich honey/caramel wood where appropriate, warm gentle lighting, soft detailed materials and clean silhouette. Need a genuinely transparent background with no scene, no white matte, no checkerboard, no interface, no labels. Entire single object visible with modest transparent padding. Keep the close-front view with a slight view down matching the reference. Do not include any neighboring objects or controls. Subject: ONE EMPTY reusable game UI container panel, a shallow honeywood beveled outer frame surrounding a smooth warm cream parchment center. Tall rounded rectangle with a gently arched crown at the TOP CENTER and soft shoulders, like the main content board in the reference. Overall width:height about0.65:1. Thin layered bright cream inner rim, rounded lower corners, subtle honeywood edge and tiny soft shadow; keep heavy wood along outer perimeter only, blank cream center. All interior pixels completely free of content. NO text, NO title, NO icons, NO buttons, NO tabs, NO rows, NO cards, NO list slots, NO scene, NO character, NO hanging signs. This is a SINGLE nine-slice panel background, NOT a full screen. Top curved cap, side rails and bottom corners need clear clean shape; center soft low-contrast cream texture suitable for game text. Truly transparent outside panel.",
+      "lamp-sea-cleanup": "Use case: background-extraction. Asset type: ONE independent transparent game sprite. Input image is the edit target. Preserve the same small rounded turquoise Chinese lantern with golden flower motif, gold ribs, top ring and blue tassel. Remove ALL cream background and all stray rectangles around and below it, replacing with genuine alpha transparency. Keep the entire object intact including tassel, top loop, silhouette, color, warm 2.5D painterly game rendering and proportions. No scenery, no panel, no shadow rectangle, no checkerboard, no text, no new objects. Output only one lantern, centered with modest transparent padding. The production image must be clean outside the silhouette."
+    },
+    "counterCorrection": "Removed canopy and all background; only counter, fixed posts and metal worktop remain, with alpha opening.",
+    "headerDerivation": "Isolated valance from the standalone scene-awning source; no page pixels.",
+    "woodDerivation": "Pure wood material crop excluding the cabinet edge."
+  }
+}

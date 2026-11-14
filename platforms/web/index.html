@@ -7,7 +7,7 @@
   <style>
     *{box-sizing:border-box}body{margin:0;background:#142f2f;color:#fff0d3;font:14px/1.6 system-ui,sans-serif}
     main{display:flex;align-items:center;justify-content:center;gap:40px;min-height:100dvh;padding:20px}
-    canvas{display:block;width:min(92vw,420px,calc((100dvh - 40px)*928/1695));height:auto;aspect-ratio:928/1695;border-radius:18px;box-shadow:0 20px 80px #0006;touch-action:none}
+    canvas{display:block;width:min(92vw,420px,calc((100dvh - 40px)*887/1774));height:auto;aspect-ratio:887/1774;border-radius:18px;box-shadow:0 20px 80px #0006;touch-action:none}
     .game-wrap{position:relative;flex:none}#controls{position:absolute;inset:0;pointer-events:none}#controls button{position:absolute;pointer-events:auto;opacity:0;border:0;background:#fff0d5;color:#66432c;border-radius:12px;font:inherit;touch-action:manipulation}#controls button:focus-visible{opacity:.92;outline:3px solid #e9ae58;outline-offset:2px}
     aside{max-width:270px}h1{font-size:28px;margin:0 0 4px}p{color:#c6d1ba}a{color:#ffd28a}nav{display:grid;gap:8px}
     #status{color:#f5ca80}small{color:#a3b8a9}@media(max-width:760px){main{padding:12px;gap:12px;flex-direction:column}aside{max-width:420px}h1{font-size:21px}aside p{margin:6px 0}nav{display:flex;flex-wrap:wrap;gap:16px}}
@@ -15,7 +15,7 @@
 </head>
 <body>
 <main>
-  <div class="game-wrap"><canvas id="game" width="928" height="1695" aria-label="灯火大排档试玩，闯关、装扮、菜谱与夜市">请使用支持 Canvas 的浏览器。</canvas><div id="controls" aria-label="游戏操作"></div></div>
+  <div class="game-wrap"><canvas id="game" width="887" height="1774" aria-label="灯火大排档试玩，闯关、装扮、菜谱与夜市">请使用支持 Canvas 的浏览器。</canvas><div id="controls" aria-label="游戏操作"></div></div>
   <aside><h1>灯火大排档</h1><small>夜市小炒 · 可操作试玩</small>
     <p>点亮牌，把食材放进 7 格备菜栏。配齐订单就自动开炒，上菜获得金币，收入记录本关的累计所得。</p>
     <p>用完全部食材，等最后一道菜上桌，即可通关。</p>
@@ -38,6 +38,10 @@
 <script src="../../shared/rendering/stall-art.js"></script>
 <script src="../../shared/rendering/approved-ui.js"></script>
 <script src="../../shared/rendering/scene.js"></script>
+<script src="../../shared/data/lobby-layout.js"></script>
+<script src="../../shared/rendering/lobby-components.js"></script>
+<script src="../../shared/rendering/lobby-scene.js"></script>
+<script src="../../shared/rendering/lobby-ui.js"></script>
 <script src="../../shared/rendering/stall-scene.js"></script>
 <script src="src/play.js"></script>
 </body>

@@ -46,9 +46,12 @@
     setHidden(value) { this.hidden = !!value; if (this.session) this.session.setHidden(value); }
     view() {
       const state = this.profile.state;
+      const themePreview = this.screen === 'home' && this.tab === 'decor' && this.sub.decor === 'themes' && !this.selection;
+      const previewEquipment = themePreview ? Object.fromEntries(C.slots.map(slot => [slot, this.theme + '-' + slot])) :
+        this.preview ? Object.assign({}, state.equipped, { [C.byId[this.preview].slot]: this.preview }) : null;
       return { screen: this.screen, tab: this.tab, sub: this.sub, category: this.category, theme: this.theme, page: this.page,
         preview: this.preview, selection: this.selection, modal: this.modal, state, nextLevel: this.profile.nextLevel, settlement: this.settlement,
-        daily: this.profile.daily(), appearance: this.profile.appearance(this.preview ? Object.assign({}, state.equipped, { [C.byId[this.preview].slot]: this.preview }) : null),
+        daily: this.profile.daily(), appearance: this.profile.appearance(previewEquipment), themePreview,
         game: this.session ? Object.assign(this.session.view(), { appearance: this.profile.appearance(), settlement: this.settlement,
           wallet: state.coins, homeEnabled: true, introduceStore: state.cleared.length === 1 && !state.tutorialDone, saveError: !!this.profile.error, sandbox: this.sandbox }) : null,
         toast: this.toast && this.toast.until > (this.options.now ? this.options.now() : Date.now()) ? this.toast.text : '',

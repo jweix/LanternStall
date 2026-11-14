@@ -1,25 +1,32 @@
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./scene.js'), require('../core/motion.js'), require('../data/progression.js'), require('./stall-art.js'));
-  else root.DapaidangStallScene = factory(root.DapaidangScene, root.DapaidangMotion, root.DapaidangProgression, root.DapaidangStallArt);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (Game, M, C, Art) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./scene.js'), require('../core/motion.js'), require('../data/progression.js'), require('./stall-art.js'), require('./approved-ui.js'), require('../data/game-ui.js'));
+  else root.DapaidangStallScene = factory(root.DapaidangScene, root.DapaidangMotion, root.DapaidangProgression, root.DapaidangStallArt, root.DapaidangApprovedUI, root.DapaidangGameUI);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Game, M, C, Art, Approved, UI) {
   'use strict';
   function createRenderer(c, images, catalog) {
     const game = Game.createRenderer(c, images, catalog); let hits, view;
-    const ink = '#68462f', cream = '#fff0d4', muted = '#d3c4a7';
-    function box(x, y, w, h, color, r) { Art.rounded(c, x, y, w, h, r || 20, color); }
+    const ui = Approved.create(c, images, UI);
+    const ink = '#60331b', cream = '#fff5db', muted = '#754323';
+    function box(x, y, w, h, color, r) {
+      if ([cream, '#f7e6c5', '#efd09b', '#f1d7a9'].includes(color)) {
+        ui.panel(x, y, w, h, r || 26);
+        if (color === '#efd09b' || color === '#f1d7a9') { c.strokeStyle = '#d58b40'; c.lineWidth = 4; ui.round(x + 3, y + 3, w - 6, h - 6, r || 26); c.stroke(); }
+      } else Art.rounded(c, x, y, w, h, r || 20, color);
+    }
     function label(t, x, y, size, color, align, width) {
-      c.font = (size >= 30 ? 'bold ' : '') + size + 'px "PingFang SC", "Microsoft YaHei",sans-serif';
+      size = Math.max(26, size);
+      c.font = (size >= 30 ? '700 ' : '600 ') + size + 'px ' + ui.ff;
       let value = String(t); if (width) while (value.length > 1 && c.measureText(value).width > width) value = value.slice(0, -2) + '…';
       c.fillStyle = color || ink; c.textAlign = align || 'left'; c.textBaseline = 'middle'; c.fillText(value, x, y);
     }
     function button(t, rect, action, value, primary, disabled) {
-      const [x, y, w, h] = rect; box(x, y, w, h, disabled ? '#6b7870' : primary ? '#edbc74' : '#f7e6c5', 22);
-      label(t, x + w / 2, y + h / 2, h > 100 ? 37 : 28, disabled ? '#ded9c8' : ink, 'center', w - 22);
+      const [x, y, w, h] = rect; Art.button(c, rect, primary, disabled);
+      label(t, x + w / 2, y + h / 2, h > 100 ? 37 : 29, disabled ? '#8b7058' : ink, 'center', w - 22);
       if (!disabled) hits.push({ rect, action, value, label: t });
     }
     function line(t, y) { label(t, 62, y, 28, muted); }
     function image(id, x, y, w, h) { const im = images[id]; if (!im) return; M.drawContained(c, im, null, x, y, w, h); }
-    function meter(n, max, x, y, w) { box(x, y, w, 10, '#d5c1a1', 5); if (n) box(x, y, Math.max(10, w * Math.min(n / max, 1)), 10, '#bb7950', 5); }
+    function meter(n, max, x, y, w) { box(x, y, w, 12, '#b98956', 6); if (n) { const g = c.createLinearGradient(x, y, x, y + 12); g.addColorStop(0, '#ffe6a2'); g.addColorStop(1, '#d99235'); box(x, y, Math.max(12, w * Math.min(n / max, 1)), 12, g, 6); } }
     function subnav(entries, selected, y, action) {
       const w = 824 / entries.length;
       entries.forEach(([id, name], i) => button(name, [52 + i * w, y, w - 10, 83], action || 'sub', id, selected === id));
@@ -31,26 +38,31 @@
       button('下一页', [598, y, 230, 82], 'page', 1, false, p >= max); return p;
     }
     function header(title, subtitle) {
-      button('设置', [40, 30, 128, 90], 'settings');
-      button('金币 ' + view.state.coins.toLocaleString(), [188, 30, 345, 90], 'ledger');
-      label(title, 54, 185, 49, cream); if (subtitle) label(subtitle, 54, 242, 26, muted, 'left', 820);
+      ui.originalTextureButton({ id: 'settings', x: 123, y: 20, w: 76, h: 70, r: 22 });
+      hits.push({ rect: [123, 20, 76, 70], action: 'settings', label: '设置' });
+      ui.panel(350, 163, 228, 52, 23); ui.drawAsset('coin', 365, 176);
+      label(view.state.coins.toLocaleString(), 551, 189, 30, ink, 'right', 142);
+      hits.push({ rect: [350, 163, 228, 52], action: 'ledger', label: '金币 ' + view.state.coins.toLocaleString() });
+      ui.panel(177, 242, 574, 72, 29);
+      label(title, 464, 276, 41, ink, 'center', 540);
+      if (subtitle) label(subtitle, 464, 331, 26, view.tab === 'home' ? '#fff0cf' : muted, 'center', 820);
     }
     function footer() {
-      box(0, 1505, 928, 190, '#173638', 1);
+      ui.panel(16, 1505, 896, 178, 31, 'wood');
       [['home', '小摊', '开摊与愿望'], ['decor', '装扮', '给小摊换装'], ['recipes', '菜谱', '留下好味道'], ['market', '夜市', '本周与往期']].forEach(([id, name, sub], i) => {
         const x = 24 + i * 226;
-        box(x, 1523, 204, 132, view.tab === id ? '#f4dfb9' : '#294849', 25);
-        label(name, x + 102, 1567, 36, view.tab === id ? ink : cream, 'center');
-        label(sub, x + 102, 1617, 22, view.tab === id ? '#8b674c' : muted, 'center');
+        if (view.tab === id) Art.button(c, [x, 1522, 204, 139], true, false);
+        Art.icon(c, images, id, [x + 64, 1529, 76, 73]);
+        label(name, x + 102, 1630, 36, view.tab === id ? '#7a361e' : '#60331b', 'center');
         hits.push({ rect: [x, 1523, 204, 132], action: 'tab', value: id, label: name });
       });
     }
     function home() {
-      header('一盏灯，一锅家常', '沿河巷 · 第 ' + (Math.floor(view.state.cleared.length / 20) + 1) + ' 章');
-      Art.scene(c, images, view.appearance, [32, 285, 864, 743], { wallet: view.state.coins });
-      hits.push({ rect: [320, 562, 288, 58], action: 'ledger', label: '金币账本' });
-      button('布置小摊', [67, 932, 220, 76], 'tab', 'decor');
-      button('拍张纪念照', [640, 932, 220, 76], 'photo', null, false, view.state.cleared.length < 10);
+      header('我的灯火小摊', '沿河巷 · 第 ' + (Math.floor(view.state.cleared.length / 20) + 1) + ' 章');
+      ui.panel(23, 343, 882, 702, 35, 'wood');
+      Art.scene(c, images, view.appearance, [32, 352, 864, 683]);
+      button('布置小摊', [67, 949, 230, 76], 'tab', 'decor');
+      button('拍张纪念照', [630, 949, 230, 76], 'photo', null, false, view.state.cleared.length < 10);
       const wish = C.byId[view.state.wish], owned = view.state.owned.includes(wish.id);
       box(48, 1053, 832, 186, cream, 30); label('下一件想得到的东西', 76, 1092, 25, '#9b7552');
       label(owned ? '试试另一种搭配吧' : wish.name, 76, 1144, 34, ink, 'left', 560);
@@ -64,48 +76,52 @@
       visible.forEach((item, i) => {
         const x = 54 + i % 2 * 420, yy = y + Math.floor(i / 2) * 126, owned = view.state.owned.includes(item.id);
         box(x, yy, 398, 112, item.id === view.selection ? '#efd09b' : cream, 20);
-        box(x + 18, yy + 23, 53, 62, C.byTheme[item.theme].color, 14);
-        label(item.name, x + 87, yy + 36, 25, ink, 'left', 292);
+        Art.item(c, images, item.slot, item.theme, [x + 12, yy + 10, 76, 90]);
+        label(item.name, x + 99, yy + 36, 26, ink, 'left', 280);
         const status = owned ? (view.state.equipped[item.slot] === item.id ? '已装备' : '已拥有 · 免费换装') : item.source === 'coins' ? (view.state.cleared.length < item.unlock ? '首通' + item.unlock + '关开放' : item.price.toLocaleString() + ' 金币') : item.source === 'event' ? '秋夜灯会活动获得' : '点亮菜谱获得';
-        label(status, x + 87, yy + 79, 23, '#8c694c', 'left', 292);
+        label(status, x + 99, yy + 79, 26, '#875332', 'left', 280);
+        if (view.state.equipped[item.slot] === item.id) ui.check(x + 376, yy + 17, .66);
         hits.push({ rect: [x, yy, 398, 112], action: 'item', value: item.id, label: item.name });
       });
     }
     function decor() {
-      header('给小摊换个模样', '先试装，喜欢的再留下 · 已拥有装扮永久免费换回');
-      subnav([['scene', '场景'], ['kitchen', '厨房'], ['chef', '大厨'], ['themes', '主题']], view.sub.decor, 286);
-      Art.scene(c, images, view.appearance, [116, 391, 696, 424]);
+      header('小摊装扮', '先试装，喜欢的再留下 · 已拥有的可免费换回');
+      subnav([['scene', '场景'], ['kitchen', '厨房'], ['chef', '大厨'], ['themes', '主题']], view.sub.decor, 354);
+      ui.panel(45, 456, 838, 520, 28, 'wood');
+      Art.scene(c, images, view.appearance, [52, 463, 824, 505]);
       let items;
       if (view.sub.decor === 'themes') {
-        subnav(C.themes.filter(t => ['warm', 'bamboo', 'sea', 'festival'].includes(t.id)).map(t => [t.id, t.name]), view.theme, 837, 'theme');
+        subnav(C.themes.filter(t => ['warm', 'bamboo', 'sea', 'festival'].includes(t.id)).map(t => [t.id, t.name]), view.theme, 990, 'theme');
         items = C.items.filter(i => i.theme === view.theme && !i.id.startsWith('recipe-'));
         const n = items.filter(i => view.state.owned.includes(i.id)).length;
-        label('主题收藏 ' + n + '/9 · 3/6/9件留下纪念', 62, 958, 27, muted);
+        label('主题收藏 ' + n + '/9', 770, 1108, 26, muted, 'right');
       } else {
         const slots = view.sub.decor === 'scene' ? ['lamp', 'awning', 'tables', 'ornament', 'menu', 'background'] : view.sub.decor === 'kitchen' ? ['plate', 'wok'] : ['chef'];
         if (!slots.includes(view.category)) view.category = slots[0];
-        subnav(slots.map(s => [s, C.names[C.slots.indexOf(s)]]), view.category, 837, 'category');
+        subnav(slots.map(s => [s, C.names[C.slots.indexOf(s)]]), view.category, 990, 'category');
         items = C.items.filter(i => i.slot === view.category);
       }
-      const selected = C.byId[view.selection] || items.find(i => i.id === view.state.equipped[view.category]) || items[0];
+      const selected = C.byId[view.selection] || (view.sub.decor === 'themes' ? items[0] : items.find(i => i.id === view.state.equipped[view.category])) || items[0];
       if (selected) {
-        label(selected.name + (view.preview ? ' · 试装中' : ''), 62, 1008, 28, cream, 'left', 800);
-        if (view.state.owned.includes(selected.id)) button('换上这一件', [56, 1060, 520, 92], 'equip', selected.id, true);
-        else if (selected.source === 'coins') button('购买并装备 · ' + selected.price, [56, 1060, 520, 92], 'buy', selected.id, true);
-        else button(selected.source === 'event' ? '到夜市获取' : '查看菜谱收藏', [56, 1060, 520, 92], 'tab', selected.source === 'event' ? 'market' : 'recipes', true);
-        if (selected.source === 'coins' && !view.state.owned.includes(selected.id)) button('设为愿望', [596, 1060, 272, 92], 'wish', selected.id);
+        label(view.themePreview ? C.byTheme[view.theme].name + ' · 整套预览' : selected.name + (view.preview ? ' · 试装中' : ''), 62, 1108, 30, ink, 'left', view.sub.decor === 'themes' ? 570 : 800);
+        if (view.themePreview) button('选一件，看看搭配', [56, 1145, 520, 92], 'item', selected.id, true);
+        else if (view.state.owned.includes(selected.id)) button('换上这一件', [56, 1145, 520, 92], 'equip', selected.id, true);
+        else if (selected.source === 'coins') button('购买并装备 · ' + selected.price, [56, 1145, 520, 92], 'buy', selected.id, true);
+        else button(selected.source === 'event' ? '到夜市获取' : '查看菜谱收藏', [56, 1145, 520, 92], 'tab', selected.source === 'event' ? 'market' : 'recipes', true);
+        if (!view.themePreview && selected.source === 'coins' && !view.state.owned.includes(selected.id)) button('设为愿望', [596, 1145, 272, 92], 'wish', selected.id);
       }
-      itemList(items, 1180, 2);
+      itemList(items, 1255, 2);
     }
     function recipes() {
-      header('记下每一道家常', '菜谱 ' + Object.keys(view.state.dishes).length + ' / 20 · 好味道会慢慢积累');
-      subnav([['recipes', '菜谱'], ['achievements', '成就'], ['photos', '相册']], view.sub.recipes, 286);
+      header('小摊家常菜谱', '点亮 ' + Object.keys(view.state.dishes).length + ' / 20 道 · 好味道会慢慢积累');
+      subnav([['recipes', '菜谱'], ['achievements', '成就'], ['photos', '相册']], view.sub.recipes, 354);
       if (view.state.cleared.length < 3) { line('首通3关后打开菜谱，之前的制作记录已经记下。', 470); button('继续开摊', [160, 610, 608, 110], 'play', null, true); return; }
       if (view.sub.recipes === 'recipes') {
         const p = pages(catalog.recipes.length, 6, 1387);
         catalog.recipes.slice(p * 6, p * 6 + 6).forEach((recipe, i) => {
-          const x = 54 + i % 2 * 420, y = 407 + Math.floor(i / 2) * 304, count = view.state.dishes[recipe.id] || 0;
+          const x = 54 + i % 2 * 420, y = 463 + Math.floor(i / 2) * 297, count = view.state.dishes[recipe.id] || 0;
           box(x, y, 398, 280, cream, 27);
+          ui.drawAsset(count ? 'clip-green' : 'clip-blue', x + 184, y - 12);
           if (count) image(recipe.id, x + 55, y + 18, 288, 151); else label('待上桌', x + 199, y + 92, 40, '#b29b78', 'center');
           label(count ? recipe.displayName || recipe.name : '未点亮的家常菜', x + 199, y + 197, 29, ink, 'center', 364);
           label(count ? count + '份 · ' + (count >= 100 ? '小摊招牌' : count >= 30 ? '拿手家常' : '初次上桌') : '首次做成并结算即点亮', x + 199, y + 245, 23, '#977151', 'center');
@@ -118,9 +134,9 @@
           const owned = C.items.filter(i => i.theme === theme.id && i.source === 'coins' && view.state.owned.includes(i.id)).length;
           entries.push([theme.name + ' ' + owned + '/9', '3件贴纸 · 6件相框 · 9件纪念照', owned >= 3]);
         }
-        entries.forEach(([title, desc, done], i) => { const y = 418 + i * 145; box(54, y, 820, 126, cream); label(title, 82, y + 38, 31); label(desc, 82, y + 87, 25, '#916949'); label(done ? '已达成' : '积累中', 838, y + 38, 26, '#8a684b', 'right'); });
+        entries.forEach(([title, desc, done], i) => { const y = 463 + i * 145; box(54, y, 820, 126, cream); label(title, 82, y + 38, 31); label(desc, 82, y + 87, 26, '#805332'); label(done ? '已达成' : '积累中', 838, y + 38, 26, '#805332', 'right'); if (done) ui.check(718, y + 38, .7); });
       } else {
-        button('留住现在的小摊', [130, 407, 668, 105], 'photo', null, true, view.state.cleared.length < 10);
+        button('留住现在的小摊', [130, 463, 668, 90], 'photo', null, true, view.state.cleared.length < 10);
         if (!view.state.photos.length && !view.memories.length) { line('首通10关后可以拍照，照片会保留当时的装扮。', 590); line('主题收藏、章节与菜谱纪念也会留在这里。', 644); }
         const photos = view.state.photos.slice().reverse().concat(view.memories.map(m => ({ memory: m, id: m.id }))), p = pages(photos.length, 4, 1387);
         photos.slice(p * 4, p * 4 + 4).forEach((photo, i) => {
@@ -135,23 +151,24 @@
     }
     function appearance(equipped) { return Object.fromEntries(C.slots.map(slot => [slot, C.byTheme[C.byId[equipped[slot]].theme]])); }
     function market() {
-      header('夜市里的新盼头', '正常闯关累计进度 · 已开启的活动册永久保留');
-      subnav([['current', '当期'], ['archive', '往期'], ['daily', '每日']], view.sub.market, 286);
+      header('灯火夜市', '闯关累计进度 · 已开启的活动册永久保留');
+      subnav([['current', '当期'], ['archive', '往期'], ['daily', '每日']], view.sub.market, 354);
       if (view.state.cleared.length < 5) { line('首通5关后参加夜市活动。', 470); button('继续开摊', [160, 610, 608, 110], 'play', null, true); return; }
       if (view.sub.market === 'daily') {
-        label('今天开摊 ' + view.daily.wins + ' 局', 62, 443, 43, cream);
+        label('今天开摊 ' + view.daily.wins + ' 局', 62, 479, 43, ink);
         [['每日首胜', '150 金币', view.daily.wins >= 1], ['每日完成三局', '150 金币', view.daily.wins >= 3], ['每日首次重玩', '200 金币', view.daily.practice]].forEach(([title, reward, done], i) => {
-          const y = 510 + i * 166; box(54, y, 820, 144, cream); label(title, 82, y + 43, 32); label(reward, 82, y + 99, 27, '#997049'); label(done ? '已自动入账' : '待完成', 840, y + 70, 27, '#8b694c', 'right');
+          const y = 548 + i * 166; box(54, y, 820, 144, cream); label(title, 82, y + 43, 32); label(reward, 82, y + 99, 27, '#875332'); label(done ? '已自动入账' : '待完成', 840, y + 70, 27, '#805332', 'right'); if (done) ui.check(634, y + 70, .75);
         });
         line('夜市今日进度 ' + view.daily.eventWins + '/3', 1072); line('累计营业 ' + view.state.daysOpen + ' 天 · 不要求连续登录', 1142); line('每日奖励按北京时间更新，失败不消耗金币。', 1212);
         return;
       }
-      label(C.event.name, 62, 435, 48, cream); line(view.sub.market === 'archive' ? '活动册一直在这里，选中后接着攒。' : '四册集齐，得到秋夜大厨服装。', 491);
+      label(C.event.name, 62, 480, 43, ink); line(view.sub.market === 'archive' ? '活动册一直在这里，选中后接着攒。' : '四册集齐，得到秋夜大厨服装。', 526);
       C.event.books.forEach((name, i) => {
-        const y = 548 + i * 183, n = view.state.activity[i], active = view.state.activeBook === i;
+        const y = 574 + i * 183, n = view.state.activity[i], active = view.state.activeBook === i;
         box(54, y, 820, 161, active ? '#f1d7a9' : cream, 25);
-        label(name, 82, y + 36, 32); label(n + '/14 · ' + (n >= 14 ? '本册已完成' : active ? '正在累计' : '选择后累计'), 82, y + 83, 25, '#946b49');
-        meter(n, 14, 82, y + 127, 514);
+        Art.icon(c, images, 'market', [70, y + 16, 60, 102], i === 0 ? 'warm' : ['base', 'bamboo', 'sea', 'festival'][i]);
+        label(name, 147, y + 36, 34); label(n + '/14 · ' + (n >= 14 ? '本册已完成' : active ? '正在累计' : '选择后累计'), 147, y + 83, 26, '#875332');
+        meter(n, 14, 147, y + 127, 449);
         button(view.released[i] ? active ? '已选中' : '选这一本' : '第' + (i + 1) + '周开放', [628, y + 39, 214, 84], 'book', i, active, !view.released[i]);
       });
       line('3进度贴纸 · 6进度小件 · 10进度相框 · 14进度大件', 1332);
@@ -159,8 +176,9 @@
     }
     function modal() {
       const m = view.modal; if (!m) return;
-      hits = []; c.fillStyle = '#102627d9'; c.fillRect(0, 0, 928, 1695);
-      box(68, 276, 792, 1144, cream, 42); button('关闭', [687, 306, 134, 80], 'close');
+      hits = []; c.fillStyle = '#21180fba'; c.fillRect(0, 0, 928, 1695);
+      ui.panel(55, 263, 818, 1170, 48, 'wood');
+      box(68, 276, 792, 1144, cream, 38); button('关闭', [687, 306, 134, 80], 'close');
       if (m.type === 'purchase') {
         const item = C.byId[m.item]; label('把它带回小摊', 116, 440, 47); label(item.name, 116, 545, 36);
         Art.scene(c, images, view.appearance, [112, 610, 704, 370]);
@@ -211,7 +229,11 @@
       c.setTransform(geometry.dpr, 0, 0, geometry.dpr, 0, 0);
       if (v.screen !== 'game') { c.fillStyle = '#1d3939'; c.fillRect(0, 0, geometry.width, geometry.height); }
       c.save(); c.translate(viewport.x, viewport.y); c.scale(viewport.scale, viewport.scale); c.beginPath(); c.rect(0, 0, 928, 1695); c.clip();
-      if (v.screen !== 'game') { ({ home, decor, recipes, market }[v.tab] || home)(); footer(); }
+      if (v.screen !== 'game') {
+        c.drawImage(images.scene, 0, 0, 928, 1695);
+        if (v.tab !== 'home') { ui.panel(24, 237, 880, 1260, 44, 'wood'); ui.wood(36, 249, 856, 1235); }
+        ({ home, decor, recipes, market }[v.tab] || home)(); footer();
+      }
       else if (v.game.resultReady && v.game.state.status === 'won' && !v.game.panel) {
         if (!v.state.tutorialDone && v.state.cleared.length === 1) hits.push({ rect: catalog.layout.result.nextButton, action: 'leave', label: '回店挑灯串' });
         if (v.adAvailable && v.settlement && !v.settlement.adTaken && v.daily.ads < 3) button('可选视频 · 补贴200', [230, 1342, 468, 85], 'ad');

@@ -4,6 +4,7 @@ Only covered board sprites receive the approved CSS colour matrix. Original
 menu/prep ingredients remain opaque and in their original colours.
 """
 import json
+import runpy
 from pathlib import Path
 from PIL import Image
 
@@ -56,5 +57,6 @@ for asset in manifest['assets']:
     else:
         save(name, source)
 
+result.update(runpy.run_path(str(ROOT / 'scripts/prepare-stall-assets.py'))['prepare'](ROOT, OUT))
 (OUT / 'asset-index.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
 print('Prepared %d shared runtime images' % len(result))

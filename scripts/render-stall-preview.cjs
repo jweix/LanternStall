@@ -24,8 +24,11 @@ if (fs.existsSync(font)) GlobalFonts.registerFromPath(font, 'PingFang SC');
     }
     app.session.advance(10); app.home(); app.modal = null;
   }
+  let purchaseView;
   for (const item of C.items.filter(i => i.theme === 'warm' && i.source === 'coins')) {
-    app.handle('buy', item.id); app.handle('confirm-buy', item.id);
+    app.handle('tab', 'decor'); app.handle('item', item.id); app.handle('buy', item.id);
+    if (item.slot === 'background') purchaseView = app.view();
+    app.handle('confirm-buy', item.id);
     if (!app.profile.state.owned.includes(item.id)) throw Error('Could not buy ' + item.id);
   }
   app.profile.photo(); app.toast = null; app.modal = null;
@@ -40,6 +43,17 @@ if (fs.existsSync(font)) GlobalFonts.registerFromPath(font, 'PingFang SC');
     ctx.font = 'bold 23px "PingFang SC"'; ctx.fillStyle = '#ffebc9'; ctx.textAlign = 'center'; ctx.fillText(['小摊', '装扮', '菜谱', '夜市'][i], 156 + i * 312, 32);
   }
   fs.writeFileSync(path.join(out, 'stall-v1-overview.png'), sheet.toBuffer('image/png'));
+  fs.writeFileSync(path.join(out, 'stall-v2-overview.png'), sheet.toBuffer('image/png'));
+  renderer.draw(purchaseView, { width: 928, height: 1695, dpr: 1 });
+  fs.writeFileSync(path.join(out, 'stall-v2-purchase.png'), canvas.toBuffer('image/png'));
+  const looks = createCanvas(1248, 626), lc = looks.getContext('2d'); lc.fillStyle = '#253b3b'; lc.fillRect(0, 0, 1248, 626);
+  app.handle('tab', 'decor'); app.handle('sub', 'themes');
+  for (const [i, theme] of ['warm', 'bamboo', 'sea', 'festival'].entries()) {
+    app.handle('theme', theme); renderer.draw(app.view(), { width: 928, height: 1695, dpr: 1 });
+    const frozen = await loadImage(canvas.toBuffer('image/png'));
+    lc.drawImage(frozen, i * 312 + 12, 48, 288, 526); lc.font = '700 23px "PingFang SC"'; lc.fillStyle = '#ffebc9'; lc.textAlign = 'center'; lc.fillText(C.byTheme[theme].name, i * 312 + 156, 32);
+  }
+  fs.writeFileSync(path.join(out, 'stall-v2-themes.png'), looks.toBuffer('image/png'));
   app.start(29); renderer.draw(app.view(), { width: 928, height: 1695, dpr: 1 });
   fs.writeFileSync(path.join(out, 'stall-v1-game.png'), canvas.toBuffer('image/png'));
   console.log('Rendered four tabs and equipped real gameplay; 28 engine wins, 9 purchases, balance=' + app.profile.state.coins);

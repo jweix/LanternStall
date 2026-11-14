@@ -107,5 +107,12 @@ assert(firstUi.pointer({ x: 464, y: 1118 })); assert.equal(firstUi.screen, 'home
 firstUi.hits = renderer.draw(firstUi.view(), { width: 928, height: 1695, dpr: 1 });
 assert(firstUi.pointer({ x: 464, y: 1290 })); assert.equal(firstUi.tab, 'decor'); assert.equal(firstUi.selection, 'warm-lamp');
 assert.equal(firstUi.modal, null);
+const savedOutfit = JSON.stringify(app.profile.state.equipped), savedCoins = app.profile.state.coins;
+app.handle('tab', 'decor'); app.handle('sub', 'themes'); app.handle('theme', 'sea');
+assert(app.view().themePreview); assert(C.slots.every(slot => app.view().appearance[slot].id === 'sea'));
+assert.equal(JSON.stringify(app.profile.state.equipped), savedOutfit); assert.equal(app.profile.state.coins, savedCoins);
+app.handle('item', 'sea-lamp'); assert.equal(app.view().themePreview, false); assert.equal(app.view().appearance.lamp.id, 'sea');
+assert.equal(app.view().appearance.awning.id, app.profile.appearance().awning.id, 'A single-item preview must not replace unrelated slots');
+app.handle('tab', 'home'); assert.equal(JSON.stringify(app.profile.state.equipped), savedOutfit);
 assert.equal(C.items.filter(i => i.theme === 'warm').reduce((s, i) => s + i.price, 0), 24000);
 console.log('PASS all four shared Canvas screens, bounded hit coordinates and catalog price budget');

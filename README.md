@@ -34,7 +34,7 @@ npm test
 
 打开微信开发者工具，导入 **`platforms/wechat/`**。已配置 AppID `wx09cfd51ad5bcdb2f`、小游戏类型 `game`，游戏根目录为生成的 `game/`。
 
-微信入口使用 `wx.createCanvas`，没有 WXML、Page 或浏览器 DOM。构建只复制所需公共代码、JSON 和共享运行图（原色食材裁透明留白，成品保留透明画框，背景保留设计分辨率），不包含视频、PDF、原始大图集和离线 base64 预览。当前主包约 **3.28 MiB**，构建强制检查本项目设定的 4 MiB 预算。
+微信入口使用 `wx.createCanvas`，没有 WXML、Page 或浏览器 DOM。构建只复制所需公共代码、JSON 和共享运行图（原色食材裁透明留白，成品保留透明画框，背景保留设计分辨率），不包含视频、PDF、原始大图集和离线 base64 预览。当前主包约 **3.77 MiB**，构建强制检查本项目设定的 4 MiB 预算。
 
 `platforms/wechat/game/` 不提交版本管理，每次修改后重新构建。请修改 `shared/` 和 `platforms/wechat/src/` 的源码。可通过环境变量 `LANTERN_PYTHON` 指定安装了 Pillow 的 Python。
 
@@ -44,7 +44,9 @@ npm test
 npm run serve
 ```
 
-打开 [本机试玩](http://127.0.0.1:4173/platforms/web/)。浏览器版与微信版复用同一套规则、控制、渲染和60张运行图片；启动时自动生成 `shared/assets/runtime/`，无需手动拷贝素材。
+打开 [本机试玩](http://127.0.0.1:4173/platforms/web/)。浏览器版与微信版复用同一套规则、控制、渲染和105张运行图片；启动时自动生成 `shared/assets/runtime/`，无需手动拷贝素材。
+
+四个经营页签沿用闯关的品牌、木纹、奶油卡片与厚按钮。小摊使用独立2.5D图层，支持整套试装与单件混搭；[四页签预览](previews/stall-v2-overview.png)、[主题对比](previews/stall-v2-themes.png)、[素材来源与提示词](shared/assets/stall/README.md)可用于美术交接。
 
 原来的两个离线展示仍可直接双击 `platforms/web/demo/approved-animation.html`、`platforms/web/demo/asset-lab.html` 打开。它们是固定时间轴的视觉参考，结算弹窗也是演示，不能用来判断真实关卡完成条件。
 

@@ -1,0 +1,36 @@
+{
+  "verified_date": "2026-11-16",
+  "build_wechat": {
+    "result": "passed",
+    "bytes": 4161305,
+    "budget": 4194304
+  },
+  "tests": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "browser": {
+    "entry": "/platforms/web/?wardrobe=starter&tab=home",
+    "rare_entry": "/platforms/web/?wardrobe=collection",
+    "verified": [
+      "gold wordmark is separate from environment",
+      "all 4 normal themes have visible quay and neighbours",
+      "inner lanterns and complete steamer rack",
+      "owned component tap only previews",
+      "cancel restores actual outfit",
+      "button confirms component equip",
+      "refresh retains equipped marker",
+      "wallet stayed 40000 during full-profile equip tests",
+      "starter wallet 4976 and 21 clears retained",
+      "collection restored to original star set",
+      "rare food fits actual vessel bounds"
+    ],
+    "wechat_visual_checked": false
+  },
+  "assets_record": "../../shared/assets/lobby/generation-v13.json"
+}

@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-15",
+  "themes": [
+    "暖红",
+    "竹影",
+    "海风",
+    "秋夜"
+  ],
+  "inspectedMaterialThumbnails": 36,
+  "browserInspected": [
+    "warm",
+    "bamboo",
+    "sea",
+    "festival",
+    "chef",
+    "stools",
+    "plant"
+  ],
+  "browserBundle": {
+    "theme": "festival",
+    "owned": 2,
+    "deduction": 3000,
+    "paid": 21000,
+    "walletBefore": 89713,
+    "walletAfter": 68713,
+    "equippedSlots": 9
+  },
+  "themeContainsComponentList": false,
+  "playerSaveTouched": false,
+  "webWechatSharedAssetsAndLogic": true,
+  "wechatPackageMiB": 3.95,
+  "checksPassed": 7
+}

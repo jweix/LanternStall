@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灯火大排档 · 四页视觉对照</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#193737;color:#ffe9c7;font:15px system-ui}header{max-width:1000px;margin:20px auto;text-align:center}h1{font-size:22px}p{color:#c8c6ae}nav{display:flex;gap:10px;justify-content:center;margin:16px}button{border:1px solid #dba96d;background:#ffe6b7;color:#693915;border-radius:10px;padding:9px 24px;font:inherit;cursor:pointer}main{display:flex;gap:24px;justify-content:center;align-items:start;padding:0 16px 24px}figure{margin:0;width:min(43vw,420px)}figcaption{text-align:center;margin-bottom:10px}canvas,img{width:100%;height:auto;display:block;aspect-ratio:887/1774}.wrap{position:relative;touch-action:none}#controls{position:absolute;inset:0;pointer-events:none}#controls button{position:absolute;padding:0;opacity:0;pointer-events:auto;touch-action:none}#controls button:focus-visible{opacity:.9}a{color:#ffd28a}
+#controls button[data-action="scroll-region"]:focus-visible{opacity:1;background:transparent;color:transparent;border-color:transparent;outline:2px solid #e9ae58}
+</style>
+<header><h1>灯火大排档 · 四页视觉对照</h1><p>左侧为可操作的共享渲染，右侧为原视觉稿。布局与美术仍有差异，尚未达到逐像素一致。</p><p>对照使用140次真实通关、9次购买得到的独立回放档案，不读取或写入玩家存档。</p><nav id="tabs"><button data-tab="home">小摊</button><button data-tab="decor">装扮</button><button data-tab="recipes">菜谱</button><button data-tab="market">夜市</button></nav><a href="../../platforms/web/">打开正常 Web 试玩</a></header>
+<main><figure><figcaption>实际共享渲染</figcaption><div class="wrap"><canvas id="game" width="887" height="1774"></canvas><div id="controls"></div></div></figure><figure><figcaption>原视觉稿</figcaption><img id="reference" alt="原视觉稿"></figure></main>
+<script src="../../shared/core/game-core.js"></script>
+<script src="../../shared/core/motion.js"></script>
+<script src="../../shared/core/levels.js"></script>
+<script src="../../shared/data/progression.js"></script>
+<script src="../../shared/core/profile.js"></script>
+<script src="../../shared/data/game-ui.js"></script>
+<script src="../../shared/runtime/game-session.js"></script>
+<script src="../../shared/runtime/stall-app.js"></script>
+<script src="../../shared/rendering/stall-art.js"></script>
+<script src="../../shared/rendering/approved-ui.js"></script>
+<script src="../../shared/rendering/scene.js"></script>
+<script src="../../shared/data/lobby-layout.js"></script>
+<script src="../../shared/data/lobby-font-metrics.js"></script>
+<script src="../../shared/rendering/lobby-components.js"></script>
+<script src="../../shared/rendering/lobby-scene.js"></script>
+<script src="../../shared/rendering/lobby-ui.js"></script>
+<script src="../../shared/rendering/stall-scene.js"></script>
+<script src="../../platforms/web/src/input.js"></script>
+<script>
+(async()=>{
+const [recipes,ingredients,layout,index,saved]=await Promise.all(['../../shared/data/recipes.json','../../shared/data/ingredients.json','../../shared/data/layout.json','../../shared/assets/runtime/asset-index.json','state.json'].map(p=>fetch(p).then(r=>r.json())));
+const images=Object.fromEntries(await Promise.all(Object.entries(index).map(([id,a])=>new Promise((resolve,reject)=>{const im=new Image;im.onload=()=>resolve([id,im]);im.onerror=reject;im.src='../../shared/assets/runtime/'+a.path.split('/').pop();}))));
+const bodyFont=new FontFace('LanternBody','url(../../shared/assets/lobby/fonts/LanternBody.ttf)',{weight:'500'});await bodyFont.load();document.fonts.add(bodyFont);
+const app=new DapaidangApp.App({recipes,layout,data:saved.state,now:()=>saved.now}),canvas=document.querySelector('canvas'),controls=document.querySelector('#controls'),reference=document.querySelector('#reference');
+app.handle("tab","decor");app.handle("sub","themes");const renderer=DapaidangStallScene.createRenderer(canvas.getContext('2d'),images,{recipes,ingredients,layout,assets:index,lobbyBodyFont:'LanternBody'});
+const refs={home:'01-小摊首页.png',decor:'02-小摊装扮.png',recipes:'03-家常菜谱.png',market:'04-夜市活动.png'};let previous='';
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{app.handle('tab',b.dataset.tab);});
+DapaidangWebInput.bind(app,canvas,controls,()=>({width:887,height:1774}));
+function frame(){app.hits=renderer.draw(app.view(),{width:887,height:1774,dpr:1});const signature=JSON.stringify(app.hits);if(previous!==signature){previous=signature;const focused=controls.contains(document.activeElement)?document.activeElement.textContent:null;controls.replaceChildren(...app.hits.map(h=>{const b=document.createElement('button');b.textContent=h.label;b.dataset.action=h.action;const[x,y,w,ht]=h.rect;Object.assign(b.style,{left:x/887*100+'%',top:y/1774*100+'%',width:w/887*100+'%',height:ht/1774*100+'%'});b.onclick=e=>{if(e.detail===0)app.pointer({x:x+w/2,y:y+ht/2});};return b;}));if(focused){const next=Array.from(controls.children).find(b=>b.textContent===focused)||controls.querySelector('[data-action="scroll-region"]');if(next)next.focus({preventScroll:true});}}const file='../../reference/lobby-redesign-2026-11-14/'+refs[app.tab];if(reference.getAttribute('src')!==file)reference.src=file;requestAnimationFrame(frame);}frame();
+})();
+</script></html>

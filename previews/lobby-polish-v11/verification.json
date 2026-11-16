@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-15",
+  "revision": 11,
+  "tests": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "wechatPackageBytes": 4166514,
+  "sharedImageByteEquality": true,
+  "previewPixelsIdenticalAfterOpenClosePartDetails": true,
+  "previewComparisonBox": [
+    157,
+    253,
+    374,
+    224
+  ],
+  "realBrowserOrderPlaytest": {
+    "level": 2,
+    "selectedIngredients": 24,
+    "visibleTables": [
+      "01",
+      "11"
+    ],
+    "visibleCards": 2,
+    "revenue": 422,
+    "walletBeforeAndAfter": 40000,
+    "usedTools": false
+  },
+  "browserChecks": [
+    "默认装扮入口为主题套装并保持当前穿着",
+    "点系列整套预览",
+    "点部件仅打开详情，关闭后预览不变",
+    "单件试搭明确改变一个位置",
+    "已获得部件可单独换上，金币不变",
+    "整套换回恢复全部装备",
+    "竹影、海风、秋夜旧红流苏消除",
+    "首页保留品牌和外侧灯笼，去掉额外棚沿",
+    "真实第2关中间队列结束，剩余卡片左补位"
+  ],
+  "completedOrdersHavePlaceholder": false,
+  "orderCompactionSeconds": 0.18,
+  "wechatVisualInspection": false,
+  "screenshots": [
+    "home.png",
+    "bamboo.png",
+    "sea.png",
+    "festival.png",
+    "rare-overview.png",
+    "part-details.png",
+    "single-part-trial.png",
+    "mixed-equipped.png",
+    "orders-compacted.png"
+  ]
+}

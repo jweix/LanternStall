@@ -242,16 +242,11 @@
       c.save(); if (!view.reducedMotion) c.globalAlpha *= pose.alpha;
       ui.fill(0, 0, W, H, '#21180fba'); c.restore();
       c.save(); if (!view.reducedMotion) { c.globalAlpha *= pose.alpha; c.translate(464, 850); c.scale(pose.scale, pose.scale); c.translate(-464, -850); }
-      const receipt = won && view.settlement ? view.settlement.sandbox ? '试玩关卡 · 不计经营奖励' : '本次入账 +' + view.settlement.credited + ' · 钱包 ' + view.wallet :
-        won && view.saveError ? '存档未成功，点按钮重试结算' : '';
+      const receipt=won&&view.saveError?'存档未成功，点按钮重试结算':Number.isFinite(view.wallet)?'钱包累计 '+view.wallet.toLocaleString():'';
       ui.victory(s.revenue, elapsed, { skipDim: true, won, receipt,
         message: won ? '要继续挑战下一关吗？' : '留意配方，给备菜栏留点空位',
         primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : '再试一次',
         restLabel: view.homeEnabled ? '回小摊看看' : '先休息一下' });
-      if (won && view.settlement && !view.settlement.sandbox) {
-        const r = view.settlement;
-        text(r.rewards.length ? '新收藏：' + r.rewards[0] : r.newly.length ? '点亮 ' + r.newly.length + ' 道家常菜' : '菜谱与夜市进度已记录', 464, 1292, 23, '#97734d');
-      }
       c.restore();
     }
     function draw(view, geometry) {

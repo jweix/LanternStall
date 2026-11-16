@@ -1,0 +1,1279 @@
+{
+  "method": "原稿逻辑对象像素保留；路径只定义透明边界。空白控件与遮挡补底使用单独imagegen编辑。",
+  "assets": [
+    {
+      "name": "sign",
+      "reference": "01-小摊首页.png",
+      "box": [
+        289,
+        401,
+        310,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "awning",
+      "reference": "01-小摊首页.png",
+      "box": [
+        71,
+        449,
+        746,
+        189
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "chef",
+      "reference": "01-小摊首页.png",
+      "box": [
+        359,
+        629,
+        292,
+        261
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "prep-rack",
+      "reference": "01-小摊首页.png",
+      "box": [
+        145,
+        721,
+        180,
+        183
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "prep-rack-preview",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        240,
+        674,
+        139,
+        104
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "stool-left",
+      "reference": "01-小摊首页.png",
+      "box": [
+        135,
+        1019,
+        145,
+        132
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "stool-right",
+      "reference": "01-小摊首页.png",
+      "box": [
+        267,
+        1024,
+        143,
+        130
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "plant",
+      "reference": "01-小摊首页.png",
+      "box": [
+        645,
+        946,
+        156,
+        164
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "plate-dish",
+      "reference": "01-小摊首页.png",
+      "box": [
+        229,
+        865,
+        145,
+        67
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "prepared-food",
+      "reference": "01-小摊首页.png",
+      "box": [
+        247,
+        870,
+        106,
+        49
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "wok",
+      "reference": "01-小摊首页.png",
+      "box": [
+        372,
+        834,
+        219,
+        80
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "wok-food",
+      "reference": "01-小摊首页.png",
+      "box": [
+        407,
+        840,
+        110,
+        32
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "steam",
+      "reference": "01-小摊首页.png",
+      "box": [
+        345,
+        745,
+        65,
+        116
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "fire",
+      "reference": "01-小摊首页.png",
+      "box": [
+        401,
+        894,
+        116,
+        27
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "bulb",
+      "reference": "01-小摊首页.png",
+      "box": [
+        158,
+        631,
+        63,
+        65
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "nav-home",
+      "reference": "01-小摊首页.png",
+      "box": [
+        71,
+        1630,
+        122,
+        70
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "nav-decor",
+      "reference": "01-小摊首页.png",
+      "box": [
+        306,
+        1627,
+        77,
+        78
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "nav-recipes",
+      "reference": "01-小摊首页.png",
+      "box": [
+        511,
+        1627,
+        81,
+        76
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "nav-market",
+      "reference": "01-小摊首页.png",
+      "box": [
+        732,
+        1622,
+        75,
+        86
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "brush",
+      "reference": "01-小摊首页.png",
+      "box": [
+        636,
+        1090,
+        53,
+        64
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "header-awning",
+      "reference": "01-小摊首页.png",
+      "box": [
+        0,
+        0,
+        887,
+        61
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "title-decor",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        285,
+        201,
+        322,
+        74
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "subtitle-decor",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        240,
+        286,
+        408,
+        39
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "title-recipes",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        257,
+        227,
+        378,
+        84
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "title-market",
+      "reference": "04-夜市活动.png",
+      "box": [
+        284,
+        218,
+        318,
+        75
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "label-play",
+      "reference": "01-小摊首页.png",
+      "box": [
+        288,
+        1392,
+        324,
+        79
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "label-decor",
+      "reference": "01-小摊首页.png",
+      "box": [
+        698,
+        1104,
+        140,
+        39
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "label-map",
+      "reference": "01-小摊首页.png",
+      "box": [
+        363,
+        1557,
+        169,
+        35
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "page-prev",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        163,
+        1478,
+        118,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "page-next",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        617,
+        1478,
+        120,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "label-preview",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        81,
+        856,
+        99,
+        39
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "category-lamp",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        84,
+        951,
+        94,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "category-awning",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        244,
+        951,
+        94,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "category-tables",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        404,
+        951,
+        94,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "category-ornament",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        564,
+        951,
+        94,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "category-menu",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        724,
+        951,
+        94,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-home",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        78,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-home-selected",
+      "reference": "01-小摊首页.png",
+      "box": [
+        78,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-decor",
+      "reference": "01-小摊首页.png",
+      "box": [
+        294,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-decor-selected",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        294,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-recipes",
+      "reference": "01-小摊首页.png",
+      "box": [
+        509,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-recipes-selected",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        509,
+        1675,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-market",
+      "reference": "01-小摊首页.png",
+      "box": [
+        722,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "nav-label-market-selected",
+      "reference": "04-夜市活动.png",
+      "box": [
+        722,
+        1707,
+        116,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-0",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        111,
+        698,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-1",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        525,
+        698,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-2",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        111,
+        1015,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-3",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        525,
+        1015,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-4",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        111,
+        1332,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-name-5",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        525,
+        1332,
+        290,
+        47
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "dish-0",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        96,
+        511,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "dish-1",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        504,
+        511,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "dish-2",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        96,
+        828,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "dish-3",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        504,
+        828,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "dish-4",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        96,
+        1145,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "dish-5",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        504,
+        1145,
+        285,
+        181
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "rope",
+      "reference": "01-小摊首页.png",
+      "box": [
+        280,
+        47,
+        23,
+        109
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "lantern-rope",
+      "reference": "01-小摊首页.png",
+      "box": [
+        80,
+        118,
+        18,
+        90
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "brand-compact",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        262,
+        47,
+        363,
+        122
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "coin",
+      "reference": "01-小摊首页.png",
+      "box": [
+        678,
+        119,
+        51,
+        48
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "sound",
+      "reference": "01-小摊首页.png",
+      "box": [
+        40,
+        69,
+        47,
+        39
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "settings",
+      "reference": "01-小摊首页.png",
+      "box": [
+        128,
+        66,
+        44,
+        45
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "cloud",
+      "reference": "01-小摊首页.png",
+      "box": [
+        301,
+        1480,
+        53,
+        26
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "title-cloud",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        177,
+        230,
+        87,
+        37
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "cloud-recipes",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        126,
+        286,
+        88,
+        37
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "cloud-market",
+      "reference": "04-夜市活动.png",
+      "box": [
+        187,
+        244,
+        69,
+        31
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "lamp-red",
+      "reference": "01-小摊首页.png",
+      "box": [
+        23,
+        194,
+        134,
+        189
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "lamp-flower",
+      "reference": "04-夜市活动.png",
+      "box": [
+        87,
+        706,
+        166,
+        291
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "banner-lamp",
+      "reference": "04-夜市活动.png",
+      "box": [
+        553,
+        426,
+        178,
+        239
+      ],
+      "outline": true,
+      "ink": null,
+      "authoringInput": false
+    },
+    {
+      "name": "banner-title",
+      "reference": "04-夜市活动.png",
+      "box": [
+        85,
+        488,
+        352,
+        82
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "banner-subtitle",
+      "reference": "04-夜市活动.png",
+      "box": [
+        100,
+        581,
+        341,
+        38
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "book-0",
+      "reference": "04-夜市活动.png",
+      "box": [
+        331,
+        709,
+        254,
+        67
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "book-1",
+      "reference": "04-夜市活动.png",
+      "box": [
+        235,
+        1072,
+        187,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "book-2",
+      "reference": "04-夜市活动.png",
+      "box": [
+        235,
+        1227,
+        187,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "book-3",
+      "reference": "04-夜市活动.png",
+      "box": [
+        235,
+        1382,
+        187,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-摊位",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        99,
+        364,
+        89,
+        42
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-大厨",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        303,
+        365,
+        85,
+        41
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-场景",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        506,
+        365,
+        86,
+        41
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-主题",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        710,
+        365,
+        86,
+        41
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-菜谱",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        140,
+        402,
+        98,
+        46
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-成就",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        400,
+        405,
+        99,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-相册",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        660,
+        405,
+        99,
+        44
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-当期",
+      "reference": "04-夜市活动.png",
+      "box": [
+        137,
+        335,
+        99,
+        46
+      ],
+      "outline": false,
+      "ink": "light",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-往期",
+      "reference": "04-夜市活动.png",
+      "box": [
+        398,
+        338,
+        101,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "tab-每日",
+      "reference": "04-夜市活动.png",
+      "box": [
+        679,
+        338,
+        101,
+        43
+      ],
+      "outline": false,
+      "ink": "dark",
+      "authoringInput": false
+    },
+    {
+      "name": "primary",
+      "reference": "01-小摊首页.png",
+      "box": [
+        112,
+        1373,
+        662,
+        177
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "secondary",
+      "reference": "01-小摊首页.png",
+      "box": [
+        609,
+        1085,
+        255,
+        84
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "card",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        41,
+        495,
+        394,
+        308
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "tab-active",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        33,
+        342,
+        220,
+        86
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "tab-normal",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        447,
+        343,
+        204,
+        83
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "wish",
+      "reference": "01-小摊首页.png",
+      "box": [
+        29,
+        1180,
+        828,
+        172
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "nav-base",
+      "reference": "01-小摊首页.png",
+      "box": [
+        0,
+        1611,
+        887,
+        163
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "nav-selected",
+      "reference": "01-小摊首页.png",
+      "box": [
+        20,
+        1624,
+        215,
+        137
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "panel-decor",
+      "reference": "02-小摊装扮.png",
+      "box": [
+        0,
+        170,
+        887,
+        1438
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "panel-recipes",
+      "reference": "03-家常菜谱.png",
+      "box": [
+        0,
+        188,
+        887,
+        1393
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "panel-market",
+      "reference": "04-夜市活动.png",
+      "box": [
+        0,
+        185,
+        887,
+        1427
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "banner",
+      "reference": "04-夜市活动.png",
+      "box": [
+        24,
+        426,
+        837,
+        239
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    },
+    {
+      "name": "counter",
+      "reference": "01-小摊首页.png",
+      "box": [
+        76,
+        620,
+        735,
+        499
+      ],
+      "outline": false,
+      "ink": null,
+      "authoringInput": true
+    }
+  ]
+}

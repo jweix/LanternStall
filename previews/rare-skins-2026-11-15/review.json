@@ -1,0 +1,53 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "status": "concept-art-only",
+  "prompts": "prompts.json",
+  "runtimeIntegrated": false,
+  "concepts": [
+    {
+      "name": "星河琉璃",
+      "image": "01-starry-glaze.png",
+      "direction": "Indigo, jade glaze, ivory and brass; elevated starlit night market, curved glazed eaves, octagonal palace lanterns and restrained constellation details.",
+      "components": [
+        "New mountain terrace, sky, bridge and distant night market",
+        "Blue-jade glazed curved roof and indigo/brass fascia",
+        "Matching pair of warm octagonal glass lanterns",
+        "Indigo chef apron",
+        "Matching round wood stools with pale glazed seats",
+        "Indigo constellation-border tablecloth",
+        "Jade constellation plant pot",
+        "Indigo star-topped menu stand",
+        "Scalloped ivory/jade/gold star-pattern plate",
+        "Dark iron wok with coordinated indigo/brass handle"
+      ]
+    },
+    {
+      "name": "柿灯丰年",
+      "image": "02-persimmon-harvest.png",
+      "direction": "Persimmon orange, oatmeal linen, leaf green and warm wood; autumn village night market and handcrafted woven canopy.",
+      "components": [
+        "New autumn mountain village, stone lanes, persimmon tree and market",
+        "Woven arched bamboo/reed canopy with embroidered linen valance",
+        "Matching pair of persimmon-shaped warm lanterns",
+        "Oatmeal/terracotta chef apron with leaf-green straps",
+        "Matching square wood stools with woven seat pads",
+        "Oatmeal tablecloth with terracotta border and persimmon embroidery",
+        "Cream ceramic pot with leaf lip and persimmon motif",
+        "Warm wood calyx-topped menu stand",
+        "Soft-square ivory serving plate with leaf-green edge",
+        "Dark iron wok with wrapped warm handle and brass loop"
+      ]
+    }
+  ],
+  "visualReview": [
+    "Both concepts include a complete large hero scene and four readable detail studies.",
+    "Environment, roof silhouette, lamps, apron, stools, pot, menu, plate and wok details differ visibly from the baseline.",
+    "Hero props and lower studies share matching shapes, colors and motifs.",
+    "Both lamps, both stools and the left ingredient prep rack are present.",
+    "Food colors, cream chef clothing, friendly face and warm night-market illumination are retained.",
+    "Plate shapes and rim decoration are visible at large scale in the detail strip.",
+    "Tablecloths cover the tabletop corner and front rim in the furnishing study.",
+    "These boards are art direction, not separated transparent assets or evidence of gameplay integration.",
+    "No purchase rules, unlock thresholds, economy or save data were changed."
+  ]
+}

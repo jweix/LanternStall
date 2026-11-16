@@ -1,0 +1,52 @@
+{
+  "revision": 12,
+  "date": "2026-11-15",
+  "tests": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "wechatPackageBytes": 4170551,
+  "sharedAssetBytesIdentical": true,
+  "rareTabs": [
+    "珍藏主题",
+    "拥有的"
+  ],
+  "ownedGroups": [
+    "星河琉璃",
+    "柿灯丰年",
+    "菜谱赠礼"
+  ],
+  "checks": [
+    "主题卡点击保留列表并整套试穿",
+    "试穿不扣钱、不发未解锁部件、不改装备",
+    "拥有的只展示已获得珍藏，按主题与部位顺序排列",
+    "拥有部件点击立即保存单件替换，其余位置保持原样",
+    "滚动不会替换部件",
+    "存储失败保持原装备与金币",
+    "微信原生触摸支持两标签、滚动和单件替换",
+    "首页横梁、短吊绳、招牌、灯笼成组，功能栏与钱包集中于下排",
+    "灯笼恢复原尺寸并移到备菜架外侧，绘制在备菜架前方"
+  ],
+  "browserEquipProof": {
+    "item": "harvest-ornament",
+    "action": "equip-owned-rare",
+    "walletBeforeAndAfter": 40000,
+    "restoredOriginalStarSetAfterTest": true
+  },
+  "starterWalletUnchanged": 4976,
+  "wechatVisualInspection": false,
+  "screenshots": [
+    "home.png",
+    "rare-theme.png",
+    "harvest-theme.png",
+    "owned.png",
+    "owned-scroll.png",
+    "owned-equip.png",
+    "collection-progress.png"
+  ]
+}

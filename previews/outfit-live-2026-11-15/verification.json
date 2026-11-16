@@ -1,0 +1,55 @@
+{
+  "status": "interactive-project-implemented",
+  "date": "2026-11-15",
+  "entries": {
+    "purchase": "http://127.0.0.1:4173/platforms/web/?wardrobe=starter",
+    "collection": "http://127.0.0.1:4173/platforms/web/?wardrobe=collection",
+    "normal": "http://127.0.0.1:4173/platforms/web/"
+  },
+  "playtest": {
+    "starterCoins": 10000,
+    "collectionCoins": 40000,
+    "isolatedFromPlayerSave": true,
+    "resetAvailable": true
+  },
+  "browserChecks": [
+    "Four normal sets and no individual regular-item shop",
+    "Bamboo quote6000; cancel retains selection and balance10000",
+    "Confirm bamboo purchase changes balance10000 to4000 and equips all nine positions",
+    "Locked star canopy can be tried and shows actual progress8/12",
+    "Rare collection filters and vertical scrolling reach the final items without changing wallet",
+    "Both complete rare families can be equipped after ownership",
+    "Equipped roof, lanterns, background, stool and cloth appear in real gameplay",
+    "Actual tofu/egg recipe cooked and delivered; gameplay income rose to28",
+    "No captured browser warnings/errors"
+  ],
+  "validation": {
+    "groupsPassed": [
+      "core",
+      "handoff",
+      "game",
+      "levels",
+      "progression",
+      "wechat",
+      "lobby"
+    ],
+    "extraFixtureIsolationTest": "passed",
+    "wechatPackageBytes": 4159515,
+    "wechatVisualInspection": false,
+    "sharedRuntimeImageBytesIdentical": true
+  },
+  "screenshots": [
+    "star-collection.jpg",
+    "harvest-collection.jpg",
+    "harvest-game.jpg",
+    "unlock-progress.jpg",
+    "rare-scroll-end.jpg"
+  ],
+  "art": {
+    "mode": "built-in image_gen.imagegen",
+    "individualSources": "../../shared/assets/lobby/source/scene/v9/",
+    "prompts": "../../shared/assets/lobby/generation-v9.json",
+    "roofPrompts": "../../shared/assets/lobby/source/master/v9/roof-prompts.json"
+  },
+  "visualBoundary": "Real independent sprites and environments. Fixed stall structure/sign still reuse the approved component; gameplay wok keeps its original motion silhouette and changes themed handle material."
+}

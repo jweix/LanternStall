@@ -1,0 +1,124 @@
+{
+  "date": "2026-11-15",
+  "checks": {
+    "defaultHomeRiverBehindStall": true,
+    "chefSkinProtectedAcrossNormalThemes": true,
+    "completeStoolAndPotSources": true,
+    "pricesUseRequiredTotalNotDeficit": true,
+    "rareSeriesVerticalCardsNoAllTab": true,
+    "unownedFullFamilyTrialNoInventoryChanges": true,
+    "singleAndFullTrialSwitching": true,
+    "fullOwnedFamilyEquipAndReload": true,
+    "futureSeriesVerticalScrolling": true,
+    "webWechatRuntimeAssetByteEquality": true
+  },
+  "tests": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "wechatPackageBytes": 4164342,
+  "skinSamplesRGBA": {
+    "warm": [
+      [
+        251,
+        186,
+        123,
+        255
+      ],
+      [
+        244,
+        122,
+        57,
+        255
+      ],
+      [
+        251,
+        183,
+        119,
+        255
+      ]
+    ],
+    "bamboo": [
+      [
+        251,
+        186,
+        123,
+        255
+      ],
+      [
+        233,
+        131,
+        58,
+        255
+      ],
+      [
+        251,
+        183,
+        119,
+        255
+      ]
+    ],
+    "sea": [
+      [
+        251,
+        186,
+        123,
+        255
+      ],
+      [
+        233,
+        131,
+        58,
+        255
+      ],
+      [
+        251,
+        183,
+        119,
+        255
+      ]
+    ],
+    "festival": [
+      [
+        251,
+        186,
+        123,
+        255
+      ],
+      [
+        234,
+        130,
+        57,
+        255
+      ],
+      [
+        251,
+        183,
+        119,
+        255
+      ]
+    ]
+  },
+  "browserShots": [
+    "bamboo.png",
+    "festival.png",
+    "harvest-trial.png",
+    "home.png",
+    "purchase.png",
+    "rare-series.png",
+    "sea.png",
+    "star-equipped.png",
+    "star-trial.png"
+  ],
+  "imagegenRecord": "../../shared/assets/lobby/generation-v10.json",
+  "runtimeSourceAssets": [
+    "../../shared/assets/lobby/source/scene/v10/stool-complete.png",
+    "../../shared/assets/lobby/source/scene/v10/plant-complete.png"
+  ],
+  "wechatVisualInspection": false
+}

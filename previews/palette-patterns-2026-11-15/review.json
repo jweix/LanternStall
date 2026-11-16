@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-15",
+  "reference": "A保持原图作为对照",
+  "revisedThemes": [
+    "B",
+    "D",
+    "C",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "visuallyReviewed": [
+    "棚布主体与图案",
+    "两只灯笼纸面与流苏",
+    "两张凳子主体与完整开口",
+    "围裙与背带",
+    "花盆与绿叶分离",
+    "菜单牌边框",
+    "餐盘外圈",
+    "锅柄末端点缀"
+  ],
+  "specificCorrections": {
+    "B": "灯笼纸面与两张凳子均为松石色；波纹在棚沿、灯笼、凳子、围裙、花盆和盘沿呼应",
+    "D": "橘可可替换为蓝紫星夜；星星与弯月取代原条纹及花灯纹样"
+  },
+  "gameAssetsChanged": false,
+  "generationMode": "built-in image_gen"
+}

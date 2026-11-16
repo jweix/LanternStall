@@ -1,0 +1,26 @@
+{
+  "version": 18,
+  "build": "passed",
+  "wechatMiB": 3.97,
+  "checks": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "environmentGuard": "four unique production image hashes",
+  "visualReview": [
+    "home wish card",
+    "theme list",
+    "warm trial",
+    "bamboo current outfit",
+    "sea trial",
+    "festival trial"
+  ],
+  "browserConsoleErrors": [],
+  "wechatVisualReview": false,
+  "sameSharedRenderingAndImageBytes": true
+}

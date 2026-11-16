@@ -1,0 +1,29 @@
+{
+  "version": 19,
+  "build": "passed",
+  "wechatMiB": 3.97,
+  "checks": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "visualReview": [
+    "natural-aspect game environment",
+    "home settings",
+    "game settings",
+    "motion on/off shared persistence",
+    "resume/restart/return home",
+    "full two-card rare list",
+    "compact theme purchase action",
+    "recipe header",
+    "market header"
+  ],
+  "browserConsoleErrors": [],
+  "wechatVisualReview": false,
+  "sameSharedRenderingAndImageBytes": true,
+  "wardrobeListGain": 82
+}

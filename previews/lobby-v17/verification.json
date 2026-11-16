@@ -1,0 +1,17 @@
+{
+  "version": 17,
+  "build": "passed",
+  "wechatMiB": 3.74,
+  "checks": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "visualReview": "actual in-app browser: home, bamboo preview, recipe grid, current activity",
+  "wechatVisualReview": false,
+  "sharedAssetsAndRendering": true
+}

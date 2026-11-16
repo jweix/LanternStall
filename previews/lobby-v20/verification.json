@@ -1,0 +1,17 @@
+{
+  "version": 20,
+  "build": "passed",
+  "tests": {
+    "core": "passed",
+    "handoff": "passed",
+    "game": "passed",
+    "levels": "passed",
+    "progression": "passed",
+    "wechat": "passed",
+    "lobby": "passed"
+  },
+  "camera": "same 887x1774 homepage background, scale 928/887, top origin 0, game frame clips upper strip",
+  "browserVisualReview": "passed",
+  "browserConsoleErrors": [],
+  "wechatVisualReview": false
+}

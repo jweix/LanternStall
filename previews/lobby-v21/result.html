@@ -1,0 +1,20 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>真实引擎结算预览</title><style>body{margin:0;background:#193536;color:#ffe5b6;display:grid;place-items:center;font:14px system-ui}canvas{height:calc(100vh - 40px);width:auto;margin:8px}p{margin:0}</style><canvas id="game" width="928" height="1695"></canvas><p id="status">准备结算预览</p><script src="../../shared/core/game-core.js"></script>
+<script src="../../shared/core/motion.js"></script>
+<script src="../../shared/core/levels.js"></script>
+<script src="../../shared/data/progression.js"></script>
+<script src="../../shared/core/profile.js"></script>
+<script src="../../shared/data/game-ui.js"></script>
+<script src="../../shared/runtime/game-session.js"></script>
+<script src="../../shared/runtime/stall-app.js"></script>
+<script src="../../shared/rendering/stall-art.js"></script>
+<script src="../../shared/rendering/approved-ui.js"></script>
+<script src="../../shared/rendering/scene.js"></script>
+<script src="../../shared/data/lobby-layout.js"></script>
+<script src="../../shared/data/lobby-font-metrics.js"></script>
+<script src="../../shared/rendering/lobby-components.js"></script>
+<script src="../../shared/rendering/lobby-scene.js"></script>
+<script src="../../shared/rendering/outfit-ui.js"></script>
+<script src="../../shared/rendering/lobby-ui.js"></script>
+<script src="../../shared/rendering/stall-scene.js"></script><script>
+(async()=>{const index=await(await fetch('../../shared/assets/runtime/asset-index.json')).json();const images=Object.fromEntries(await Promise.all(Object.entries(index).map(async([id,a])=>{const im=new Image();im.src='../../shared/assets/runtime/'+a.path.split('/').pop();await im.decode();return[id,im];})));const [recipes,ingredients,layout]=await Promise.all(['recipes','ingredients','layout'].map(n=>fetch('../../shared/data/'+n+'.json').then(r=>r.json())));const font=new FontFace('LanternBody','url(../../shared/assets/lobby/fonts/LanternBody.ttf)');await font.load();document.fonts.add(font);const app=new DapaidangApp.App({recipes,layout,now:()=>Date.parse('2026-11-16T12:00:00+08:00')});for(let n=1;n<=4;n++){app.start(n);const s=app.session;for(const id of s.config.solution){if(!s.pointer(s.engine.nodes.find(t=>t.id===id)))throw Error('Invalid solution');s.advance(.3);if(s.engine.wok||s.engine.queue.length||s.engine.deliveries.length)s.advance(10);}s.advance(10);if(n<4)app.home(true);}DapaidangStallScene.createRenderer(document.getElementById('game').getContext('2d'),images,{recipes,ingredients,layout,assets:index,lobbyBodyFont:'LanternBody'}).draw(app.view(),{width:928,height:1695,dpr:1});document.getElementById('status').textContent='真实引擎通关后的结算预览';})().catch(e=>document.getElementById('status').textContent=e.message);
+</script></html>

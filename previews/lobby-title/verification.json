@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-15",
+  "scope": "菜谱共用标题区，菜谱／成就／相册",
+  "titleVisibleHeight": 66,
+  "titleScaleChange": "-17.46%",
+  "progressTag": [
+    300,
+    315,
+    287,
+    44
+  ],
+  "titleTagGap": 21.5,
+  "tagTabsGap": 15,
+  "browserChecked": [
+    "recipes",
+    "achievements",
+    "photos"
+  ],
+  "webWechatSharedRendering": true,
+  "testsPassed": 7
+}

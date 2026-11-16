@@ -21,6 +21,17 @@
       c.save(); c.globalAlpha *= alpha === undefined ? 1 : M.clamp(alpha);
       M.drawContained(c, images[id], null, x - w / 2, y - h / 2, w, h); c.restore();
     }
+    function outfitAsset(slot) {
+      const theme=appearance?.[slot]?.id||'warm';
+      const prefix={awning:'lobby-scene-awning-',lamp:'lobby-lamp-',tables:'lobby-scene-stool-',plate:'lobby-plate-',wok:'lobby-wok-',chef:'lobby-scene-chef-'};
+      return prefix[slot]+theme;
+    }
+    function meal(id,x,y,w,h,alpha) {
+      if(!appearance?.plate.rare){art(id,x,y,w,h,alpha);return;}
+      art(outfitAsset('plate'),x,y,w,h,alpha);
+      c.save();c.beginPath();c.ellipse(x,y-h*.07,w*.33,h*.23,0,0,Math.PI*2);c.clip();
+      art(id,x,y-h*.025,w*.94,h*.94,alpha);c.restore();
+    }
     function age(view, type, predicate) {
       for (let i = view.effects.length - 1; i >= 0; i--) {
         const e = view.effects[i];
@@ -35,15 +46,12 @@
     function orders(view) {
       const s = view.state, layout = catalog.layout.orders;
       for (const o of s.orders) {
+        const position=M.orderPosition(o,s.orders,s.now,view.reducedMotion);
+        if(position===null)continue;
         const x = layout.firstX + o.slot * layout.stepX, r = o.recipe;
         const accepted = o.matchedAt !== null;
         const pose = accepted ? M.handoffPose(s.now - o.matchedAt) : { alpha: 1, dy: 0, scale: 1 };
         pose.dy += o.bornAt > 0 ? M.orderEnter(s.now - o.bornAt).dy : 0;
-        if (!r) {
-          ui.panel(x, layout.y, 248, 226, 30);
-          ui.drawAsset(['clip-red', 'clip-green', 'clip-blue'][o.slot], x + 109, layout.y - 17);
-          text('本桌已上齐', x + 124, 352, 30, '#96643f'); continue;
-        }
         const remaining = s.buffer.map(i => i.food), done = [], checkAges = {};
         for (const food of r.ingredients) {
           const i = remaining.indexOf(food);
@@ -53,12 +61,14 @@
           }
         }
         const newAge = s.now - o.bornAt;
+        c.save();c.translate((position-o.slot)*layout.stepX,0);
         ui.renderOrderCard({ table: o.table, name: r.displayName || r.name, pay: r.payout, ing: r.ingredients,
           done, checkAges, accepted, alpha: pose.alpha, dy: view.reducedMotion ? 0 : pose.dy,
           scale: view.reducedMotion ? 1 : pose.scale, ingredientAlpha: accepted ? pose.ingredientsAlpha : 1,
           plateAlpha: pose.plateAlpha, lidLift: view.reducedMotion ? 0 : pose.lidLift,
           isNew: o.bornAt > 0 && newAge < M.timing.newCue, cueAlpha: .75 * (1 - M.clamp(newAge / M.timing.newCue)) }, o.slot, s.now);
         if (appearance && appearance.menu.id !== 'base') ui.stroke(x + 18, 255, x + 230, 255, appearance.menu.color, 4);
+        c.restore();
       }
     }
     function board(view) {
@@ -100,12 +110,14 @@
     }
     function pour(job, p, pose) {
       const x = 837, y = 1412, amount = M.ease((p - .12) / .76);
-      c.save(); c.globalAlpha *= M.ease(p / .12); ui.emptyDish(x, y, 145); c.restore();
+      c.save(); c.globalAlpha *= M.ease(p / .12);
+      if(appearance?.plate.rare)art(outfitAsset('plate'),x,y,145,86);else ui.emptyDish(x, y, 145);
+      c.restore();
       if (appearance && appearance.plate.id !== 'base') {
         c.strokeStyle = appearance.plate.color; c.lineWidth = 3;
         c.beginPath(); c.ellipse(x, y + 2, 69, 25, 0, 0, Math.PI * 2); c.stroke();
       }
-      art(job.recipeId, x, y, 145, 145 * .68, amount);
+      meal(job.recipeId, x, y, 145, 145 * .68, amount);
       const sx = pose.x + 95 * Math.cos(pose.angle) + 5 * Math.sin(pose.angle);
       const sy = pose.y + 95 * Math.sin(pose.angle) - 5 * Math.cos(pose.angle);
       for (let i = 0; i < 9; i++) {
@@ -137,8 +149,9 @@
         (pouring ? job.endAt - job.pourAt : job.pourAt - job.stirAt)) : 0;
       const m = job && (stir || pouring) && !view.reducedMotion ? M.wokPose(p, pouring) : { angle: 0, dx: 0, dy: 0 };
       const pose = { x: 742 + m.dx, y: 1417 + m.dy, angle: m.angle };
-      c.save(); c.translate(pose.x, pose.y); c.rotate(pose.angle); c.translate(-742, -1417); ui.polishedWok(s.now, false);
-      if (appearance && appearance.wok.id !== 'base') {
+      c.save(); c.translate(pose.x, pose.y); c.rotate(pose.angle); c.translate(-742, -1417);
+      ui.polishedWok(s.now, false, appearance?.wok);
+      if (appearance && appearance.wok.id !== 'base' && !appearance.wok.rare) {
         c.strokeStyle = appearance.wok.color; c.lineWidth = 4; c.beginPath(); c.ellipse(742, 1413, 104, 39, 0, 0, Math.PI * 2); c.stroke();
       }
       c.restore();
@@ -150,7 +163,8 @@
       }
       if (pouring) pour(job, p, pose);
       c.restore();
-      if (appearance && appearance.chef.id !== 'base') Art.chef(c, 894, 1306, .3, appearance.chef);
+      if (appearance?.chef.rare)art(outfitAsset('chef'),891,1320,70,90);
+      else if (appearance && appearance.chef.id !== 'base') Art.chef(c, 894, 1306, .3, appearance.chef);
     }
     function effects(view) {
       const s = view.state;
@@ -163,7 +177,7 @@
       }
       for (const delivery of s.deliveries) {
         const p = M.departurePose(s.now - delivery.flyAt);
-        art(delivery.recipeId, view.reducedMotion ? 735 : p.x, view.reducedMotion ? 188 : p.y, p.w, p.w * .68, p.alpha);
+        meal(delivery.recipeId, view.reducedMotion ? 735 : p.x, view.reducedMotion ? 188 : p.y, p.w, p.w * .68, p.alpha);
       }
       for (const effect of view.effects) {
         const a = s.now - effect.born, event = effect.event;
@@ -172,7 +186,7 @@
           c.save(); c.globalAlpha *= p.alpha; if (view.reducedMotion) p.rotation = 0; tile(item.food, p); c.restore();
         });
         if (event.type === 'dishServed' && a < M.timing.reward) {
-          if (a < M.timing.servedExit) { const p = M.servedPose(a); art(event.recipeId, p.x, p.y, p.w, p.w * .68, p.alpha); }
+          if (a < M.timing.servedExit) { const p = M.servedPose(a); meal(event.recipeId, p.x, p.y, p.w, p.w * .68, p.alpha); }
           c.save(); c.globalAlpha *= 1 - M.ease(a / M.timing.reward);
           text('+' + event.payout, 625, 220 - (view.reducedMotion ? 0 : a * 45), 32, '#ffdf8d');
           ui.sparkle(594, 204 - (view.reducedMotion ? 0 : a * 20), 6, 1 - M.clamp(a / .45)); c.restore();
@@ -194,31 +208,33 @@
     }
     function decorations() {
       if (!appearance) return;
-      // Owned themes keep their visual effect, around the approved UI geometry.
-      if (appearance.background.id !== 'base') {
-        c.save(); c.globalAlpha = .32; ui.fill(36, 216, 856, 254, appearance.background.night); c.restore();
-      }
-      if (appearance.awning.id !== 'base') {
-        c.save(); c.globalAlpha = .26; ui.fill(0, 0, 928, 49, appearance.awning.color); c.restore();
-      }
-      if (appearance.lamp.id !== 'base') {
-        c.save(); c.globalAlpha = .22;
-        for (const x of [86, 843]) ui.ell(x, 158, 38, 49, appearance.lamp.light);
+      const id=appearance.background.id,env=id==='star'||id==='harvest'?'lobby-environment-'+id:
+        id==='bamboo'||id==='sea'?'stall-night-'+id:id==='festival'?'stall-night':'lobby-environment-night',im=images[env];
+      if(im){
+        // Use the home camera at the game width, anchored to the same top.
+        // The game frame reveals only its upper strip; never reframe the scene.
+        c.save();c.beginPath();c.rect(30,0,868,471);c.clip();
+        if(catalog.sceneBackdrop){c.scale(W/887,W/887);catalog.sceneBackdrop(id,[0,0,887,1774]);}
+        else{const iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height,scale=Math.max(W/iw,W*2/ih);c.drawImage(im,(W-iw*scale)/2,(W*2-ih*scale)/2,iw*scale,ih*scale);}
         c.restore();
       }
+      const roof=images[outfitAsset('awning')];
+      if(roof){const w=roof.naturalWidth||roof.width,h=roof.naturalHeight||roof.height,s=928/w;c.drawImage(roof,0,84-h*s,928,h*s);}
+      art('lobby-brand-logo',464,130,480,147);
+      for(const x of [87,841])art(outfitAsset('lamp'),x,163,98,160);
+      art(outfitAsset('tables'),65,1696,145,140);
+      const cloth=images['lobby-cloth-'+appearance.tables.id]||images['lobby-cloth-warm'];
+      if(cloth){const iw=cloth.naturalWidth||cloth.width,ih=cloth.naturalHeight||cloth.height;
+        c.save();c.beginPath();c.rect(590,1628,338,67);c.clip();
+        if(appearance.tables.rare)c.drawImage(cloth,0,ih*.3,iw,ih*.25,590,1628,338,338*ih*.25/iw);
+        else c.drawImage(cloth,590,1628,338,67);c.restore();}
     }
     function overlay(view) {
       const s = view.state;
       if (!view.panel && !view.resultReady) return;
       if (view.panel) {
         ui.fill(0, 0, W, H, '#21180fba');
-        ui.panel(104, 520, 720, 720, 45, 'wood'); ui.panel(120, 536, 688, 688, 36);
-        text(view.panel === 'pause' ? '歇一会儿' : '夜市等你回来', 464, 625, 56);
-        text('按订单选料，配齐就自动开炒', 464, 700, 29, '#91633f');
-        ui.panel(204, 770, 520, 110, 30, 'wood'); text(view.panel === 'rest' && s.status !== 'playing' ? '查看本关结果' : '继续营业', 464, 825, 39);
-        if (view.panel === 'pause') { ui.panel(204, 900, 520, 100, 30); text('减少动效：' + (view.reducedMotion ? '开' : '关'), 464, 950, 34); }
-        ui.panel(204, 1030, 520, 100, 30); text('重新开摊', 464, 1080, 36);
-        if (view.homeEnabled) { ui.panel(204, 1148, 520, 68, 24); text('回小摊', 464, 1182, 30); } return;
+        ui.settingsPanel(view.reducedMotion,{inGame:true,homeEnabled:view.homeEnabled,result:view.panel==='rest'&&s.status!=='playing',words:catalog.settingsWords});return;
       }
       const won = s.status === 'won', seconds = Math.ceil(s.wonAt === null ? s.playTime : s.wonAt);
       const elapsed = String(Math.floor(seconds / 60)).padStart(2, '0') + ':' + String(seconds % 60).padStart(2, '0');

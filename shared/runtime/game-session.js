@@ -100,11 +100,11 @@
       const p = point, e = this.engine, result = this.options.layout.result;
       if (this.panel) {
         if (inside(p, buttons.resume)) this.setPanel(null);
-        else if (this.panel === 'pause' && inside(p, buttons.reduced)) {
+        else if (inside(p, buttons.reduced)) {
           this.reducedMotion = !this.reducedMotion;
           if (this.options.onSettings) this.options.onSettings({ reducedMotion: this.reducedMotion });
         } else if (inside(p, buttons.restart)) this.restart(this.level);
-        else if (this.options.onHome && inside(p, [204, 1148, 520, 68])) this.options.onHome();
+        else if (this.options.onHome && inside(p, buttons.home)) this.options.onHome();
         return true;
       }
       if (e.status !== 'playing') {

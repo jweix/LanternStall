@@ -8,3 +8,5 @@ __pycache__/
 *.py[cod]
 node_modules/
 .DS_Store
+/tmp/lobby-v6-input/
+/tmp/lobby-v6-*.json

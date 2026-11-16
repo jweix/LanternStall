@@ -8,6 +8,8 @@ const C = require('../shared/data/progression.js');
 const recipes = require('../shared/data/recipes.json'), ingredients = require('../shared/data/ingredients.json'), layout = require('../shared/data/layout.json');
 const font = process.env.LANTERN_FONT || '/System/Library/Fonts/Hiragino Sans GB.ttc';
 if (fs.existsSync(font)) GlobalFonts.registerFromPath(font, 'PingFang SC');
+GlobalFonts.registerFromPath(path.resolve(__dirname, '../shared/assets/lobby/fonts/LanternDisplay.ttf'), 'LanternDisplay');
+GlobalFonts.registerFromPath(path.resolve(__dirname, '../shared/assets/lobby/fonts/LanternBody.ttf'), 'LanternBody');
 (async () => {
   const generated = path.resolve(__dirname, '../platforms/wechat/game'), out = path.resolve(__dirname, '../previews');
   const index = require(path.join(generated, 'asset-index.js'));
@@ -32,11 +34,18 @@ if (fs.existsSync(font)) GlobalFonts.registerFromPath(font, 'PingFang SC');
     if (!app.profile.state.owned.includes(item.id)) throw Error('Could not buy ' + item.id);
   }
   app.profile.photo(); app.toast = null; app.modal = null;
+  // Compare the original bare-bulb composition with starter equipment. These
+  // remain real owned items; the nine completed purchases stay in inventory.
+  for(const slot of C.slots)app.profile.equip('base-'+slot);
   fs.mkdirSync(out, { recursive: true });
-  const canvas = createCanvas(887, 1774), renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });
+  fs.writeFileSync(path.join(out,'lobby-review-state.json'),JSON.stringify({now,state:app.profile.state}));
+  const web=fs.readFileSync(path.resolve(__dirname,'../platforms/web/index.html'),'utf8');
+  const scripts=(web.match(/<script src="\.\.\/\.\.\/shared\/[^\"]+"><\/script>/g)||[]).join('\n').replaceAll('../../shared/','../shared/');
+  fs.writeFileSync(path.join(out,'lobby-review.html'),fs.readFileSync(path.join(__dirname,'lobby-review.html'),'utf8').replace('<!-- SHARED_SCRIPTS -->',scripts));
+  const canvas = createCanvas(887, 1774), renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index });
   const sheet = createCanvas(1536, 800), ctx = sheet.getContext('2d'); ctx.fillStyle = '#173638'; ctx.fillRect(0, 0, sheet.width, sheet.height);
   for (const [i, tab] of ['home', 'decor', 'recipes', 'market'].entries()) {
-    app.handle('tab', tab); app.hits = renderer.draw(app.view(), { width: 887, height: 1774, dpr: 1 });
+    app.handle('tab', tab);if(tab==='decor')app.handle('item','warm-lamp');app.hits = renderer.draw(app.view(), { width: 887, height: 1774, dpr: 1 });
     const png = canvas.toBuffer('image/png');
     fs.writeFileSync(path.join(out, 'lobby-v4-' + tab + '.png'), png);
     ctx.drawImage(await loadImage(png), 12 + i * 384, 56, 360, 720);
@@ -58,7 +67,7 @@ if (fs.existsSync(font)) GlobalFonts.registerFromPath(font, 'PingFang SC');
   fs.writeFileSync(path.join(out, 'lobby-v4-game.png'), canvas.toBuffer('image/png'));
   // A component audit makes accidental baked sibling controls visible.
   const sourceManifest = require('../shared/assets/lobby/manifest.json');
-  const audit = createCanvas(1440, 6 * 252 + 65), ac = audit.getContext('2d');
+  const audit = createCanvas(1440, Math.ceil(sourceManifest.assets.length/4) * 252 + 65), ac = audit.getContext('2d');
   ac.fillStyle='#173638';ac.fillRect(0,0,audit.width,audit.height);
   ac.font='700 25px "PingFang SC"';ac.textAlign='left';ac.fillStyle='#ffebc9';ac.fillText('生产资源拆分：每格一个逻辑对象，格线仅用于检查',22,39);
   for (const [i,a] of sourceManifest.assets.entries()) {

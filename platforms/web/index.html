@@ -8,9 +8,10 @@
     *{box-sizing:border-box}body{margin:0;background:#142f2f;color:#fff0d3;font:14px/1.6 system-ui,sans-serif}
     main{display:flex;align-items:center;justify-content:center;gap:40px;min-height:100dvh;padding:20px}
     canvas{display:block;width:min(92vw,420px,calc((100dvh - 40px)*887/1774));height:auto;aspect-ratio:887/1774;border-radius:18px;box-shadow:0 20px 80px #0006;touch-action:none}
-    .game-wrap{position:relative;flex:none}#controls{position:absolute;inset:0;pointer-events:none}#controls button{position:absolute;pointer-events:auto;opacity:0;border:0;background:#fff0d5;color:#66432c;border-radius:12px;font:inherit;touch-action:manipulation}#controls button:focus-visible{opacity:.92;outline:3px solid #e9ae58;outline-offset:2px}
-    aside{max-width:270px}h1{font-size:28px;margin:0 0 4px}p{color:#c6d1ba}a{color:#ffd28a}nav{display:grid;gap:8px}
-    #status{color:#f5ca80}small{color:#a3b8a9}@media(max-width:760px){main{padding:12px;gap:12px;flex-direction:column}aside{max-width:420px}h1{font-size:21px}aside p{margin:6px 0}nav{display:flex;flex-wrap:wrap;gap:16px}}
+    .game-wrap{position:relative;flex:none;touch-action:none}#controls{position:absolute;inset:0;pointer-events:none}#controls button{position:absolute;pointer-events:auto;opacity:0;border:0;background:#fff0d5;color:#66432c;border-radius:12px;font:inherit;touch-action:none}#controls button:focus-visible{opacity:1;background:transparent;color:transparent;outline:2px solid #ffd68c;outline-offset:-3px}
+    #controls button[data-action="scroll-region"]:focus-visible{opacity:1;background:transparent;color:transparent}
+    aside{max-width:270px;max-height:calc(100dvh - 40px);overflow:auto}h1{font-size:28px;margin:0 0 4px}p{color:#c6d1ba}a{color:#ffd28a}nav{display:grid;gap:8px}
+    #outfit-playtest button{background:transparent;border:0;color:#ffd28a;font:inherit;text-decoration:underline;padding:0;cursor:pointer}#status{color:#f5ca80}small{color:#a3b8a9}@media(max-width:760px){main{padding:12px;gap:0;flex-direction:column;height:100dvh;min-height:0;overflow:hidden}aside{display:none}body.outfit-playtest main{padding-top:44px}body.outfit-playtest aside{display:block;position:fixed;top:0;left:0;right:0;max-width:none;height:36px;background:#142f2f;z-index:5}body.outfit-playtest aside>*{display:none}body.outfit-playtest aside>#outfit-playtest{display:block}#outfit-playtest-note{display:none}nav{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;font-size:12px}h1{font-size:21px}}
   </style>
 </head>
 <body>
@@ -21,6 +22,15 @@
     <p>用完全部食材，等最后一道菜上桌，即可通关。</p>
     <p>撤回与暂存可以腾出空间；暂存后，点备菜标题旁的小图标取回。</p>
     <p id="status" role="status">正在准备食材…</p>
+    <div id="outfit-playtest" hidden>
+      <p id="outfit-playtest-note"></p>
+      <nav aria-label="装扮体验">
+        <a href="?wardrobe=starter">选购与解锁体验</a>
+        <a href="?wardrobe=collection">珍藏全览试穿</a>
+        <button id="reset-outfit-playtest" type="button">重置体验档</button>
+        <a href="./">返回正常游戏</a>
+      </nav>
+    </div>
     <nav aria-label="难度试玩"><a href="?level=1">第 1 摊 · 入门</a><a href="?level=2">第 2 摊 · 家常</a><a href="?level=3">第 3 摊 · 忙碌</a><a href="?level=4">第 4 摊 · 挑战</a></nav>
     <p><small>每关的菜品份数和材料预先确定，重开可复盘同一牌堆。</small></p>
     <nav><a href="demo/approved-animation.html">历史 v13 动效</a><a href="demo/asset-lab.html">20 道菜素材预览</a></nav>
@@ -39,10 +49,14 @@
 <script src="../../shared/rendering/approved-ui.js"></script>
 <script src="../../shared/rendering/scene.js"></script>
 <script src="../../shared/data/lobby-layout.js"></script>
+<script src="../../shared/data/lobby-font-metrics.js"></script>
 <script src="../../shared/rendering/lobby-components.js"></script>
 <script src="../../shared/rendering/lobby-scene.js"></script>
+<script src="../../shared/rendering/outfit-ui.js"></script>
 <script src="../../shared/rendering/lobby-ui.js"></script>
 <script src="../../shared/rendering/stall-scene.js"></script>
+<script src="src/input.js"></script>
+<script src="src/outfit-playtest.js"></script>
 <script src="src/play.js"></script>
 </body>
 </html>

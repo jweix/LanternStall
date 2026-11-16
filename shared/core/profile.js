@@ -7,9 +7,20 @@
   const integer = (n, max) => Number.isSafeInteger(n) && n >= 0 && n <= max;
   const day = time => new Date(time + 8 * 3600000).toISOString().slice(0, 10);
   const validDay = d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(d));
+  function conditionProgress(s, condition) {
+    if (!condition) return 0;
+    if (condition.type === 'recipes') return Object.keys(s.dishes).length;
+    if (condition.type === 'book') return s.activity[condition.book] || 0;
+    return s.activity.reduce((a,b) => a+b, 0);
+  }
+  function unlockRares(s, rewards) {
+    for (const item of C.rareItems) if (conditionProgress(s,item.condition) >= item.condition.target && !s.owned.includes(item.id)) {
+      s.owned.push(item.id); if(rewards) rewards.push(item.name);
+    }
+  }
   function fresh() {
-    return { version: C.schema, coins: 0, cleared: [], owned: C.slots.map(s => 'base-' + s),
-      equipped: Object.fromEntries(C.slots.map(s => [s, 'base-' + s])), wish: 'warm-lamp', dishes: {},
+    return { version: C.schema, coins: 0, cleared: [], owned: C.slots.flatMap(s => ['base-' + s,'warm-' + s]),
+      equipped: Object.fromEntries(C.slots.map(s => [s, 'warm-' + s])), baseTheme:'warm', wish: 'bamboo-lamp', dishes: {},
       daily: { day: '', wins: 0, practice: false, ads: 0, eventWins: 0 }, activity: [0, 0, 0, 0],
       activeBook: 0, daysOpen: 0, photos: [], ledger: [], nextAttempt: 1, activeAttempt: null,
       reducedMotion: false, tutorialDone: false };
@@ -26,6 +37,8 @@
     s.cleared = Array.isArray(raw.cleared) ? [...new Set(raw.cleared.filter(n => integer(n, 10000) && n > 0))].sort((a, b) => a - b) : [];
     if (Array.isArray(raw.owned)) s.owned = [...new Set(s.owned.concat(raw.owned.filter(id => C.byId[id])))];
     C.slots.forEach(slot => { const id = raw.equipped && raw.equipped[slot]; if (s.owned.includes(id) && C.byId[id].slot === slot) s.equipped[slot] = id; });
+    const complete=C.shopThemes.filter(t=>C.slots.every(slot=>s.owned.includes(t.id+'-'+slot)));
+    s.baseTheme=complete.some(t=>t.id===raw.baseTheme)?raw.baseTheme:complete.slice().sort((a,b)=>C.slots.filter(slot=>s.equipped[slot]===b.id+'-'+slot).length-C.slots.filter(slot=>s.equipped[slot]===a.id+'-'+slot).length)[0]?.id||'warm';
     if (C.byId[raw.wish]) s.wish = raw.wish;
     for (const [id, count] of Object.entries(raw.dishes || {})) if (/^d\d\d$/.test(id) && integer(count, 10000000)) s.dishes[id] = count;
     if (raw.daily && validDay(raw.daily.day)) {
@@ -40,6 +53,10 @@
     // In-progress games are deliberately not restored. A fresh attempt gets a new durable identity.
     if (Array.isArray(raw.photos)) s.photos = raw.photos.filter(p => p && typeof p.id === 'string' && p.equipped && C.slots.every(slot => C.byId[p.equipped[slot]] && C.byId[p.equipped[slot]].slot === slot)).slice(-24).map(p => ({ id: p.id, date: String(p.date).slice(0, 10), level: integer(p.level, 10000) ? p.level : 0, equipped: copy(p.equipped) }));
     if (Array.isArray(raw.ledger)) s.ledger = raw.ledger.filter(l => l && typeof l.label === 'string' && Number.isSafeInteger(l.amount)).slice(-30).map(l => ({ label: l.label.slice(0, 50), amount: l.amount, date: String(l.date).slice(0, 10) }));
+    if (C.slots.every(slot => raw.equipped?.[slot] === 'base-' + slot))
+      s.equipped = Object.fromEntries(C.slots.map(slot => [slot,'warm-' + slot]));
+    if (!C.shopThemes.some(t=>t.id===C.byId[s.wish]?.theme&&t.total)) s.wish = 'bamboo-lamp';
+    unlockRares(s);
     s.reducedMotion = !!raw.reducedMotion; s.tutorialDone = !!raw.tutorialDone;
     return s;
   }
@@ -94,25 +111,62 @@
         if (s.activity[book] >= 14 || !this.released(book)) book = s.activity.findIndex((n, i) => n < 14 && this.released(i));
         if (s.cleared.length >= 5 && s.daily.eventWins < 3 && book >= 0) {
           s.activeBook = book; s.daily.eventWins++; s.activity[book]++;
-          if (s.activity[book] >= 6) this.grant(s, 'festival-' + C.event.small[book], rewards);
-          if (s.activity[book] >= 14) this.grant(s, 'festival-' + C.event.large[book], rewards);
         }
-        if (s.activity.every(n => n === 14)) this.grant(s, 'festival-chef', rewards);
+        unlockRares(s,rewards);
         s.activeAttempt = null;
         return { first, practice, credited: s.coins - before, revenue: result.revenue, newly: [...new Set(newly)], rewards, activity: s.activity.slice(), level: result.level, adTaken: false };
       });
     }
-    purchase(id) {
-      const item = C.byId[id];
-      if (!item || item.source !== 'coins' || this.state.cleared.length < item.unlock || this.state.owned.includes(id) || this.state.coins < item.price) return false;
+    // Retired single-piece commerce. Old owned IDs still migrate and offset bundles.
+    purchase() { return false; }
+    themeOffer(id) {
+      const theme = C.byTheme[id]; if (!theme || id === 'base' || theme.rare) return null;
+      const items = C.slots.map(slot => C.byId[id + '-' + slot]);
+      const missing = items.filter(i => !this.state.owned.includes(i.id));
+      return { id, name: theme.name, unlock: theme.unlock, unlocked: this.state.cleared.length >= theme.unlock,
+        missing: missing.map(i => i.id), owned: items.length - missing.length,
+        price: missing.reduce((total, i) => total + i.price, 0), total: items.reduce((n,i)=>n+i.price,0),
+        deduction: items.filter(i=>this.state.owned.includes(i.id)).reduce((n,i)=>n+i.price,0),
+        complete: !missing.length, equipped: items.every(i => this.state.equipped[i.slot] === i.id) };
+    }
+    purchaseTheme(id) {
+      const offer = this.themeOffer(id);
+      if (!offer || !offer.unlocked || offer.complete || this.state.coins < offer.price) return false;
+      // One durable transaction owns and equips the entire set; a failed save
+      // cannot leave a partly purchased outfit or debit any of the wallet.
       return this.transact(s => {
-        this.log(s, '购买' + item.name, -item.price); s.owned.push(id); s.equipped[item.slot] = id;
-        if (s.wish === id) s.wish = (C.items.find(i => i.theme === item.theme && !s.owned.includes(i.id)) ||
-          C.items.find(i => i.source === 'coins' && i.unlock <= s.cleared.length && !s.owned.includes(i.id)) ||
-          C.items.find(i => i.source === 'coins' && !s.owned.includes(i.id)) || item).id;
+        this.log(s, '配齐' + offer.name, -offer.price);s.baseTheme=id;
+        for (const slot of C.slots) {
+          const item = id + '-' + slot;
+          if (!s.owned.includes(item)) s.owned.push(item);
+          s.equipped[slot] = item;
+        }
+        if (offer.missing.includes(s.wish)) s.wish = (C.items.find(i => i.source === 'coins' && i.unlock <= s.cleared.length && !s.owned.includes(i.id)) || C.byId[s.wish]).id;
       });
     }
+    equipTheme(id) {
+      const offer = this.themeOffer(id);
+      return !!offer && offer.complete && this.transact(s => { s.baseTheme=id;for (const slot of C.slots) s.equipped[slot] = id + '-' + slot; });
+    }
+    equipRareFamily(id) {
+      return !!C.byTheme[id]?.rare && C.slots.every(slot=>this.state.owned.includes(id+'-'+slot)) &&
+        this.transact(s=>{for(const slot of C.slots)s.equipped[slot]=id+'-'+slot;});
+    }
     equip(id) { const i = C.byId[id]; return !!i && this.state.owned.includes(id) && this.transact(s => { s.equipped[i.slot] = id; }); }
+    restorePart(id) {
+      const item=C.byId[id];if(!item?.condition||this.state.equipped[item.slot]!==id)return false;
+      const target=(this.state.baseTheme||'warm')+'-'+item.slot;
+      if(!this.state.owned.includes(target))return false;
+      return this.transact(s=>{s.equipped[item.slot]=target;});
+    }
+    rareOffer(id) {
+      const item=C.byId[id]; if(!item?.condition)return null;
+      const value=conditionProgress(this.state,item.condition),target=item.condition.target;
+      const condition=item.condition, description=condition.type==='recipes'?'点亮'+target+'道菜谱':
+        condition.type==='book'?C.event.books[condition.book]+'累计'+target+'进度':'完成全部四册夜市活动';
+      return {id,description,value:Math.min(value,target),target,owned:this.state.owned.includes(id),
+        equipped:this.state.equipped[item.slot]===id,source:condition.type==='recipes'?'recipes':'market'};
+    }
     wish(id) { return C.byId[id] && C.byId[id].source === 'coins' && this.transact(s => { s.wish = id; }); }
     selectBook(book) { return integer(book, 3) && this.released(book) && this.transact(s => { s.activeBook = book; }); }
     settings(value) { return this.transact(s => { s.reducedMotion = !!value; }); }
@@ -120,13 +174,13 @@
     removePhoto(id) { return this.transact(s => { s.photos = s.photos.filter(p => p.id !== id); }); }
     memories() {
       const out = [], s = this.state;
-      for (let chapter = 1; chapter <= Math.floor(s.cleared.length / 20); chapter++) out.push({ id: 'chapter-' + chapter, title: '第' + chapter + '章开摊纪念', description: '完成' + chapter * 20 + '关的灯火回忆', theme: C.themes[Math.min(chapter, 3)].id });
+      for (let chapter = 1; chapter <= Math.floor(s.cleared.length / 20); chapter++) out.push({ id: 'chapter-' + chapter, title: '第' + chapter + '章开摊纪念', description: '完成' + chapter * 20 + '关的灯火回忆', kind:'photo', theme: C.themes[Math.min(chapter, 3)].id });
       for (const theme of C.themes.filter(t => t.scale)) {
         const n = C.items.filter(i => i.theme === theme.id && i.source === 'coins' && s.owned.includes(i.id)).length;
-        for (const threshold of [3, 6, 9]) if (n >= threshold) out.push({ id: theme.id + '-' + threshold, title: theme.name + ['贴纸', '相框', '纪念照'][[3, 6, 9].indexOf(threshold)], description: '收藏' + threshold + '件主题装扮', theme: theme.id });
+        for (const threshold of [3, 6, 9]) if (n >= threshold) out.push({ id: theme.id + '-' + threshold, title: theme.name + ['贴纸', '相框', '纪念照'][[3, 6, 9].indexOf(threshold)], description: '收藏' + threshold + '件主题装扮', kind:threshold===3?'sticker':threshold===6?'frame':'photo', theme: theme.id });
       }
-      if (Object.keys(s.dishes).length >= 20) out.push({ id: 'recipes-20', title: '完整家常菜谱纪念框', description: '点亮全部20道家常菜', theme: 'sea' });
-      s.activity.forEach((n, i) => { for (const threshold of [3, 10]) if (n >= threshold) out.push({ id: 'event-' + i + '-' + threshold, title: C.event.books[i] + (threshold === 3 ? '贴纸' : '相框'), description: '活动册累计' + threshold + '进度', theme: 'festival' }); });
+      if (Object.keys(s.dishes).length >= 20) out.push({ id: 'recipes-20', title: '完整家常菜谱纪念框', description: '点亮全部20道家常菜', kind:'frame', theme: 'sea' });
+      s.activity.forEach((n, i) => { for (const threshold of [3, 10]) if (n >= threshold) out.push({ id: 'event-' + i + '-' + threshold, title: C.event.books[i] + (threshold === 3 ? '贴纸' : '相框'), description: '活动册累计' + threshold + '进度', kind:threshold===3?'sticker':'frame', theme: 'festival' }); });
       return out;
     }
     finishTutorial() { return this.transact(s => { s.tutorialDone = true; }); }

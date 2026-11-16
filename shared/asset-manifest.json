@@ -1078,7 +1078,8 @@
         "h": 1695
       },
       "sha256": "9e99f09252edc993a73baa9e11d5fbef5427daf47c49a85383f2b8517c0bef3b",
-      "source": "dapaidang-handoff-v12-complete"
+      "source": "dapaidang-handoff-v12-complete",
+      "runtimeSource": "assets/lobby/source/scene/v9/game-clean-normalized.png"
     },
     {
       "id": "button-sound",

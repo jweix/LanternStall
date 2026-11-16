@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const { Engine } = require('../shared/core/game-core.js');
 const { createLevel } = require('../shared/core/levels.js');
-const { Session } = require('../shared/runtime/game-session.js');
+const { Session, buttons } = require('../shared/runtime/game-session.js');
 const recipes = require('../shared/data/recipes.json');
 const layout = require('../shared/data/layout.json');
 
@@ -51,8 +51,8 @@ console.log('PASS lifecycle, result, progress and complete next-level reset');
 
 s.pointer({ x: 160, y: 53 }); assert.equal(s.panel, 'pause');
 s.advance(5); assert.equal(s.engine.now, 0);
-s.pointer({ x: 464, y: 950 }); assert.equal(s.reducedMotion, true);
-s.pointer({ x: 464, y: 825 }); assert.equal(s.panel, null);
+s.pointer({x:buttons.reduced[0]+buttons.reduced[2]/2,y:buttons.reduced[1]+buttons.reduced[3]/2}); assert.equal(s.reducedMotion, true);
+s.pointer({x:buttons.resume[0]+buttons.resume[2]/2,y:buttons.resume[1]+buttons.resume[3]/2}); assert.equal(s.panel, null);
 s.advance(.1); assert.equal(s.engine.now, .1);
 console.log('PASS pause and reduced-motion settings preserve gameplay');
 

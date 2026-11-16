@@ -23,7 +23,8 @@ function loading() {
 }
 wx.onHide(() => { hidden = true; if (session) session.setHidden(true); });
 wx.onShow(() => { hidden = false; if (session) session.setHidden(false); });
-if (wx.onWindowResize) wx.onWindowResize(() => { geometry = platform.resize(); if (!renderer) loading(); });
+if (wx.onWindowResize) wx.onWindowResize(() => { if(session)session.pointerCancel();geometry = platform.resize(); if (!renderer) loading(); });
+function point(x,y){return session&&renderer&&Number.isFinite(x)&&Number.isFinite(y)?Motion.toDesign(x,y,renderer.coordinates(geometry,session.screen)):null;}
 function pointer(x, y) {
   if (!Number.isFinite(x) || !Number.isFinite(y) || hidden) return;
   if (session) session.pointer(Motion.toDesign(x, y,
@@ -31,19 +32,28 @@ function pointer(x, y) {
   else if (loadFailed) start();
 }
 let lastTouchAt = -Infinity;
+let lastPoint=null;
+function coordinates(t){return[t.clientX===undefined?t.x:t.clientX,t.clientY===undefined?t.y:t.clientY];}
+function down(x,y,gestures){lastPoint=point(x,y);if(lastPoint&&!hidden){if(gestures)session.pointerStart(lastPoint);else session.pointer(lastPoint);}else pointer(x,y);}
+function move(x,y){const p=point(x,y);if(p&&!hidden){lastPoint=p;session.pointerMove(p);}}
+function end(x,y){const p=point(x,y)||lastPoint;if(p&&!hidden&&session)session.pointerEnd(p);lastPoint=null;}
 wx.onTouchStart(event => {
   const touch = event.touches && event.touches[0];
   if (!touch) return;
   lastTouchAt = Date.now();
-  pointer(touch.clientX === undefined ? touch.x : touch.clientX,
-    touch.clientY === undefined ? touch.y : touch.clientY);
+  down(...coordinates(touch),!!wx.onTouchEnd);
 });
+if(wx.onTouchMove)wx.onTouchMove(e=>{const t=e.touches&&e.touches[0];if(t)move(...coordinates(t));});
+if(wx.onTouchEnd)wx.onTouchEnd(e=>{const t=e.changedTouches&&e.changedTouches[0];if(t)end(...coordinates(t));else end();});
+if(wx.onTouchCancel)wx.onTouchCancel(()=>{lastPoint=null;if(session)session.pointerCancel();});
 // Desktop WeChat and some simulator modes emit mouse events instead of touch.
 // Suppress the synthetic mouse event after touch to avoid selecting twice.
 if (wx.onMouseDown) wx.onMouseDown(event => {
   if (Date.now() - lastTouchAt < 500 || (event.button !== undefined && event.button !== 0)) return;
-  pointer(event.x === undefined ? event.clientX : event.x, event.y === undefined ? event.clientY : event.y);
+  down(...coordinates(event),!!wx.onMouseUp);
 });
+if(wx.onMouseMove)wx.onMouseMove(e=>{if(session&&session.gesture)move(...coordinates(e));});
+if(wx.onMouseUp)wx.onMouseUp(e=>end(...coordinates(e)));
 function start() {
   loadFailed = false; lastStatus = '正在准备夜市食材…'; loading();
   platform.loadImages(index).then(images => {
@@ -52,7 +62,7 @@ function start() {
     session = new App({ recipes, layout, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
       save: value => platform.write('lantern-stall-v2', value) });
     session.setHidden(hidden);
-    renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });
+    renderer = createRenderer(canvas.getContext('2d'), images, Object.assign({ recipes, ingredients, layout, assets:index }, platform.loadLobbyFonts()));
     function frame(ms) {
       if (!hidden) session.hits = renderer.draw(session.frame(ms), geometry);
       requestAnimationFrame(frame);

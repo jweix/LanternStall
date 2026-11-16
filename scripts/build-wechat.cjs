@@ -26,6 +26,10 @@ const bundled = path.join(require('node:os').homedir(), '.cache/codex-runtimes/c
 const python = process.env.LANTERN_PYTHON || (fs.existsSync(bundled) ? bundled : 'python3');
 const result = spawnSync(python, [path.join(__dirname, 'prepare-wechat-assets.py')], { encoding: 'utf8' });
 if (result.status !== 0) throw new Error('资源构建需要 Python 3 + Pillow：\n' + result.stderr);
+fs.mkdirSync(path.join(out,'assets/fonts'),{recursive:true});
+for(const name of ['LanternBody.ttf','OFL-NotoSansSC.txt']){
+  fs.copyFileSync(path.join(root,'shared/assets/lobby/fonts',name),path.join(out,'assets/fonts',name));
+}
 function size(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).reduce((n, item) => n +
     (item.isDirectory() ? size(path.join(dir, item.name)) : fs.statSync(path.join(dir, item.name)).size), 0);

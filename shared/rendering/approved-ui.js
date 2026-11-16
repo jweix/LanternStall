@@ -35,6 +35,32 @@ function panel(x,y,w,h,r,kind='cream'){
   fill(x,y,w,h,g,r);c.shadowColor='transparent';c.strokeStyle=kind==='wood'?'#f8cf94':'#fff7df';c.lineWidth=3;rr(x+2,y+2,w-4,h-6,r-2);c.stroke();
   c.restore();
  }
+// Both settings surfaces share the control, state semantics and action styling.
+function settingsPanel(reducedMotion,options={}){
+ const game=!!options.inGame,dy=game?0:50,top=470+dy,height=game?704:560;
+ const words=options.words||((value,x,y,size,color,align)=>{c.font='700 '+size+'px '+ff;c.fillStyle=color||'#60331b';c.textAlign=align||'left';c.textBaseline='middle';c.fillText(value,x,y);});
+ panel(104,top,720,height,45,'wood');panel(120,top+16,688,height-32,36);
+ words('设置',464,552+dy,54,'#60331b','center');
+ const r=manifest.buttons.reduced.map((v,i)=>i===1?v+dy:v),[x,y,w,h]=r,on=!reducedMotion;
+ fill(x,y,w,h,'#f7e4c0',24);c.strokeStyle='#e4bc85';c.lineWidth=2;rr(x,y,w,h,24);c.stroke();
+ words('动效',x+28,y+h/2,36,'#60331b','left');
+ const tx=x+w-152,ty=y+(h-60)/2;
+ fill(tx,ty,124,60,on?'#719343':'#ab9577',30);
+ words(on?'开':'关',on?tx+24:tx+100,ty+30,25,'#fff4d6','center');
+ c.save();c.shadowColor='#51321e35';c.shadowBlur=4;c.shadowOffsetY=2;ell(on?tx+94:tx+30,ty+30,24,24,'#fff5db');c.restore();
+ if(game){
+  c.strokeStyle='#d9ad754d';c.lineWidth=2;c.beginPath();c.moveTo(176,746);c.lineTo(752,746);c.stroke();
+  const entries=[['resume',options.result?'查看本关结果':'继续营业'],['restart','重新开摊']];if(options.homeEnabled)entries.push(['home','返回首页']);
+  for(const [key,name] of entries){const b=manifest.buttons[key];panel(...b,30);words(name,b[0]+b[2]/2,b[1]+b[3]/2,36,'#60331b','center');}
+ }else{
+  fill(160,820,608,194,'#efd5ad66',24);
+  words('说明',188,854,27,'#8b633f','left');
+  words('金币、装扮和收藏会自动保存。',188,901,27,'#754323','left');
+  words('当前进度暂不支持跨设备同步。',188,950,27,'#754323','left');
+  panel(710,536,78,64,22);words('关闭',749,568,25,'#60331b','center');
+ }
+ return{toggle:r,close:[710,536,78,64]};
+}
 function wood(x,y,w,h){
   const g=c.createLinearGradient(0,y,0,y+h);g.addColorStop(0,'#b97a43');g.addColorStop(.5,'#c4864b');g.addColorStop(1,'#a46230');fill(x,y,w,h,g,20);
   c.save();rr(x,y,w,h,20);c.clip();for(let i=0;i<47;i++){c.strokeStyle=i%3?'#e3a66b20':'#6b3a1d15';c.lineWidth=.8+(i%3)*.3;c.beginPath();const yy=y+3+i*h/47;c.moveTo(x,yy);c.bezierCurveTo(x+w*.35,yy+Math.sin(i)*5,x+w*.7,yy-4,x+w,yy+2);c.stroke();}c.restore();
@@ -115,11 +141,15 @@ function renderIncome(income){
  c.font='700 27px '+ff;c.textBaseline='middle';c.textAlign='left';c.fillStyle='#60311b';c.fillText('收入',370,189);
  c.font='700 30px '+ff;c.textAlign='right';c.fillStyle='#542913';c.fillText(String(income),563,189);c.restore();
 }
-function polishedWok(now=0,working=false){
+function polishedWok(now=0,working=false,theme){
  c.save();c.translate(742,1417);
  c.save();c.translate(109,-47);c.rotate(-.63);c.shadowColor='#3f251d50';c.shadowBlur=5;c.shadowOffsetY=3;
- const hg=c.createLinearGradient(0,-12,0,12);hg.addColorStop(0,'#ffd594');hg.addColorStop(.3,'#e7a856');hg.addColorStop(1,'#a8652e');fill(-37,-12,74,24,hg,11);
- c.shadowColor='transparent';stroke(-24,-7,22,-7,'#ffe7bb9c',2);fill(-38,-10,13,20,'#a28666',4);fill(-36,-9,5,18,'#e2cba4',2);ell(29,0,3.8,3,'#805027');c.restore();
+ const star=theme&&theme.id==='star',harvest=theme&&theme.id==='harvest';
+ const hg=c.createLinearGradient(0,-12,0,12);hg.addColorStop(0,star?'#a8b5df':harvest?'#f2ba7e':'#ffd594');hg.addColorStop(.3,star?'#405578':harvest?'#c17b43':'#e7a856');hg.addColorStop(1,star?'#243650':harvest?'#88502b':'#a8652e');fill(-37,-12,74,24,hg,11);
+ c.shadowColor='transparent';stroke(-24,-7,22,-7,'#ffe7bb9c',2);fill(-38,-10,13,20,star||harvest?'#bd8d43':'#a28666',4);fill(-36,-9,5,18,'#e2cba4',2);
+ if(star){c.fillStyle='#f4d384';c.beginPath();c.moveTo(27,-7);c.lineTo(30,-2);c.lineTo(35,0);c.lineTo(30,2);c.lineTo(27,7);c.lineTo(24,2);c.lineTo(19,0);c.lineTo(24,-2);c.closePath();c.fill();}
+ else if(harvest){for(const x of [-15,-4,7])stroke(x,-8,x,8,'#eeb680',1.5);ell(29,0,4,3,'#dba252');}
+ else ell(29,0,3.8,3,'#805027');c.restore();
  ell(1,44,91,11,'#552e1735');
  const body=c.createLinearGradient(-90,-25,65,52);body.addColorStop(0,'#777067');body.addColorStop(.32,'#49443e');body.addColorStop(.75,'#302d2b');body.addColorStop(1,'#1c1b1b');
  c.fillStyle=body;c.beginPath();c.moveTo(-104,-3);c.bezierCurveTo(-98,29,-72,49,0,51);c.bezierCurveTo(72,49,98,29,104,-3);c.closePath();c.fill();
@@ -197,7 +227,7 @@ function victory(income,elapsed,options={}){
 }
 
 function emptySlot(x,y,w=69,h=89){const g=c.createLinearGradient(0,y,0,y+h);g.addColorStop(0,'#c99158');g.addColorStop(.25,'#e4b782');g.addColorStop(1,'#f8d9a8');fill(x,y,w,h,g,18);c.strokeStyle='#ffe9c5';c.lineWidth=2;rr(x,y,w,h,18);c.stroke();}
-return {panel,wood,emptySlot,check,steam,pieces,emptyDish,cloche,fill,ell,stroke,sparkle,
+return {panel,settingsPanel,wood,emptySlot,check,steam,pieces,emptyDish,cloche,fill,ell,stroke,sparkle,
  renderPrepStation,toolButton,renderIncome,polishedWok,drawAsset,filledPrep,renderOrderCard,
  restoredCard,contentFit,originalTextureButton,paintInsetBoardMatte,traceBoardMatte,victory,ff,round:rr};
 }

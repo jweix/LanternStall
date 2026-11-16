@@ -14,12 +14,12 @@ function createPlatform(api, canvas) {
       bottom: Math.max(0, height - finite(safe.bottom, height))
     };
     const statusTop = Math.max(0, finite(safe.top, 0));
-    // The new lobby has an intentional empty native-menu region. Let scenery
-    // start below the status bar, keeping the wallet below the real capsule.
+    // The shared utility row starts at design Y49. Keep the entire row,
+    // including the compact content-page wordmark, below the real capsule.
     let lobbyTop = statusTop;
     for (let n = 0; n < 5; n++) {
       const scale = Math.min((width - edges.left - edges.right) / 887, (height - edges.bottom - lobbyTop) / 1774);
-      lobbyTop = Math.max(statusTop, capsuleBottom ? capsuleBottom + 8 - 114 * scale : statusTop);
+      lobbyTop = Math.max(statusTop, capsuleBottom ? capsuleBottom + 8 - 49 * scale : statusTop);
     }
     return { width, height, nativeCapsule: true, dpr: Math.min(info.pixelRatio || 1, 3),
       insets: Object.assign({}, edges, { top: Math.max(statusTop, capsuleBottom ? capsuleBottom + 8 : 0) }),
@@ -28,6 +28,16 @@ function createPlatform(api, canvas) {
   }
   return {
     geometry,
+    loadLobbyFonts() {
+      // Mini Game loadFont returns the native family identifier. Pass that
+      // identifier to the shared renderer, rather than guessing the file name.
+      const load = name => {
+        const family = api.loadFont && api.loadFont('assets/fonts/'+name+'.ttf');
+        if (api.loadFont && !family) throw new Error('界面字体加载失败');
+        return family || 'sans-serif';
+      };
+      return {lobbyBodyFont:load('LanternBody')};
+    },
     loadImages(index) {
       return Promise.all(Object.keys(index).map(id => new Promise((resolve, reject) => {
         const image = api.createImage();

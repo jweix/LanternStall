@@ -11,10 +11,17 @@ const index = require('../platforms/wechat/game/asset-index.js');
 assert.deepEqual(index, require('../shared/assets/runtime/asset-index.json'));
 for (const id of ['lobby-brand-logo','lobby-card','lobby-button-primary','lobby-scene-counter','lobby-scene-chef-base']) assert(index[id], 'New shared skin ' + id);
 assert(!Object.keys(index).some(id => id.endsWith('-collected')), 'WeChat must reuse original ingredient sprites for received icons');
-for (const asset of Object.values(index)) assert(fs.existsSync(path.join(root, 'game', asset.path)));
+for (const asset of Object.values(index)) {
+  assert(/^[\x20-\x7e]+$/.test(asset.path),'Runtime resource paths use the same portable ASCII names on both platforms');
+  assert(fs.existsSync(path.join(root, 'game', asset.path)));
+}
 for (const asset of Object.values(index)) {
   const shared = path.resolve(__dirname, '../shared/assets/runtime', path.basename(asset.path));
   assert.deepEqual(fs.readFileSync(shared), fs.readFileSync(path.join(root, 'game', asset.path)), 'Web and WeChat ship identical image bytes');
+}
+for (const name of ['LanternBody.ttf','OFL-NotoSansSC.txt']) {
+  assert.deepEqual(fs.readFileSync(path.resolve(__dirname,'../shared/assets/lobby/fonts',name)),
+    fs.readFileSync(path.join(root,'game/assets/fonts',name)),'Web and WeChat ship identical fonts/licenses');
 }
 let bytes = 0;
 function walk(dir) {
@@ -38,6 +45,11 @@ const partial = createPlatform({
     safeArea: { top: 47 } }), getMenuButtonBoundingClientRect: () => ({})
 }, {});
 assert.deepEqual(partial.geometry().insets, { left: 0, right: 0, top: 47, bottom: 0 });
+const fontPaths=[];
+const fontPlatform=createPlatform({loadFont(file){fontPaths.push(file);return 'native-'+path.basename(file,'.ttf');}},{});
+assert.deepEqual(fontPlatform.loadLobbyFonts(),{lobbyBodyFont:'native-LanternBody'});
+assert.deepEqual(fontPaths,['assets/fonts/LanternBody.ttf']);
+assert.throws(()=>createPlatform({loadFont:()=>null},{}).loadLobbyFonts(),/字体加载失败/);
 console.log('PASS incomplete simulator safe-area and capsule data never produce NaN');
 
 const gradient = { addColorStop() {} };
@@ -54,8 +66,12 @@ const ctx = new Proxy({ globalAlpha: 1 }, { get: (target, name) => name in targe
   name === 'drawImage' ? image => { draws++; imageDraws.push({ path: image.path, alpha: target.globalAlpha }); } :
   /create.*Gradient/.test(name) ? () => gradient : () => {} });
 const handlers = {}, storage = {};
+// Own a full rare series without advancing levels, so native list gestures
+// and one-tap equipment can be checked before playing the same first level.
+storage['lantern-stall-v2']={version:2,dishes:Object.fromEntries(require('../shared/data/recipes.json').map(r=>[r.id,1]))};
 const canvas = { getContext: () => ctx };
 global.wx = {
+  loadFont(file){assert(fs.existsSync(path.join(root,'game',file)));return 'native-'+path.basename(file,'.ttf');},
   createCanvas: () => canvas,
   createImage() {
     const image = {};
@@ -70,6 +86,7 @@ global.wx = {
   getStorageSync: key => storage[key], setStorageSync: (key, value) => { storage[key] = value; },
   onHide: fn => { handlers.hide = fn; }, onShow: fn => { handlers.show = fn; },
   onWindowResize: fn => { handlers.resize = fn; }, onTouchStart: fn => { handlers.touch = fn; },
+  onTouchMove: fn => { handlers.move = fn; },onTouchEnd:fn=>{handlers.end=fn;},onTouchCancel:fn=>{handlers.cancel=fn;},
   onMouseDown: fn => { handlers.mouse = fn; }
 };
 let frame;
@@ -80,14 +97,39 @@ setImmediate(() => {
   assert(imageDraws.some(d => d.path === 'assets/lobby-scene-counter.png'), 'Native entry must draw the approved new lobby skin');
   const M = require('../shared/core/motion.js');
   const view = M.viewport(390, 844, { top: 95, bottom: 34 });
-  const homeView = require('../shared/rendering/lobby-ui.js').viewport(390, 844, {top:47,bottom:34});
-  assert(homeView.y + 114*homeView.scale >= 95, 'Native wallet clears the real capsule without wasting the whole header');
+  const nativeGeometry=createPlatform(wx,canvas).geometry();
+  const homeView = require('../shared/rendering/lobby-ui.js').viewport(390, 844, nativeGeometry.lobbyInsets);
+  const LL=require('../shared/data/lobby-layout.js'),OL=require('../shared/rendering/outfit-ui.js');
+  const homeHeader=LL.header;
+  assert(homeView.y + homeHeader.wallet[1]*homeView.scale >= 95-.001, 'Native wallet clears the real capsule');
+  const nativePoint=(x,y)=>({clientX:homeView.x+x*homeView.scale,clientY:homeView.y+y*homeView.scale});
+  handlers.touch({touches:[nativePoint(340,1680)]});labels=[];frame(17);
+  assert(labels.includes('主题套装')&&labels.includes('珍藏装扮'));
+  handlers.touch({touches:[nativePoint(646,LL.decor.main[1]+34)]});labels=[];frame(17.5);
+  assert(labels.includes('星河琉璃')&&labels.includes('柿灯丰年')&&!labels.includes('全部'));
+  handlers.touch({touches:[nativePoint(210,OL.rareList[1]+80)]});handlers.end({changedTouches:[nativePoint(210,OL.rareList[1]+80)]});labels=[];frame(17.6);
+  assert(labels.includes('试穿中 · 未保存'),'Locked rare family can be previewed through native touch');
+  assert(!labels.includes('星河灯串'),'Theme cards show collection progress, not component lists');
+  handlers.touch({touches:[nativePoint(650,LL.decor.categories[1]+31)]});labels=[];frame(17.7);
+  assert(labels.includes('星河灯串')&&!labels.includes('星河锅具'));
+  const storedBeforeScroll=JSON.stringify(storage);
+  handlers.touch({touches:[nativePoint(180,OL.ownedList[1]+180)]});handlers.move({touches:[nativePoint(180,OL.ownedList[1]+40)]});handlers.end({changedTouches:[nativePoint(180,OL.ownedList[1]+40)]});
+  labels=[];frame(18);assert(labels.includes('星河菜单牌'),'Native drag reaches another owned-item row');
+  assert.equal(JSON.stringify(storage),storedBeforeScroll,'Native dragging never buys or equips an item');
+  handlers.touch({touches:[nativePoint(210,OL.ownedList[1]+110)]});handlers.end({changedTouches:[nativePoint(210,OL.ownedList[1]+110)]});labels=[];frame(18.5);
+  assert.equal(JSON.stringify(storage),storedBeforeScroll,'Native card tap previews without changing the save');
+  assert(labels.includes('恢复当前装扮')&&labels.includes('换上星河桌椅'),'Native preview offers the same explicit equip action as themes');
+  handlers.touch({touches:[nativePoint(LL.decor.cta[0]+LL.decor.cta[2]/2,LL.decor.cta[1]+LL.decor.cta[3]/2)]});labels=[];frame(18.6);
+  assert.equal(storage['lantern-stall-v2'].equipped.tables,'star-tables','Only the native equip button saves the selected component');assert.equal(storage['lantern-stall-v2'].coins,0);
+  handlers.touch({touches:[nativePoint(180,OL.ownedList[1]+180)]});handlers.cancel();
+  handlers.touch({touches:[nativePoint(130,1680)]});frame(19);
+  console.log('PASS WeChat touch move/end/cancel scroll the shared outfit list without spending or equipping');
   handlers.touch({ touches: [{ clientX: homeView.x + 447 * homeView.scale, clientY: homeView.y + 1450 * homeView.scale }] });
   frame(20); assert(storage['lantern-stall-v2'].activeAttempt, 'Native home button must start and durably identify a game');
   handlers.touch({ touches: [{ clientX: view.x + 160 * view.scale, clientY: view.y + 53 * view.scale }] });
-  labels = []; frame(32); assert(labels.includes('歇一会儿'), 'Native touch must open settings at the drawn coordinates');
-  handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + 825 * view.scale }] });
-  labels = []; frame(48); assert(!labels.includes('歇一会儿'));
+  labels = []; frame(32); assert(labels.includes('设置'), 'Native touch must open settings at the drawn coordinates');
+  handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + (require('../shared/data/game-ui.js').buttons.resume[1]+49) * view.scale }] });
+  labels = []; frame(48); assert(!labels.includes('设置'));
   const level = require('../shared/core/levels.js').createLevel(require('../shared/data/recipes.json'), require('../shared/data/layout.json'), 1);
   const carrot = level.tiles.find(n => n.food === 'carrot' && n.layer === 1);
   handlers.touch({ touches: [{ x: view.x + carrot.x * view.scale, y: view.y + carrot.y * view.scale }] });

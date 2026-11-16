@@ -1,132 +1,113 @@
 {
-  "version": 4,
+  "version": 5,
   "rule": "Each source file is one logical asset; no page skins or embedded functional controls.",
   "assets": [
     {
       "id": "lobby-button-primary",
-      "file": "source/ui/button-primary.png",
+      "file": "source/ui/v6/primary.png",
       "kind": "ui",
       "maxSize": [
-        669,
-        144
+        670,
+        185
       ],
-      "slice": [
-        75,
-        45,
-        75,
-        45
-      ]
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-button-secondary",
-      "file": "source/ui/button-secondary.png",
+      "file": "source/ui/v6/secondary.png",
       "kind": "ui",
       "maxSize": [
-        224,
-        72
+        255,
+        84
       ],
-      "slice": [
-        28,
-        24,
-        28,
-        24
-      ]
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-tab-active",
-      "file": "source/ui/tab-active.png",
+      "file": "source/ui/v6/tab-active.png",
       "kind": "ui",
       "maxSize": [
-        217,
-        80
+        283,
+        86
       ],
-      "slice": [
-        28,
-        24,
-        28,
-        24
-      ]
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-tab-normal",
-      "file": "source/ui/tab-normal.png",
+      "file": "source/ui/v6/tab-normal.png",
       "kind": "ui",
       "maxSize": [
-        192,
-        77
+        283,
+        86
       ],
-      "slice": [
-        28,
-        24,
-        28,
-        24
-      ]
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-card",
-      "file": "source/ui/card.png",
+      "file": "source/ui/v6/card.png",
       "kind": "ui",
       "maxSize": [
-        398,
-        171
+        394,
+        308
       ],
-      "slice": [
-        28,
-        24,
-        28,
-        24
-      ]
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-scene-chef",
-      "file": "source/scene/scene-chef.png",
+      "file": "source/scene/v8/chef-complete.png",
       "kind": "scene",
       "maxSize": [
-        420,
-        450
-      ]
+        292,
+        261
+      ],
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-scene-counter",
-      "file": "source/scene/scene-counter.png",
-      "kind": "scene",
+      "file": "source/scene/v16/counter.png",
       "maxSize": [
-        850,
-        650
-      ]
+        735,
+        450
+      ],
+      "trim": true
     },
     {
       "id": "lobby-scene-awning",
-      "file": "source/scene/scene-awning.png",
+      "file": "source/scene/v8/awning-cloth.png",
       "kind": "scene",
       "maxSize": [
-        850,
-        300
-      ]
+        746,
+        189
+      ],
+      "trim": true,
+      "cleanAlpha": true
     },
     {
       "id": "lobby-scene-stool",
-      "file": "source/scene/scene-stool.png",
+      "file": "source/scene/v10/stool-complete.png",
       "kind": "scene",
       "maxSize": [
-        220,
-        250
+        145,
+        132
       ]
     },
     {
       "id": "lobby-content-panel",
-      "file": "source/ui/content-panel.png",
+      "file": "source/ui/v6/panel-decor.png",
       "kind": "ui",
       "maxSize": [
         640,
-        1000
+        1037
       ],
-      "slice": [
-        52,
-        170,
-        52,
-        52
-      ]
+      "trim": true,
+      "cleanAlpha": true,
+      "format": "jpeg-shape"
     },
     {
       "id": "lobby-brand-logo",
@@ -139,103 +120,1525 @@
     },
     {
       "id": "lobby-header-awning",
-      "file": "source/brand/header-awning.png",
-      "kind": "brand",
+      "file": "source/brand/v6/header-awning.png",
+      "kind": "scene",
       "maxSize": [
         887,
-        57
+        61
       ]
     },
     {
       "id": "lobby-coin",
-      "file": "source/icons/coin.png",
+      "file": "source/icons/v6/coin.png",
       "kind": "icon",
       "maxSize": [
-        53,
-        50
+        51,
+        48
       ]
     },
     {
       "id": "lobby-lamp-base",
-      "file": "source/scene/lamp-base.png",
+      "file": "source/scene/v6/lamp-red.png",
       "kind": "scene",
       "maxSize": [
-        130,
-        180
+        134,
+        189
       ]
     },
     {
       "id": "lobby-lamp-warm",
-      "file": "source/scene/lamp-warm.png",
-      "kind": "scene",
+      "file": "source/scene/v16/warm-lamp.png",
       "maxSize": [
-        130,
+        104,
         180
-      ]
+      ],
+      "trim": true
     },
     {
       "id": "lobby-lamp-bamboo",
-      "file": "source/scene/lamp-bamboo.png",
-      "kind": "scene",
+      "file": "source/scene/v16/bamboo-lamp.png",
       "maxSize": [
-        130,
+        104,
         180
-      ]
+      ],
+      "trim": true
     },
     {
       "id": "lobby-lamp-sea",
-      "file": "source/scene/lamp-sea.png",
-      "kind": "scene",
+      "file": "source/scene/v16/sea-lamp.png",
       "maxSize": [
-        130,
+        104,
         180
-      ]
+      ],
+      "trim": true
     },
     {
       "id": "lobby-lamp-festival",
-      "file": "source/scene/lamp-festival.png",
-      "kind": "scene",
+      "file": "source/scene/v16/festival-lamp.png",
       "maxSize": [
-        130,
+        104,
         180
-      ]
-    },
-    {
-      "id": "lobby-wood-grain",
-      "file": "source/ui/wood-grain.png",
-      "kind": "texture",
-      "maxSize": [
-        128,
-        128
-      ]
+      ],
+      "trim": true
     },
     {
       "id": "lobby-icon-sound",
-      "file": "source/icons/sound.png",
+      "file": "source/icons/v6/sound.png",
       "kind": "icon",
       "maxSize": [
-        64,
-        64
+        47,
+        39
       ]
     },
     {
       "id": "lobby-icon-settings",
-      "file": "source/icons/settings.png",
+      "file": "source/icons/v6/settings.png",
       "kind": "icon",
       "maxSize": [
-        64,
-        64
+        44,
+        45
       ]
     },
     {
       "id": "lobby-environment-night",
-      "file": "source/scene/environment-night.jpg",
-      "kind": "environment",
-      "format": "jpeg",
+      "file": "source/scene/v16/environment.png",
       "maxSize": [
-        1000,
-        800
+        640,
+        1280
+      ],
+      "trim": false,
+      "format": "jpeg",
+      "quality": 68
+    },
+    {
+      "id": "lobby-stall-sign",
+      "file": "source/scene/v6/sign.png",
+      "kind": "scene",
+      "maxSize": [
+        310,
+        181
       ]
+    },
+    {
+      "id": "lobby-wish-panel",
+      "file": "source/ui/v6/wish.png",
+      "kind": "ui",
+      "maxSize": [
+        831,
+        176
+      ],
+      "trim": true,
+      "cleanAlpha": true
+    },
+    {
+      "id": "lobby-nav-base",
+      "file": "source/ui/v6/nav-base.png",
+      "kind": "ui",
+      "maxSize": [
+        887,
+        163
+      ],
+      "trim": true,
+      "cleanAlpha": true,
+      "format": "jpeg-shape"
+    },
+    {
+      "id": "lobby-nav-selected",
+      "file": "source/ui/v6/nav-selected.png",
+      "kind": "ui",
+      "maxSize": [
+        215,
+        137
+      ],
+      "trim": true,
+      "cleanAlpha": true
+    },
+    {
+      "id": "lobby-panel-recipes",
+      "file": "source/ui/v6/panel-recipes.png",
+      "kind": "ui",
+      "maxSize": [
+        640,
+        1005
+      ],
+      "trim": true,
+      "cleanAlpha": true,
+      "format": "jpeg-shape"
+    },
+    {
+      "id": "lobby-panel-market",
+      "file": "source/ui/v6/panel-market.png",
+      "kind": "ui",
+      "maxSize": [
+        640,
+        1030
+      ],
+      "trim": true,
+      "cleanAlpha": true,
+      "format": "jpeg-shape"
+    },
+    {
+      "id": "lobby-banner-environment",
+      "file": "source/scene/v6/banner.png",
+      "kind": "scene",
+      "maxSize": [
+        837,
+        239
+      ],
+      "format": "jpeg"
+    },
+    {
+      "id": "lobby-stool-right",
+      "file": "source/scene/v10/stool-complete.png",
+      "kind": "scene",
+      "maxSize": [
+        143,
+        130
+      ]
+    },
+    {
+      "id": "lobby-prep-rack",
+      "file": "source/scene/v14/prep-rack.png",
+      "kind": "scene",
+      "maxSize": [
+        244,
+        181
+      ]
+    },
+    {
+      "id": "lobby-plant",
+      "file": "source/scene/v10/plant-complete.png",
+      "kind": "scene",
+      "maxSize": [
+        156,
+        164
+      ]
+    },
+    {
+      "id": "lobby-wok",
+      "file": "source/scene/v6/wok-empty.png",
+      "kind": "scene",
+      "maxSize": [
+        219,
+        80
+      ],
+      "cleanAlpha": true,
+      "trim": true
+    },
+    {
+      "id": "lobby-bulb",
+      "file": "source/scene/v6/bulb.png",
+      "kind": "scene",
+      "maxSize": [
+        63,
+        65
+      ]
+    },
+    {
+      "id": "lobby-rope",
+      "file": "source/brand/v6/rope.png",
+      "kind": "scene",
+      "maxSize": [
+        23,
+        109
+      ]
+    },
+    {
+      "id": "lobby-icon-brush",
+      "file": "source/icons/v6/brush.png",
+      "kind": "icon",
+      "maxSize": [
+        53,
+        64
+      ]
+    },
+    {
+      "id": "lobby-icon-cloud",
+      "file": "source/icons/v6/cloud.png",
+      "kind": "icon",
+      "maxSize": [
+        53,
+        26
+      ]
+    },
+    {
+      "id": "lobby-icon-title-cloud",
+      "file": "source/icons/v6/title-cloud.png",
+      "kind": "icon",
+      "maxSize": [
+        87,
+        37
+      ]
+    },
+    {
+      "id": "lobby-nav-home",
+      "file": "source/icons/v6/nav-home.png",
+      "kind": "icon",
+      "maxSize": [
+        122,
+        70
+      ]
+    },
+    {
+      "id": "lobby-art-nav-home",
+      "file": "source/brand/v6/nav-label-home.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-nav-home-selected",
+      "file": "source/brand/v6/nav-label-home-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-nav-decor",
+      "file": "source/icons/v6/nav-decor.png",
+      "kind": "icon",
+      "maxSize": [
+        77,
+        78
+      ]
+    },
+    {
+      "id": "lobby-art-nav-decor",
+      "file": "source/brand/v6/nav-label-decor.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-nav-decor-selected",
+      "file": "source/brand/v6/nav-label-decor-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-nav-recipes",
+      "file": "source/icons/v6/nav-recipes.png",
+      "kind": "icon",
+      "maxSize": [
+        81,
+        76
+      ]
+    },
+    {
+      "id": "lobby-art-nav-recipes",
+      "file": "source/brand/v6/nav-label-recipes.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-nav-recipes-selected",
+      "file": "source/brand/v6/nav-label-recipes-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-nav-market",
+      "file": "source/icons/v6/nav-market.png",
+      "kind": "icon",
+      "maxSize": [
+        75,
+        86
+      ]
+    },
+    {
+      "id": "lobby-art-nav-market",
+      "file": "source/brand/v6/nav-label-market.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-nav-market-selected",
+      "file": "source/brand/v6/nav-label-market-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-title-decor",
+      "file": "source/brand/v6/title-decor.png",
+      "kind": "scene",
+      "maxSize": [
+        322,
+        74
+      ]
+    },
+    {
+      "id": "lobby-art-subtitle-decor",
+      "file": "source/brand/v6/subtitle-decor.png",
+      "kind": "scene",
+      "maxSize": [
+        408,
+        39
+      ]
+    },
+    {
+      "id": "lobby-art-title-recipes",
+      "file": "source/brand/v17/title-recipes.png",
+      "kind": "scene",
+      "maxSize": [
+        312,
+        64
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-art-title-market",
+      "file": "source/brand/v6/title-market.png",
+      "kind": "scene",
+      "maxSize": [
+        318,
+        75
+      ]
+    },
+    {
+      "id": "lobby-art-label-play",
+      "file": "source/brand/v6/label-play.png",
+      "kind": "scene",
+      "maxSize": [
+        324,
+        79
+      ]
+    },
+    {
+      "id": "lobby-art-label-decor",
+      "file": "source/brand/v6/label-decor.png",
+      "kind": "scene",
+      "maxSize": [
+        140,
+        39
+      ]
+    },
+    {
+      "id": "lobby-art-label-map",
+      "file": "source/brand/v6/label-map.png",
+      "kind": "scene",
+      "maxSize": [
+        169,
+        35
+      ]
+    },
+    {
+      "id": "lobby-dish-0",
+      "file": "source/scene/v6/dish-0.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-0",
+      "file": "source/brand/v6/dish-name-0.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-dish-1",
+      "file": "source/scene/v6/dish-1.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-1",
+      "file": "source/brand/v6/dish-name-1.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-dish-2",
+      "file": "source/scene/v6/dish-2.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-2",
+      "file": "source/brand/v6/dish-name-2.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-dish-3",
+      "file": "source/scene/v6/dish-3.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-3",
+      "file": "source/brand/v6/dish-name-3.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-dish-4",
+      "file": "source/scene/v6/dish-4.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-4",
+      "file": "source/brand/v6/dish-name-4.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-dish-5",
+      "file": "source/scene/v6/dish-5.png",
+      "kind": "scene",
+      "maxSize": [
+        285,
+        181
+      ]
+    },
+    {
+      "id": "lobby-art-dish-5",
+      "file": "source/brand/v6/dish-name-5.png",
+      "kind": "scene",
+      "maxSize": [
+        290,
+        47
+      ]
+    },
+    {
+      "id": "lobby-prepared-food",
+      "file": "source/scene/v6/prepared-food.png",
+      "kind": "scene",
+      "maxSize": [
+        106,
+        49
+      ]
+    },
+    {
+      "id": "lobby-wok-food",
+      "file": "source/scene/v6/wok-food.png",
+      "kind": "scene",
+      "maxSize": [
+        110,
+        32
+      ]
+    },
+    {
+      "id": "lobby-steam",
+      "file": "source/scene/v6/steam.png",
+      "kind": "scene",
+      "maxSize": [
+        65,
+        116
+      ]
+    },
+    {
+      "id": "lobby-fire",
+      "file": "source/scene/v6/fire.png",
+      "kind": "scene",
+      "maxSize": [
+        116,
+        27
+      ]
+    },
+    {
+      "id": "lobby-plate",
+      "file": "source/scene/v6/plate-empty.png",
+      "kind": "scene",
+      "maxSize": [
+        145,
+        67
+      ],
+      "trim": true,
+      "cleanAlpha": true
+    },
+    {
+      "id": "lobby-lantern-rope",
+      "file": "source/brand/v6/lantern-rope.png",
+      "kind": "scene",
+      "maxSize": [
+        18,
+        90
+      ]
+    },
+    {
+      "id": "lobby-art-banner-title",
+      "file": "source/brand/v6/banner-title.png",
+      "kind": "scene",
+      "maxSize": [
+        352,
+        82
+      ]
+    },
+    {
+      "id": "lobby-art-banner-subtitle",
+      "file": "source/brand/v6/banner-subtitle.png",
+      "kind": "scene",
+      "maxSize": [
+        341,
+        38
+      ]
+    },
+    {
+      "id": "lobby-art-book-0",
+      "file": "source/brand/v6/book-0.png",
+      "kind": "scene",
+      "maxSize": [
+        254,
+        67
+      ]
+    },
+    {
+      "id": "lobby-art-book-1",
+      "file": "source/brand/v6/book-1.png",
+      "kind": "scene",
+      "maxSize": [
+        187,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-book-2",
+      "file": "source/brand/v6/book-2.png",
+      "kind": "scene",
+      "maxSize": [
+        187,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-book-3",
+      "file": "source/brand/v6/book-3.png",
+      "kind": "scene",
+      "maxSize": [
+        187,
+        43
+      ]
+    },
+    {
+      "id": "lobby-counter-preview",
+      "file": "source/scene/v14/counter-preview.png",
+      "kind": "scene",
+      "maxSize": [
+        592,
+        311
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-prep-rack-preview",
+      "file": "source/scene/v11/prep-rack-preview.png",
+      "kind": "scene",
+      "maxSize": [
+        139,
+        104
+      ]
+    },
+    {
+      "id": "lobby-brand-compact",
+      "file": "source/brand/v6/brand-compact.png",
+      "kind": "scene",
+      "maxSize": [
+        363,
+        122
+      ]
+    },
+    {
+      "id": "lobby-banner-lamp",
+      "file": "source/scene/v6/banner-lamp.png",
+      "kind": "scene",
+      "maxSize": [
+        178,
+        239
+      ]
+    },
+    {
+      "id": "lobby-art-tab-stall",
+      "file": "source/brand/v6/tab-stall.png",
+      "kind": "scene",
+      "maxSize": [
+        89,
+        42
+      ]
+    },
+    {
+      "id": "lobby-art-tab-stall-selected",
+      "file": "source/brand/v6/tab-stall-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        89,
+        42
+      ]
+    },
+    {
+      "id": "lobby-art-tab-chef",
+      "file": "source/brand/v6/tab-chef.png",
+      "kind": "scene",
+      "maxSize": [
+        85,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-chef-selected",
+      "file": "source/brand/v6/tab-chef-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        85,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-background",
+      "file": "source/brand/v6/tab-background.png",
+      "kind": "scene",
+      "maxSize": [
+        86,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-background-selected",
+      "file": "source/brand/v6/tab-background-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        86,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-themes",
+      "file": "source/brand/v6/tab-themes.png",
+      "kind": "scene",
+      "maxSize": [
+        86,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-themes-selected",
+      "file": "source/brand/v6/tab-themes-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        86,
+        41
+      ]
+    },
+    {
+      "id": "lobby-art-tab-recipes",
+      "file": "source/brand/v6/tab-recipes.png",
+      "kind": "scene",
+      "maxSize": [
+        98,
+        46
+      ]
+    },
+    {
+      "id": "lobby-art-tab-recipes-selected",
+      "file": "source/brand/v6/tab-recipes-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        98,
+        46
+      ]
+    },
+    {
+      "id": "lobby-art-tab-achievements",
+      "file": "source/brand/v6/tab-achievements.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-tab-achievements-selected",
+      "file": "source/brand/v6/tab-achievements-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-tab-photos",
+      "file": "source/brand/v6/tab-photos.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-tab-photos-selected",
+      "file": "source/brand/v6/tab-photos-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-tab-current",
+      "file": "source/brand/v6/tab-current.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        46
+      ]
+    },
+    {
+      "id": "lobby-art-tab-current-selected",
+      "file": "source/brand/v6/tab-current-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        46
+      ]
+    },
+    {
+      "id": "lobby-art-tab-archive",
+      "file": "source/brand/v6/tab-archive.png",
+      "kind": "scene",
+      "maxSize": [
+        101,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-tab-archive-selected",
+      "file": "source/brand/v6/tab-archive-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        101,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-tab-daily",
+      "file": "source/brand/v6/tab-daily.png",
+      "kind": "scene",
+      "maxSize": [
+        101,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-tab-daily-selected",
+      "file": "source/brand/v6/tab-daily-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        101,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-label-preview",
+      "file": "source/brand/v6/label-preview.png",
+      "kind": "scene",
+      "maxSize": [
+        99,
+        39
+      ]
+    },
+    {
+      "id": "lobby-art-page-prev",
+      "file": "source/brand/v6/page-prev.png",
+      "kind": "scene",
+      "maxSize": [
+        118,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-page-prev-disabled",
+      "file": "source/brand/v6/page-prev-disabled.png",
+      "kind": "scene",
+      "maxSize": [
+        118,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-page-next",
+      "file": "source/brand/v6/page-next.png",
+      "kind": "scene",
+      "maxSize": [
+        120,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-page-next-disabled",
+      "file": "source/brand/v6/page-next-disabled.png",
+      "kind": "scene",
+      "maxSize": [
+        120,
+        43
+      ]
+    },
+    {
+      "id": "lobby-art-category-lamp",
+      "file": "source/brand/v6/category-lamp.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-lamp-selected",
+      "file": "source/brand/v6/category-lamp-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-awning",
+      "file": "source/brand/v6/category-awning.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-awning-selected",
+      "file": "source/brand/v6/category-awning-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-tables",
+      "file": "source/brand/v6/category-tables.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-tables-selected",
+      "file": "source/brand/v6/category-tables-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-ornament",
+      "file": "source/brand/v6/category-ornament.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-ornament-selected",
+      "file": "source/brand/v6/category-ornament-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-menu",
+      "file": "source/brand/v6/category-menu.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-art-category-menu-selected",
+      "file": "source/brand/v6/category-menu-selected.png",
+      "kind": "scene",
+      "maxSize": [
+        94,
+        44
+      ]
+    },
+    {
+      "id": "lobby-icon-cloud-recipes",
+      "file": "source/icons/v6/cloud-recipes.png",
+      "kind": "icon",
+      "maxSize": [
+        88,
+        37
+      ]
+    },
+    {
+      "id": "lobby-icon-cloud-market",
+      "file": "source/icons/v6/cloud-market.png",
+      "kind": "icon",
+      "maxSize": [
+        69,
+        31
+      ]
+    },
+    {
+      "id": "lobby-scene-awning-star",
+      "file": "source/scene/v9/star-awning.png",
+      "maxSize": [
+        746,
+        240
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-lamp-star",
+      "file": "source/scene/v9/star-lamp.png",
+      "maxSize": [
+        124,
+        210
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-stool-star",
+      "file": "source/scene/v9/star-tables.png",
+      "maxSize": [
+        176,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-stool-right-star",
+      "file": "source/scene/v9/star-tables.png",
+      "maxSize": [
+        176,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plant-star",
+      "file": "source/scene/v9/star-ornament.png",
+      "maxSize": [
+        176,
+        190
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-star-menu",
+      "file": "source/scene/v9/star-menu.png",
+      "maxSize": [
+        96,
+        120
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plate-star",
+      "file": "source/scene/v9/star-plate.png",
+      "maxSize": [
+        176,
+        100
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-wok-star",
+      "file": "source/scene/v14/star-wok.png",
+      "maxSize": [
+        240,
+        90
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-chef-star",
+      "file": "source/scene/v14/star-chef.png",
+      "maxSize": [
+        292,
+        280
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-cloth-star",
+      "file": "source/scene/v9/star-cloth.png",
+      "maxSize": [
+        340,
+        190
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-environment-star",
+      "file": "source/scene/v9/environment-star.png",
+      "maxSize": [
+        640,
+        480
+      ],
+      "format": "jpeg"
+    },
+    {
+      "id": "lobby-scene-awning-harvest",
+      "file": "source/scene/v9/harvest-awning.png",
+      "maxSize": [
+        746,
+        240
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-lamp-harvest",
+      "file": "source/scene/v9/harvest-lamp.png",
+      "maxSize": [
+        124,
+        210
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-stool-harvest",
+      "file": "source/scene/v9/harvest-tables.png",
+      "maxSize": [
+        176,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-stool-right-harvest",
+      "file": "source/scene/v9/harvest-tables.png",
+      "maxSize": [
+        176,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plant-harvest",
+      "file": "source/scene/v9/harvest-ornament.png",
+      "maxSize": [
+        176,
+        190
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-harvest-menu",
+      "file": "source/scene/v9/harvest-menu.png",
+      "maxSize": [
+        96,
+        120
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plate-harvest",
+      "file": "source/scene/v9/harvest-plate.png",
+      "maxSize": [
+        176,
+        100
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-wok-harvest",
+      "file": "source/scene/v14/harvest-wok.png",
+      "maxSize": [
+        240,
+        90
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-chef-harvest",
+      "file": "source/scene/v14/harvest-chef.png",
+      "maxSize": [
+        292,
+        280
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-cloth-harvest",
+      "file": "source/scene/v9/harvest-cloth.png",
+      "maxSize": [
+        340,
+        190
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-environment-harvest",
+      "file": "source/scene/v9/environment-harvest.png",
+      "maxSize": [
+        640,
+        480
+      ],
+      "format": "jpeg"
+    },
+    {
+      "id": "lobby-cloth",
+      "file": "source/scene/v9/cloth-warm.png",
+      "maxSize": [
+        338,
+        67
+      ]
+    },
+    {
+      "id": "lobby-brand-home",
+      "file": "source/brand/v13/gold-title.png",
+      "kind": "brand",
+      "trim": true,
+      "maxSize": [
+        660,
+        154
+      ]
+    },
+    {
+      "id": "stall-night",
+      "file": "source/scene/v18/environment-festival.png",
+      "maxSize": [
+        600,
+        1200
+      ],
+      "trim": false,
+      "format": "jpeg",
+      "quality": 68
+    },
+    {
+      "id": "stall-night-bamboo",
+      "file": "source/scene/v18/environment-bamboo.png",
+      "maxSize": [
+        600,
+        1200
+      ],
+      "trim": false,
+      "format": "jpeg",
+      "quality": 68
+    },
+    {
+      "id": "stall-night-sea",
+      "file": "source/scene/v18/environment-sea.png",
+      "maxSize": [
+        600,
+        1200
+      ],
+      "trim": false,
+      "format": "jpeg",
+      "quality": 68
+    },
+    {
+      "id": "lobby-plant-sea",
+      "file": "source/scene/v16/sea-ornament.png",
+      "maxSize": [
+        156,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plant-warm",
+      "file": "source/scene/v16/warm-ornament.png",
+      "maxSize": [
+        156,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-stool-sea",
+      "file": "source/scene/v16/sea-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-stool-right-sea",
+      "file": "source/scene/v16/sea-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-warm-menu",
+      "file": "source/scene/v16/warm-menu.png",
+      "maxSize": [
+        64,
+        72
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-chef-sea",
+      "file": "source/scene/v16/sea-chef.png",
+      "maxSize": [
+        292,
+        261
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-awning-sea",
+      "file": "source/scene/v16/sea-awning.png",
+      "maxSize": [
+        746,
+        189
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-wok-sea",
+      "file": "source/scene/v16/sea-wok.png",
+      "maxSize": [
+        219,
+        80
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plate-sea",
+      "file": "source/scene/v16/sea-plate.png",
+      "maxSize": [
+        145,
+        67
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-sea-menu",
+      "file": "source/scene/v16/sea-menu.png",
+      "maxSize": [
+        64,
+        72
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-cloth-sea",
+      "file": "source/scene/v16/sea-cloth.png",
+      "maxSize": [
+        338,
+        67
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-chef-bamboo",
+      "file": "source/scene/v16/bamboo-chef.png",
+      "maxSize": [
+        292,
+        261
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-awning-bamboo",
+      "file": "source/scene/v16/bamboo-awning.png",
+      "maxSize": [
+        746,
+        189
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-wok-bamboo",
+      "file": "source/scene/v16/bamboo-wok.png",
+      "maxSize": [
+        219,
+        80
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plate-bamboo",
+      "file": "source/scene/v16/bamboo-plate.png",
+      "maxSize": [
+        145,
+        67
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plant-bamboo",
+      "file": "source/scene/v16/bamboo-ornament.png",
+      "maxSize": [
+        156,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-bamboo-menu",
+      "file": "source/scene/v16/bamboo-menu.png",
+      "maxSize": [
+        64,
+        72
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-stool-bamboo",
+      "file": "source/scene/v16/bamboo-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-stool-right-bamboo",
+      "file": "source/scene/v16/bamboo-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-cloth-bamboo",
+      "file": "source/scene/v16/bamboo-cloth.png",
+      "maxSize": [
+        338,
+        67
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plant-festival",
+      "file": "source/scene/v16/festival-ornament.png",
+      "maxSize": [
+        156,
+        164
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-awning-festival",
+      "file": "source/scene/v16/festival-awning.png",
+      "maxSize": [
+        746,
+        189
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-stool-festival",
+      "file": "source/scene/v16/festival-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-stool-right-festival",
+      "file": "source/scene/v16/festival-tables.png",
+      "maxSize": [
+        145,
+        132
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-scene-chef-festival",
+      "file": "source/scene/v16/festival-chef.png",
+      "maxSize": [
+        292,
+        261
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-wok-festival",
+      "file": "source/scene/v16/festival-wok.png",
+      "maxSize": [
+        219,
+        80
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-plate-festival",
+      "file": "source/scene/v16/festival-plate.png",
+      "maxSize": [
+        145,
+        67
+      ],
+      "trim": true
+    },
+    {
+      "id": "stall-festival-menu",
+      "file": "source/scene/v16/festival-menu.png",
+      "maxSize": [
+        64,
+        72
+      ],
+      "trim": true
+    },
+    {
+      "id": "lobby-cloth-festival",
+      "file": "source/scene/v16/festival-cloth.png",
+      "maxSize": [
+        338,
+        67
+      ],
+      "trim": true
     }
   ],
   "generation": {
@@ -250,6 +1653,33 @@
     },
     "counterCorrection": "Removed canopy and all background; only counter, fixed posts and metal worktop remain, with alpha opening.",
     "headerDerivation": "Isolated valance from the standalone scene-awning source; no page pixels.",
-    "woodDerivation": "Pure wood material crop excluding the cabinet edge."
+    "woodDerivation": "Pure wood material crop excluding the cabinet edge.",
+    "v6": {
+      "mode": "原稿逻辑对象提取 + built-in image_gen 局部补底/空白底面",
+      "provenance": "generation-v6.json",
+      "extraction": "source/master/extraction.json"
+    },
+    "v8": {
+      "mode": "built-in image_gen transparent object repairs + authored material palettes",
+      "provenance": "generation-v8.json",
+      "palettes": "palettes.json"
+    }
+  },
+  "fonts": {
+    "display": {
+      "file": "fonts/LanternDisplay.ttf",
+      "source": "source/fonts/ZCOOLKuaiLe-Regular.ttf",
+      "license": "fonts/OFL.txt",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/zcoolkuaile",
+      "runtime": false
+    },
+    "body": {
+      "file": "fonts/LanternBody.ttf",
+      "license": "fonts/OFL-NotoSansSC.txt",
+      "upstream": "https://github.com/google/fonts/blob/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+      "sourceBlob": "fb0637bafbcd804fe32152370a1225990745b4bc",
+      "weight": 500,
+      "runtime": true
+    }
   }
 }

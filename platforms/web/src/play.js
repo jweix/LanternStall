@@ -16,26 +16,41 @@
     function write(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (_) { return false; } }
     const progress = read('lantern-progress-v1', { level: 1 });
     const settings = read('lantern-settings-v1', {});
-    const requested = Number(new URLSearchParams(location.search).get('level'));
-    const app = new DapaidangApp.App({ recipes, layout, data: read('lantern-stall-v2', null), legacy: progress, settings,
+    const params=new URLSearchParams(location.search),requested=Number(params.get('level'));
+    const playtest=DapaidangOutfitPlaytest(params.get('wardrobe')),saveKey=playtest?playtest.key:'lantern-stall-v2';
+    const app = new DapaidangApp.App({ recipes, layout, data: read(saveKey, playtest?playtest.data:null), legacy: progress, settings,
       previewLevel: Number.isSafeInteger(requested) && requested > 0 ? Math.min(requested, 10000) : null,
-      save: value => write('lantern-stall-v2', value) });
-    const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout });
-    canvas.addEventListener('pointerdown', event => {
-      const r = canvas.getBoundingClientRect();
-      const size = renderer.designSize(app.screen);
-      app.pointer({ x: (event.clientX - r.left) * size.width / r.width, y: (event.clientY - r.top) * size.height / r.height });
-    });
+      save: value => write(saveKey, value) });
+    if(playtest){
+      document.body.classList.add('outfit-playtest');
+      canvas.style.width='min(92vw,420px,calc((100dvh - 70px)*887/1774))';
+      app.tab='decor';app.sub.decor=params.get('wardrobe')==='collection'?'rares':'themes';
+      app.category='series';
+      app.theme=params.get('wardrobe')==='collection'?'warm':'bamboo';
+      app.previewTheme=params.get('wardrobe')!=='collection';
+      document.getElementById('outfit-playtest').hidden=false;
+      document.getElementById('outfit-playtest-note').textContent=playtest.title+'：金币与装扮仅保存在此体验档，原游戏进度独立保留。';
+      document.getElementById('reset-outfit-playtest').addEventListener('click',()=>{
+        if(write(saveKey,playtest.data))location.reload();
+        else status.textContent='体验档未能保存，请重试';
+      });
+      for(const link of document.querySelectorAll('nav[aria-label="难度试玩"] a'))link.href+='&wardrobe='+params.get('wardrobe');
+      if(params.get('tab')==='home')app.handle('tab','home');
+    }
+    const bodyFace = new FontFace('LanternBody', 'url(../../shared/assets/lobby/fonts/LanternBody.ttf)', {weight:'500'});
+    await bodyFace.load();document.fonts.add(bodyFace);
+    const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index, lobbyBodyFont: 'LanternBody' });
     document.addEventListener('visibilitychange', () => app.setHidden(document.hidden));
     app.setHidden(document.hidden);
     const controls = document.getElementById('controls'); let previousControls = '';
+    DapaidangWebInput.bind(app,canvas,controls,()=>renderer.designSize(app.screen));
     function accessibleControls(view) {
       const list = app.hits.slice();
       if (view.screen === 'game' && !view.modal) {
         const g = view.game, buttons = DapaidangSession.buttons;
-        const add = (label, rect) => list.push({ label, rect });
+        const add = (label, rect, state) => list.push(Object.assign({ label, rect },state));
         if (g.panel) {
-          add('继续营业', buttons.resume); add('减少动效', buttons.reduced); add('重新开摊', buttons.restart); add('回小摊', [204, 1148, 520, 68]);
+          add('动效',buttons.reduced,{role:'switch',checked:!g.reducedMotion});add(g.panel==='rest'&&g.state.status!=='playing'?'查看本关结果':'继续营业',buttons.resume);add('重新开摊',buttons.restart);if(g.homeEnabled)add('返回首页',buttons.home);
         } else if (g.resultReady) {
           if (!list.some(h => h.rect[1] === layout.result.nextButton[1])) add(g.state.status === 'won' ? '下一关' : '再试一次', layout.result.nextButton);
           add('回小摊看看', layout.result.restButton);
@@ -50,21 +65,25 @@
       }
       const signature = app.screen + JSON.stringify(list);
       if (signature === previousControls) return; previousControls = signature;
+      const focused=controls.contains(document.activeElement)?document.activeElement.textContent:null;
       controls.replaceChildren(...list.map(hit => {
         const button = document.createElement('button'); button.type = 'button'; button.textContent = hit.label;
+        button.dataset.action=hit.action||'';
+        if(hit.role){button.setAttribute('role',hit.role);button.setAttribute('aria-checked',String(hit.checked));}
         const [x, y, w, h] = hit.rect, size = renderer.designSize(app.screen);
         Object.assign(button.style, { left: x / size.width * 100 + '%', top: y / size.height * 100 + '%', width: w / size.width * 100 + '%', height: h / size.height * 100 + '%' });
         const invoke = event => { event.preventDefault(); app.pointer({ x: x + w / 2, y: y + h / 2 }); };
-        button.addEventListener('pointerdown', invoke); button.addEventListener('click', event => { if (event.detail === 0) invoke(event); });
+        button.addEventListener('click', event => { if (event.detail === 0) invoke(event); });
         return button;
       }));
+      if(focused){const next=Array.from(controls.children).find(b=>b.textContent===focused)||controls.querySelector('[data-action="scroll-region"]');if(next)next.focus({preventScroll:true});}
     }
     function frame(ms) {
       if (!document.hidden) {
         const view = app.frame(ms), size = renderer.designSize(view.screen);
         if (canvas.width !== size.width || canvas.height !== size.height) {
           canvas.width = size.width; canvas.height = size.height; canvas.style.aspectRatio = size.width + '/' + size.height;
-          canvas.style.width = 'min(92vw,420px,calc((100dvh - 40px)*' + size.width + '/' + size.height + '))';
+          canvas.style.width = 'min(92vw,420px,calc((100dvh - '+(playtest?70:40)+'px)*' + size.width + '/' + size.height + '))';
         }
         app.hits = renderer.draw(view, { width: size.width, height: size.height, dpr: 1 }); accessibleControls(view);
         const summary = view.toast || (view.screen === 'game' ? view.game.state.status === 'won' ?

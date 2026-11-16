@@ -39,11 +39,11 @@ for asset in manifest['assets']:
     kind, name = asset['kind'], asset['id']
     if kind not in ('dish', 'ingredient', 'game-background', 'game-button', 'game-overlay'):
         continue
-    source = Image.open(ROOT / 'shared' / asset['path']).convert('RGBA')
+    source = Image.open(ROOT / 'shared' / asset.get('runtimeSource',asset['path'])).convert('RGBA')
     if kind == 'game-background':
         # Full design resolution: no downscaling of sign, awning, rim or scenery.
         target = OUT / 'scene.jpg'
-        source.convert('RGB').save(target, quality=96, subsampling=0, optimize=True)
+        source.convert('RGB').save(target, quality=82, subsampling=0, optimize=True)
         result[name] = {'path': 'assets/scene.jpg', 'width': source.width, 'height': source.height}
     elif kind == 'ingredient':
         box = asset['bbox']
@@ -53,7 +53,7 @@ for asset in manifest['assets']:
         save(name + '-covered', covered(image))
     elif kind == 'dish':
         # Preserve the full transparent frame used by the approved movie.
-        source.thumbnail((256, 192), Image.Resampling.LANCZOS)
+        source.thumbnail((384, 288), Image.Resampling.LANCZOS)
         save(name, source)
     else:
         save(name, source)

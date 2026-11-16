@@ -1,0 +1,1267 @@
+{
+  "title": "主界面四页视觉走查",
+  "date": "2026-11-15",
+  "status": "31项已落实修复并完成Web逐页复核；不声明逐像素相同",
+  "method": "内嵌浏览器将修复后的共享渲染与四张原稿逐页对照，并保留修复前证据；同时复核禁用态、成就、相册和每日页。独立档案由28次真实引擎通关、9次购买后装备初见部件得到，不修改玩家存档。浏览器页画幅420×840，另输出887×1774原尺寸效果。",
+  "designSize": {
+    "width": 887,
+    "height": 1774
+  },
+  "pages": [
+    {
+      "id": "home",
+      "name": "小摊",
+      "reference": "reference/lobby-redesign-2026-11-14/01-小摊首页.png",
+      "actual": "actual-home.jpg",
+      "beforeActual": "before-actual-home.jpg"
+    },
+    {
+      "id": "decor",
+      "name": "装扮",
+      "reference": "reference/lobby-redesign-2026-11-14/02-小摊装扮.png",
+      "actual": "actual-decor.jpg",
+      "beforeActual": "before-actual-decor.jpg"
+    },
+    {
+      "id": "recipes",
+      "name": "菜谱",
+      "reference": "reference/lobby-redesign-2026-11-14/03-家常菜谱.png",
+      "actual": "actual-recipes.jpg",
+      "beforeActual": "before-actual-recipes.jpg"
+    },
+    {
+      "id": "market",
+      "name": "夜市",
+      "reference": "reference/lobby-redesign-2026-11-14/04-夜市活动.png",
+      "actual": "actual-market.jpg",
+      "beforeActual": "before-actual-market.jpg"
+    }
+  ],
+  "summary": {
+    "total": 31,
+    "high": 18,
+    "medium": 13,
+    "fixed": 31
+  },
+  "principles": [
+    "固定美术字可以图片化。“家常现炒”可与牌匾作为一个固定美术对象保留；固定标题、按钮字样也可独立使用美术图。代码仍维护热区、状态与无障碍名称。",
+    "动态数据应保持实时：金币、关卡、价格、进度、制作份数、物品/状态变化等不能烘焙示例值。是否需要用户输入，不是判断文案能否固定的唯一标准。",
+    "不换肤、同遮挡关系的架体/静物应尽量按原稿成组保留，不能用“节点存在”替代原物件形体完整。",
+    "每种控件先还原真实透明轮廓，再处理受光、厚度与投影。素材已有的边缘不重复叠画；禁用/选中态不得越出轮廓。",
+    "先修共享根因，再修整组固定场景，最后校准各页构图和状态。图层完整性与原稿一致性分别验收。"
+  ],
+  "issues": [
+    {
+      "id": "A01",
+      "scope": "共用",
+      "category": "固定字样",
+      "priority": "高",
+      "title": "固定美术字被统一改成普通文本",
+      "page": "home",
+      "box": [
+        280,
+        400,
+        330,
+        190
+      ],
+      "reference": "“家常现炒”字形、字面大小、排布和木牌是一套美术；页标题、固定按钮和导航字样也有明确的圆润厚度。",
+      "current": "牌匾字变小、变直、变细，页面固定标题和按钮字换成棱角明显的替代字体。",
+      "cause": "此前规范错误地限制为只有品牌能用美术字，固定字样被强制走通用 display/fillText。",
+      "action": "“家常现炒”保留为含字的独立牌匾；固定标题/按钮字样可用独立美术字资源，保留代码中的操作语义和无障碍名称。动态数据继续绘制。",
+      "acceptance": "固定字样不再因缺少原字体而换字形；美术字、空白按钮和热区分别验证。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：固定牌匾字被 fillText 重画"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：页标题统一 display"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：固定字样使用替代字体与通用投影"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "牌匾、页标题、导航、一级/二级分类、预览角标、分页及开张/布置等固定字样改用原稿独立字图；金额、关卡、价格、动态名称与计数保持实时。"
+    },
+    {
+      "id": "A02",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "次按钮错误地复用奶油卡面",
+      "page": "home",
+      "box": [
+        600,
+        1075,
+        275,
+        105
+      ],
+      "reference": "“布置小摊”和钱包是两端饱满的胶囊轮廓；普通内容卡的圆角小得多。",
+      "current": "次按钮更像带直角段的圆角矩形，端部弧度不足，钱包、预览角标和小按钮也出现同类问题。",
+      "cause": "secondary 在素材清单中直接使用 card-v5.png；一套九切片承担多种不同轮廓。",
+      "action": "按胶囊按钮、普通卡、标签分别定义皮肤/圆角和九切片，不能用卡面代替所有奶油控件。",
+      "acceptance": "各控件的透明边界与原稿一致，按钮端部曲线连续；不横向拉扁圆角。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/manifest.json",
+          "line": null,
+          "reason": "原问题入口：secondary 与卡面复用同一源图"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：通用 skin 九切片"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "胶囊、卡片、圆角方形图标按钮、页签、状态标签和雕边愿望牌分别定义轮廓与切片，布置入口和钱包不再复用卡片圆角。"
+    },
+    {
+      "id": "A03",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "素材之外叠加了多重亮边和投影",
+      "page": "decor",
+      "box": [
+        30,
+        1027,
+        412,
+        190
+      ],
+      "reference": "奶油卡边缘是克制的浅亮边、蜂蜜色厚度和柔和接触阴影。",
+      "current": "卡面和小按钮出现双白线、硬底边、灰褐外轮廓，边缘比原稿更脏、更重。",
+      "cause": "素材本身已有亮边/阴影，skin 又画底色投影和两圈 outline，且轮廓未必与素材 alpha 重合。",
+      "action": "逐皮肤标清哪些受光和阴影已在图内；去掉重复边线与投影，必要的外投影按真实轮廓生成。",
+      "acceptance": "缩到手机尺寸仍只有原稿所需的边缘层次，无额外白框、灰边或矩形底。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：额外底板投影"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：两圈额外描边"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "删除素材外重复叠画的底板、双描边和投影；九切片共享少量源像素；RGB与边缘alpha分别量化，消除脏边、色块和透明字样黑底。"
+    },
+    {
+      "id": "A04",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "禁用蒙层露出按钮轮廓之外",
+      "page": "decor",
+      "box": [
+        100,
+        1405,
+        690,
+        178
+      ],
+      "reference": "按钮的不同状态应沿用同一外轮廓，仅在内部降低亮度或更改文案。",
+      "current": "“已换上…”按钮周围出现明显的浅褐色圆角矩形，尤其在红色胶囊两端外侧。",
+      "cause": "disabled 蒙层直接填整个矩形，圆角最多40；红按钮端部更圆，二者透明边界不一致。",
+      "action": "按按钮 alpha/路径裁剪禁用状态，或提供同轮廓状态素材，不能额外垫一块更方的底。",
+      "acceptance": "启用/禁用切换时外轮廓和占位不变；蒙层不越过按钮透明区域。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：禁用态直接 round(rect)，没有按按钮形状裁剪"
+        }
+      ],
+      "status": "已修复",
+      "stateNote": "参考稿为可确认试装状态，当前为已装备禁用状态；文案和是否可点不判错，本项只核对外溢蒙层。",
+      "affectedPages": [
+        "decor",
+        "recipes"
+      ],
+      "resolution": "禁用态使用同轮廓的独立底图，不叠矩形蒙层，也不对重叠九切片整体降透明度；额外核对禁用状态截图及alpha边界。",
+      "actualImage": "actual-decor-disabled.jpg"
+    },
+    {
+      "id": "A05",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "红主按钮的材质和底边仍不同于原稿",
+      "page": "home",
+      "box": [
+        100,
+        1364,
+        690,
+        183
+      ],
+      "reference": "朱红表面、奶油高光、金色边缘和底部厚度形成连续柔和的胶囊体积。",
+      "current": "表面纹理和高光分布不同，部分横向边线和金色底沿更硬，尚不能视为同一按钮资产。",
+      "cause": "重新生成的按钮并非原稿样式的精确提取；九切片改变了原来的受光分布。",
+      "action": "以原稿主按钮制作独立空白底面，校准边缘厚度、阴影和切片位置；固定字样独立保留。",
+      "acceptance": "开张、装扮确认、活动动作三种尺寸都保留相同材质，切片处没有突兀横线。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/manifest.json",
+          "line": null,
+          "reason": "原问题入口：重新生成的 primary 源图"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：主按钮九切片"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "market"
+      ],
+      "resolution": "以原稿按钮单独编辑空白朱红底面，保留大弧度、金色厚度和受光；固定开张字样与关卡/云纹分层。"
+    },
+    {
+      "id": "A06",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "一级分类页签的形状与分组关系不符",
+      "page": "decor",
+      "box": [
+        25,
+        337,
+        835,
+        92
+      ],
+      "reference": "参考是同一组内相接的厚圆角页签，选中红面和普通奶油面具有一致的边界语言。",
+      "current": "选中项像独立小胶囊，普通项更方，接缝和上下厚度不协调。",
+      "cause": "选中页签复用长胶囊主按钮，普通页签复用内容卡，二者并非成套页签素材。",
+      "action": "制作同一组页签的选中/普通状态，保留原稿相接方式、边角和层次。",
+      "acceptance": "摊位/大厨/场景/主题及菜谱/夜市页签在同组中轮廓相容，无形状跳变。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：统一 tabs 调用"
+        },
+        {
+          "file": "shared/assets/lobby/manifest.json",
+          "line": null,
+          "reason": "原问题入口：tab-active 复用主按钮；tab-normal 复用卡面"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "使用成套厚圆角矩形页签的选中/普通底面，固定字样独立；不再把红胶囊与奶油卡混成一组。"
+    },
+    {
+      "id": "A07",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "大内容木框被简化成多道线框",
+      "page": "decor",
+      "box": [
+        0,
+        165,
+        887,
+        175
+      ],
+      "reference": "参考木框有圆润肩部、真实木质厚度、柔和奶油内沿和细腻纹理。",
+      "current": "当前冠部曲线、肩线和层次不同，多道白线很突出，整体偏平，木纹也不够自然。",
+      "cause": "panel 以渐变和多条路径替代原稿木质形体，再低透明度拉伸纹理。",
+      "action": "保留空白木框自身的美术形体；逐页校准冠部/肩部，不把卡槽、控件或示例字一起烘焙。",
+      "acceptance": "只看空白父容器也能与原稿对上轮廓、厚度和受光，而非仅颜色接近。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：panel 形状与多重描边"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：路径渐变和投影组合"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "三种父容器保留各自空白冠部、肩线与木纹；通过同一透明轮廓裁剪绘制，不叠多道原生线框，也不预画子控件。"
+    },
+    {
+      "id": "A08",
+      "scope": "共用",
+      "category": "轮廓阴影",
+      "priority": "中",
+      "title": "导航底座和选中底面边缘过于线框化",
+      "page": "home",
+      "box": [
+        0,
+        1605,
+        887,
+        169
+      ],
+      "reference": "一整块有厚度的蜂蜜木底座，选中项是饱满奶油承托，边线克制。",
+      "current": "底座出现多圈均匀亮线，选中底面更薄、更平，材质与原稿不同。",
+      "cause": "wood 与 footer 分别追加多圈描边和独立投影，缺少原稿连续的木质体积。",
+      "action": "按导航父容器与选中项分别恢复独立美术底面，统一内外圆角及接触阴影。",
+      "acceptance": "四页导航不出现多层白框，切换时只有选中承托和对应内容变化。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：wood 多圈边线"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：footer 选中底面追加轮廓"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "导航独立木底座与奶油选中承托按原稿放置，去掉多圈亮线；图标、字样及热区按同一布局注册。"
+    },
+    {
+      "id": "A09",
+      "scope": "共用",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "导航图标被替换为不同造型或简笔图形",
+      "page": "home",
+      "box": [
+        40,
+        1620,
+        770,
+        91
+      ],
+      "reference": "四个图标为同一套圆润2.5D棚布、大厨头像、橙色菜谱夹和红灯笼。",
+      "current": "大厨头像构图不同，菜谱夹变成平面线条图，其他图标比例和体积也不统一。",
+      "cause": "复用场景碎件/裁头像，再用代码临时绘制菜谱图标，未按原稿保留同套图标。",
+      "action": "使用同一套独立导航图标，统一画面占比和受光；保留各自热区和动态选中底面。",
+      "acceptance": "每个图标单独及并排查看都与原稿的身份、体积和占位相符。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：导航图标复用和临时绘制"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "四个导航图标改为原稿独立物件，恢复棚布、大厨头像、菜谱夹与红灯笼，校准各自尺寸和位置。"
+    },
+    {
+      "id": "A10",
+      "scope": "共用",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "顶部棚沿和品牌吊绳细节未保留",
+      "page": "home",
+      "box": [
+        0,
+        0,
+        887,
+        165
+      ],
+      "reference": "棚沿褶皱与高光有自然变化；品牌由有绞纹和接点的绳子悬挂。",
+      "current": "棚沿更像重复的平整片段，吊绳变成纯色直线。",
+      "cause": "使用另一个棚布的派生檐口，并用线段替代原图绳子。",
+      "action": "将固定棚沿及吊绳作为独立装饰层保留，保持原稿位置，不夹带钱包或控件。",
+      "acceptance": "顶部装饰的褶皱、绳纹及挂点都存在，品牌不会像被两根色条吊着。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：header 棚沿与直线吊绳"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "顶部棚沿及绞纹吊绳使用原稿独立装饰，恢复吊点细节；紧凑品牌按内容页布局放置。"
+    },
+    {
+      "id": "A11",
+      "scope": "共用",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "声音、设置与金币小图标的形体和清晰度不足",
+      "page": "home",
+      "box": [
+        18,
+        43,
+        177,
+        91
+      ],
+      "reference": "图标轮廓柔和、受光统一，缩小后仍清楚。",
+      "current": "部分轮廓偏硬、发糊，立体感和原稿不同；图标底面问题另见A02/A03。",
+      "cause": "声音/设置源图仅约45～49像素，放大后不能还原原稿细节。",
+      "action": "保留原稿图标或制作足够分辨率的对应单件，按原尺寸和像素密度导出。",
+      "acceptance": "手机尺寸及放大检查均无明显锯齿/硬切，图标形体与原稿一致。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/source/icons/sound.png",
+          "line": null,
+          "reason": "原问题入口：45×42源图"
+        },
+        {
+          "file": "shared/assets/lobby/source/icons/settings.png",
+          "line": null,
+          "reason": "原问题入口：49×48源图"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：图标放置"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "声音、设置与金币使用原稿原尺寸图形，恢复同套底面；灯具使用更大的原稿对象，避免放大旧小派生图与奶油边缘残留。"
+    },
+    {
+      "id": "A12",
+      "scope": "共用",
+      "category": "文字分工",
+      "priority": "中",
+      "title": "动态文字的字号、字重和层级未逐项对齐",
+      "page": "recipes",
+      "box": [
+        100,
+        741,
+        685,
+        48
+      ],
+      "reference": "制作份数、价格和说明清楚但低于标题与食物，使用适当字重和留白。",
+      "current": "一些份数/辅助说明偏小，同时统一粗体使画面更硬，层级与原稿不同。",
+      "cause": "words 统一700字重，字段字号没有按原稿逐类标定。",
+      "action": "动态字段继续实时绘制，逐类标定字号、字重、基线和颜色；不能因为固定字可图片化就把金额/次数也画死。",
+      "acceptance": "相同信息在手机尺寸下的高度和可读性接近原稿，动态数值变化不改变样式。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：words 统一粗体"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：菜谱名称/次数的字号位置"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "recipes",
+        "market"
+      ],
+      "resolution": "动态正文统一加载Noto Sans SC 500，分别校准制作份数、价格、进度、标签与说明的尺寸/基线；固定文字不再套替代标题字体。"
+    },
+    {
+      "id": "S01",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "左侧完整备菜架被简化为托板",
+      "page": "home",
+      "box": [
+        125,
+        705,
+        215,
+        210
+      ],
+      "reference": "蒸笼下方是有台面、纵深和支撑的木质备菜架，旁边还有小容器/食材，与主柜台形成整体。",
+      "current": "仅剩一块圆角横板和短支撑，原来的架体、层次和部分静物没有还原。",
+      "cause": "prep-shelf 只用两块代码圆角矩形代替原稿；节点存在不代表原物件完整。",
+      "action": "按原稿位置恢复完整固定备菜架及其同遮挡静物组，不需要为它设计换肤，也不要再用简笔托板替代。",
+      "acceptance": "架体轮廓、纵深、支撑、蒸笼与邻近静物逐项可见，整组与原稿摆放相符。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：代码矩形构成的 prep-shelf"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "userExample": true,
+      "resolution": "恢复完整备菜架、支撑、蒸笼和蔬菜静物组；首页与试装各保留原稿投影，删除简化托板绘制。"
+    },
+    {
+      "id": "S02",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "大厨造型与姿态仍是另一版素材",
+      "page": "home",
+      "box": [
+        340,
+        615,
+        345,
+        290
+      ],
+      "reference": "原稿帽形、脸部五官、身材、手臂和锅铲共同构成固定角色形象。",
+      "current": "当前帽子、眼睛、脸型、围裙及手臂姿态均有可见差别。",
+      "cause": "角色曾重新生成，图层位置正确也不会自动恢复原角色细节。",
+      "action": "以原稿角色作为同一母版基准，保留人物完整形体；只把真正需要换的服装部分分出。",
+      "acceptance": "基础角色复合后形体与原稿一致，再检查服装替换和柜台前沿遮挡。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/source/scene/scene-chef.png",
+          "line": null,
+          "reason": "原问题入口：当前独立大厨源图"
+        },
+        {
+          "file": "shared/data/lobby-layout.js",
+          "line": null,
+          "reason": "原问题入口：chef层与注册位置"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "大厨恢复原稿半身形象及锅铲，保留帽型、面部和动作；仅围裙材质随主题改变。"
+    },
+    {
+      "id": "S03",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "炒锅、炉火和灶面不是原稿的完整烹饪组",
+      "page": "home",
+      "box": [
+        345,
+        770,
+        370,
+        180
+      ],
+      "reference": "较宽的侧视炒锅、自然把手、对应灶面和底部暖色炉火，食物及热气有清楚层次。",
+      "current": "锅体偏小且视角不同，灶面相对关系不对，临时火焰/热气未达到原稿自然效果。",
+      "cause": "旧道具锅被套入新构图，缺少同一母版里的锅/炉/热气对齐关系。",
+      "action": "固定灶面与炉火保留原图；换装锅按同一炉位注册，锅内食物和热气使用对应层级。",
+      "acceptance": "锅稳坐灶面，火位与锅底对齐，无浮空食物、错位把手或露出的临时底条。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：代码热气"
+        },
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：临时火焰/底条"
+        },
+        {
+          "file": "shared/rendering/stall-art.js",
+          "line": null,
+          "reason": "原问题入口：复用旧锅具素材"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "空锅、锅中食物、炉火和热气独立，恢复原稿侧视锅型、右侧手柄和摆放，不再临时拼食材/火焰。"
+    },
+    {
+      "id": "S04",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "餐盘被纯主题色椭圆替代，成品摆放也不同",
+      "page": "home",
+      "box": [
+        210,
+        825,
+        190,
+        125
+      ],
+      "reference": "台面上是有边缘和高光的浅色瓷盘，菜品与盘沿的透视协调。",
+      "current": "当前出现大片棕红色/奶油色扁椭圆，叠在菜图后面，像额外底垫。",
+      "cause": "plate 层直接填充主题色椭圆，再叠加d01，未保留实际餐盘形体。",
+      "action": "使用独立餐盘美术或同一固定静物组；换肤只改变对应盘面，不用主题主色整片铺底。",
+      "acceptance": "无多余椭圆底垫，盘边/接触阴影/菜品透视与原稿对齐。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：plate 直接填色椭圆"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "餐盘改为独立陶瓷盘，成品菜在原位置独立叠加；删除纯色椭圆垫片，换盘不改变食物颜色。"
+    },
+    {
+      "id": "S05",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "柜台和棚布的形体、雕线及受光不同",
+      "page": "home",
+      "box": [
+        60,
+        432,
+        770,
+        700
+      ],
+      "reference": "棚布褶皱、支柱截面、台边厚度和前柜雕花属于同一套美术造型。",
+      "current": "当前形体与细节来自重新生成的部件，柜面比例和雕花框线没有逐项对齐。",
+      "cause": "仅用大致bbox容纳新素材，不能恢复母版的内部比例和透视。",
+      "action": "先以完整基础摊位复合对稿，再保留柜台固定层，只替换棚布等真正换肤部位。",
+      "acceptance": "柜面外轮廓、台沿、支柱和棚布形体均按母版对齐，未换部分不被重画。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/source/scene/scene-counter-v5.png",
+          "line": null,
+          "reason": "原问题入口：新柜台形体"
+        },
+        {
+          "file": "shared/assets/lobby/source/scene/scene-awning.png",
+          "line": null,
+          "reason": "原问题入口：新棚布形体"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "保留原稿柜台可见木纹和棚布，补齐两根后侧立柱；被凳子/盆栽遮住的木面补底，并平滑衔接隐藏区域。"
+    },
+    {
+      "id": "S06",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "盆栽的叶形、花盆纹样与画稿不符",
+      "page": "home",
+      "box": [
+        610,
+        930,
+        220,
+        225
+      ],
+      "reference": "宽大饱满的叶片、陶盆轮廓和暖色纹样，清晰但不抢主角。",
+      "current": "当前叶形、花盆比例和纹理不同，局部材质较粗糙。",
+      "cause": "复用旧道具图，未使用原稿的对应摆件基准。",
+      "action": "确定原稿摆件对应的基础款；按原稿保存形体和位置，其他皮肤仍在该层替换。",
+      "acceptance": "基础款叶形、盆形及落地点一致，缩小时不出现明显块状纹理。",
+      "code": [
+        {
+          "file": "shared/assets/stall/source/props-atlas-v2.png",
+          "line": null,
+          "reason": "原问题入口：摆件来自旧道具组"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "恢复原稿宽叶盆栽、盆形和波纹；只补原图被布置按钮挡住的盆底，保留真实落地点。"
+    },
+    {
+      "id": "S07",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "凳子的透视、开孔和尺寸关系不同",
+      "page": "home",
+      "box": [
+        120,
+        1005,
+        300,
+        160
+      ],
+      "reference": "两张圆润红凳有明确的座面开孔、腿部弧线及前后关系。",
+      "current": "当前座面和腿孔形状、透视与原稿不同，两凳大小和相对位置也需校准。",
+      "cause": "独立凳子被重新制作；注册落地点只能防止换皮跳动，不能替代造型核对。",
+      "action": "先复原基础凳形体，再按原稿的两个位置等比放置；变体沿用同一落地点。",
+      "acceptance": "两凳的座面、腿孔、接触阴影和相对位置与原稿相符。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/source/scene/scene-stool.png",
+          "line": null,
+          "reason": "原问题入口：现有独立凳子"
+        },
+        {
+          "file": "shared/data/lobby-layout.js",
+          "line": null,
+          "reason": "原问题入口：stools位置"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor"
+      ],
+      "resolution": "两张凳子分别保留原稿透视、孔形和位置，颜色变体沿用相同落地点，不再把同一新凳模型复制两遍。"
+    },
+    {
+      "id": "S08",
+      "scope": "场景复用",
+      "category": "固定插画",
+      "priority": "高",
+      "title": "固定夜市环境的构图和虚实发生变化",
+      "page": "home",
+      "box": [
+        0,
+        35,
+        887,
+        1145
+      ],
+      "reference": "远景较柔和，桥、河面、摊街、树叶与木地板为中央小摊让出层次。",
+      "current": "当前桥和建筑更清晰、更抢眼，树叶范围、河岸线、地板色调及远摊位置不同。",
+      "cause": "另行生成了纯环境，背景本身已偏离母版，并非仅叠加位置问题。",
+      "action": "保留原稿未变化的环境构图；只对被可换件遮住的必要区域补底，不重画整个夜市。",
+      "acceptance": "去掉中央摊位看环境时，关键地标和虚实关系仍可与原稿一一对应。",
+      "code": [
+        {
+          "file": "shared/assets/lobby/source/scene/environment-riverside-v5.png",
+          "line": null,
+          "reason": "原问题入口：重新生成的纯环境"
+        },
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：环境裁切/cover"
+        }
+      ],
+      "status": "已修复",
+      "affectedPages": [
+        "home",
+        "decor",
+        "market"
+      ],
+      "resolution": "使用原稿构图编辑纯夜市环境，保留桥、树叶、两侧摊街与虚实；清除旧摊位/按钮及残影，环境内不再烘焙可换件。"
+    },
+    {
+      "id": "H01",
+      "scope": "小摊",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "布置按钮中的刷子被简笔图代替",
+      "page": "home",
+      "box": [
+        600,
+        1075,
+        275,
+        105
+      ],
+      "reference": "圆润橙色木柄、金属接缝和柔和刷毛，大小与文字平衡。",
+      "current": "当前刷子偏大、扁平，刷毛和柄形与原稿不同。",
+      "cause": "按钮内图标由临时矩形和线条拼出。",
+      "action": "保留原稿独立刷子图标，按原图占比和倾角摆放。",
+      "acceptance": "图标与按钮文案比例正确，刷毛/木柄具有原稿的体积与材质。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：临时代码刷子"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "布置入口的木柄刷子改为原稿独立图标，恢复体积、倾角及图标/文字比例。"
+    },
+    {
+      "id": "H02",
+      "scope": "小摊",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "愿望卡缺少原稿的装饰轮廓",
+      "page": "home",
+      "box": [
+        22,
+        1168,
+        845,
+        190
+      ],
+      "reference": "愿望卡边角有层叠的小折转/肩部轮廓，整体像独立的奶油雕边牌。",
+      "current": "当前只是普通圆角卡，外形和边缘层次不同。",
+      "cause": "愿望卡直接调用普通card，没有其专用的空白轮廓。",
+      "action": "将愿望牌作为单独空白组件保留；缩略图、名称、金额和进度仍由真实数据填入。",
+      "acceptance": "先比较空白牌外形即能对稿，动态内容替换不会损坏边角。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：愿望区直接调用通用card"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "愿望区使用独立空白雕边牌，保留肩部折转、内沿与厚度；缩略图、名称、金额和进度仍为实时内容。"
+    },
+    {
+      "id": "H03",
+      "scope": "小摊",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "主按钮关卡两侧云纹变形、偏大",
+      "page": "home",
+      "box": [
+        280,
+        1458,
+        335,
+        74
+      ],
+      "reference": "两侧是小而轻的金色云纹，用于衬托关卡号。",
+      "current": "当前云纹像大块眼睛/鱼形图案，视觉重量过大。",
+      "cause": "共用 ornament 路径没有按按钮内原图形体与尺度区分。",
+      "action": "保留原稿按钮用小云纹，按关卡号左右对称锚点放置。",
+      "acceptance": "关卡号保持第二层信息，装饰不抢字，形体和大小与原稿一致。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：按钮复用大云纹"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：通用 ornament 路径"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "主按钮使用原稿小金色云纹，按关卡号两侧锚点放置，不再复用大块眼形装饰。"
+    },
+    {
+      "id": "H04",
+      "scope": "小摊",
+      "category": "构图与状态",
+      "priority": "中",
+      "title": "查看关卡的箭头颜色与层级不符",
+      "page": "home",
+      "box": [
+        280,
+        1538,
+        330,
+        72
+      ],
+      "reference": "浅奶油文字配同色明亮箭头，作为轻量入口仍清楚可见。",
+      "current": "当前箭头为深棕色，落在木地板上不够清楚，与文字脱节。",
+      "cause": "chevron 全局使用棕色，首页未提供浅色变体。",
+      "action": "给深色场景上的轻入口使用对应浅色箭头及原稿间距。",
+      "acceptance": "文字与箭头颜色/明度一致，手机尺寸可清晰辨认。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：查看关卡箭头"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：chevron固定棕色"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "查看关卡的固定字样与箭头作为同一浅奶油美术入口保留，恢复原稿颜色和间距，热区独立。"
+    },
+    {
+      "id": "D01",
+      "scope": "装扮",
+      "category": "构图与状态",
+      "priority": "高",
+      "title": "试装场景的镜头和摊位占比偏小",
+      "page": "decor",
+      "box": [
+        25,
+        432,
+        835,
+        505
+      ],
+      "reference": "摊位在横向预览里更饱满，柜台宽度约500设计像素，环境作为衬托。",
+      "current": "当前柜台约450设计像素，周围水面/地板更空，构图与稿不同。",
+      "cause": "把首页整套928×840场景直接contain进817×490横框，没有按参考预览镜头校准。",
+      "action": "保留同一组物件和注册点，为横框定义母版对应的预览镜头/留白，不压扁物体或任意挪单件补洞。",
+      "acceptance": "柜台/棚布在预览中的占比与原稿一致，凳子和盆栽完整可见。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：dressScene复用预览框"
+        },
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：整套场景contain"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "按装扮稿测量独立预览镜头，恢复约503设计像素宽柜台及物件占比；使用对应柜台/静物投影，其余物件等比绘制，挂点和层级仍共享。"
+    },
+    {
+      "id": "D02",
+      "scope": "装扮",
+      "category": "轮廓阴影",
+      "priority": "高",
+      "title": "二级部位分类被做成重卡片",
+      "page": "decor",
+      "box": [
+        30,
+        928,
+        825,
+        92
+      ],
+      "reference": "轻量奶油承托、细分隔线和短红下划线，层级低于一级页签。",
+      "current": "当前有明显外框与投影，缺少原稿的细竖分隔，像又套了一层内容卡。",
+      "cause": "分类条直接使用card皮肤，继承多重边框和卡片阴影。",
+      "action": "恢复轻量分类承托与分隔，保留分页箭头功能但减轻视觉重量。",
+      "acceptance": "一级与二级分类层级明确，二级条不再出现重叠硬框。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：categories使用通用card"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：部位标签与下划线"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "二级分类改为轻奶油承托、细竖分隔及短红下划线，并恢复原稿字样；保留额外部位分页入口。"
+    },
+    {
+      "id": "D03",
+      "scope": "装扮",
+      "category": "文字分工",
+      "priority": "中",
+      "title": "状态徽章与金币/勾图标表现不足",
+      "page": "decor",
+      "box": [
+        32,
+        1030,
+        820,
+        360
+      ],
+      "reference": "使用中、已拥有、价格/条件各有对应底面和图标，绿色勾及金币有明确体积。",
+      "current": "当前徽章偏纯色色块，勾较细；价格处以“金币”文字代替原稿的图标层次。",
+      "cause": "状态底面和勾是简化绘制，未按原稿的徽章样式拆出。",
+      "action": "保持真实状态和价格，仅恢复徽章形体、留白和对应图标；不要把示例价格写入配置。",
+      "acceptance": "同一状态下比较徽章样式可对稿，选中/已装备/未拥有仍清楚区分。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：状态文案与徽章"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：简化勾形"
+        }
+      ],
+      "status": "已修复",
+      "stateNote": "左右卡的装备与选中状态和原稿不同，此差异不判错；只核对徽章造型、图标与层级。",
+      "resolution": "恢复状态徽章渐变/圆角、粗绿勾、选中标记及金币图标；灯具缩略图限制在卡片范围，所有状态/价格仍取真实配置。"
+    },
+    {
+      "id": "R01",
+      "scope": "菜谱",
+      "category": "固定插画",
+      "priority": "中",
+      "title": "首屏六道菜的成品图样与原稿不同",
+      "page": "recipes",
+      "box": [
+        35,
+        490,
+        405,
+        310
+      ],
+      "reference": "六道菜在盘沿、菜块比例、配色、颗粒与点缀上有确定图样。",
+      "current": "当前成品来自既有菜图，番茄/鸡块等更大、摆盘和点缀不同。",
+      "cause": "复用旧成品素材并放大，位置正确也不会变成原稿里的菜图。",
+      "action": "保留20道菜配方和业务ID，逐道核对已有原稿对应的成品美术；不为了摆盘添加功能性食材。",
+      "acceptance": "对应原稿的首屏六道菜分别通过成品对照；其余14道沿用同套材质，不能声称有独立原稿验收。",
+      "code": [
+        {
+          "file": "shared/assets/dishes/d01.png",
+          "line": null,
+          "reason": "原问题入口：既有菜图"
+        },
+        {
+          "file": "shared/rendering/lobby-components.js",
+          "line": null,
+          "reason": "原问题入口：菜图裁边放大"
+        },
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：数据驱动成品卡"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "首屏六道成品和菜名各自提取为独立资源，恢复原稿盘沿、菜块、摆盘与点缀；20道配方和ID不变，后续14道保留原有成品风格。"
+    },
+    {
+      "id": "M01",
+      "scope": "夜市",
+      "category": "构图与状态",
+      "priority": "高",
+      "title": "活动横幅的环境视角和主体关系不符",
+      "page": "market",
+      "box": [
+        18,
+        418,
+        850,
+        254
+      ],
+      "reference": "叶子、远桥、灯光和河面衬托左侧活动题字与右侧大灯笼。",
+      "current": "当前横幅更像从通用环境截取的水面/木地板段，景深与题字周围关系不同。",
+      "cause": "横幅复用通用背景裁切规则，没有该横幅的独立构图。",
+      "action": "保留活动横幅的固定环境构图；活动美术字和灯笼分别按该横幅锚点组合。",
+      "acceptance": "横幅不出现不该抢眼的地板/河岸分界，环境、题字、灯笼各自占比与原稿一致。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：banner复用通用环境"
+        },
+        {
+          "file": "shared/rendering/lobby-scene.js",
+          "line": null,
+          "reason": "原问题入口：背景裁切规则"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "活动横幅使用单独编辑的原稿环境、大红灯笼及固定题字，恢复桥/河面/树叶景深，不从木地板区域临时裁切。"
+    },
+    {
+      "id": "M02",
+      "scope": "夜市",
+      "category": "构图与状态",
+      "priority": "高",
+      "title": "完成状态替换了奖励名称，信息缺失",
+      "page": "market",
+      "box": [
+        318,
+        865,
+        505,
+        48
+      ],
+      "reference": "进度之外明确说明这一本奖励是什么；完成与奖励内容是不同信息。",
+      "current": "达到14进度后只写“奖励已自动加入收藏”，实际奖励名称消失。",
+      "cause": "n>=14分支用状态文案整体替换奖励字段。",
+      "action": "继续显示真实奖励名称，将“已自动获得”作为独立状态；保持自动发奖，不能改成手动领取。",
+      "acceptance": "达到14/14后仍能看出本次获得的具体物品，重复查看不发第二次奖励。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：完成态隐藏奖励名称"
+        }
+      ],
+      "status": "已修复",
+      "stateNote": "原稿写“灯串”是示例；应显示实际配置的奖励，不要求把真实奖励改为灯串。",
+      "resolution": "完成后继续显示实际配置的具体奖励名称，另标已自动获得；保持达到条件自动发奖，不增加领取动作。"
+    },
+    {
+      "id": "M03",
+      "scope": "夜市",
+      "category": "构图与状态",
+      "priority": "中",
+      "title": "底部活动说明被额外套成木框控件",
+      "page": "market",
+      "box": [
+        18,
+        1515,
+        850,
+        90
+      ],
+      "reference": "说明文字与两侧小云纹融入页面木面，没有独立的重边框。",
+      "current": "当前说明外又出现一圈完整窄木框及多重亮线，形成多余嵌套。",
+      "cause": "复用了U.wood作为说明行底面。",
+      "action": "保留原稿说明行的轻量结构和装饰，文案可根据自动发奖规则调整。",
+      "acceptance": "该行不再像额外按钮/面板，层级低于活动卡与导航。",
+      "code": [
+        {
+          "file": "shared/rendering/lobby-ui.js",
+          "line": null,
+          "reason": "原问题入口：说明行使用完整wood框"
+        }
+      ],
+      "status": "已修复",
+      "resolution": "删除说明行额外木框，将说明与两侧云纹直接融入父容器木面。"
+    }
+  ],
+  "notVisualDefects": [
+    {
+      "title": "玩家数值和展示示例不同",
+      "detail": "384金币、29关、20/20、制作份数等不作为生产默认值。"
+    },
+    {
+      "title": "物品名、价格、开放条件和愿望对象不同",
+      "detail": "继续读取真实配置与玩家选择；灯串愿望和场景愿望的缩略图内容可以不同，不因此强制改成背景解锁。"
+    },
+    {
+      "title": "装扮选中/试装/使用中的状态不同",
+      "detail": "原稿为特定预览状态，默认回放为当前装备状态；不把状态不同直接算作视觉错误。"
+    },
+    {
+      "title": "活动采用自动发奖",
+      "detail": "不恢复原稿示例的手动领取动作；应修的是奖励名称和层级，避免丢信息。"
+    },
+    {
+      "title": "没有绘制模拟微信胶囊",
+      "detail": "正确做法，由微信原生胶囊负责；Web不添加假的系统控件。"
+    },
+    {
+      "title": "额外分页和解锁提示",
+      "detail": "为真实物品数量和功能开放所需，不能为了截图相同删除。它们仍需沿用正确组件样式。"
+    }
+  ],
+  "needsBaseline": [
+    {
+      "title": "灯具外观对应",
+      "detail": "初见基础组合为裸暖灯泡，暖红物件为花灯试装；顶部与活动红灯笼为固定装饰，不强制覆盖真实装备状态。"
+    },
+    {
+      "title": "内容页紧凑品牌",
+      "detail": "使用独立紧凑品牌母版，并按内容页位置参数放置，保留首页大品牌。"
+    },
+    {
+      "title": "无独立原稿的内容",
+      "detail": "成就、相册、每日、往期和后续14道菜按共享组件回归，不编造逐像素原稿验收。"
+    }
+  ],
+  "scopeLimits": [
+    "仅修经营四页表现，不修改闯关、配方、价格和自动奖励规则。",
+    "生产仍为独立逻辑资源和共享组合器，不使用整页皮肤或预画试装。",
+    "按用户要求不检查微信画面；验证微信构建、图像/字体一致、原生字体和触摸变换。",
+    "视觉复核针对清单缺陷；动态字体与被遮挡区域补底没有逐像素相同的原始分层数据，不给出100%像素一致声明。"
+  ],
+  "fixOrder": [
+    {
+      "id": "1",
+      "title": "先纠正固定字样分工",
+      "issueIds": [
+        "A01"
+      ],
+      "gate": "固定美术字允许独立图片；动态数据保留实时。"
+    },
+    {
+      "id": "2",
+      "title": "恢复整组固定场景",
+      "issueIds": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06",
+        "S07",
+        "S08"
+      ],
+      "gate": "基础组合逐件对稿，架体和静物完整，再验证换装。"
+    },
+    {
+      "id": "3",
+      "title": "修共享控件轮廓与状态",
+      "issueIds": [
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06",
+        "A07",
+        "A08"
+      ],
+      "gate": "独立检查透明轮廓、边缘、阴影及启用/禁用/选中态，四页统一。"
+    },
+    {
+      "id": "4",
+      "title": "校准图标、各页构图和信息",
+      "issueIds": [
+        "A09",
+        "A10",
+        "A11",
+        "A12",
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "D01",
+        "D02",
+        "D03",
+        "R01",
+        "M01",
+        "M02",
+        "M03"
+      ],
+      "gate": "按页与原稿并排复核；数值与真实业务例外不改。"
+    }
+  ],
+  "followup": {
+    "date": "2026-11-15",
+    "title": "完整轮廓、可见边界对齐与装扮纵向滚动",
+    "record": "previews/lobby-refinements/verification.json",
+    "effects": "previews/lobby-refinements/overview.jpg",
+    "comparison": "previews/lobby-refinements/before-after.jpg"
+  }
+}

@@ -160,6 +160,7 @@ near(DEFAULTS.rawToWok + DEFAULTS.stir + DEFAULTS.pour, spec.kitchen.normalCooki
 near(M.timing.orderConfirm, spec.handoff.coveredPlateConfirmation);
 near(M.timing.cardExit, spec.handoff.cardExit);
 near(M.timing.newCue, spec.handoff.newCueDuration);
+near(M.timing.orderCompact,spec.handoff.compactLeftDuration);
 near(M.timing.reveal, DEFAULTS.deliveryReveal);
 const start = M.departurePose(0), rise = M.departurePose(.62 - 1e-9), reveal = M.departurePose(.62), end = M.departurePose(.78);
 near(start.x, 837); near(start.y, 1412); near(rise.y, 1136);
@@ -216,7 +217,7 @@ function record(view) {
       draws.push({ id: im.id, alpha: this.globalAlpha, x: matrix[0] * (x + w / 2) + matrix[2] * (y + h / 2) + matrix[4],
         y: matrix[1] * (x + w / 2) + matrix[3] * (y + h / 2) + matrix[5], w: w * Math.hypot(matrix[0], matrix[1]), h: h * Math.hypot(matrix[2], matrix[3]) });
     },
-    fillText(value) { labels.push({ value, alpha: this.globalAlpha }); },
+    fillText(value,x,y) { labels.push({ value, alpha: this.globalAlpha, x:matrix[0]*x+matrix[2]*y+matrix[4], y:matrix[1]*x+matrix[3]*y+matrix[5] }); },
     beginPath() { circle = null; },
     ellipse(x, y, rx, ry) { circle = { x, y, rx, ry }; },
     fill() {
@@ -237,6 +238,24 @@ function record(view) {
   assert(draws.every(d => Number.isFinite(d.alpha) && Number.isFinite(d.x) && Number.isFinite(d.y)));
   return { draws, labels, checks, shapes };
 }
+// Finite queues disappear; the other visible cards slide left without moving
+// their engine slot, table, recipe, or in-flight kitchen jobs.
+const compact=new Session({recipes,layout});compact.engine=new Engine({recipes,orderPlan:[['d01'],['d02'],['d03']]});
+for(const food of ['tomato','egg'])compact.engine.putIngredient(food);compact.collectEvents();compact.advance(.3);
+const secondName=compact.engine.orders[1].recipe.displayName||compact.engine.orders[1].recipe.name;
+const secondX=v=>record(v).labels.find(l=>l.value===secondName).x;
+near(secondX(compact.view()),464);compact.advance(.42);
+assert.equal(compact.engine.orders[0].recipe,null);const retiring=record(compact.view());
+assert(!retiring.labels.some(l=>String(l.value).includes('已上齐')));assert(!retiring.draws.some(d=>d.id==='overlay-clip-red'));
+near(secondX(compact.view()),464);near(secondX({...compact.view(),reducedMotion:true}),200);
+compact.advance(.09);near(secondX(compact.view()),332);compact.advance(.09);near(secondX(compact.view()),200);
+assert.deepEqual(compact.engine.orders.map(o=>o.slot),[0,1,2]);assert.equal(compact.engine.wok.originSlot,0);assert.equal(compact.engine.revenue,0);
+const immutableView=compact.view(),immutableBefore=JSON.stringify(immutableView.state);record(immutableView);assert.equal(JSON.stringify(immutableView.state),immutableBefore);
+compact.engine=new Engine({recipes,orderPlan:[[],[],['d03']]});compact.effects=[];
+const lone=record(compact.view());assert.equal(lone.draws.filter(d=>/^overlay-clip-/.test(d.id)).length,1);
+const loneName=compact.engine.orders[2].recipe.displayName||compact.engine.orders[2].recipe.name;near(lone.labels.find(l=>l.value===loneName).x,200);
+compact.engine=new Engine({recipes,orderPlan:[[],[],[]]});assert(!record(compact.view()).draws.some(d=>/^overlay-clip-/.test(d.id)));
+console.log('PASS exhausted menus disappear, remaining cards compact left smoothly, reduced motion and immutable kitchen identities');
 const visual = new Session({ recipes, layout });
 visual.engine = new Engine({ recipes, orderPlan: [['d17', 'd06'], [], []] });
 const beforeReceived = record(visual.view()).draws.find(d => d.id === 'carrot');

@@ -128,6 +128,13 @@
       "duration": 0.34,
       "trigger": "levelWon + 0.60",
       "rule": "背景压暗，面板0.94到1，用时在食材全部用完且最后上菜后冻结"
+    },
+    {
+      "id": "A19",
+      "name": "订单向左补位",
+      "duration": 0.18,
+      "trigger": "tableCompleted",
+      "rule": "队列耗尽的空卡不显示；其右侧可见菜单按原顺序向左滑动补齐，减少动效时直接就位。仅改变绘制位置，保留原slot/orderId/table与厨房任务。"
     }
   ],
   "version": "v12-visual-event-driven",
@@ -148,7 +155,10 @@
     "lidSettle": 0.16,
     "lidDrop": 10,
     "wording": "交给大厨啦",
-    "useNewSticker": false
+    "useNewSticker": false,
+    "exhaustedQueue": "hide empty card; no completed placeholder",
+    "compactLeftDuration": 0.18,
+    "compactPreservesEngineSlots": true
   },
   "ingredientStatus": {
     "scope": "ingredient art inside collecting order cards only",

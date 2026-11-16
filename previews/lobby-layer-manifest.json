@@ -1,0 +1,459 @@
+{
+  "width": 887,
+  "height": 780,
+  "layers": [
+    {
+      "id": "environment",
+      "name": "夜市环境",
+      "z": 0,
+      "kind": "environment",
+      "slot": "background",
+      "group": "environment",
+      "rect": null,
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "requestedTheme": "base",
+      "asset": "lobby-environment-night",
+      "baseAsset": "lobby-environment-night",
+      "theme": "base"
+    },
+    {
+      "id": "ground-shadow",
+      "name": "摊位落地阴影",
+      "z": 10,
+      "kind": "ground-shadow",
+      "group": "fixed",
+      "rect": null,
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "counter-rear",
+      "name": "柜台后层与立柱",
+      "z": 20,
+      "kind": "sprite",
+      "asset": "lobby-scene-counter",
+      "box": "counter",
+      "clip": "counter-rear",
+      "group": "fixed",
+      "rect": [
+        76,
+        220,
+        735,
+        499
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "chef",
+      "name": "大厨",
+      "z": 30,
+      "kind": "equipment",
+      "slot": "chef",
+      "box": "chef",
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        359,
+        229,
+        292,
+        261
+      ],
+      "asset": "lobby-scene-chef-base",
+      "baseAsset": "lobby-scene-chef-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "counter-front",
+      "name": "柜台前沿遮挡",
+      "z": 40,
+      "kind": "sprite",
+      "asset": "lobby-scene-counter",
+      "box": "counter",
+      "clip": "counter-front",
+      "group": "fixed",
+      "rect": [
+        76,
+        220,
+        735,
+        499
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "awning",
+      "name": "棚布",
+      "z": 50,
+      "kind": "equipment",
+      "slot": "awning",
+      "box": "awning",
+      "anchor": [
+        0.5,
+        0
+      ],
+      "group": "equipment",
+      "rect": [
+        71,
+        49,
+        746,
+        189
+      ],
+      "asset": "lobby-scene-awning-base",
+      "baseAsset": "lobby-scene-awning-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "sign",
+      "name": "家常牌匾",
+      "z": 60,
+      "kind": "sprite",
+      "asset": "lobby-stall-sign",
+      "box": "sign",
+      "group": "fixed",
+      "rect": [
+        289,
+        1,
+        310,
+        181
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "lamp-glow-left",
+      "name": "左灯光晕",
+      "z": 70,
+      "kind": "lamp-glow",
+      "box": "lamps",
+      "instance": 0,
+      "group": "fixed",
+      "rect": [
+        158,
+        231,
+        63,
+        65
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "lamp-glow-right",
+      "name": "右灯光晕",
+      "z": 71,
+      "kind": "lamp-glow",
+      "box": "lamps",
+      "instance": 1,
+      "group": "fixed",
+      "rect": [
+        676,
+        231,
+        63,
+        65
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "lamp-left",
+      "name": "左灯具",
+      "z": 80,
+      "kind": "equipment",
+      "slot": "lamp",
+      "box": "lamps",
+      "instance": 0,
+      "anchor": [
+        0.5,
+        0
+      ],
+      "group": "equipment",
+      "rect": [
+        158,
+        231,
+        63,
+        65
+      ],
+      "asset": "lobby-bulb",
+      "baseAsset": "lobby-bulb",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "lamp-right",
+      "name": "右灯具",
+      "z": 81,
+      "kind": "equipment",
+      "slot": "lamp",
+      "box": "lamps",
+      "instance": 1,
+      "anchor": [
+        0.5,
+        0
+      ],
+      "group": "equipment",
+      "rect": [
+        676,
+        231,
+        63,
+        65
+      ],
+      "asset": "lobby-bulb",
+      "baseAsset": "lobby-bulb",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "prep-shelf",
+      "name": "完整备菜架／蒸笼／青菜／番茄静物组",
+      "z": 90,
+      "kind": "sprite",
+      "asset": "lobby-prep-rack",
+      "rect": [
+        145,
+        321,
+        180,
+        183
+      ],
+      "group": "fixed",
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "plate",
+      "name": "餐盘底面",
+      "z": 100,
+      "kind": "plate",
+      "slot": "plate",
+      "box": "plate",
+      "group": "equipment",
+      "rect": [
+        229,
+        465,
+        145,
+        67
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "asset": "lobby-plate-base",
+      "baseAsset": "lobby-plate-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "prepared-dish",
+      "name": "台面成品菜",
+      "z": 101,
+      "kind": "sprite",
+      "asset": "lobby-prepared-food",
+      "rect": [
+        247,
+        470,
+        106,
+        49
+      ],
+      "group": "fixed",
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "cooking-steam",
+      "name": "锅上热气",
+      "z": 110,
+      "kind": "sprite",
+      "asset": "lobby-steam",
+      "rect": [
+        345,
+        345,
+        65,
+        116
+      ],
+      "group": "fixed",
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "stove-flame",
+      "name": "炉火",
+      "z": 111,
+      "kind": "sprite",
+      "asset": "lobby-fire",
+      "rect": [
+        401,
+        494,
+        116,
+        27
+      ],
+      "group": "fixed",
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "wok",
+      "name": "炒锅",
+      "z": 120,
+      "kind": "equipment",
+      "slot": "wok",
+      "box": "wok",
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        372,
+        434,
+        219,
+        80
+      ],
+      "asset": "lobby-wok-base",
+      "baseAsset": "lobby-wok-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "wok-food",
+      "name": "锅内食物",
+      "z": 121,
+      "kind": "sprite",
+      "asset": "lobby-wok-food",
+      "rect": [
+        407,
+        440,
+        110,
+        32
+      ],
+      "group": "fixed",
+      "anchor": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "menu",
+      "name": "菜单牌",
+      "z": 130,
+      "kind": "equipment",
+      "slot": "menu",
+      "box": "menu",
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        701,
+        440,
+        64,
+        69
+      ],
+      "asset": "stall-base-menu",
+      "baseAsset": "stall-base-menu",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "ornament",
+      "name": "前景摆件",
+      "z": 140,
+      "kind": "equipment",
+      "slot": "ornament",
+      "box": "ornament",
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        645,
+        546,
+        156,
+        164
+      ],
+      "asset": "lobby-plant-base",
+      "baseAsset": "lobby-plant-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "stool-left",
+      "name": "左凳子",
+      "z": 150,
+      "kind": "equipment",
+      "slot": "tables",
+      "box": "stools",
+      "instance": 0,
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        135,
+        619,
+        145,
+        132
+      ],
+      "asset": "lobby-scene-stool-base",
+      "baseAsset": "lobby-scene-stool-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    },
+    {
+      "id": "stool-right",
+      "name": "右凳子",
+      "z": 151,
+      "kind": "equipment",
+      "slot": "tables",
+      "box": "stools",
+      "instance": 1,
+      "basePrefix": "lobby-stool-right-",
+      "anchor": [
+        0.5,
+        1
+      ],
+      "group": "equipment",
+      "rect": [
+        267,
+        624,
+        143,
+        130
+      ],
+      "asset": "lobby-stool-right-base",
+      "baseAsset": "lobby-stool-right-base",
+      "theme": "base",
+      "requestedTheme": "base"
+    }
+  ],
+  "missing": [],
+  "fallbacks": []
+}

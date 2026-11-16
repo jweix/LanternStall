@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>灯火大排档 · 图层检查</title>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:20px;background:#193737;color:#ffe9c7;font:15px system-ui}header{max-width:1100px;margin:auto}h1{font-size:23px}p{color:#d2ccb5}nav{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:20px 0}select{font:inherit;padding:8px;border:1px solid #d8ab6c;border-radius:7px;background:#ffe6bd;color:#613815}label{display:grid;gap:6px}main{display:grid;grid-template-columns:repeat(2,minmax(0,540px));gap:20px;max-width:1100px;margin:auto}figure{margin:0}figcaption{margin-bottom:12px}canvas{display:block;width:100%;height:auto;aspect-ratio:928/840;border:1px solid #bc9b6b;border-radius:12px}#status{min-height:48px}a{color:#ffd28a}@media(max-width:700px){main{grid-template-columns:1fr}}
+</style>
+<header><h1>完整基础组合与原位换装</h1><p>左侧始终绘制完整场景；右侧可逐层查看。切换皮肤只替换指定层，其余位置与前后顺序保持不变。</p><p>此页用于检查图层完整性和遮挡关系。现有素材与原视觉稿仍有差异，不代表已经完成视觉还原；不读取或写入玩家存档。</p>
+<nav><label>检查图层<select id="layer"><option value="all">完整组合</option><option value="fixed">全部固定层</option><option value="equipment">全部换装层</option></select></label><label>换装部位<select id="slot"></select></label><label>试装皮肤<select id="theme"></select></label><a href="lobby-review.html">原稿并排对照</a><a href="../platforms/web/">正常试玩</a></nav><p id="status">正在载入图层…</p></header>
+<main><figure><figcaption>完整场景 · 保留全部元素</figcaption><canvas id="full" width="928" height="840"></canvas></figure><figure><figcaption id="caption">当前检查层</figcaption><canvas id="isolated" width="928" height="840"></canvas></figure></main>
+<script src="../shared/data/progression.js"></script><script src="../shared/rendering/stall-art.js"></script><script src="../shared/data/lobby-layout.js"></script><script src="../shared/rendering/lobby-scene.js"></script>
+<script>
+(async()=>{
+  const index=await fetch('../shared/assets/runtime/asset-index.json').then(r=>r.json());
+  const images=Object.fromEntries(await Promise.all(Object.entries(index).map(([id,a])=>new Promise((resolve,reject)=>{const im=new Image;im.onload=()=>resolve([id,im]);im.onerror=reject;im.src='../shared/assets/runtime/'+a.path.split('/').pop();}))));
+  const C=DapaidangProgression,L=DapaidangLobbyLayout,full=document.querySelector('#full'),isolated=document.querySelector('#isolated');
+  const layer=document.querySelector('#layer'),slot=document.querySelector('#slot'),theme=document.querySelector('#theme'),status=document.querySelector('#status');
+  const a=Object.fromEntries(C.slots.map(s=>[s,C.byTheme.base])),rect=[0,0,928,840];
+  const fullScene=DapaidangLobbyScene.create(full.getContext('2d'),images),singleScene=DapaidangLobbyScene.create(isolated.getContext('2d'),images);
+  for(const n of L.scene.layers){const option=document.createElement('option');option.value=n.id;option.textContent=n.z+' · '+n.name;layer.append(option);}
+  C.slots.forEach((s,i)=>{const option=document.createElement('option');option.value=s;option.textContent=C.names[i];slot.append(option);});
+  C.themes.forEach(t=>{const option=document.createElement('option');option.value=t.id;option.textContent=t.name;theme.append(option);});
+  function checker(canvas){const c=canvas.getContext('2d');c.clearRect(0,0,928,840);for(let y=0;y<840;y+=24)for(let x=0;x<928;x+=24){c.fillStyle=(x/24+y/24)%2?'#dfd5be':'#f6eedb';c.fillRect(x,y,24,24);}}
+  function draw(){
+    checker(full);checker(isolated);fullScene.draw(a,rect);
+    const audit=fullScene.audit(a),selected=layer.value;
+    const nodes=selected==='all'?audit.layers:selected==='fixed'||selected==='equipment'?audit.layers.filter(n=>n.group===selected):audit.layers.filter(n=>n.id===selected);
+    singleScene.draw(a,rect,{background:nodes.some(n=>n.kind==='environment'),onlyLayers:nodes.map(n=>n.id)});
+    document.querySelector('#caption').textContent=layer.options[layer.selectedIndex].textContent;
+    const changed=audit.layers.filter(n=>n.slot===slot.value).map(n=>n.name).join('、');
+    status.textContent='基础清单 '+audit.layers.length+' 层；缺失 '+audit.missing.length+' 层；当前部位：'+changed+'。'+(audit.fallbacks.length?'皮肤缺失，保留基础件。':'挂点、落地点与其他层保持原位。');
+  }
+  slot.onchange=()=>{theme.value=a[slot.value].id;draw();};theme.onchange=()=>{a[slot.value]=C.byTheme[theme.value];draw();};layer.onchange=draw;draw();
+})().catch(e=>{document.querySelector('#status').textContent='图层载入失败：'+e.message;console.error(e);});
+</script></html>

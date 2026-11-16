@@ -1,0 +1,66 @@
+[
+  {
+    "page": "home",
+    "actual": {
+      "height": 840,
+      "width": 420,
+      "x": 208,
+      "y": 268
+    },
+    "reference": {
+      "height": 840,
+      "loaded": true,
+      "width": 420,
+      "x": 652,
+      "y": 268
+    }
+  },
+  {
+    "page": "decor",
+    "actual": {
+      "height": 840,
+      "width": 420,
+      "x": 208,
+      "y": 268
+    },
+    "reference": {
+      "height": 840,
+      "loaded": true,
+      "width": 420,
+      "x": 652,
+      "y": 268
+    }
+  },
+  {
+    "page": "recipes",
+    "actual": {
+      "height": 840,
+      "width": 420,
+      "x": 208,
+      "y": 268
+    },
+    "reference": {
+      "height": 840,
+      "loaded": true,
+      "width": 420,
+      "x": 652,
+      "y": 268
+    }
+  },
+  {
+    "page": "market",
+    "actual": {
+      "height": 840,
+      "width": 420,
+      "x": 208,
+      "y": 268
+    },
+    "reference": {
+      "height": 840,
+      "loaded": true,
+      "width": 420,
+      "x": 652,
+      "y": 268
+    }
+  }
+]

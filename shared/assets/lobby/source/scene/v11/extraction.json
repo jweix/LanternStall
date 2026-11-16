@@ -1,0 +1,32 @@
+{
+  "source": "source/scene/v6/prep-rack-preview.png",
+  "asset": "lobby-prep-rack-preview",
+  "removedObject": "old red lamp cap and tassel",
+  "removedOutline": [
+    [
+      8,
+      0
+    ],
+    [
+      43,
+      0
+    ],
+    [
+      41,
+      34
+    ],
+    [
+      37,
+      38
+    ],
+    [
+      12,
+      38
+    ],
+    [
+      8,
+      34
+    ]
+  ],
+  "preserved": "rack, steamers, vegetables, tomato and existing transparent silhouette"
+}

@@ -1,0 +1,164 @@
+[
+  {
+    "theme": "star",
+    "slot": "awning",
+    "source": "source/scene/v9/star-awning.png",
+    "size": [
+      411,
+      136
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "lamp",
+    "source": "source/scene/v9/star-lamp.png",
+    "size": [
+      208,
+      379
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "tables",
+    "source": "source/scene/v9/star-tables.png",
+    "size": [
+      300,
+      319
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "ornament",
+    "source": "source/scene/v9/star-ornament.png",
+    "size": [
+      350,
+      343
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "menu",
+    "source": "source/scene/v9/star-menu.png",
+    "size": [
+      281,
+      329
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "plate",
+    "source": "source/scene/v9/star-plate.png",
+    "size": [
+      386,
+      266
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "wok",
+    "source": "source/scene/v9/star-wok.png",
+    "size": [
+      369,
+      243
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "chef",
+    "source": "source/scene/v9/star-chef.png",
+    "size": [
+      356,
+      403
+    ]
+  },
+  {
+    "theme": "star",
+    "slot": "cloth",
+    "source": "source/scene/v9/star-cloth.png",
+    "size": [
+      361,
+      304
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "awning",
+    "source": "source/scene/v9/harvest-awning.png",
+    "size": [
+      405,
+      170
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "lamp",
+    "source": "source/scene/v9/harvest-lamp.png",
+    "size": [
+      221,
+      385
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "tables",
+    "source": "source/scene/v9/harvest-tables.png",
+    "size": [
+      314,
+      305
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "ornament",
+    "source": "source/scene/v9/harvest-ornament.png",
+    "size": [
+      325,
+      351
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "menu",
+    "source": "source/scene/v9/harvest-menu.png",
+    "size": [
+      273,
+      337
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "plate",
+    "source": "source/scene/v9/harvest-plate.png",
+    "size": [
+      375,
+      273
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "wok",
+    "source": "source/scene/v9/harvest-wok.png",
+    "size": [
+      379,
+      231
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "chef",
+    "source": "source/scene/v9/harvest-chef.png",
+    "size": [
+      353,
+      410
+    ]
+  },
+  {
+    "theme": "harvest",
+    "slot": "cloth",
+    "source": "source/scene/v9/harvest-cloth.png",
+    "size": [
+      397,
+      301
+    ]
+  }
+]

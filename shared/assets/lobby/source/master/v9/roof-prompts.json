@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "jobs": [
+    {
+      "key": "star-roof",
+      "ref": "01-starry-glaze.png",
+      "prompt": "Extract/recreate ONLY the 星河琉璃 blue-jade glazed roof from this reference as ONE standalone sprite on true transparent background. Landscape canvas. The ROOF OBJECT must have width:height approximately4.2:1, very broad and gently curved shallow eave as in the reference hero, NOT a steep tall arch or square object. Indigo fascia with sparse gold constellation line, thin brass edge, curled ends. No wooden brand sign, lettering, supports, lanterns, light bulbs, background, borders, labels or other objects. Complete roof ends and decorative central small star crest intact. Big horizontal object, 8% transparent margin; clean alpha, no detached specks. Rounded2.5D material quality matches reference."
+    },
+    {
+      "key": "harvest-roof",
+      "ref": "02-persimmon-harvest.png",
+      "prompt": "Extract/recreate ONLY the 柿灯丰年 broad woven bamboo/reed canopy and oatmeal scalloped fabric valance from reference as ONE sprite on true transparent background. Landscape canvas. The ROOF OBJECT must be width:height approximately4.2:1, a very broad shallow arched canopy, NOT a steep tall arch or square shape. Thin clay-orange bound edges, subtle corner persimmon embroidery, small fruit decoration at center top. No wooden brand sign,文字, hanging lights, supports, lanterns, background, borders, labels or other objects. Complete ends and fabric scallops. 8% transparent margins, clean true alpha with no detached specks. Rounded2.5D material quality matches reference."
+    }
+  ]
+}

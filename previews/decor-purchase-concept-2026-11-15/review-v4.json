@@ -1,0 +1,31 @@
+{
+  "status": "visual-concept-only",
+  "tool": "built-in image_gen.imagegen",
+  "image": "purchase-flow-v4.png",
+  "previousImage": "purchase-flow-v3.png",
+  "prompt": "prompt-v4.txt",
+  "changes": [
+    "Removed the gameplay-preview screen and all preview-mode toggles from the theme mockup.",
+    "Warm red is labeled 已拥有.",
+    "Theme name, coin price and owned-piece count are placed inside each card.",
+    "Removed the large lower theme summary and duplicate billing text.",
+    "The second panel demonstrates vertical theme-card scrolling with fixed preview and purchase action.",
+    "Detailed full value, owned deduction, payment and remaining balance are shown only in the purchase modal.",
+    "The four original main tabs and individual shopping routes are preserved."
+  ],
+  "review": [
+    "Four first-release themes are shown on the first screen.",
+    "The middle screen is a future expanded-list illustration, not an expanded release commitment.",
+    "Scrolled card content is clipped inside the list and stays above the fixed purchase button.",
+    "All depicted prices are illustrative and do not modify the existing economy.",
+    "Production page code, pricing and saves were not changed."
+  ],
+  "actualGameplayEvidence": {
+    "source": "Fresh in-app browser screenshot of the running Web platform",
+    "url": "http://127.0.0.1:4173/platforms/web/?level=4",
+    "image": "actual-game-web-level4.jpg",
+    "capture": "Browser screenshot clipped to the visible #game canvas, no image-generation edits",
+    "visibleState": "Red and ivory canopy, red lanterns, red cropped stool, red checked tablecloth and continuous wooden front rim.",
+    "distinction": "The bamboo gameplay concept from earlier sheets has not been integrated into this running gameplay."
+  }
+}

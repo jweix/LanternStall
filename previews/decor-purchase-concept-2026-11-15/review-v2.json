@@ -1,0 +1,21 @@
+{
+  "status": "visual-concept-only",
+  "tool": "built-in image_gen.imagegen",
+  "image": "purchase-flow-v2.png",
+  "previousImage": "purchase-flow-v1.png",
+  "prompt": "prompt-v2.txt",
+  "changes": [
+    "The main outfit page explicitly labels its secondary route 单件选购.",
+    "Single-item purchase and mixing remain available; later bundle purchases deduct owned pieces.",
+    "The gameplay preview table is lowered to the bottom edge.",
+    "The cloth is shown as a small cropped bottom-right corner rather than a large drape.",
+    "The main theme flow, purchase amounts and ownership counts are retained."
+  ],
+  "review": [
+    "The bottom-right cloth is visibly smaller than v1 and flush with the preview bottom.",
+    "The bottom-left stool remains mostly cropped at the preview bottom.",
+    "The first-page single-item entry is visibly clearer.",
+    "The dimmed background behind the confirmation modal still uses the earlier equivalent label 自由搭配.",
+    "Concept artwork only; gameplay layout, actual pricing and purchase implementation are unchanged."
+  ]
+}

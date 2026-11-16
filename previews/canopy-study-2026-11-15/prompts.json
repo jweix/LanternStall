@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-15",
+  "mode": "built-in image_gen",
+  "purpose": "经营摊位方案图：按用户反馈精简图案，并探索新棚顶；未接入游戏运行素材",
+  "numberMapping": {
+    "1": "B 松石涟漪",
+    "2": "D 蓝紫星月",
+    "3": "C 靛青云纹",
+    "4": "E 竹叶杏白",
+    "5": "F 乌梅桂花",
+    "6": "G 玫瑰格纹",
+    "7": "H 月白海贝"
+  },
+  "retained": [
+    "1",
+    "4",
+    "5"
+  ],
+  "refinements": [
+    {
+      "id": "02",
+      "name": "暮紫折枝",
+      "file": "02-wisteria-floral.png",
+      "group": "refinement",
+      "source": "d-violet-starlight.png",
+      "references": [
+        "紫藤色与布边保留；去掉星月与连线",
+        "折枝花叶代替几何图案",
+        "灯笼小花枝，凳子净面"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nRequested revision of the violet star theme: keep the dusky violet/lavender family and soft scalloped fabric canopy with ivory piping, but REMOVE EVERY five-point star, crescent, constellation line and modern geometric symbol from canopy, lamps, apron, stools, menu, plate, pot and handle. Replace with traditional Chinese delicate FOLDED-BRANCH BLOSSOM AND LEAF decoration, akin to gentle bamboo-leaf and osmanthus game skins. Color: restrained wisteria-violet #786591, warm oat ivory #F0E2C9 and tiny pale gold stamens. Canopy has only two airy off-center cream/lilac flowering twigs framing the wooden sign, each a small natural curved branch with a few simple rounded blossoms and leaves, leaving at least 75 percent of cloth undecorated. No dense print, no giant flower emblem. Both lantern paper bodies muted lavender with a SMALL vertical flowering twig only 20-25 percent of lantern body width, offset slightly to one side, thin gold fittings and violet tassels; plenty of blank paper. Apron muted deep violet with tiny blossom stitching at pocket corner, not a large badge. Both stools plain muted violet plastic, narrow ivory seat lip, NO dots, badges or flowers on front legs. Pot warm cream with a narrow lilac floral band, plate cream with a few tiny violet buds at edge, menu frame simple violet with tiny curved leaf at top corner. Wok handle end-cap plain violet. Fixed wood natural medium warm walnut. Overall gentle ancient-style floral stall, NOT astrology, NOT candy purple, NOT grand palace ornament.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-03e7fefb-3ed5-4af6-9179-b5b079f8c488.png"
+    },
+    {
+      "id": "03-07",
+      "name": "青瓷海韵",
+      "file": "03-07-porcelain-sea.png",
+      "group": "refinement",
+      "source": "c-indigo-porcelain.png",
+      "references": [
+        "合并原3靛青与原7海贝",
+        "灯笼纹样缩至原先约三分之一",
+        "小海贝作辅纹，海水纹细边为主"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nMerge the indigo cloud kit and the pale sea-salt shell kit into ONE restrained BLUE-AND-WHITE PORCELAIN SEA theme. Keep indigo/navy #3B5679 and warm ivory #EEE3CC canopy stripes, with a little pale celadon-blue #9CB7BA as secondary. Remove ALL huge central cloud medallions from both lanterns and the repeated large clouds across every scallop. The sole primary motif is small soft traditional sea-wave arcs, with tiny fan-shell outlines as occasional secondary marks. Canopy has a THIN ivory sea-wave woven border along its low valance, widely spaced, not large motifs filling every scallop. BOTH lantern paper bodies glazed-sea-blue #789BA8, one thin indigo/ivory wave band confined to lower 15 percent, and one TINY ivory fan-shell mark at center no more than 18 percent of lantern body width (approximately a third of the former cloud medallion). Most lantern paper is quiet blank colored paper. Gold caps/ribs, navy tassels, warm internal light while body stays visibly blue. Chef apron deep navy with ivory straps and tiny wave embroidery at pocket edge. BOTH stools plain slate/denim blue plastic with narrow ivory seat lips, NO front-face icons. Pot warm ivory porcelain with a fine blue sea-wave band and two tiny shell accents; plate ivory with fine navy edge and two tiny fan-shell drawings, no busy thick rim. Menu navy frame with one tiny shell at corner, wok handle plain navy endcap. Green leaves and food untouched. Honeywood stall remains warm. Elegant Chinese blue-and-white coastal supper stall, ample breathing space and small patterns; NO nautical anchors, no giant shell badge, no massive cloud logo.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-87bf506d-5884-4940-889d-aae5adada773.png"
+    },
+    {
+      "id": "06",
+      "name": "玫瑰格纹·净面凳",
+      "file": "06-gingham-clean-stools.png",
+      "group": "refinement",
+      "source": "g-rose-gingham.png",
+      "references": [
+        "保留格纹篷布与全部配色",
+        "只去掉两张凳子正面的三点小方格",
+        "保留凳子上沿一圈格纹"
+      ],
+      "prompt": "Use case: precise-object-edit. This image is the EDIT TARGET. Make exactly ONE small local correction: on BOTH rose-colored plastic stools, REMOVE the three small detached cream checker-square dots on the FRONT FACE BELOW the continuous checkered band. Reconstruct the plain rose plastic in those two tiny places, retaining the original shading and material. KEEP the continuous cream/rose checker band around the seat edge unchanged. Both stools must now have plain front faces below that band. Do not remove any stool legs, openings, round seat holes or other structure. Keep EVERY other pixel/feature as close as possible: same rose/cream gingham canopy, same lanterns and checker bands, same chef identity/face/pose/apron/pocket, all wood, food, wok, plate, plant/pot/menu, background and lighting. Do not recolor anything or alter any other pattern. Keep exact Chinese sign \"家常现炒\". Same full 4:3 composition, no UI, no new text, no labels, no watermark.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-73fd54d2-ae7c-4cc7-a28c-665d55d00c7a.png"
+    }
+  ],
+  "canopyStudies": [
+    {
+      "id": "P1",
+      "name": "竹编卷帘",
+      "file": "p1-bamboo-roll-canopy.png",
+      "group": "canopy",
+      "source": "e-pistachio-bamboo.png",
+      "references": [
+        "浅竹编材质",
+        "低弧顶与收卷前缘",
+        "杏白棉麻侧角，保持大厨露脸"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nExplore a NEW CANOPY MATERIAL AND SILHOUETTE, not merely a pattern recolor: a traditional Chinese BAMBOO-WOVEN ROLL-UP MARKET AWNING. Replace the existing broad striped scalloped cloth with a gently low-arched light honey bamboo woven mat roof, fine diagonal interlacing texture, thin darker bamboo edge bindings, a short rolled bamboo front edge like a neatly rolled blind. Two small oatmeal-linen triangular corner drapes tied with restrained olive cords may soften the ends. The canopy must remain open and shallow, never hang across the chef's head or sign. Same overall footprint and support posts; preserve chef/counter and existing large natural wooden sign centered in front. This is a warm small food-market canopy, not a hut, gazebo or parasol. Palette: light bamboo #CFAC72, warm oat linen #EEE1C5, deep moss #6E7B4C. Small paired bamboo-leaf marks only at linen corner drapes. Both lanterns pale warm pistachio paper with SMALL olive bamboo sprigs, olive tassels and brass hardware. Chef apron moss green with tiny cream pocket detail. Stools plain moss green with cream seat lips; no leg patterns. Pot ivory with one slender olive bamboo sprig band, plate ivory with tiny olive leaf trim, menu moss frame. Keep the entire fixed stall natural light honeywood. Show the bamboo weaving and rolled edge clearly as the main creative change; clean appealing 2.5D miniature ancient market, restrained and inviting.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-4b02a50e-efc5-48aa-9b74-befe2e9c140f.png"
+    },
+    {
+      "id": "P2",
+      "name": "青瓦小檐",
+      "file": "p2-blue-tile-eaves-final.png",
+      "group": "canopy",
+      "source": "f-plum-osmanthus.png",
+      "references": [
+        "低矮青黛瓦檐",
+        "轻微翘角与圆瓦当",
+        "暖木与少量桂花呼应"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nExplore a NEW ANCIENT-STYLE CANOPY STRUCTURE: a charming low Chinese QINGWA TILE EAVE for a small food stall. Replace the fabric striped awning with a SHALLOW roof of rounded overlapping charcoal-blue / blue-gray ceramic tiles, small cylindrical tile-end caps at the front, only subtly upturned outer corners, a fine warm wood support lip underneath. Roof scale/footprint remains the same small stall size, with enough gap above the chef's hat, not a tall temple roof. No roof ridge beasts, no dragon, no palace, no pagoda, no extra building walls. Preserve wooden sign centered in front, words \"家常现炒\". A few tiny osmanthus blossom impressions on two round tile caps may connect the skin, but most tiles plain matte ceramic. Palette: muted ink-blue tiles #4C6068, cream #E8D7B5, honeywood, small osmanthus gold. Complementary theme pieces: both lantern paper bodies warm muted plum-brown with a SMALL pale-gold four-petal osmanthus sprig (not a huge emblem), warm light, deep plum tassels. Apron deep plum with tiny gold stitching. Stools plain warm plum-brown plastic with cream seat lips, no front icons. Pot cream with slender plum/gold blossom band, plate cream with a tiny gold blossom edge, menu plum frame. The main idea is the handsome miniature tile eave and softly lifted corners. Grounded ancient Chinese night-market stall, warm and friendly, never ornate grand architecture.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-2e4a25b9-d417-41dd-b381-981536c2ec90.png",
+      "firstGeneratedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-524b9eba-79f8-402d-adf4-caa46275f13b.png",
+      "finishPrompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Make ONLY one tiny structural correction: restore a real DARK HOLLOW OVAL HAND-HOLE in the CENTER OF THE TOP SEAT of EACH of the two plastic stools. These classic small Chinese market plastic stools have oval handholds cut right through the seat. The current top surfaces look filled, painted or outlined: they must instead show an actual oval aperture, a small inner edge/rim and dark shadow inside the hollow stool. Both holes are modest horizontally oval, proportional to their seat and in perspective; they are NOT painted oval decals or circular outlines. Preserve the seat lip color around the perimeter and the rest of each stool, all legs and existing side openings. Do not add any front-face pattern, dot or badge. Keep EVERYTHING ELSE unchanged, especially this newly designed roof/canopy shape, materials, patterns, sign and exact \"家常现炒\" lettering, cute chef identity/face/pose, colors, lanterns, wood, food, plate, plant, full 4:3 composition, background and light. No new objects, no labels, no UI, no watermark. Only the two small seat holes should differ.",
+      "draftFile": "p2-blue-tile-eaves.png"
+    },
+    {
+      "id": "P3",
+      "name": "团扇叠边",
+      "file": "p3-fan-panel-canopy-final.png",
+      "group": "canopy",
+      "source": "b-teal-ripples.png",
+      "references": [
+        "扇面式拼接布棚",
+        "奶油与浅玉色交叠",
+        "细竹肋与短穗，留白为主"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nExplore a NEW CANOPY CUT AND TEXTILE CONSTRUCTION: a sophisticated Chinese FAN-PANEL FABRIC AWNING. Replace the broad vertical stripe canopy with an open, low fabric roof whose front valance is formed from a few overlapping shallow folding-fan / moon-fan shaped cloth panels, warm ivory and pale jade alternating softly. Visible slim natural bamboo ribs radiate within each fabric panel, subtle pleats and neatly piped jade borders, with only two very short jade silk knot tassels at the outer corners. These are integrated canopy panels, NOT separate giant fans attached to the roof, not an umbrella, not a tent, not a gazebo. Keep the same roof footprint and support posts, face fully visible, original wooden sign hung centered in front. Palette: jade #76A697, warm ivory #F0E6CD, deep jade-teal #2F6F63, warm bamboo/honeywood. Decorate just one or two ivory fan panels with a delicate curved willow / orchid-leaf sprig, large areas quiet. Both lantern paper bodies pale jade with a TINY ivory fan-leaf flourish, gold fittings and deep jade tassels. Chef apron cream with deep jade straps and a small jade pocket; plain jade stools with ivory seat lips; ivory pot with narrow jade fan-line band, leaves natural; plate ivory with fine jade rim; menu jade frame. No waves on every surface, no oversized badges. The canopy's overlapping fan-shaped construction should be visibly different and elegant, softly ancient and playful, not theatrical or ceremonial.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-e20a0871-5049-4567-9cfb-1f68c8af940c.png",
+      "firstGeneratedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-4d36de48-f196-4561-b334-888d1a13366d.png",
+      "finishPrompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Make ONLY one tiny structural correction: restore a real DARK HOLLOW OVAL HAND-HOLE in the CENTER OF THE TOP SEAT of EACH of the two plastic stools. These classic small Chinese market plastic stools have oval handholds cut right through the seat. The current top surfaces look filled, painted or outlined: they must instead show an actual oval aperture, a small inner edge/rim and dark shadow inside the hollow stool. Both holes are modest horizontally oval, proportional to their seat and in perspective; they are NOT painted oval decals or circular outlines. Preserve the seat lip color around the perimeter and the rest of each stool, all legs and existing side openings. Do not add any front-face pattern, dot or badge. Keep EVERYTHING ELSE unchanged, especially this newly designed roof/canopy shape, materials, patterns, sign and exact \"家常现炒\" lettering, cute chef identity/face/pose, colors, lanterns, wood, food, plate, plant, full 4:3 composition, background and light. No new objects, no labels, no UI, no watermark. Only the two small seat holes should differ.",
+      "draftFile": "p3-fan-panel-canopy.png"
+    },
+    {
+      "id": "P4",
+      "name": "蓝染碎花",
+      "file": "p4-indigo-resist-canopy-final.png",
+      "group": "canopy",
+      "source": "c-indigo-porcelain.png",
+      "references": [
+        "整幅蓝染棉麻",
+        "疏密变化的小碎花",
+        "平直软檐与简洁绑带"
+      ],
+      "prompt": "Use case: precise-object-edit. Asset type: ONE refined full-stall concept illustration for the warm Chinese night-market game LanternStall. Input image 1 is the EDIT TARGET. Preserve the same full 4:3 landscape composition, exact cute boy chef identity, face, smile, cream hat and jacket, pose and spatula, stall scale, counter/frame, preparation rack and steamers, wok/food/plate, two complete stools and leafy potted plant. Keep the exact dark-brown Chinese sign text \"家常现炒\" on its wooden plaque, the same warm night-market river background and lighting. Preserve the rounded painterly 2.5D game art, tactile cloth/wood/ceramic/plastic materials, believable shadows, full silhouettes and all stool openings/feet. No UI, no palette labels, no extra words, no collage, no watermark. Green leaves, skin/hair, cream clothes and food remain natural; iron wok stays black. A coordinated theme must be visible in canopy, lantern paper bodies/tassels, apron/straps, stools, pot, menu frame and plate rim; warm lighting must not bleach theme colors to generic yellow. Use a HIERARCHY of decoration: canopy is the focal patterned textile, lanterns have SMALL secondary details with generous blank paper, stools mostly plain with a narrow seat lip, apron/pot/plate/menu use sparse tiny supporting trim. No big badges stamped on every object, no floating decorative particles.\nExplore a NEW CANOPY FABRIC AND EDGE: an authentic-feeling Chinese INDIGO RESIST-DYED COTTON-LINEN FOOD-STALL AWNING. Replace all broad stripes and repeated scallops with ONE continuous deep indigo dyed cloth roof, natural woven cotton-linen texture, a short mostly STRAIGHT relaxed front valance with a very gentle curve and a double-stitched ivory border; two modest cloth tie knots at outer corners. Sparse small ivory hand-resist BLOSSOM/LEAF dots and tiny floral sprigs form an irregular border near lower edge, a couple of small off-center blossom clusters higher up, ample plain indigo cloth. This is crafted dyeing, not modern polka dots, not a dense repeating print, not shiny satin, no denim logos. Same roof height/width, wood support posts and exact hanging sign, same entire stall composition. Palette indigo #314F70, warm cotton ivory #EDE1C5, muted steel blue #667E91, natural medium honeywood. Both lanterns indigo paper with a SMALL off-center ivory resist-dyed floral sprig only about 20 percent of body width, thin gold ribs and navy tassels, most paper blank. Apron deep indigo with small off-white linen pocket, stools plain muted indigo plastic with narrow ivory seat lips and no front symbols; pot ivory with fine blue floral trim, plate ivory with sparse tiny blue blossom edge, menu plain indigo frame. Main focus is the richly textured continuous blue-dyed cloth and calmer non-scalloped edge, a handsome ordinary ancient town night-market stall rather than a palace or fancy wedding tent.",
+      "generatedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-cb413783-bf69-4e99-aebc-2a23f12b34f3.png",
+      "firstGeneratedPath": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-50a165d3-049b-4d73-b4aa-2a1d15db6ebc.png",
+      "finishPrompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Make ONLY one tiny structural correction: restore a real DARK HOLLOW OVAL HAND-HOLE in the CENTER OF THE TOP SEAT of EACH of the two plastic stools. These classic small Chinese market plastic stools have oval handholds cut right through the seat. The current top surfaces look filled, painted or outlined: they must instead show an actual oval aperture, a small inner edge/rim and dark shadow inside the hollow stool. Both holes are modest horizontally oval, proportional to their seat and in perspective; they are NOT painted oval decals or circular outlines. Preserve the seat lip color around the perimeter and the rest of each stool, all legs and existing side openings. Do not add any front-face pattern, dot or badge. Keep EVERYTHING ELSE unchanged, especially this newly designed roof/canopy shape, materials, patterns, sign and exact \"家常现炒\" lettering, cute chef identity/face/pose, colors, lanterns, wood, food, plate, plant, full 4:3 composition, background and light. No new objects, no labels, no UI, no watermark. Only the two small seat holes should differ.",
+      "draftFile": "p4-indigo-resist-canopy.png"
+    }
+  ]
+}

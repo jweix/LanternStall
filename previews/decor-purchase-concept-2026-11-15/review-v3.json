@@ -1,0 +1,23 @@
+{
+  "status": "visual-concept-only",
+  "tool": "built-in image_gen.imagegen",
+  "image": "purchase-flow-v3.png",
+  "previousImage": "purchase-flow-v2.png",
+  "prompt": "prompt-v3.txt",
+  "changes": [
+    "Restored four primary outfit tabs in this order: 主题, 摊位, 大厨, 场景.",
+    "主题 is selected by default; other tabs preserve individual shopping and mixing.",
+    "Removed separate single-item link in both the theme page and dimmed confirmation background.",
+    "Kept 小摊/局内 as a secondary preview toggle.",
+    "Replaced the hollow bottom gap with a continuous highlighted solid wooden counter edge.",
+    "Draped the bamboo cloth over that same counter edge at the right, clipped at the bottom.",
+    "Preserved theme ownership deduction and confirmation amounts."
+  ],
+  "review": [
+    "Both theme-page instances have the same main tab order.",
+    "Full bamboo stall, four themes and price section remain visible.",
+    "The gameplay bottom rim is continuous solid wood and the cloth covers its right portion.",
+    "No user red annotation rectangle was included in the artwork.",
+    "Preview only; production code, economy, saves and builds were not changed."
+  ]
+}

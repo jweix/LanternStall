@@ -1,0 +1,27 @@
+{
+  "direction": "C · 夜空题字",
+  "selected_visual": "c-night-sky-lettering.png",
+  "refined_visual": "c-refined.png",
+  "dimensions": [
+    887,
+    1774
+  ],
+  "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-253379fd-f102-4d7a-a6cd-ffb777419a48.png",
+  "status": "视觉稿细化，未作为生产整页皮肤接入",
+  "constraints": [
+    "灯笼保持立柱内侧",
+    "只轻微减小尺寸",
+    "蒸笼不盖住流苏",
+    "两侧邻摊保留可见棚沿与柜台",
+    "1:2构图",
+    "运行时依然分物件共用渲染，不使用整页截图"
+  ],
+  "proposed_background_visual": "c-riverside-quay.png",
+  "background_comparison": "shoreline.html",
+  "background_constraints": [
+    "湖面位于石质岸沿之外",
+    "低矮栏杆与岸沿连续",
+    "小摊与左右邻摊落在同一条干燥木栈道",
+    "前景人物、灯具、器物与UI继续独立"
+  ]
+}

@@ -1,0 +1,47 @@
+Use case: ui-mockup
+Asset type: revised warm Chinese mobile game theme shopping concept sheet V4, preview only.
+Input image 1 is the EDIT TARGET and STYLE REFERENCE: three-screen purchase-flow-v3.png. Keep its warm 2.5D night-market art, wood frame and cream panels, big red rounded buttons, bamboo full-stall illustration, chef, four bottom navigation icons, and the four main outfit tabs in this order: 主题 / 摊位 / 大厨 / 场景.
+Make a new THREE-PANEL sheet of the same size/aspect, with screen 1 normal theme browsing, screen 2 the SAME page with only its theme card list scrolled in a FUTURE expanded-catalogue example, and screen 3 the purchase confirmation dialog. Remove the old gameplay-preview screen ENTIRELY. No gameplay screen, no 局内 tab, no 小摊/局内 toggle anywhere on the theme page. Preview is just the complete illustrated STALL.
+
+Critical requests:
+- 暖红 is owned, and its status text must be “已拥有”, never 默认.
+- Put theme name, remaining coin price and owned-piece count INSIDE each theme card.
+- REMOVE the entire large lower 竹影夜市 info block, its duplicate full-set arithmetic, its ownership paragraph, and any explanatory text overlay on the card list. Give this recovered space to the theme cards.
+- Detailed total/deduction/remaining-piece arithmetic belongs ONLY in the purchase modal.
+- Only the two-column theme-card region scrolls VERTICALLY. Page title, main tabs, large stall preview, purchase button and bottom navigation stay fixed. Cards must be clipped cleanly at the list viewport; no cards or letters overlap the purchase button. A slim caramel scroll track/thumb appears at the right only in the expanded scrolling state.
+
+PRESENTATION outside the artboards:
+Three titles exactly: “① 主题信息放进卡片”, “② 主题增多，列表上下滑”, “③ 详细抵扣放在弹窗”.
+Small footnote outside the screens, below the sheet: “首发四套 · 中间为后续扩展示意 · 金币金额为示例”.
+No arrows drawn across actual UI. All Chinese must be readable and well aligned.
+
+SCREEN 1, left, normal first-release catalogue with exactly 4 themes:
+Top compact existing brand and wallet6280, title 小摊装扮.
+Four prominent tabs “主题”“摊位”“大厨”“场景”, 主题 selected red. No extra 单件选购 or 自由搭配 link; those functions are in the other three tabs.
+A LARGE complete bamboo stall preview directly below the tabs, bigger than v3. Keep both lanterns, chef, vegetables and rack, both stool legs and bamboo flowerpot intact. Small tag “竹影 · 试装中”. No preview-mode tabs.
+Below preview, a clear two-column by two-row grid of FOUR generous cream theme cards:
+1. 暖红: full red/ivory stall thumbnail; status badge “已拥有”. No price and no 默认 label.
+2. 竹影: full sage-bamboo stall thumbnail, thin red selected outline, name “竹影”; small line “已拥有2件”; coin icon with clear price text “补齐4,800”.
+3. 海风: full navy/ivory stall thumbnail, name “海风”; small line “未拥有”; coin icon with “7,200”.
+4. 秋夜: full plum/gold floral stall thumbnail, name “秋夜”; small “活动可得” ribbon, ownership line “已拥有3件”; coin icon with “补齐3,600”.
+Make each card image and text fit comfortably with visible margins and no overlap. These theme cards are the ONLY location of the ownership/price summary on this main page.
+The 4-card grid fills the lower content area; there is NO extra large theme summary panel between the grid and purchase button. A fixed single large pill-shaped red action “补齐并换上” below the card region. Then normal bottom wooden nav 小摊 / 装扮 / 菜谱 / 夜市, 装扮 highlighted.
+
+SCREEN 2, middle, SCROLLING EXTENSION STATE, not a second page:
+Precisely the same title, tabs, wallet6280, same-sized BAMBOO stall preview and tag “竹影 · 试装中”, same fixed bottom button and bottom nav at the exact same positions as screen1. No full-page scrolling. Only change content INSIDE the theme-card viewport.
+Show what happens when later releases add themes: the list is scrolled down, original four are mostly ABOVE the visible region. At top of the list viewport a neatly clipped partial row of 海风/秋夜 can indicate continuity; then show two additional 2-column rows of coordinated theme thumbnails/cards: “暮紫” (muted purple flower canopy), “瓦檐” (traditional grey tiled eaves), “格纹” (rose/cream gingham canopy), “碧波” (teal/ivory wave canopy). Each future card uses the same internal name / ownership / coin layout as screen1, with “未拥有” and coin price “6,000”. Use believable miniature whole-stall art, not modern UI icons. Bottom row may be partially clipped, with the clipping confined to the viewport. No theme card paints under the fixed CTA or navigation.
+A clearly visible but subtle vertical caramel scrollbar to the right has its thumb lower than the top; this is the scroll affordance. The OUTSIDE column title/footnote already says future extension, do not introduce a 'coming soon' promo section in the game UI.
+Preserve the bamboo selection even when its card scrolls offscreen: the fixed preview tag identifies the selected theme. Fixed CTA still “补齐并换上”.
+
+SCREEN 3, right, purchase confirmation:
+Use screen1 as the dimmed background (NOT gameplay). Same four main tabs and theme-card grid remain behind overlay. Center a generous wooden/cream dialog like the old middle screen in reference1.
+Title “补齐竹影夜市”. Smaller complete bamboo stall illustration.
+Exact text below it: “已拥有2件，本次补齐7件”.
+Accounting rows: “整套价值” right “6,000”; “已拥有抵扣” right “－1,200”; divider; “本次支付” right large red “4,800”; “购买后余额” right “1,480”.
+Small text “已拥有部件不重复购买”.
+One large vermilion pill button with coin icon and text “4,800 · 确认购买”.
+Secondary centered action below it “再看看”.
+Correct math is 6280−4800=1480. This is permanent coin-purchased cosmetic ownership, no real money, no time limit.
+All detailed billing is here only; do not replicate it under the main theme list.
+
+Constraints: no gameplay preview, no 局内 toggle, no large summary panel beneath the list, no text blocking card scrolling, no overlapping controls, no horizontal pager, no forced individual purchase. Primary tabs persist and single-item mixing stays in 摊位/大厨/场景. Cohesive illustrated Chinese night-market UI; preserve the approved art, subtle warm lighting, full bamboo props and clear typography. Show three full-height 1:2 portrait screen artboards side by side, not phone hardware. All prices in the sheet are examples.

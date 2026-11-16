@@ -1,0 +1,34 @@
+Use case: ui-mockup
+Asset type: high fidelity Chinese mobile game UI purchase-flow presentation, preview only.
+Primary request: Create ONE polished landscape presentation image with THREE full-height portrait mobile game screens side by side, approximately 3000 by 2100 pixels, each portrait artboard at 1:2 ratio, separated by slim calm warm-cream gutters. These are screen mockups, no phone hardware. This shows the NEW THEME-FIRST outfit purchase flow for 灯火大排档. Beautiful finished 2.5D Chinese night-market game UI, rich illustrated wood grain, glowing lanterns, cream parchment panels, restrained gold trims, round friendly brown Chinese lettering, pill-shaped vermilion main buttons. It should look like the SAME GAME as reference 1, not a modern ecommerce app, not a wireframe.
+Input images, roles in the order provided:
+1. Existing outfit page: STYLE REFERENCE only, keep its warm wooden frame, night-market visual language, rounded buttons and four bottom navigation icons. Redesign its information hierarchy: eliminate the old row of 摊位/大厨/场景/主题 tabs, eliminate individual merchandise cards from the main theme page.
+2. Bamboo theme: ART REFERENCE for the selected theme, exact sage-pistachio bamboo canopy, warm ivory bamboo-painted lamps, olive apron and stools, ivory bamboo flowerpot. The chef, prep rack, vegetables, both stools, lamps, full stall must remain complete.
+3. Existing gameplay: GAMEPLAY COMPOSITION REFERENCE. Keep the main 灯火大排档 sign, three cream order cards, five-by-five ingredient tile board, seven prep slots, wok and three tool buttons. This is a reference for the third screen, recolor ONLY environmental outfit pieces to bamboo; preserve warm readable ingredient/interaction components.
+4. Blue sea theme: ART REFERENCE only for its small theme thumbnail.
+5. Plum osmanthus theme: ART REFERENCE only for its small theme thumbnail.
+
+Presentation outside the artboards: small elegant dark brown titles over the three columns, respectively “① 选主题，先试装”, “② 已有抵扣，整套补齐”, “③ 换上后，局内也成套”. A discreet footer below all screens says “购买流程视觉稿 · 金币金额为示例”. Do not put developer notes inside player UI. All Chinese text must be clean, readable and verbatim. No arrows crossing screen contents.
+
+SCREEN 1, left, default outfit browsing and preview, balance 6,280:
+Keep a compact top brand header and separate right-side coin wallet, leave safe room above wallet, no simulated WeChat capsule. Main page title “小摊装扮”. Under it a small low-emphasis “自由搭配 ›” link on the right (single-item shopping is a secondary route).
+Large illustrated complete BAMBOO stall preview is the focal point, with “小摊” / “局内” segmented preview tabs, 小摊 active. In preview corner a small cream “试装中” tag (not equipped yet).
+Below preview, exactly FOUR compact themed thumbnail cards in a balanced 2 by 2 grid: “暖红” (red cream canopy, status “默认”), “竹影” (bamboo theme SELECTED with thin vermilion outline, no equipped check), “海风” (navy and cream canopy), “秋夜” (plum gold osmanthus, small “活动可得” status). Theme thumbnails should show complete miniature stalls rather than single pieces. Do not show 8 or 9 component cards.
+Below the grid, a spacious concise cream information area: title “竹影夜市”; owned line “已拥有 2/9 件”; accounting line “整套 6,000 － 已有 1,200”; emphasized line “补齐只需 4,800 金币”. Tiny supporting text “已拥有部件不重复购买”.
+One large rounded vermilion primary button “补齐并换上”. Four bottom wooden navigation icons with labels “小摊” “装扮” “菜谱” “夜市”, 装扮 highlighted. All content fits, no overlapping text or too-small touch targets. Keep illustration larger than text.
+
+SCREEN 2, middle, purchase confirmation:
+The same exact outfit screen as screen 1 behind a warm translucent dark overlay. Place a beautiful centered wooden/cream confirmation dialog with ample breathing room, concise and readable, no giant list of pieces.
+Dialog title “补齐竹影夜市”, small bamboo-themed full-stall illustration.
+Then exact lines: “已拥有 2 件，本次补齐 7 件”; “整套价值” with right value “6,000”; “已拥有抵扣” with right value “－1,200”; a subtle divider; “本次支付” with prominent right value “4,800”; “购买后余额 1,480”.
+Small note “购买后整套换上，小摊与局内同步”.
+Large vermilion button with coin icon and text “4,800 · 确认购买”, below a small cream secondary text action “再看看”. No checkboxes, no real money/RMB, no upsell, no component catalogue, no duplicate payment. All math is exact: 6,280 minus 4,800 = 1,480.
+
+SCREEN 3, right, after purchase, enlarged gameplay outfit preview:
+This is an OUTFIT PREVIEW page in the same wood/cream shell, NOT an actual started gameplay session. Small back link “‹ 返回主题”, heading “局内效果”, separate coin wallet “1,480”.
+A green cream badge “竹影夜市 · 使用中”, preview toggle “小摊” / “局内”, 局内 active.
+Below, a tall large framed portrait preview of the gameplay composition from reference 3. Its roof is now sage/ivory bamboo cloth, both lanterns warm ivory with small elegant bamboo motifs, the bottom-left stool olive, the BOTTOM-RIGHT TABLECLOTH is now matching warm ivory/sage cloth with a subtle bamboo edge pattern. Keep this tablecloth visibly shown and not cropped off. Three cream order cards, original colorful food tiles, seven prep slots, wok and tool buttons remain legible and recognizable. Remove red-gingham cloth from the bamboo preview. Make this preview cover most of the screen, not a tiny postage stamp.
+Under the preview, concise caption “桌椅布置含凳子与局内桌布”; a small success line “整套已换上”. A large vermilion bottom action “回小摊看看”.
+Do not add a fake battle UI over the outfit shell or invent game mechanics. The existing bottom 4 navigation can remain visible if space permits. Ensure upper lights, stools and tablecloth all coordinate in the same bamboo theme.
+
+Constraints: cohesive finished Chinese casual game art, precise alignment, full contents visible, no cropped stool legs or lamp tassels, no gibberish Chinese, no hard modern flat panels or excessive shadows, no real-money labels, no VIP, no sale countdowns, no forced component purchases. Purchase changes only after confirmation. Use green check only for actually equipped/owned state, vermilion outline for selection, text for preview state. The three screens show one coherent sequence.

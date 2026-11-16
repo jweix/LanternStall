@@ -1,0 +1,18 @@
+Use case: precise-object-edit
+Asset type: revised Chinese mobile game purchase-flow concept sheet, version 2.
+Input images:
+Image 1 is the EDIT TARGET: the existing three-column outfit purchase-flow sheet. Preserve its 3 columns, exact overall composition, bamboo art direction, wood/cream UI, prices, labels, modal, icons, top titles and approximate 1499x1049 landscape format.
+Image 2 is a GEOMETRY REFERENCE ONLY: the actual gameplay screen at 928x1695. It defines how LITTLE of the foreground stool and bottom-right cloth-covered table is visible at the VERY BOTTOM.
+
+Primary request: Make ONLY two precise corrections to image 1.
+
+Correction A, keep single-piece buying explicit:
+In the first screen and the same dimmed background of screen 2, change the small top-right link beside 小摊装扮 from 自由搭配 to the exact label “单件选购 ›”. Give it a modest cream capsule outline so it is discoverable, secondary to the whole-theme purchase CTA. It must remain clearly readable without colliding with 小摊装扮. This link leads to single-piece purchases and mixing; the theme bundle path continues unchanged. Do not remove single-item purchasing and do not add a component catalogue onto the theme screen.
+Change the small OUTSIDE footer under the sheet to “整套补齐与单件选购均保留 · 金币金额为示例”.
+
+Correction B, strict foreground composition at the bottom of the RIGHTMOST screen's gameplay preview:
+Compare image 2 carefully. Its bottom-right cloth-covered foreground table begins only around y=1630 of total1695, roughly the final 4% of the gameplay height. The table enters from the right edge at about x=590 of width928 (rightmost36% width), and continues OFF the bottom and right edges. It is a small cropped corner, not an entire visible dining table. The bottom-left stool is likewise mostly cut off by the bottom edge. The player specifically says the table must be much closer to the bottom, with substantially LESS cloth visible.
+In image 1 rightmost screen's framed gameplay preview, LOWER that table to sit FLUSH against the BOTTOM of the INNER GAMEPLAY IMAGE, reduce its visible height to only the last 3–4% of the preview, and reduce its visible width to the rightmost approximately35%. Crop the table naturally OFF the lower and right preview edges; show just a small tabletop corner and a narrow strip of cloth. No table legs, no floating table, no empty floor beneath the table, no tall cloth drape, no enlarging it to advertise the skin. The cloth remains warm ivory with sage bamboo motif, sparse and subtle, much smaller in visible area than image 1. Keep the left stool as a small bottom-cropped olive stool. Preserve the wood ledge under the tool buttons; do not introduce a large floor band. The correction applies to the INNER gameplay preview, not to moving the outer page navigation.
+Respect the reference gameplay aspect ratio and layout. Keep the five-by-five tiles, three orders, seven prep slots, wok, three tools and game sign in their existing positions. Do not shift or compress any gameplay controls to make room for scenery.
+
+Invariants: the whole-theme preview, 4 theme choices, all purchase arithmetic (6280,6000,1200,4800,1480), owned2/9, missing7, modal and confirm wording, third screen's 使用中 badge, lower captions, footer navigation remain unchanged except the explicit edits above. Maintain readable Chinese and the exact same polished warm 2.5D illustrated style. No extra screen, no new theme, no new currency, no developer notes inside the game UI.

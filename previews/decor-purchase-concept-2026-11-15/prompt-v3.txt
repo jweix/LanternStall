@@ -1,0 +1,25 @@
+Use case: precise-object-edit
+Asset type: revised Chinese mobile game outfit purchase-flow visual mockup, V3, preview only.
+Input images:
+1. EDIT TARGET: three-screen purchase-flow-v2 concept sheet. Keep the same warm polished 2.5D Chinese game style, three screens, wood/cream panels, bamboo theme, four theme thumbnail choices, prices and confirmation dialog.
+2. CORRECT GEOMETRY REFERENCE: user's cropped ORIGINAL bottom of gameplay. Study the WOODEN TABLE RIM highlighted by the user's red rectangle, and the red checkered cloth on the RIGHT. This is the correct solid table structure. The red rectangle is an annotation; NEVER include red markup boxes in output.
+3. TAB STYLE REFERENCE: user's earlier outfit page with four large pill tabs 摊位/大厨/场景/主题. Restore this four-tab navigation style but reorder it as specified below.
+4. FULL GAMEPLAY REFERENCE: exact original 928x1695 game screen; this defines bottom wooden rim, stool and draped cloth geometry.
+
+Make two corrections to image 1:
+
+A. RESTORE FOUR PRIMARY TABS, THEME FIRST.
+On the LEFT outfit screen remove the small top-right 单件选购 link completely. Under the 小摊装扮 title, add the full original four equal-width large rounded cream tabs from image 3, EXACT LEFT-TO-RIGHT order: “主题”, “摊位”, “大厨”, “场景”. “主题” is first, selected vermilion with ivory type. Remaining three cream tabs with dark brown type. This is now the default outfit page, and the other tabs still allow individual component purchase and mixing.
+Keep the smaller “小摊 / 局内” PREVIEW toggle as a separate SECOND row below those four main tabs, not confused with main navigation. Preserve the large full-stall preview, trial badge, four theme options and bundle cost section. Make room by gently reducing the preview height and tightening vertical spacing, not squeezing text or stretching illustration. Full stool legs and both lanterns remain visible in the stall preview.
+The MIDDLE screen is the same updated theme page dimmed under the same purchase dialog. Its background must also have the SAME four tabs in SAME order, 主题 selected; remove its old 自由搭配 link. Keep the modal foreground intact: 2 owned, 7 missing, 6,000 total, -1,200 deduction, pay4,800, walletafter1,480.
+
+B. CORRECT THE GAMEPLAY PREVIEW'S BOTTOM TABLE, DO NOT REPEAT V2'S HOLLOW GAP.
+Image 1 rightmost inner gameplay preview currently has a dark recessed EMPTY/FLOOR strip beneath the tools. That strip is WRONG. Image 2 and image 4 show the correct geometry: a SOLID thick warm orange/brown rounded WOODEN TABLE FRONT EDGE extends horizontally right under the three tool buttons, continuing down and OFF THE BOTTOM of the gameplay image. Its top rim catches a bright honey highlight and its front face shows warm wood grain. This is one continuous wooden counter edge, not a floating thin lip above an empty recess.
+REPLACE the dark recess across the bottom of the rightmost inner gameplay preview with this continuous solid highlighted wood edge, from left behind the cropped stool all the way to right under the cloth. No empty floor, hollow cavity, dark air gap, separate little table below the ledge, or visible table legs.
+The matching bamboo TABLECLOTH must actually LIE ON TOP OF THIS WOODEN EDGE at the right: an ivory cloth with sparse sage bamboo motifs follows the tabletop's upper plane, bends over the rounded front edge, and visibly DRAPES DOWN OVER THE FRONT FACE of that SAME table. It must overlap and cover the right portion of the wood, not rest as a flat placemat below it. In the original reference the red gingham cloth begins level with the bright wooden rim and covers it on the right; reproduce that relationship with bamboo fabric.
+Keep the original restrained crop: cloth only at the rightmost roughly36% width, and overall foreground table/cloth occupying roughly the last4–5% of the inner gameplay screen's height, continuing off the bottom/right frame. There is NO FLOOR visible beneath it. Slightly small visible cloth drape, not a large table. Left stool remains mostly cropped off the bottom, olive in bamboo palette. Both cloth and solid table edge extend flush to the LOWER BOUNDARY of the INNER gameplay preview. The sheet's captions and navigation below the framed preview remain separate and unchanged.
+Do not reduce cloth visibility by removing the drape: cloth must still visibly cover the top and front edge within this small crop.
+Preserve the gameplay UI above it: same five-by-five ingredients, three order cards, seven prep slots, wok, three tools, upper bamboo canopy and matching lamps. No gameplay control relocation, no compressing the board, no extra floor or landscape scenery.
+
+Invariants:
+Keep all existing other lettering, prices, ownership quantities, theme styles, chef and stall, purchase dialog, 3 column titles and outside footer. Keep title row readable with no overlaps. No hand-drawn annotations or red outline rectangles from references. Image output should be the same complete three-screen sheet, not a cropped detail or a new flow. This is a precise revision, avoid redesigning unrelated elements.

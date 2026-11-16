@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>经营四页实际体验走查 · 2026-11-16</title>
+<style>
+:root{color-scheme:light;--ink:#573923;--muted:#806b57;--paper:#fffaf0;--line:#dfd1b9;--red:#a93925;--blue:#153e4b}
+*{box-sizing:border-box}body{margin:0;background:#f0e9dc;color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}a{color:#984223;text-underline-offset:3px}button{font:inherit;cursor:pointer}header{background:var(--blue);color:#fff2d2;padding:40px max(24px,calc((100% - 1180px)/2)) 36px}header p{max-width:880px;color:#d6e1dc;margin:10px 0}h1{font-size:32px;line-height:1.3;margin:12px 0}h2{font-size:24px;margin:0 0 16px}h3{font-size:19px;margin:0 0 12px}.kicker{font-size:13px;letter-spacing:2px;color:#edc982}.chip{display:inline-block;padding:3px 10px;border-radius:20px;background:#fff2d222;color:#fff3d5;font-size:13px}main{max-width:1228px;margin:auto;padding:28px 24px 70px}section{margin-bottom:28px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px}.summary{display:grid;grid-template-columns:1fr 300px;gap:24px}.score{background:#fff0cf;border-radius:12px;padding:18px}.score strong{font-size:48px;line-height:1;color:var(--red)}.score small{font-size:14px;color:var(--muted)}.scores{list-style:none;padding:0;margin:16px 0}.scores li{display:flex;justify-content:space-between;border-bottom:1px solid #e7d6b5;padding:4px 0;font-size:14px}.subtle{color:var(--muted);font-size:14px}.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px}.compare figure{margin:0;min-width:0}.compare img{display:block;width:100%;max-width:440px;height:auto;margin:12px auto;background:var(--blue);border:1px solid var(--line);border-radius:12px}.compare figcaption{font-size:15px;font-weight:600}.compare p{font-size:14px;color:var(--muted);margin:0}.toolbar{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;padding:12px 0;background:#f0e9dcf5;z-index:2;backdrop-filter:blur(8px)}.toolbar button{border:1px solid #cbbba0;border-radius:22px;background:#fffaf0;color:var(--ink);padding:7px 16px}.toolbar button[aria-pressed=true]{background:var(--blue);color:white;border-color:var(--blue)}.finding{background:var(--paper);border:1px solid var(--line);border-left:5px solid #caa05d;border-radius:12px;padding:22px;margin:14px 0;scroll-margin-top:80px}.finding[data-priority=P0]{border-left-color:#b23a25}.finding[data-priority=P1]{border-left-color:#d29c40}.finding[data-priority=P2]{border-left-color:#54817c}.meta{display:flex;gap:10px;align-items:center;font-size:12px;margin-bottom:6px;color:var(--muted)}.badge{font-weight:700;color:#a93925;background:#fbe6d6;border-radius:5px;padding:1px 6px}.finding dl{display:grid;grid-template-columns:76px 1fr;gap:9px 12px;margin:0;font-size:15px}.finding dt{color:var(--muted)}.finding dd{margin:0}.evidence{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.evidence a{display:block;font-size:12px;max-width:96px;line-height:1.4}.evidence img{width:76px;height:100px;object-fit:cover;object-position:top;border:1px solid var(--line);border-radius:5px;display:block;margin-bottom:3px}.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.flow article{padding:18px;border-radius:10px;background:#f5eddc}.flow p{font-size:15px;margin-bottom:0}.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}.gallery figure{margin:0;min-width:0}.gallery img{width:100%;height:auto;border-radius:8px;border:1px solid var(--line);display:block}.gallery figcaption{font-size:13px;margin:6px 0}.principles{padding-left:20px}footer{color:var(--muted);font-size:13px;margin-top:30px}#load-error{color:var(--red)}@media(max-width:760px){h1{font-size:26px}.summary,.flow{grid-template-columns:1fr}.compare{gap:12px}.panel{padding:18px}.finding dl{grid-template-columns:1fr;gap:2px}.finding dd{margin-bottom:10px}.gallery{grid-template-columns:repeat(3,1fr)}header{padding:30px 20px}main{padding:20px 14px 45px}}
+</style>
+<header>
+  <span class="kicker">LANTERN STALL / 实际浏览器走查</span>
+  <h1>方向成立，落地细节仍未达标</h1>
+  <span class="chip">2026-11-16 · 本轮仅审查，未修复生产实现</span>
+  <p>先把场景连接、页面间距和试穿状态修正确，再收敛材质与装饰。截图全部来自真实运行页面；确认稿单独标注，不把它当成已实现效果。</p>
+</header>
+<main>
+  <section class="panel summary">
+    <div>
+      <h2>为什么会反复错位</h2>
+      <p id="root-cause"></p>
+      <p>本次把问题分为：<b>P0 先修结构与重叠</b>、<b>P1 修还原与操作一致性</b>、<b>P2 优化阅读与收藏体验</b>。这些是处理顺序，不代表每项都涉及数据错误。</p>
+      <p class="subtle" id="scope"></p>
+      <p class="subtle" id="save-note"></p>
+    </div>
+    <aside class="score"><strong>60</strong><small> / 100</small><p class="subtle">当前美术落地与使用体验的主观评分</p><ul class="scores" id="scores"></ul><small>不等于功能测试分或像素相似度。</small></aside>
+  </section>
+  <section class="panel">
+    <h2>对标版本与实际首页</h2>
+    <div class="compare">
+      <figure><figcaption>已确认方向：岸边与金字标题版</figcaption><p>对照结构与比例，装扮颜色不作为本次比较依据。</p><a href="../home-directions-2026-11-15/c-riverside-quay.png" target="_blank"><img src="../home-directions-2026-11-15/c-riverside-quay.png" alt="用户已确认的首页视觉稿"></a></figure>
+      <figure><figcaption>实际页面：当前保存的混搭装扮</figcaption><p>菜架、棚柱接缝、章节样式和卡片间距均未达到确认稿。</p><a href="01-home.png" target="_blank"><img src="01-home.png" alt="真实首页截图"></a></figure>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>试穿与换回：建议统一的规则</h2>
+    <div class="flow">
+      <article><h3>① 选卡，直接试穿</h3><p>整套与已有部件都只改变预览。选另一张卡就直接替换试穿，无需先取消。明确显示“试穿中 · 未保存”。</p></article>
+      <article><h3>② 点“换上”，才保存</h3><p>普通套装、珍藏整套和单件都用同一确认方式。尚未保存时，预览旁提供清楚的“恢复当前装扮”，不再使用底部小脚注。</p></article>
+      <article><h3>③ 已穿上的部件，可单独换回</h3><p>在拥有列表点当前使用的珍藏部件，可换回原套装对应部位。只替换这一件，不清空其他混搭，也不让场景缺物件。</p></article>
+    </div>
+  </section>
+  <section id="findings-section">
+    <h2>逐项调整清单 <span class="subtle" id="count"></span></h2>
+    <div class="toolbar" role="group" aria-label="筛选优先级">
+      <button type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="P0" aria-pressed="false">P0 · 结构与重叠</button>
+      <button type="button" data-filter="P1" aria-pressed="false">P1 · 还原与操作</button>
+      <button type="button" data-filter="P2" aria-pressed="false">P2 · 体验优化</button>
+    </div>
+    <p id="load-error" hidden></p>
+    <div id="findings"></div>
+  </section>
+  <section class="panel">
+    <h2>向定稿收敛的风格判断</h2>
+    <p>深蓝夜色、蜂蜜木台、奶油卡面、朱红主按钮和金色题字的组合是成立的。问题主要在拼装结构、视觉比例与操作状态，不需要再换一套美术方向。</p>
+    <ul class="principles">
+      <li>金色集中在品牌、金币和小纹样；暖红主按钮承担真正的主要动作。</li>
+      <li>首页呈现场景，内容页呈现阅读；同一金字品牌、工具位置、钱包和底部导航贯穿四页。</li>
+      <li>物件先满足支撑、挂接、落地与手握关系，再调整构图；不能用缩小菜、挪开架子掩盖结构问题。</li>
+      <li>标题、正文、状态和操作分别建立层级；减少重复脚注与无动作红按钮。</li>
+      <li>按“结构 → 四页骨架 → 状态交互 → 材质细节”修复，每阶段都用实际浏览器截图与确认稿等大对照。</li>
+    </ul>
+    <p class="subtle">验收应覆盖六套主题、两种场景镜头、整套与混搭、试穿与已保存状态，以及首／中／末行列表。功能测试通过只能作为功能证据，不能替代这份视觉核对。</p>
+  </section>
+  <section class="panel">
+    <h2>完整截图证据 · 15个状态</h2>
+    <p class="subtle">点击可看截图原尺寸。页面展示的是从全视口截图裁出的游戏画布，未修饰游戏内容；同目录保留带“-full”的完整视口截图。</p>
+    <div class="gallery" id="gallery"></div>
+  </section>
+  <footer>本清单是本轮审查结果，尚不表示问题已修复。<a href="findings.json">结构化清单</a> · <a href="/platforms/web/?wardrobe=starter&tab=home">返回实际体验</a></footer>
+</main>
+<script>
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+fetch('findings.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(data=>{
+  document.querySelector('#root-cause').textContent=data.rootCause;
+  document.querySelector('#scope').textContent=data.scope;
+  document.querySelector('#save-note').textContent=data.saveNote;
+  document.querySelector('#scores').innerHTML=data.score.items.map(x=>`<li><span>${esc(x.label)}</span><b>${x.value}/${x.max}</b></li>`).join('');
+  const labels=Object.fromEntries(data.screens);
+  document.querySelector('#findings').innerHTML=data.findings.map(f=>`<article class="finding" id="${f.id}" data-priority="${f.priority}"><div class="meta"><span class="badge">${f.priority}</span><span>${f.id} · ${esc(f.kind)}</span></div><h3>${esc(f.title)}</h3><dl><dt>实际问题</dt><dd>${esc(f.actual)}</dd><dt>原因</dt><dd>${esc(f.why)}</dd><dt>调整方向</dt><dd>${esc(f.action)}</dd><dt>完成标准</dt><dd>${esc(f.verify)}</dd></dl><div class="evidence">${f.evidence.map(p=>`<a href="${p}" target="_blank"><img src="${p}" alt="${esc(labels[p]||p)}" loading="lazy">${esc(labels[p]||p)}</a>`).join('')}</div></article>`).join('');
+  document.querySelector('#count').textContent=`共${data.findings.length}项`;
+  document.querySelector('#gallery').innerHTML=data.screens.map(([p,t])=>`<figure><a href="${p}" target="_blank"><img src="${p}" alt="${esc(t)}" loading="lazy"></a><figcaption>${esc(t)}</figcaption></figure>`).join('');
+  document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{
+    document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+    document.querySelectorAll('.finding').forEach(f=>f.hidden=button.dataset.filter!=='all'&&f.dataset.priority!==button.dataset.filter);
+  }));
+}).catch(error=>{const el=document.querySelector('#load-error');el.hidden=false;el.textContent='清单读取失败，请通过本机体验服务打开本页。';});
+</script>
+</html>

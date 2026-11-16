@@ -1,0 +1,31 @@
+{
+  "status": "visual-concept-only",
+  "tool": "built-in image_gen.imagegen",
+  "image": "purchase-flow-v1.png",
+  "prompt": "prompt.txt",
+  "purpose": "Theme-first outfit purchase and home/gameplay preview flow",
+  "scope": "Preview artwork; production screens, prices, saves and build are unchanged.",
+  "example": {
+    "theme": "竹影",
+    "walletBefore": 6280,
+    "fullSetValue": 6000,
+    "ownedValue": 1200,
+    "ownedCount": 2,
+    "setCount": 9,
+    "missingCount": 7,
+    "payment": 4800,
+    "walletAfter": 1480,
+    "pricesAreIllustrative": true
+  },
+  "review": [
+    "Four theme options only: 暖红, 竹影, 海风, 秋夜.",
+    "Whole theme browsing is primary; 自由搭配 is a secondary link.",
+    "Preview selection is distinct from actual equipped state.",
+    "Confirmation displays owned-item deduction and exact post-purchase balance.",
+    "No component catalogue or mandatory individual purchase steps on theme page.",
+    "Bamboo gameplay preview coordinates roof, lamps, stool and bottom tablecloth.",
+    "Tablecloth belongs to the furnishing set rather than an extra paid slot.",
+    "The displayed gameplay is a visual concept, not evidence of production integration.",
+    "This sheet covers the partial-ownership affordable purchase path; insufficient funds, locked themes and save errors remain implementation states."
+  ]
+}

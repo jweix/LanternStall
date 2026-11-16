@@ -1,0 +1,12 @@
+{
+  "mode": "built-in image_gen, transparent edit",
+  "purpose": "Match independent recipe title to wardrobe and market title typography",
+  "prompt": "Use case: text-localization. Asset type: independent transparent game UI title lettering. Input image 1 is the EDIT TARGET reading 家常菜谱. Input image 2 夜市活动 and input image 3 小摊装扮 are the EXACT STYLE references. Replace only the type treatment of image 1 to match image 2: warm dark brown, rounded sturdy Chinese brush-like strokes, matte almost flat with only very subtle edge shading. Reduce the excessive embossed bevel, no chunky 3D extrusion, no gold outline. Text verbatim must be exactly 家常菜谱, four characters in one horizontal row with even natural spacing and uniform cap height. Preserve high legibility at small mobile size. Isolated lettering only on a real transparent background, no plaque, no border, no cloud motifs, no extra text. Preserve all four complete glyphs with clear transparent margin on all sides.",
+  "references": [
+    "source/brand/v6/title-recipes.png",
+    "source/brand/v6/title-market.png",
+    "source/brand/v6/title-decor.png"
+  ],
+  "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-ba2ce008-1ec7-4b9d-a1f8-21e0dfdc6e45.png",
+  "asset": "source/brand/v17/title-recipes.png"
+}

@@ -1,0 +1,33 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "reference": "previews/home-directions-2026-11-15/c-riverside-quay.png",
+  "assets": [
+    {
+      "key": "environment",
+      "prompt": "Use case: precise-object-edit / background extraction. Create a PRODUCTION PURE ENVIRONMENT from this approved 887×1774 Chinese cozy night market home mockup. Keep EXACT canvas 887×1774 (1:2), camera, composition and ALL ENVIRONMENT positions. Keep upper-left bamboo foliage, the thin festoon bulb string, the small red decorative lantern pair at upper right, distant night sky/trees/rooftops, arched bridge, river, BOTH neighbouring market stalls partially visible at the extreme left/right edges, the clear continuous LOW timber guardrail around y=670, the STONE QUAY EDGE around y=710, and the dry wooden promenade covering foreground below y=735. This exact shore geometry is critical: water is behind and below the stone edge, foreground is dry wood. REMOVE ALL UI: gold title 灯火大排档, chapter text and flourishes, sound/settings buttons, coin wallet, wish panel, main red button, link text, bottom navigation and all text/numbers. REMOVE THE ENTIRE CENTRAL FOREGROUND STALL and ALL its contents/objects: red/cream awning, hanging sign, all central timber posts/counter, chef, 2 flower lanterns, steamers/rack/vegetables, stove/wok/plate/food, stools, menu board, potted plant, their shadows. Reconstruct clean uninterrupted environment behind them, continuing water at its correct depth, railing/stone quay continuously across the view at exactly the original height, and empty dry timber walkway all the way to bottom. Do NOT remove neighbouring stalls at edges or upper right small RED ambient lantern pair. No central stall, characters, foreground furniture, UI or readable text remains. This is an empty scenic backdrop for independent sprites, not a complete home skin. Match original warm painterly premium 2.5D art, lighting and textures. Do not zoom/crop/shift perspective or change bank height.",
+      "output": "source/scene/v13/environment-quay.png"
+    },
+    {
+      "key": "brand",
+      "prompt": "Use case: background-extraction / precise-object-edit. Extract/recreate ONLY the five gold Chinese brush lettering characters 灯火大排档 from the top heading of the supplied approved game UI illustration as ONE independent production wordmark. Match the EXACT distinctive calligraphic strokes, warm ivory-gold gradient, delicate orange-brown dimensional edge and restrained glow from the reference. Text verbatim: 灯火大排档 (FIVE characters; do not substitute characters). Single horizontal line, no plaque or board. Exclude ALL other scene content, bamboo, lamps, chapter text, flourishes, UI, borders or iconography. Tight comfortable transparent padding around the strokes; preserve full ascenders and flourishes. GENUINELY TRANSPARENT BACKGROUND, no opaque dark rectangle, no checkerboard drawn into image. Only the five-character wordmark, clean alpha edges, high clarity for a 660×140 design-space header. Keep the source's horizontal stroke proportions.",
+      "output": "source/brand/v13/gold-title.png"
+    },
+    {
+      "key": "bamboo",
+      "direction": "竹影河岸: keep the same riverside market, add a little more soft bamboo foliage along the upper edges and far shore, quiet jade-green/teal ambient accents. Retain warm wooden deck, red neighbouring stall awnings, amber lantern light. Very restrained, not a green filter.",
+      "output": "source/scene/v13/environment-bamboo.png"
+    },
+    {
+      "key": "sea",
+      "direction": "海风夜市: keep the same lakeside market and bridge but make the distant water a slightly clearer deep slate blue with cool moonlit atmosphere and a few pale blue distant reflections. The dry wood promenade and neighbouring red market stalls remain warmly lit. Restrained blue accents, not an ocean, beach or pirate scene.",
+      "output": "source/scene/v13/environment-sea.png"
+    },
+    {
+      "key": "festival",
+      "direction": "秋夜灯会: keep the same riverside market, swap a little upper-edge foliage to gentle autumn golden osmanthus/maple leaves, muted reddish plum/amber ambient accents and a few tiny distant warm festival lights. The river remains dark blue, dry promenade honey wood, neighbouring red stalls intact. No saturated purple filter.",
+      "output": "source/scene/v13/environment-festival.png"
+    }
+  ],
+  "bamboo_final_prompt": "MICRO-EDIT this 887×1774 production pure environment. Keep the EXACT SAME 887×1774 canvas, 1:2 aspect, camera, sky/deck proportions, river bank y=710, guardrail, BOTH neighbour-stall edge fragments, and bottom ground unchanged. Do not crop, shorten, zoom, widen, rearrange, or redraw the layout. Only swap a few upper-edge leaves into thin bamboo leaf sprigs, and make the far trees a subtle jade-green teal. Keep all other pixels as close as possible. It remains an empty riverside night-market background with NO UI/text/central stall/characters/furniture. Long empty dry wooden foreground continues all the way to the bottom; do not shorten it.",
+  "variant_template": "Use case: precise-object-edit, independent production pure environment variant. Input is the approved EMPTY riverside market backdrop, not a full UI. Preserve EXACT 887×1774 portrait 1:2 canvas and all geometry: river and bridge, BOTH partially visible neighbour stalls at edges, low guardrail around y=665, stone quay edge y=710, dry wooden deck from y=735 all the way down. No zoom/crop, no moving the bank. Keep empty central ground and upper title area. Do NOT add a central stall, foreground furniture, character, wording, UI, icons or numbers. Preserve the upper-left framing foliage, festoon string and small upper-right ambient red lantern pair. Change only subtle environment details/colors for {direction} Match warm premium 2.5D painted game art. Shore must make it clear that all stalls stand on dry land and river is beyond the railing. Output one pure backdrop."
+}

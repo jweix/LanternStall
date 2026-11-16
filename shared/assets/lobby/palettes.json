@@ -1,0 +1,5 @@
+{
+  "bamboo": {"awning":"#aab55f", "stool":"#8d9657", "plant":"#f0dfb8", "chef":"#828b48", "plate":"#8d9657", "wok":"#728046", "menu":"#8d9657"},
+  "sea": {"awning":"#30486b", "stool":"#30486b", "plant":"#f2e2c4", "chef":"#30486b", "plate":"#30486b", "wok":"#30486b", "menu":"#30486b"},
+  "festival": {"awning":"#81536a", "stool":"#81536a", "plant":"#e8d3b1", "chef":"#75465b", "plate":"#81536a", "wok":"#75465b", "menu":"#81536a"}
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-15",
+  "mode": "built-in image_gen; transparent output; no CLI/API fallback",
+  "reason": "Repair exposed character cutouts and replace mismatched/opaque theme lanterns. Other theme variants use palettes.json and per-material build regions.",
+  "assets": [
+    {
+      "id": "lobby-scene-chef",
+      "file": "source/scene/v8/chef-complete.png",
+      "maxSize": [
+        292,
+        261
+      ],
+      "input": "source/scene/v6/chef.png",
+      "generated": "exec-e7aa1809-bcd8-4007-81a4-ce5502583d40.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE transparent production character sprite for a warm Chinese night market game. The input is the EDIT TARGET. Repair only the damaged / erased lower apron and the dark background remnants along the arms of this same chef. Preserve the exact same face, smile, eyes, hat, hair, head proportions, metal spatula, hand positions, cream jacket, warm lighting and 2.5D toy-like painterly rendering. Reconstruct the missing lower-left red apron and cream sleeve so the character is a clean complete waist-up silhouette with a continuous curved waist hem, no rectangular cutouts or missing chunks. The left hand keeps holding the raised spatula. The right hand keeps its pose but REMOVE the short black wok handle from that hand (the wok is a separate object in the game). Red apron has clean red straps and subtle gold buttons, no food patterns, no leaves, no decorations. Clean truly transparent background around all edges, no dark remnants, no outline shadow, no counter, no wok, no plate, no food, no floor, no text. Full waist-up chef and spatula visible, about same near-square 1.12:1 bounding proportions as input. Keep modest transparent padding. This must read as an isolated game character thumbnail, not a cropped scene. Do not redesign the character."
+    },
+    {
+      "id": "lobby-lamp-bamboo",
+      "file": "source/scene/v8/lamp-bamboo.png",
+      "maxSize": [
+        166,
+        291
+      ],
+      "input": "source/scene/v6/lamp-flower.png",
+      "generated": "exec-9cfeedde-8712-4e2a-8473-5b25c7cad862.png",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET: one transparent warm 2.5D Chinese floral lantern game sprite. Produce the BAMBOO theme variant of this EXACT lantern, changing only paper body and tassel colors. Paper body: elegant natural muted bamboo / celadon jade green, shadows deep moss green, soft pale jade highlights; NO neon, NO turquoise. Tassel deep moss green. Preserve exact round lantern silhouette, height/width ratio, top hanging ring, all honey-gold metal caps and ribs, cream-gold flower decorations, painterly rounded material, warm light from inside, proportions and camera. Truly transparent background, complete entire object with minimal transparent margin, no square cream matte, no checkerboard, no shadow rectangle, no scenery, no text, no border. Single lantern only. The warm gold ornaments should stay warm gold, never green. Restrained harmonious game illustration matching the source."
+    },
+    {
+      "id": "lobby-lamp-sea",
+      "file": "source/scene/v8/lamp-sea.png",
+      "maxSize": [
+        166,
+        291
+      ],
+      "input": "source/scene/v6/lamp-flower.png",
+      "generated": "exec-e0bcc33c-b6f2-4632-baa6-93e130f01602.png",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET: one transparent warm 2.5D Chinese floral lantern game sprite. Produce the SEA BREEZE theme variant of this EXACT lantern, changing only paper body and tassel colors. Paper body: elegant restrained dusty ocean blue / blue-grey, medium desaturated blue, shadows deep slate blue, soft pale blue highlights; NO neon cyan, NO saturated turquoise. Tassel deep slate blue. Preserve exact round lantern silhouette, height/width ratio, top hanging ring, all honey-gold metal caps and ribs, cream-gold flower decorations, painterly rounded material, warm light from inside, proportions and camera. Truly transparent background, complete entire object with minimal transparent margin, no square cream matte, no checkerboard, no shadow rectangle, no scenery, no text, no border. Single lantern only. Warm gold ornaments stay warm gold, never blue. Restrained harmonious game illustration matching the source."
+    },
+    {
+      "id": "lobby-lamp-festival",
+      "file": "source/scene/v8/lamp-festival.png",
+      "maxSize": [
+        166,
+        291
+      ],
+      "input": "source/scene/v6/lamp-flower.png",
+      "generated": "exec-475d546e-c742-43db-b987-b11c45bc2c6e.png",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET: one transparent warm 2.5D Chinese floral lantern game sprite. Produce the AUTUMN NIGHT theme variant of this EXACT lantern, changing only paper body and tassel colors. Paper body: glowing honey amber / soft golden ochre with burnt-orange shading, warm pale gold highlights, evoking an autumn harvest lantern. Tassel deep jujube red / oxblood red. NO purple, NO pink, NO fluorescent orange. Preserve exact round lantern silhouette, height/width ratio, top hanging ring, all honey-gold metal caps and ribs, cream-gold flower decorations, painterly rounded material, warm light from inside, proportions and camera. Truly transparent background, complete entire object with minimal transparent margin, no square cream matte, no checkerboard, no shadow rectangle, no scenery, no text, no border. Single lantern only. Subtle warm autumn palette harmonizing with dark red fabric and honeywood."
+    },
+    {
+      "id": "lobby-scene-awning",
+      "file": "source/scene/v8/awning-cloth.png",
+      "maxSize": [
+        746,
+        189
+      ],
+      "input": "source/scene/v6/awning.png",
+      "generated": "exec-b6734b3a-a99a-4aff-9cc5-8798a2dfbb2d.png",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET: one wide red and cream striped game canopy on a transparent background. Remove ONLY the wooden sign plaque, the Chinese lettering, its rope and gold fasteners, reconstructing the continuous red/cream striped canopy cloth behind them. Also remove the tiny blue background remnants along the outside edges; replace those with genuine transparency. Keep the exact existing canopy shape, original width:height about 4:1, top rounded red rail, red and cream stripe spacing, scalloped valance outline and all original red/cream cloth texture, light/shadow, highlights and seams. One complete standalone canopy, no sign, no lettering, no rope, no posts, no other objects. Do not add symbols or decoration. Do not redesign the stripes or change the outer silhouette. Truly transparent background with minimal padding around the full object; NOT a white matte or checkerboard. The canopy will sit underneath a separate original sign in the assembled scene, so this source must contain only cloth."
+    }
+  ]
+}

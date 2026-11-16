@@ -1,0 +1,320 @@
+{
+  "tool": "built-in image_gen",
+  "approvedReferences": "reference/theme-suites-2026-11-16/",
+  "assets": [
+    {
+      "id": "counter",
+      "asset": "source/scene/v16/counter.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-edd92add-3e5b-41d0-84d8-37eef26936c9.png",
+      "prompt": "Use case: background-extraction. Create ONE independent transparent game sprite: the EMPTY fixed honey-orange WOODEN STALL STRUCTURE from the reference, all together as one logical structure. Exact rounded painted2.5D wood style, front view with slight view down. Include full thick left/right support posts with block top caps, two thin rear posts, complete broad tabletop with empty inset black cooking burner slightly right of center and rectangular silver cooking plate at right, three carved inset cabinet panels, and rounded wooden base. Total opaque structure silhouette width:height about1.64:1. Exposed support-post height around58% and cabinet below about42%. The opening between posts above tabletop is FULLY TRANSPARENT. Keep countertop horizontal and all post tops on one level. NO canopy/roof, sign, lanterns, ropes, chef, shelves, food, serving plate, stools, plants, menu, writing, UI or background. Entire complete structure uncropped with slight consistent padding. Actual alpha transparency through all openings, no white/checkerboard.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/warm.png"
+      ]
+    },
+    {
+      "id": "sea-lamp",
+      "asset": "source/scene/v16/sea-lamp.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-ebd1314e-6201-491d-a882-1993673143a5.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE full hanging round Chinese paper lantern with small top ring and gold cap, warm internally lit round body, gold bottom cap and matching short straight tassel. Exact design in Image1, including paper/rib colors and small motifs. Preserve Image2's front camera, modest perspective, body proportions and size, complete ring-to-tassel silhouette width:height about0.60:1. No wire above ring, no hook outside object, no second lantern, no other objects. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/lamp-flower.png"
+      ]
+    },
+    {
+      "id": "environment",
+      "asset": "source/scene/v16/environment.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-3e5a1072-f7b8-4204-b581-237315bd033c.png",
+      "prompt": "Use case: precise-object-edit. Edit ONLY the upper-right sky decoration in this pure portrait game environment: REMOVE BOTH floating red lanterns and the little twig/small branch supporting them at upper-right, replacing that local area with the same smooth deep blue night sky. Keep everything else EXACTLY UNCHANGED: upper-left bamboo leaves, thin festoon light string, distant buildings, stone bridge, distant river, shoreline railing, stone quay, left/right neighboring stalls and uninterrupted dry wooden promenade. No center stall or character, no text or UI. Same 1:2 portrait composition and camera, no new decorations. This is a pure environment backdrop, opaque, not transparent.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v13/environment-quay.png"
+      ]
+    },
+    {
+      "id": "warm-lamp",
+      "asset": "source/scene/v16/warm-lamp.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-92d080f5-7387-4d09-a995-fbd8f40e1022.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: brick vermilion red and warm ivory; small five-petal golden flower on ivory glowing lanterns; green ceramic pot with two cream wave stripes; plain red plastic stools; plain cream plate and plain red menu frame. Subject: ONE full hanging round Chinese paper lantern with small top ring and gold cap, warm internally lit round body, gold bottom cap and matching short straight tassel. Exact design in Image1, including paper/rib colors and small motifs. Preserve Image2's front camera, modest perspective, body proportions and size, complete ring-to-tassel silhouette width:height about0.60:1. No wire above ring, no hook outside object, no second lantern, no other objects. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/warm.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/lamp-flower.png"
+      ]
+    },
+    {
+      "id": "sea-ornament",
+      "asset": "source/scene/v16/sea-ornament.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-92436a59-0c6f-4b35-8855-24f220c8f524.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE complete potted broad-leaf green plant. Keep Image2's exact leaf silhouette, pot silhouette, scale, highlights and angle, change ONLY ceramic pot material, painted pattern and rim to match Image1. Rich natural green leaves always unchanged and uncolored. Pot is whole including round foot. NO floor or large shadow, no other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/plant-complete.png"
+      ]
+    },
+    {
+      "id": "warm-ornament",
+      "asset": "source/scene/v16/warm-ornament.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-83b0dcc5-23dd-44a8-9148-23e80ffec824.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: brick vermilion red and warm ivory; small five-petal golden flower on ivory glowing lanterns; green ceramic pot with two cream wave stripes; plain red plastic stools; plain cream plate and plain red menu frame. Subject: ONE complete potted broad-leaf green plant. Keep Image2's exact leaf silhouette, pot silhouette, scale, highlights and angle, change ONLY ceramic pot material, painted pattern and rim to match Image1. Rich natural green leaves always unchanged and uncolored. Pot is whole including round foot. NO floor or large shadow, no other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/warm.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/plant-complete.png"
+      ]
+    },
+    {
+      "id": "sea-tables",
+      "asset": "source/scene/v16/sea-tables.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-cd633ac8-4dc9-46b2-ab1b-78245e5e6182.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE complete small plastic stool from Image2, same exact three-quarter front view, round seat with transparent oval hole, sturdy four short legs with clean transparent openings and inner crossbars. Change plastic color, seat ring and tiny motif to match Image1 exactly. Keep original highlights and material texture; DO NOT paint into holes or erase legs. One stool only, no floor or large shadow. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/stool-complete.png"
+      ]
+    },
+    {
+      "id": "warm-menu",
+      "asset": "source/scene/v16/warm-menu.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-c689b80e-d036-4fe2-bab6-f18f15f5ae0f.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: brick vermilion red and warm ivory; small five-petal golden flower on ivory glowing lanterns; green ceramic pot with two cream wave stripes; plain red plastic stools; plain cream plate and plain red menu frame. Subject: ONE tiny freestanding tabletop menu/photo stand as in Image1: complete thick colored wooden frame, small hinged easel feet supporting it naturally, warm ivory BLANK rectangular center, little matching finial if present. Front three-quarter view slightly from above, width:height about0.9:1. Frame only, no words or marks in blank writing area except tiny theme motifs at corners/finial matching Image1. No table, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/warm.png"
+      ]
+    },
+    {
+      "id": "sea-chef",
+      "asset": "source/scene/v16/sea-chef.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-8d24a411-b5d1-4df7-acf4-b1158d7e3082.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE complete waist-up cheerful little chef and his raised spatula. Keep Image2's exact FACE, large cream chef hat, brown hair, cream shirt, hand positions, waist crop and silhouette. Change ONLY apron/straps, embroidered small motif and its pocket patch to match Image1's chef. Image-right hand is gently closed at lower right ready to grip separately drawn horizontal wok handle; never an outstretched palm. NO pan, food, counter, background, stool or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/chef-complete.png"
+      ]
+    },
+    {
+      "id": "sea-awning",
+      "asset": "source/scene/v16/sea-awning.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-ab04b645-9e6d-4da2-9e8e-b447bc3daa7c.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE standalone fabric market canopy only. Preserve Image2's exact 9-scallop silhouette, wide-low shape width:height about4:1, front view with slight view down, padded top rail, broad alternating colored and warm ivory vertical panels. Match Image1's colored panels, placement and scale of decorative motifs. Completely plain cloth behind where a separate wooden sign will later cover it. NO sign or ropes or letters, NO posts, lamps, counter, character, food, background. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/awning-cloth.png"
+      ]
+    },
+    {
+      "id": "sea-wok",
+      "asset": "source/scene/v16/sea-wok.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-358fb3f2-c7ce-4107-a25f-541f192affca.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE EMPTY shallow black iron wok with a complete almost-horizontal handle pointing image-right, EXACT geometry, ellipse, side/front camera and width:height2.74:1 of Image2. Change ONLY handle grip to the matching theme in Image1. Keep bowl black iron, no colored rim across food. No food, hand, chef, stove, steam, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/wok-empty.png"
+      ]
+    },
+    {
+      "id": "sea-plate",
+      "asset": "source/scene/v16/sea-plate.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-21956968-e8a1-4ac9-8118-16da6edb5601.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE EMPTY ivory ceramic serving plate. EXACT shallow oval geometry, front/above camera and width:height about2.16:1 of Image2. Add the delicate rim colors and small edge motifs of the plate in Image1. Center remains blank ivory to hold separately drawn food. No food, shadow backdrop, table, other object or text. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/plate-empty.png"
+      ]
+    },
+    {
+      "id": "sea-menu",
+      "asset": "source/scene/v16/sea-menu.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-b124c13e-da4b-4ec5-a4fa-5b3427318cce.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE tiny freestanding tabletop menu/photo stand as in Image1: complete thick colored wooden frame, small hinged easel feet supporting it naturally, warm ivory BLANK rectangular center, little matching finial if present. Front three-quarter view slightly from above, width:height about0.9:1. Frame only, no words or marks in blank writing area except tiny theme motifs at corners/finial matching Image1. No table, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png"
+      ]
+    },
+    {
+      "id": "sea-cloth",
+      "asset": "source/scene/v16/sea-cloth.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-6e2172e6-cf9e-4114-9ec3-9f3364472440.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: deep navy blue and ivory, restrained cream seigaiha semicircle wave motifs. Ivory glowing lantern with delicate navy ribs and one small curved blue wave low on its body, no large shell. Navy stool with cream seat rim. Ivory pot with navy wave band and tiny shells. Navy apron with small cream wave. Cream plate with thin navy edge and small shells. Navy menu frame with tiny shell finial. Subject: ONE narrow horizontal draped tablecloth strip for the bottom-right edge of a cooking game. Match Image2's exact low-height wide rectangle and drape: a thin fabric covers a small tabletop, turns over its rounded front edge and hangs only a little over the edge. width:height about5:1. Replace gingham with an ivory/cream fabric and a small sparse repeating theme pattern matching Image1. No wooden table, legs or background. Complete little draped textile only. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/sea.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v9/cloth-warm.png"
+      ]
+    },
+    {
+      "id": "bamboo-chef",
+      "asset": "source/scene/v16/bamboo-chef.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-1998c197-9738-44bc-bed8-8164acdf4525.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE complete waist-up cheerful little chef and his raised spatula. Keep Image2's exact FACE, large cream chef hat, brown hair, cream shirt, hand positions, waist crop and silhouette. Change ONLY apron/straps, embroidered small motif and its pocket patch to match Image1's chef. Image-right hand is gently closed at lower right ready to grip separately drawn horizontal wok handle; never an outstretched palm. NO pan, food, counter, background, stool or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/chef-complete.png"
+      ]
+    },
+    {
+      "id": "bamboo-awning",
+      "asset": "source/scene/v16/bamboo-awning.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-96e853f0-ef4e-42b0-af99-a88968ea9abb.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE standalone fabric market canopy only. Preserve Image2's exact 9-scallop silhouette, wide-low shape width:height about4:1, front view with slight view down, padded top rail, broad alternating colored and warm ivory vertical panels. Match Image1's colored panels, placement and scale of decorative motifs. Completely plain cloth behind where a separate wooden sign will later cover it. NO sign or ropes or letters, NO posts, lamps, counter, character, food, background. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/awning-cloth.png"
+      ]
+    },
+    {
+      "id": "bamboo-wok",
+      "asset": "source/scene/v16/bamboo-wok.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-a7e6e332-57e4-429c-ba84-d4b48c9d52c3.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE EMPTY shallow black iron wok with a complete almost-horizontal handle pointing image-right, EXACT geometry, ellipse, side/front camera and width:height2.74:1 of Image2. Change ONLY handle grip to the matching theme in Image1. Keep bowl black iron, no colored rim across food. No food, hand, chef, stove, steam, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/wok-empty.png"
+      ]
+    },
+    {
+      "id": "bamboo-lamp",
+      "asset": "source/scene/v16/bamboo-lamp.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-58ff3f9d-ce84-4f0f-b22b-15bcaa1e960d.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE full hanging round Chinese paper lantern with small top ring and gold cap, warm internally lit round body, gold bottom cap and matching short straight tassel. Exact design in Image1, including paper/rib colors and small motifs. Preserve Image2's front camera, modest perspective, body proportions and size, complete ring-to-tassel silhouette width:height about0.60:1. No wire above ring, no hook outside object, no second lantern, no other objects. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/lamp-flower.png"
+      ]
+    },
+    {
+      "id": "bamboo-plate",
+      "asset": "source/scene/v16/bamboo-plate.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-6ed75b79-a8d2-42dd-83c0-03daa9884962.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE EMPTY ivory ceramic serving plate. EXACT shallow oval geometry, front/above camera and width:height about2.16:1 of Image2. Add the delicate rim colors and small edge motifs of the plate in Image1. Center remains blank ivory to hold separately drawn food. No food, shadow backdrop, table, other object or text. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/plate-empty.png"
+      ]
+    },
+    {
+      "id": "bamboo-ornament",
+      "asset": "source/scene/v16/bamboo-ornament.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-b18a16ad-772a-4e2f-8ee7-4911fe8a2c29.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE complete potted broad-leaf green plant. Keep Image2's exact leaf silhouette, pot silhouette, scale, highlights and angle, change ONLY ceramic pot material, painted pattern and rim to match Image1. Rich natural green leaves always unchanged and uncolored. Pot is whole including round foot. NO floor or large shadow, no other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/plant-complete.png"
+      ]
+    },
+    {
+      "id": "bamboo-menu",
+      "asset": "source/scene/v16/bamboo-menu.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-e43a5216-8bb3-4710-a972-7022cbf23af5.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE tiny freestanding tabletop menu/photo stand as in Image1: complete thick colored wooden frame, small hinged easel feet supporting it naturally, warm ivory BLANK rectangular center, little matching finial if present. Front three-quarter view slightly from above, width:height about0.9:1. Frame only, no words or marks in blank writing area except tiny theme motifs at corners/finial matching Image1. No table, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png"
+      ]
+    },
+    {
+      "id": "bamboo-tables",
+      "asset": "source/scene/v16/bamboo-tables.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-1bf9359d-4523-4dd5-8569-a7074b8d6e8f.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE complete small plastic stool from Image2, same exact three-quarter front view, round seat with transparent oval hole, sturdy four short legs with clean transparent openings and inner crossbars. Change plastic color, seat ring and tiny motif to match Image1 exactly. Keep original highlights and material texture; DO NOT paint into holes or erase legs. One stool only, no floor or large shadow. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/stool-complete.png"
+      ]
+    },
+    {
+      "id": "bamboo-cloth",
+      "asset": "source/scene/v16/bamboo-cloth.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-6101c6e9-3827-4594-a99c-69475aee0a68.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: light yellow-green bamboo and olive green with ivory, delicate sparse bamboo-leaf sprigs. Pale warm yellow-green glowing lantern with a single thin olive bamboo branch; no flowers. Olive stool with cream seat rim and one tiny leaf motif on front. Ivory ceramic pot with handpainted olive bamboo leaves. Olive apron with small ivory patch and bamboo sprig. Ivory plate with green bamboo detail at edges. Olive menu frame with ivory blank center and bamboo leaf. Subject: ONE narrow horizontal draped tablecloth strip for the bottom-right edge of a cooking game. Match Image2's exact low-height wide rectangle and drape: a thin fabric covers a small tabletop, turns over its rounded front edge and hangs only a little over the edge. width:height about5:1. Replace gingham with an ivory/cream fabric and a small sparse repeating theme pattern matching Image1. No wooden table, legs or background. Complete little draped textile only. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/bamboo.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v9/cloth-warm.png"
+      ]
+    },
+    {
+      "id": "festival-ornament",
+      "asset": "source/scene/v16/festival-ornament.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-eb89c350-1022-4c74-b253-a9958fbbcf63.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE complete potted broad-leaf green plant. Keep Image2's exact leaf silhouette, pot silhouette, scale, highlights and angle, change ONLY ceramic pot material, painted pattern and rim to match Image1. Rich natural green leaves always unchanged and uncolored. Pot is whole including round foot. NO floor or large shadow, no other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/plant-complete.png"
+      ]
+    },
+    {
+      "id": "festival-awning",
+      "asset": "source/scene/v16/festival-awning.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-7d338750-409c-44be-a936-68dd0be962d4.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE standalone fabric market canopy only. Preserve Image2's exact 9-scallop silhouette, wide-low shape width:height about4:1, front view with slight view down, padded top rail, broad alternating colored and warm ivory vertical panels. Match Image1's colored panels, placement and scale of decorative motifs. Completely plain cloth behind where a separate wooden sign will later cover it. NO sign or ropes or letters, NO posts, lamps, counter, character, food, background. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/awning-cloth.png"
+      ]
+    },
+    {
+      "id": "festival-tables",
+      "asset": "source/scene/v16/festival-tables.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-747f98c4-7e6d-48da-8c18-95df723ff1fd.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE complete small plastic stool from Image2, same exact three-quarter front view, round seat with transparent oval hole, sturdy four short legs with clean transparent openings and inner crossbars. Change plastic color, seat ring and tiny motif to match Image1 exactly. Keep original highlights and material texture; DO NOT paint into holes or erase legs. One stool only, no floor or large shadow. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v10/stool-complete.png"
+      ]
+    },
+    {
+      "id": "festival-lamp",
+      "asset": "source/scene/v16/festival-lamp.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-3f595e2c-d034-4023-9d9e-076822e82b53.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE full hanging round Chinese paper lantern with small top ring and gold cap, warm internally lit round body, gold bottom cap and matching short straight tassel. Exact design in Image1, including paper/rib colors and small motifs. Preserve Image2's front camera, modest perspective, body proportions and size, complete ring-to-tassel silhouette width:height about0.60:1. No wire above ring, no hook outside object, no second lantern, no other objects. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/lamp-flower.png"
+      ]
+    },
+    {
+      "id": "festival-chef",
+      "asset": "source/scene/v16/festival-chef.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-37323a64-8a28-4c0f-8956-3905d934e870.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE complete waist-up cheerful little chef and his raised spatula. Keep Image2's exact FACE, large cream chef hat, brown hair, cream shirt, hand positions, waist crop and silhouette. Change ONLY apron/straps, embroidered small motif and its pocket patch to match Image1's chef. Image-right hand is gently closed at lower right ready to grip separately drawn horizontal wok handle; never an outstretched palm. NO pan, food, counter, background, stool or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v8/chef-complete.png"
+      ]
+    },
+    {
+      "id": "festival-wok",
+      "asset": "source/scene/v16/festival-wok.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-b16ecef1-ccae-47a1-8bde-6b32f5457c4f.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE EMPTY shallow black iron wok with a complete almost-horizontal handle pointing image-right, EXACT geometry, ellipse, side/front camera and width:height2.74:1 of Image2. Change ONLY handle grip to the matching theme in Image1. Keep bowl black iron, no colored rim across food. No food, hand, chef, stove, steam, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/wok-empty.png"
+      ]
+    },
+    {
+      "id": "festival-plate",
+      "asset": "source/scene/v16/festival-plate.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-bf3c19db-10d7-44b9-91fb-767bb714d1e0.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE EMPTY ivory ceramic serving plate. EXACT shallow oval geometry, front/above camera and width:height about2.16:1 of Image2. Add the delicate rim colors and small edge motifs of the plate in Image1. Center remains blank ivory to hold separately drawn food. No food, shadow backdrop, table, other object or text. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v6/plate-empty.png"
+      ]
+    },
+    {
+      "id": "festival-menu",
+      "asset": "source/scene/v16/festival-menu.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-2050acff-8532-4108-9f04-f9888aa7aebf.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE tiny freestanding tabletop menu/photo stand as in Image1: complete thick colored wooden frame, small hinged easel feet supporting it naturally, warm ivory BLANK rectangular center, little matching finial if present. Front three-quarter view slightly from above, width:height about0.9:1. Frame only, no words or marks in blank writing area except tiny theme motifs at corners/finial matching Image1. No table, background or other object. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png"
+      ]
+    },
+    {
+      "id": "festival-cloth",
+      "asset": "source/scene/v16/festival-cloth.png",
+      "generatedSource": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-c401ee36-4dea-4dcf-97ea-785e8d4766fc.png",
+      "prompt": "Use case: precise-object-edit, production game asset. Image1 is the USER-APPROVED complete theme style reference. Image2 is the invariant geometry and camera template for this single component. Extract/recreate ONLY this single semantic object; output at high quality, matching Image1's rounded rich 2.5D painted night-market style, warm lighting, subtle soft highlights and tactile materials. Theme details: muted plum mauve and warm ivory with small golden four-petal blossom motifs; no bright purple or orange-brown. Mauve/plum glowing lantern with restrained small golden four-petal flowers and matching dark-plum tassel. Muted mauve stool, thin golden seat rim, single small four-petal gold blossom on front. Ivory ceramic pot with mauve horizontal band and tiny gold blossoms. Plum apron with small blossom patch. Ivory plate with plum rim and small gold plum-blossom accents. Mauve menu frame with tiny gold blossom finial. Subject: ONE narrow horizontal draped tablecloth strip for the bottom-right edge of a cooking game. Match Image2's exact low-height wide rectangle and drape: a thin fabric covers a small tabletop, turns over its rounded front edge and hangs only a little over the edge. width:height about5:1. Replace gingham with an ivory/cream fabric and a small sparse repeating theme pattern matching Image1. No wooden table, legs or background. Complete little draped textile only. Actual alpha-transparent background, transparent through all holes, not white or checkerboard. Small consistent padding, entire object uncropped. No scene, no atlas, no collage, no interface, watermark or additional objects.",
+      "references": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/reference/theme-suites-2026-11-16/festival.png",
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/lobby/source/scene/v9/cloth-warm.png"
+      ]
+    }
+  ]
+}

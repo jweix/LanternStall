@@ -1,0 +1,189 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "env",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET, not a style reference. Produce the SAME exact portrait riverside night market environment from this image, 887:1774 ratio. Remove all UI elements: top cloth valance, hanging brand and both large top lanterns, sound/settings/wallet/system capsule, chapter text; remove the entire central stall including roof, plaque, chef, counter, prep rack, food, plant, stools; remove bottom wish card, buttons and navigation. INPAINT ONLY their occluded areas with the same river/blurred opposite-bank buildings and continuous honeywood deck. Preserve all currently visible night sky, overhanging leaves, bridge at right, blurred lanterns, distant architecture, near side stalls and original deck pixels/geometries exactly. Do not redesign or sharpen anything. Dark teal blue upper night, original soft bokeh, warm wood deck lower. NO text, no UI, no central kiosk, no giant foreground lanterns. This is a single pure environment production background, not a page skin.",
+      "input": "reference/lobby-redesign-2026-11-14/01-小摊首页.png"
+    },
+    {
+      "name": "primary",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Remove ALL lettering, digits and the two little cloud ornaments. Preserve the ORIGINAL red capsule shape, enormous round ends, cream/gold thin rims, bevel thickness, soft bottom contact shadow, red grain and highlights EXACTLY. Fill removed marks only with adjacent red material. Do not change proportions or lighting. Output ONE EMPTY red button isolated on genuine alpha, no wood background. Match input aspect ratio; keep object bounding box occupying same relative location. This is one independent production game asset, not a page/atlas. No labels or checkerboard.",
+      "input": "primary"
+    },
+    {
+      "name": "secondary",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Remove brush icon and Chinese label. Preserve this EXACT cream capsule shape, very rounded ends, original gradient, soft highlight, warm thin thickness and original shadow. Do not redesign as a rounded rectangle. Output ONE EMPTY cream capsule isolated on genuine alpha, no wood or other objects. Match input aspect ratio; keep object bounding box occupying same relative location. This is one independent production game asset, not a page/atlas. No labels or checkerboard.",
+      "input": "secondary"
+    },
+    {
+      "name": "card",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Remove ONLY food plate, food, ALL Chinese text and numbers. Preserve exact cream rounded card silhouette, surface texture, highlight, warm bottom thickness and contact shadow. Fill content region with same smooth warm cream material. ONE EMPTY card isolated on genuine alpha, no wood background. Match input aspect ratio; keep object bounding box occupying same relative location. This is one independent production game asset, not a page/atlas. No labels or checkerboard.",
+      "input": "card"
+    },
+    {
+      "name": "counter",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Retain ONLY the original EMPTY honeywood stall structure: both vertical side support posts, their collars, full serving counter lip, carved three-panel lower cabinet, original metal stove inset on counter. Remove chef, entire awning bits at top, bulbs, cooking wok, plate, food, prep shelf, vegetables, plant, stools, button and all environmental scenery; genuine alpha between and around posts. Restore wooden cabinet only where plant/stools concealed it. Preserve exact original widths, heights, carved panels, perspective, grain, rounded edges and lighting. Do not invent a new design. ONE transparent empty fixed structure. Match input aspect ratio; keep object bounding box occupying same relative location. This is one independent production game asset, not a page/atlas. No labels or checkerboard.",
+      "input": "counter"
+    },
+    {
+      "name": "tab-active",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET, not style reference. Retain ONLY the one red selected tab. Remove text, all background and partial neighboring tabs. Preserve exact thick rounded RECTANGLE shape with modest corners (NOT a capsule), original red textured face, fine cream highlight, gold lower bevel and small shadow. One EMPTY selected tab on genuine alpha. Preserve original proportions. No redesign, text, labels or other objects.",
+      "input": "tab-active"
+    },
+    {
+      "name": "tab-normal",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET, not style reference. Retain ONLY the one cream unselected tab. Remove all text, background and neighboring fragments. Preserve exact rounded RECTANGLE shape with modest corners (NOT a capsule), original cream gradient face, fine top highlight and honey lower bevel/shadow. One EMPTY unselected tab on genuine alpha. Preserve original proportions. No redesign, text, labels or other objects.",
+      "input": "tab-normal"
+    },
+    {
+      "name": "wish",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET, not style reference. Remove thumbnail, ALL text/digits, arrow and progress bar. Preserve the original elaborate stepped/sculpted cream card outline with tiny shoulder corners, fine cream inner rim and honey bottom thickness/contact shadow. Fill its whole interior with the same cream paper material, entirely blank. One EMPTY ornamental cream wish plaque on genuine alpha, no wood background. Preserve original proportions. No redesign, text, labels or other objects.",
+      "input": "wish"
+    },
+    {
+      "name": "nav-base",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET, not style reference. Remove ALL four icons, ALL words and the cream selected tile at left. Preserve the original whole honeywood navigation base with rounded corners, original wood grain, subtle thin rim and lower thickness. Fill removed areas with continuous matching wood. Remove background beyond base. No vertical separators. One EMPTY wide wooden base on genuine alpha. Preserve original proportions. No redesign, text, labels or other objects.",
+      "input": "nav-base"
+    },
+    {
+      "name": "panel-decor",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET, not style reference. Remove ALL contents of this board: title and all lettering, ornament clouds, tabs, scene preview AND its frame/badge, category bar, all item cards/icons/status marks, primary button. Keep ONLY original single large empty main panel, its outer shaped honeywood rim, exact low center crown and shoulders, original soft cream interior with faint wood grain. Fill all removed content with continuous matching cream interior. Genuine alpha outside outer frame. No controls, no marks, no slots, no inner frames. Preserve original board contour/proportions.",
+      "input": "panel-decor"
+    },
+    {
+      "name": "panel-recipes",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET, not style reference. Remove ALL contents of this board: title, clouds, collection badge, tabs, ALL six card slots/cards/foods/text, pagination. Keep ONLY original large empty main panel and its outer shaped honeywood rim/crown and shoulders. Preserve cream upper title region transitioning to honeywood body at original y~268 from top, and rich fine wood grain lower reading surface. Inpaint removed content with matching cream at top / honeywood lower. Genuine alpha outside outer frame. NO controls, no marks, no fixed slots. Preserve board contour/proportions.",
+      "input": "panel-recipes"
+    },
+    {
+      "name": "panel-market",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET, not style reference. Remove ALL contents: title/clouds, tabs, banner AND banner frame, every cream card/icon/text/progress/button and bottom explanation. Keep ONLY original large EMPTY honeywood main board, shaped crown and shoulders and thin outer edge. Preserve original continuous golden honeywood grain throughout blank interior, exact outer silhouette, soft highlight and lower edge. Genuine alpha outside main board. No controls, no marks, no slots. Preserve proportions.",
+      "input": "panel-market"
+    },
+    {
+      "name": "banner",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET, not style reference. Remove ONLY Chinese title/subtitle and the single large foreground red lantern including rope/tassel. Restore only those regions with the SAME original blurred opposite-bank night scene, leaves, bridge and reflections. Preserve all visible background pixels and exact camera/composition, soft bokeh and warm lamps. Remove thin outside UI rim, fill entire image edge-to-edge pure environment. NO text, NO foreground objects or UI. Not a different scene.",
+      "input": "banner"
+    },
+    {
+      "name": "nav-selected",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET, not style reference. Remove icon and Chinese label only, fill with adjacent matching cream. Keep exact original single selected cream rounded tile, warm edge and soft contact shadow. Genuine alpha outside tile; no background. One EMPTY tile, preserve proportions.",
+      "input": "nav-selected"
+    },
+    {
+      "name": "plate-empty",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Remove only the food, restoring the same pale ivory ceramic plate interior. Preserve this ORIGINAL plate outer elliptical silhouette, perspective, size, rim and soft shadow exactly. Do not add anything. ONE empty plate on genuine alpha. No food, no background. Preserve proportions; do not redesign.",
+      "input": "plate-dish"
+    },
+    {
+      "name": "wok-empty",
+      "prompt": "Use case: precise-object-edit. Input image is the EDIT TARGET. Remove only food and any chef hand/fingers at right, restoring the same dark iron wok interior and wooden handle. Preserve this ORIGINAL shallow wok side profile, black/brown metal shading, shape and perspective exactly. Handle extends to the RIGHT; no hands, no stove, no food, no other object. ONE empty wok on genuine alpha. Preserve proportions; do not redesign.",
+      "input": "wok"
+    },
+    {
+      "name": "plant-complete",
+      "prompt": "Use case: precise-object-edit. Input1 is the edit target: transparent cutout of an ORIGINAL game plant. Preserve the SAME broad green leaves, pot silhouette, warm orange terracotta, cream wave decoration, material, perspective and lighting. Remove only the erroneous pale cream horizontal UI/button strip across the pot's bottom. Complete ONLY that obscured lower pot and its rounded base by following the full pot in image2 (reference page), not a new pot design. Remove all stray wood fragments around the leaves; genuine alpha gaps between leaves and outside entire object. Do not redesign or change leaves. Output ONE complete clean transparent potted plant only, no floor, background, button or text. Preserve original proportions and native gentle painted 2.5D quality.",
+      "input": "plant-complete"
+    },
+    {
+      "name": "environment-final",
+      "input": "source/scene/v6/environment-preserved.png",
+      "prompt": "Use case: precise-object-edit. Input is the EDIT TARGET: a nearly clean portrait night-market environment. Clean up ONLY the residual dark/brown vertical wooden-post streaks in the central river-to-deck region (around x330 y800 and x665 y680-865 in an 887x1774 canvas), any faint rectangular/object-removal seams across that central region, and faint remaining UI-shaped shadows in the upper sky. Inpaint those tiny artifacts with the immediately surrounding water/reflections or continuous wood deck. Preserve the entire existing image geometry and all other pixels as faithfully as possible: exact overhanging leaves, soft distant architecture, bridge on the right, near side stalls, lantern bokeh, night palette, floor grain and shoreline. Do NOT create new objects or redesign the environment. There must be NO central stall, chef, post, shelf, plant, stool, button, text, UI or ghost silhouettes. Pure environment only, same portrait aspect and framing."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "env",
+      "file": "source/scene/v6/env.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-c8b85a2f-7422-433e-934a-2e7983b9898b.png"
+    },
+    {
+      "name": "primary",
+      "file": "source/ui/v6/primary.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-5a8aaab9-eccd-4bb1-9d1f-35287efcc485.png"
+    },
+    {
+      "name": "secondary",
+      "file": "source/ui/v6/secondary.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-23e36280-7980-43ab-8f5a-7aeb0a6cbdc3.png"
+    },
+    {
+      "name": "card",
+      "file": "source/ui/v6/card.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-ecf8ef2a-34bb-4973-8d26-ca5088f735ce.png"
+    },
+    {
+      "name": "counter",
+      "file": "source/scene/v6/counter.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-dc2337a8-ac13-4ace-9e52-03f4de7cbc8f.png"
+    },
+    {
+      "name": "tab-active",
+      "file": "source/ui/v6/tab-active.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-cb1b265e-9cc4-46c4-95dd-e408d2fa8bee.png"
+    },
+    {
+      "name": "tab-normal",
+      "file": "source/ui/v6/tab-normal.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-46b080c0-d95a-488e-867d-7228af38c1ef.png"
+    },
+    {
+      "name": "wish",
+      "file": "source/ui/v6/wish.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-64a0b0d0-d120-41d2-a3a9-eca88224d926.png"
+    },
+    {
+      "name": "nav-base",
+      "file": "source/ui/v6/nav-base.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-deaef487-2506-4fc9-a9b6-6326c80a1bee.png"
+    },
+    {
+      "name": "panel-decor",
+      "file": "source/ui/v6/panel-decor.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-b9880dcf-f5d3-40bb-98d0-8065b91c1805.png"
+    },
+    {
+      "name": "panel-recipes",
+      "file": "source/ui/v6/panel-recipes.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-99671240-164a-48f2-8622-431c3da39881.png"
+    },
+    {
+      "name": "panel-market",
+      "file": "source/ui/v6/panel-market.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-83bcef48-9857-4ddc-96a4-1a4fadd8d8ae.png"
+    },
+    {
+      "name": "banner",
+      "file": "source/scene/v6/banner.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-f8846000-0679-4740-98fc-b0ed80f3ebf5.png"
+    },
+    {
+      "name": "nav-selected",
+      "file": "source/ui/v6/nav-selected.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-14845b25-3170-41c4-8cce-29b102cfa3c6.png"
+    },
+    {
+      "name": "plate-empty",
+      "file": "source/scene/v6/plate-empty.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-5c851af5-fa17-4f98-845e-758b7c205aeb.png"
+    },
+    {
+      "name": "wok-empty",
+      "file": "source/scene/v6/wok-empty.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-9c219bbb-85d4-4112-a870-f41ae9b3c1f0.png"
+    },
+    {
+      "name": "plant-complete",
+      "file": "source/scene/v6/plant-complete.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-6e38f861-2b41-4a02-92dc-edafe80b956f.png"
+    },
+    {
+      "name": "environment-final",
+      "file": "source/scene/v6/environment-final.png",
+      "source": "/Users/jiangweixin/.codex/generated_images/01a1d9d4-01e7-79b3-8a0a-3cfd1804825e/exec-12ccebc2-e1d6-44fc-b798-55ca7c686b56.png"
+    }
+  ],
+  "extraction": "source/master/extraction.json",
+  "note": "原稿可见对象优先保持原像素；图像工具编辑空白控件、纯环境及被遮挡底层。透明边界/原像素覆盖记录在显式源素材制作脚本中，生产构建只读独立清单。"
+}

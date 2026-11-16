@@ -1,0 +1,14 @@
+{
+  "tool": "built-in imagegen",
+  "intent": "repair extraction gaps and remove background remnants",
+  "assets": {
+    "stool": "exec-40882208-554b-4465-a1b6-a725b9f79c36.png",
+    "plant": "exec-fa39871b-48b9-4b66-886f-45ccc48e4e19.png"
+  },
+  "invariants": "Original warm 2.5D style, red plastic stool, green plant in terracotta pot with double cream wave. Genuine transparent background; complete feet, crossbars and pot silhouette. No cabinet fragments in holes or leaf gaps.",
+  "authoring": "Source images are copied into source/master/v10; largest connected alpha component with its original antialiased fringe is extracted into independent source/scene/v10 objects.",
+  "prompts": {
+    "stool": "Use case: precise-object-edit. Repair this exact small red plastic stool game sprite. Keep the same warm 2.5D rendered style, color, highlights, near-frontal three-quarter perspective, proportions and single stool. Restore all four complete feet, smooth continuous legs, the interior crossbars with no rectangular missing notches. Remove orange wooden cabinet or background fragments visible through the leg openings; holes are genuinely transparent and crossbars are red plastic. Preserve circular seat opening. No surrounding setting, no floor, no drop shadow, no labels. Sharp clean silhouette with subtle antialiased edge. Output just one complete centered stool on genuine transparent background, occupying about 85% of image, neutral warm front-left light.",
+    "plant": "Use case: precise-object-edit. Repair the exact game sprite of a lush broad-leaf green houseplant in a round orange terracotta pot with a cream double wavy stripe. Keep this warm polished 2.5D casual game style, near-frontal view, same proportions, leaf arrangement and colors. Remove ALL orange wood/background/cabinet fragments behind and between the leaves; leaf gaps must be genuinely transparent. Restore the complete smooth round pot contour, right side and circular foot, no straight cutouts or missing corners. Preserve cream ceramic wavy pattern as tasteful continuous thin double wave. Pot and leaves opaque, outside and gaps transparent, no ground or shadow, no labels, no other objects. Single centered potted plant on genuine transparent background occupying ~85% of image."
+  }
+}

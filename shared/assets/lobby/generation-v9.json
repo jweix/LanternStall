@@ -1,0 +1,50 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "jobs": [
+    {
+      "key": "star-atlas",
+      "out": "source/master/v9/star-atlas.png",
+      "refs": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/previews/rare-skins-2026-11-15/01-starry-glaze.png"
+      ],
+      "transparent": true,
+      "prompt": "Create a production SOURCE sprite atlas from the reference rare skin concept. TRANSPARENT BACKGROUND with true alpha. Square 3 by 3 evenly spaced grid, each object completely inside its own equal square cell with at least 8% transparent margin; no labels, frames, ground planes, checkerboard drawing, watermarks or cast shadows extending to adjacent cells. High quality rounded 2.5D cozy Chinese cooking game style, exact reference materials and motifs. Output approximately3072x3072.\nReading order LEFT TO RIGHT, TOP TO BOTTOM, EXACTLY9 cells:\nrow1 col1: ONLY the broad roof/canopy, NO wooden sign, no文字, NO supports, NO lights hanging beneath it. Preserve its reference silhouette.\nrow1 col2: ONE full hanging lantern with hook and complete tassel.\nrow1 col3: ONE complete stool with all four legs and braces.\nrow2 col1: ONE plant with its complete decorated pot and unchanged green leaves.\nrow2 col2: ONE complete tabletop menu sign stand, cream blank paper and themed frame, no writing.\nrow2 col3: ONE EMPTY serving plate, three-quarter top view, exact reference shape and rim pattern, clean ivory center. No food.\nrow3 col1: ONE empty black wok and themed handle viewed from front three-quarter as in reference; no food, chef, flame or stove.\nrow3 col2: SAME young smiling chef from reference in cream shirt/hat and themed apron, complete from hat to hips; left arm raised holding spatula and right hand facing the wok, no wok, stove, counter, food or attached other objects. Draw the entire waist without a rectangular missing patch.\nrow3 col3: ONLY a small cloth draped over a tabletop corner; do NOT include the wooden table itself or any table legs; ivory/indigo woven surface and folded front edge, opaque cloth on transparent alpha.\nThis atlas will be separated into nine logical source images by a deterministic authoring crop. Keep every object in its assigned cell, no touching or overlap, no duplicate objects and no reference title, background scenery, shop sign or decorative border.\nTheme 星河琉璃: blue-jade curved glazed roof with indigo constellation fascia, brass edging; octagonal jade/brass warm-ivory palace lantern; round wood stool with ivory/jade seat ring and one small star; blue-jade constellation pot; indigo star-topped menu; scalloped 12-lobed ivory plate with jade/indigo rim and sparse tiny gold stars; wok indigo/brass wood handle; chef indigo apron; indigo linen tablecloth with tiny constellation border. All objects must closely match the reference."
+    },
+    {
+      "key": "harvest-atlas",
+      "out": "source/master/v9/harvest-atlas.png",
+      "refs": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/previews/rare-skins-2026-11-15/02-persimmon-harvest.png"
+      ],
+      "transparent": true,
+      "prompt": "Create a production SOURCE sprite atlas from the reference rare skin concept. TRANSPARENT BACKGROUND with true alpha. Square 3 by 3 evenly spaced grid, each object completely inside its own equal square cell with at least 8% transparent margin; no labels, frames, ground planes, checkerboard drawing, watermarks or cast shadows extending to adjacent cells. High quality rounded 2.5D cozy Chinese cooking game style, exact reference materials and motifs. Output approximately3072x3072.\nReading order LEFT TO RIGHT, TOP TO BOTTOM, EXACTLY9 cells:\nrow1 col1: ONLY the broad roof/canopy, NO wooden sign, no文字, NO supports, NO lights hanging beneath it. Preserve its reference silhouette.\nrow1 col2: ONE full hanging lantern with hook and complete tassel.\nrow1 col3: ONE complete stool with all four legs and braces.\nrow2 col1: ONE plant with its complete decorated pot and unchanged green leaves.\nrow2 col2: ONE complete tabletop menu sign stand, cream blank paper and themed frame, no writing.\nrow2 col3: ONE EMPTY serving plate, three-quarter top view, exact reference shape and rim pattern, clean ivory center. No food.\nrow3 col1: ONE empty black wok and themed handle viewed from front three-quarter as in reference; no food, chef, flame or stove.\nrow3 col2: SAME young smiling chef from reference in cream shirt/hat and themed apron, complete from hat to hips; left arm raised holding spatula and right hand facing the wok, no wok, stove, counter, food or attached other objects. Draw the entire waist without a rectangular missing patch.\nrow3 col3: ONLY a small cloth draped over a tabletop corner; do NOT include the wooden table itself or any table legs; ivory/indigo woven surface and folded front edge, opaque cloth on transparent alpha.\nThis atlas will be separated into nine logical source images by a deterministic authoring crop. Keep every object in its assigned cell, no touching or overlap, no duplicate objects and no reference title, background scenery, shop sign or decorative border.\nTheme 柿灯丰年: arched woven reed/bamboo roof and oatmeal scalloped linen valance, leaf embroidery with narrow clay-orange hem; persimmon-shaped glowing orange lantern with leaf cap; square wood stool with oatmeal woven pad; cream/ochre green-lipped persimmon stamped pot; warm wood calyx-topped menu; cream soft-square four-sepal plate with leaf-green edge and one persimmon stamp; black wok with orange wrapped handle; chef oatmeal and terracotta apron with green straps; oatmeal cloth terracotta double stripe and one persimmon-leaf embroidery. All objects match reference."
+    },
+    {
+      "key": "star-environment",
+      "out": "source/scene/v9/environment-star.png",
+      "refs": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/previews/rare-skins-2026-11-15/01-starry-glaze.png"
+      ],
+      "transparent": false,
+      "prompt": "Create ONLY the pure environment layer of the reference 星河琉璃 game scene, landscape4:3. Preserve the cozy rounded2.5D art. Completely remove the central food stall, canopy, wooden counter, sign, chef, stools, pots, food, UI, title, bottom detail strip and every foreground equipment object. Fill the removed area naturally as an unobstructed stone terrace with low stone balustrade overlooking a moonlit mountain-town night market, softly glowing distant wooden houses, small bridge and stream, stars and faint Milky Way in indigo sky, restrained cream flowering foliage only at outer corners. Keep center lower half open and low-contrast to place an independently rendered stall. Full continuous environment, no ghost of stall, no labels, no UI or border."
+    },
+    {
+      "key": "harvest-environment",
+      "out": "source/scene/v9/environment-harvest.png",
+      "refs": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/previews/rare-skins-2026-11-15/02-persimmon-harvest.png"
+      ],
+      "transparent": false,
+      "prompt": "Create ONLY the pure environment layer of the reference 柿灯丰年 game scene, landscape4:3. Same cozy rounded2.5D warm Chinese night-market art. Completely remove central stall, roof, counter, sign, chef, foreground stools, plant pot, food, UI, title, bottom detail strip and equipment. Fill the removed area naturally with an unobstructed mountain-village stone-lane plaza at blue dusk, autumn persimmon tree at outer left, a few fruits/ochre leaves, distant timber houses with warm windows and a few produce baskets at soft-focus far-side stalls. Center and lower half open and quiet for independently rendered stall. No reference original blue river scene, no text, no borders, no labels, no ghost stall."
+    },
+    {
+      "key": "game-clean",
+      "out": "source/scene/v9/game-clean.png",
+      "refs": [
+        "/Users/jiangweixin/Desktop/MiniGames/LanternStall/shared/assets/backgrounds/background-main.png"
+      ],
+      "transparent": false,
+      "prompt": "Precise edit of the game background, preserve exact928x1695 portrait proportions and exact wooden board boundaries and table-front edge. Remove ONLY these decorations so they can be separate sprites: red/ivory top canopy, every hanging lamp/light bulb, the entire five-character wooden brand sign including rope, bottom-left cropped red stool, bottom-right red checked tablecloth/table corner. Fill their former upper regions with the same blurred night-market scenery, and their bottom regions with continuous warm solid wooden tabletop/front rim. KEEP the large empty wooden board from y470 to bottom, its curved upper edge, side timber columns, textures, geometry, colors, and bright rounded bottom front edge precisely in place. Bottom must have solid warm wood, NO FLOOR, hollow dark recess or floating tabletop. The night-market area above board is continuous with no sign, roof, lantern or light bulbs. No text, controls, extra props or UI. This is only a clean reusable game environment/wood structure layer."
+    }
+  ]
+}

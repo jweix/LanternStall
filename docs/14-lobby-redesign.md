@@ -41,7 +41,7 @@ v9源图位于source/scene/v9/，每张只含一个装备对象或纯环境；so
 
 局内主题背景复用首页的完整887×1774镜头，按游戏宽度整体等比缩放、顶部对齐，仅由局内窗口露出顶部一小段，不单独取中景或缩小整幅背景。局内底层通过shared/asset-manifest.json的runtimeSource读取去除可换物件的纯木台／环境；品牌、棚沿、灯、凳子、桌布各自绘制。桌布与凳子同属桌椅装备，贴近底部并覆盖台沿；厨房保持原锅体动效轮廓，用相应锅柄材质和珍藏餐盘绘制真实任务，不改交接、配方和结算。
 
-Web独立体验入口为platforms/web/?wardrobe=starter与?wardrobe=collection，使用同一App/Profile/渲染和真实闯关，分别覆盖购买／部分解锁和全部珍藏试穿；原玩家档案保持独立。正常入口和微信都使用正式规则。最新截图和验证记录在previews/lobby-v19/，覆盖夜空金字首页、岸沿栈道、分组滚动以及部件试穿／取消／确认保存。此前订单补位等记录保留在previews/lobby-polish-v11/与更早的outfit目录。
+Web独立体验入口为platforms/web/?wardrobe=starter与?wardrobe=collection，使用同一App/Profile/渲染和真实闯关，分别覆盖购买／部分解锁和全部珍藏试穿；原玩家档案保持独立。正常入口、抖音和微信都使用正式规则。最新截图和验证记录在previews/lobby-v19/，覆盖夜空金字首页、岸沿栈道、分组滚动以及部件试穿／取消／确认保存。此前订单补位等记录保留在previews/lobby-polish-v11/与更早的outfit目录。
 
 ## 场景与镜头
 
@@ -67,7 +67,7 @@ Web独立体验入口为platforms/web/?wardrobe=starter与?wardrobe=collection�
 
 大内容框与导航使用自己的空白材质；木纹面导出JPEG并携带从alpha提取的轮廓，Web和微信用同一条路径裁剪。透明物件将不透明RGB和边缘alpha分别量化，避免透明边缘挤占颜色后产生木纹色块、渐变分层或黑色矩形；完全相同的基础运行图共用文件。
 
-动态正文采用Noto Sans SC 500子集`LanternBody`；固定美术字优先用原稿对象。旧标题字体`LanternDisplay`仅保留作源记录；运行包只加载正文及其SIL OFL许可。Web先加载FontFace，微信通过`wx.loadFont`取得实际family后注入共享绘制；共享代码无DOM或平台API。新增文案须更新字体子集与覆盖清单。
+动态正文采用Noto Sans SC 500子集`LanternBody`；固定美术字优先用原稿对象。旧标题字体`LanternDisplay`仅保留作源记录；运行包只加载正文及其SIL OFL许可。Web先加载FontFace，微信／抖音通过`wx.loadFont`／`tt.loadFont`取得实际family后注入共享绘制；共享代码无DOM或平台API。新增文案须更新字体子集与覆盖清单。
 
 导出清单携带透明素材的`contentBounds`，页签美术字按其可见边界居中。`prepare-lobby-font.py`从随包字体生成`lobby-font-metrics.js`字形高度，两端按同一份轮廓高度计算alphabetic基线，避免微信只返回文字宽度时回退成另一种居中方式；钱包与对应图标共用中心。奖励名／自动获得状态和页脚文字／云纹也共用中心线。原稿提取轮廓保留青菜、架体及塑料凳的完整连接件和内侧阴影，不能将开口误裁到横撑或凳脚。
 
@@ -83,7 +83,7 @@ Web独立体验入口为platforms/web/?wardrobe=starter与?wardrobe=collection�
 
 ## 构建与复核
 
-执行`npm run build:wechat`后运行`npm test`。两端使用相同的运行图片、轮廓元数据与字体，主包保持在4MiB预算内；不手改微信生成目录。经营和闯关各自等比contain，绘制、触摸和无障碍按钮使用同一viewport。按用户要求不检查微信画面，以构建、字节一致、字体、触摸与无DOM启动测试验证共同实现。
+执行`npm run build`后运行`npm test`。两端使用相同的运行图片、轮廓元数据与字体，主包保持在4MiB预算内；不手改微信生成目录。经营和闯关各自等比contain，绘制、触摸和无障碍按钮使用同一viewport。按用户要求不检查微信画面，以构建、字节一致、字体、触摸与无DOM启动测试验证共同实现。
 
 `node scripts/render-lobby-preview.cjs`通过28次真实引擎通关创建隔离档案，再装备初见部件；装扮页显示花灯试装。它不读写玩家存档，输出四页、主题、购买弹窗、资源检查图及`previews/lobby-review.html`对照页。`LANTERN_CANVAS_MODULE`可指定Canvas依赖。
 

@@ -1,0 +1,9 @@
+{
+  "appid": "",
+  "projectname": "灯火大排档",
+  "setting": {
+    "es6": true,
+    "urlCheck": true,
+    "autoCompile": true
+  }
+}

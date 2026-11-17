@@ -37,7 +37,7 @@ function panel(x,y,w,h,r,kind='cream'){
  }
 // Both settings surfaces share the control, state semantics and action styling.
 function settingsPanel(reducedMotion,options={}){
- const game=!!options.inGame,dy=game?0:50,top=470+dy,height=game?704:560;
+ const game=!!options.inGame,dy=game?0:50,top=470+dy,height=game?704:options.sidebar?740:560;
  const words=options.words||((value,x,y,size,color,align)=>{c.font='700 '+size+'px '+ff;c.fillStyle=color||'#60331b';c.textAlign=align||'left';c.textBaseline='middle';c.fillText(value,x,y);});
  panel(104,top,720,height,45,'wood');panel(120,top+16,688,height-32,36);
  words('设置',464,552+dy,54,'#60331b','center');

@@ -1,3 +1,7 @@
+当前平台入口
+
+抖音为首发目标：npm run build:douyin后，将platforms/douyin/game/导入抖音开发者工具；先用测试号，创建正式应用后填写tt AppID。注册、调试与发布边界见15-douyin-launch.md。微信仍导入platforms/wechat/，两者目录层级不同。完整验证用npm run build后npm test。
+
 平台接入步骤
 
 一 先复现可运行参考

@@ -2,10 +2,13 @@
   "name": "lantern-stall",
   "version": "0.1.0",
   "private": true,
-  "description": "灯火大排档：按菜谱配料的夜市消除小游戏，微信首发。",
+  "description": "灯火大排档：按菜谱配料的夜市消除小游戏，抖音首发。",
   "scripts": {
+    "build": "node scripts/build-all.cjs",
+    "build:douyin": "node scripts/build-douyin.cjs",
     "build:wechat": "node scripts/build-wechat.cjs",
-    "test": "node tests/verify-core.cjs && node tests/verify-handoff.cjs && node tests/verify-game.cjs && node tests/verify-levels.cjs && node tests/verify-progression.cjs && node tests/verify-wechat.cjs && node tests/verify-lobby.cjs",
+    "test": "node tests/verify-core.cjs && node tests/verify-handoff.cjs && node tests/verify-game.cjs && node tests/verify-levels.cjs && node tests/verify-progression.cjs && node tests/verify-wechat.cjs && node tests/verify-douyin.cjs && node tests/verify-lobby.cjs",
+    "test:douyin": "node tests/verify-douyin.cjs",
     "serve": "node scripts/serve.cjs",
     "analyze:levels": "node scripts/analyze-levels.cjs"
   }

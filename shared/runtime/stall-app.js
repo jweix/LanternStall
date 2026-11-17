@@ -58,7 +58,8 @@
         game: this.session ? Object.assign(this.session.view(), { appearance: this.profile.appearance(), settlement: this.settlement,
           wallet: state.coins, homeEnabled: true, introduceStore: state.cleared.length === 1 && !state.tutorialDone, saveError: !!this.profile.error, sandbox: this.sandbox }) : null,
         toast: this.toast && this.toast.until > (this.options.now ? this.options.now() : Date.now()) ? this.toast.text : '',
-        released: C.event.books.map((_, i) => this.profile.released(i)), memories: this.profile.memories(), adAvailable: !!this.options.rewardedAd };
+        released: C.event.books.map((_, i) => this.profile.released(i)), memories: this.profile.memories(), adAvailable: !!this.options.rewardedAd,
+        sidebar: this.options.sidebar ? this.options.sidebar.state() : null };
     }
     frame(ms) { if (this.screen === 'game') this.session.frame(ms); return this.view(); }
     scrollRegion(point) {
@@ -102,6 +103,11 @@
     }
     handle(action, value) {
       const s = this.profile.state;
+      if (action === 'sidebar') {
+        if (!this.options.sidebar || !this.options.sidebar.state().available) return;
+        this.options.sidebar.open().then(ok => { if (!ok) this.say('暂时无法打开，请重试'); });
+        return;
+      }
       if(['tab','sub','category','category-page','tutorial'].includes(action)){this.decorScroll=0;this.pointerCancel();}
       if (action === 'sound') { this.say('当前暂未接入声音，可在设置中调整动效'); return; }
       if (action === 'category-page') { this.categoryPage = value ? 1 : 0; this.category = value ? 'plate' : 'lamp'; this.page = 0; this.selection = null; this.preview = null; return; }

@@ -41,8 +41,10 @@
       const m = view.modal; if (!m) return;
       hits = [];
       if(m.type==='settings'){
-        const layout=ui.settingsPanel(view.state.reducedMotion,{words:shop.words});
-        hits.push({rect:layout.toggle,action:'reduced',label:'动效',role:'switch',checked:!view.state.reducedMotion},{rect:layout.close,action:'close',label:'关闭'});return;
+        const sidebar=view.sidebar&&view.sidebar.available;
+        const layout=ui.settingsPanel(view.state.reducedMotion,{words:shop.words,sidebar});
+        hits.push({rect:layout.toggle,action:'reduced',label:'动效',role:'switch',checked:!view.state.reducedMotion},{rect:layout.close,action:'close',label:'关闭'});
+        if(sidebar){button('去首页侧边栏',[160,1050,608,88],'sidebar');shop.words(view.sidebar.returned?'已从侧边栏返回':'下次从首页侧边栏回到小摊',464,1184,27,muted,'center');}return;
       }
       ui.panel(55, 263, 818, 1170, 48, 'wood');
       box(68, 276, 792, 1144, cream, 38); button('关闭', [687, 306, 134, 80], 'close');

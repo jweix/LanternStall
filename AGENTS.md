@@ -1,6 +1,6 @@
 # 灯火大排档 / LanternStall
 
-暖夜市小炒题材的配方消除游戏：错层取牌 → 7 格备菜 → 配齐多种食材自动做菜 → 上菜赚金币。微信首发，未来扩展抖音、小红书和海外平台。
+暖夜市小炒题材的配方消除游戏：错层取牌 → 7 格备菜 → 配齐多种食材自动做菜 → 上菜赚金币。抖音首发，保留微信适配，未来扩展小红书和海外平台。
 
 ## 规则
 
@@ -11,16 +11,19 @@
 - 收入从 0 累计，无收入目标。全部食材消耗完（含备菜、飞行、暂存），排队、炒菜及最后上菜均完成才通关；空的新订单不影响通关，不按速度评星。
 - 无进行中任务时，满槽且无法成菜，或食材耗尽仍有无法成菜的余料则失败；暂存未空不判耗尽。当前撤回/暂存/提示次数为 1/2/1，暂存容量 2，可取回。
 - 暂停和后台不计时，恢复重置帧时间，通关冻结用时；重开/换关清空全部任务、效果、暂存和预约。
-- 暖夜市 2.5D、奶油订单卡、五字“灯火大排档”；局内收入在招牌下；经营钱包紧接设置键右侧，与声音／设置同排，整行避开微信胶囊。局内设计坐标928×1695；经营四页按已确认新稿887×1774，绘制、触摸和无障碍按钮共用各自等比变换；素材按 bbox 等比绘制，备菜整格铺色。
+- 暖夜市 2.5D、奶油订单卡、五字“灯火大排档”；局内收入在招牌下；经营钱包紧接设置键右侧，与声音／设置同排，整行避开宿主原生胶囊。局内设计坐标928×1695；经营四页按已确认新稿887×1774，绘制、触摸和无障碍按钮共用各自等比变换；素材按 bbox 等比绘制，备菜整格铺色。
 
 ## 工程
 
-- `shared/`：业务、动效、渲染、菜谱/布局及原始素材；禁止平台 API 和 DOM。`platforms/wechat/src/`：微信适配；`platforms/web/`：浏览器试玩，`demo/` 仅为固定时间轴展示。新增平台各建目录，复用核心。
+- `shared/`：业务、动效、渲染、菜谱/布局及原始素材；禁止平台 API 和 DOM。`platforms/douyin/src/`：抖音适配；`platforms/wechat/src/`：微信适配；`platforms/web/`：浏览器试玩，`demo/` 仅为固定时间轴展示。新增平台各建目录，复用核心。
 - 微信 AppID `wx09cfd51ad5bcdb2f`，`compileType: game`。`platforms/wechat/game/` 是生成目录，勿手改；开发者工具导入 `platforms/wechat/`。
-- 环境：Node.js 18+、Python 3 + Pillow。构建 `npm run build:wechat`，随后 `npm test`；试玩 `npm run serve`。
-- 已接通小摊/装扮/菜谱/夜市与真实闯关，`shared/core/profile.js`管经营事务，`shared/data/progression.js`管经济与物品；两端本机存档`lantern-stall-v2`含金币、购买装备、收藏与活动，迁移旧关卡。真机触摸/性能、真人难度校准、音频、云同步、商业化和发布验收未完成。
+- 抖音 AppID 待注册，源码配置在 `platforms/douyin/project.config.json`；构建生成 `platforms/douyin/game/`，抖音工具导入该生成目录，不能手改。可先用 IDE 测试号调试，正式 AppID 也可由 `LANTERN_DOUYIN_APPID` 注入。
+- 环境：Node.js 18+、Python 3 + Pillow。全部构建 `npm run build`，随后 `npm test`；单端构建 `npm run build:douyin`／`npm run build:wechat`；试玩 `npm run serve`。
+- 已接通小摊/装扮/菜谱/夜市与真实闯关，`shared/core/profile.js`管经营事务，`shared/data/progression.js`管经济与物品；三端各自本机存档`lantern-stall-v2`含金币、购买装备、收藏与活动，迁移旧关卡。真机触摸/性能、真人难度校准、音频、云同步、商业化和发布验收未完成。
 
 ## 按需文档
+
+- [抖音首发与调试](docs/15-douyin-launch.md)：注册主体、AppID、测试号、导入目录、侧边栏与提审边界。当前复访只有设置入口、跳转与最新来源识别，未接礼包，不代表已通过必接能力验收。
 
 - [四页视觉接入](docs/14-lobby-redesign.md)：经营四页原图在reference/lobby-redesign-2026-11-14/，由lobby-ui.js、lobby-components.js、lobby-scene.js和lobby-layout.js组件化实现；生产素材每图一个逻辑对象，禁止整页皮肤、带控件背景、固定列表槽和预画试装；构建只读独立清单。不要换回旧小场景、烘焙示例数值或引入手动奖励领取。
 

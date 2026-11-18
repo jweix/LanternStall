@@ -1,0 +1,15 @@
+{
+  "mode": "tool-gate",
+  "version": 1,
+  "id": "TG-GENERATED",
+  "level": 99,
+  "seed": 20261118,
+  "solvability": "requires-tool",
+  "requiredTool": "stash",
+  "toolUses": 1,
+  "orders": ["d01", "d02", "d03", "d04", "d05", "d04", "d05"],
+  "shape": "islands",
+  "layers": 7,
+  "gate": { "minPicks": 8, "maxPicks": 10 },
+  "generation": { "maxAttempts": 128, "maxSearchNodes": 20000 }
+}

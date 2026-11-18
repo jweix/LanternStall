@@ -172,6 +172,7 @@
     const level = Math.max(1, Math.floor(Number(number) || 1));
     if (!Number.isSafeInteger(level)) throw Error('Invalid level number.');
     const settings = options || {}, definition = copy(settings.definition || definitionFor(level));
+    if (definition.solvability && definition.solvability !== 'no-tool') throw Error('Tool-required definitions are experimental; load them through the lab, not mainline generation.');
     const profile = settings.difficulty === undefined ? profileFor(level, definition.difficulty) : profileFor(level, settings.difficulty);
     const seed = settings.seed === undefined ? definition.seed === undefined ? Math.imul(level, 7919) >>> 0 : definition.seed : settings.seed;
     if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('Invalid 32-bit level seed.');

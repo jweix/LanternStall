@@ -63,6 +63,10 @@ npm run serve
 
 [关卡实验室](http://127.0.0.1:4173/platforms/web/lab/)不读写经营存档，可编辑本关订单JSON、查看分层、求解与单步、运行基础策略及导入导出操作记录。复杂道具预算用 `npm run analyze:levels -- --levels 1,20,40,64 --trials 16 --tools`，扩样用 `npm run test:levels:full`。候选筛选、回放命令及配置示例见[关卡配置说明](docs/09-level-generation.md)。
 
+[道具验证关 TG01](http://127.0.0.1:4173/platforms/web/lab/?experiment=tool-gate)独立验证“无道具必无解、一次移出可通关”，不进入主线、不播放真实广告。`npm run analyze:tool-gate` 可复现几何容量证明、真实引擎穷举和快速输入通关路线；实验配置在 `platforms/web/lab/experiments/tool-gate.js`。
+
+[可配置道具生成模式](http://127.0.0.1:4173/platforms/web/lab/?experiment=generated-tool-gate)支持菜单、形状、层数、种子、门槛与搜索预算，自动分配材料并验证。`npm run levels:generate:tool-gate -- --config configs/experiments/tool-gate.json --count 3` 输出实验关 JSON，可导入实验室；当前仅支持一次移出，不接主线。完整配置、第二个示例、导入与故障排查见[生成说明](docs/16-tool-gate-generation.md)，`npm run test:tool-gate` 执行专项回归。
+
 四个经营页签已按2026-11-14四页整体重构稿接入真实游戏，使用独立的887×1774等比画幅；闯关保持928×1695。原稿和改版说明在[工程内视觉参考](reference/lobby-redesign-2026-11-14/)，实际效果见[四页截图](previews/lobby-v4-overview.png)、[主题预览](previews/lobby-v4-themes.png)。[接入说明](docs/14-lobby-redesign.md)说明源码、资源构建、真实数据与原稿示例的区别。
 
 纯环境、可换装物件、空白九切片组件与业务状态分离，四个页签均可操作：开张进入真实关卡，金币／购买／试装／装备／菜谱／相册／活动继续使用原存档。页面组装在`shared/rendering/lobby-ui.js`，底面、场景、布局分别位于`lobby-components.js`、`lobby-scene.js`和`shared/data/lobby-layout.js`；可复现素材处理在`scripts/prepare-lobby-assets.py`。没有新增购买价格或手动领取奖励规则。

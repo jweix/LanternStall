@@ -8,7 +8,7 @@
 </style>
 <main>
 <h1>关卡实验室</h1>
-<p>独立开发入口，不读写经营存档。道具按各一次免费测试。开发求解与见证读取完整信息，不能作为玩家难度；本页不产生经营奖励。</p>
+<p>独立开发入口，不读写经营存档。普通关道具各一次免费测试；道具生成模式用模拟奖励验证一次移出。开发求解与见证读取完整信息，不能作为玩家难度；本页不产生经营奖励或真实视频。</p>
 <div class="layout">
 <div class="game-frame"><canvas id="game" width="928" height="1695" aria-label="真实引擎关卡试玩"></canvas></div>
 <div>
@@ -18,8 +18,9 @@
 <button id="load">加载配置</button><a href="../">返回正常游戏</a>
 </section>
 <div id="message" role="status">正在加载真实素材…</div>
+<section class="controls"><button id="tool-gate">加载道具验证关 TG01</button><button id="generate-gate">加载道具生成模式</button><button id="prove-gate" disabled>验证无道具并回放失败</button><button id="gate-rescue" disabled>模拟视频：移出一次</button></section>
 <section><pre id="summary"></pre><div id="recipe-list"></div>
-<details><summary>编辑本关菜品列表与布局</summary><textarea id="definition" aria-label="本关配置 JSON" spellcheck="false"></textarea><button id="apply">应用到独立试玩</button><p class="small">orders 是一个完整菜品列表，每个菜谱 ID 代表一份，完成当前三道中的任意一道后补入下一道。不会写回源文件。</p></details></section>
+<details id="definition-panel"><summary>编辑本关菜品列表与布局</summary><textarea id="definition" aria-label="本关配置 JSON" spellcheck="false"></textarea><button id="apply">应用到独立试玩</button><button id="generator-export" disabled>导出生成参数</button><p class="small" id="definition-help">orders 是一个完整菜品列表，每个菜谱 ID 代表一份，完成当前三道中的任意一道后补入下一道。不会写回源文件。</p></details></section>
 <section class="controls">
 <button id="solve">完整信息求解（开发）</button><button id="step">单步执行</button><button id="witness">回放生成器解（开发）</button>
 </section>
@@ -28,7 +29,8 @@
 <label>策略种子<input id="policy-seed" type="number" value="997" min="0" max="4294967295"></label><button id="probe">重置并运行策略</button>
 </section>
 <section><div class="controls"><label>观察层<select id="layer"><option value="all">全部层</option></select></label><span class="small">剖面仅观察，不改变左侧几何或可选状态。</span></div><canvas id="slice" width="818" height="791" aria-label="牌位、材料与层级剖面"></canvas></section>
-<section class="controls"><button id="export">导出本次操作记录</button><label>导入离线记录<input id="file" type="file" accept="application/json,.json"></label></section>
+<section class="controls"><button id="export">导出本次操作记录</button><label>导入生成关卡或离线记录<input id="file" type="file" accept="application/json,.json"></label><label>批量生成结果<select id="generated-board" disabled><option>尚未导入</option></select></label></section>
+<p class="small">道具生成模式可编辑菜单、种子、形状、层数、门槛及搜索预算；证明与一次移出回放均通过才接受。<a href="../../../docs/16-tool-gate-generation.md">生成说明</a>。CLI 生成的 JSON 可从上方导入，不会加入主线。</p>
 <p class="small">导入记录只回放已记录的操作；广告救援步骤按测试结果复现，不播放视频、不发放经营奖励。复杂策略和五种道具预算请运行 analyze:levels。</p>
 </div></div>
 </main>
@@ -39,6 +41,8 @@
 <script src="../../../shared/core/game-core.js"></script>
 <script src="../../../shared/core/motion.js"></script>
 <script src="../../../shared/core/levels.js"></script>
+<script src="experiments/tool-gate.js"></script>
+<script src="experiments/tool-gate-generator.js"></script>
 <script src="../../../shared/data/game-ui.js"></script>
 <script src="../../../shared/runtime/game-session.js"></script>
 <script src="../../../shared/rendering/stall-art.js"></script>

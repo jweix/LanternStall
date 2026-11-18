@@ -33,5 +33,6 @@
 
 - [关卡难度设计与实现](docs/09-level-generation.md)：涉及难度设计、调参、发牌/堆叠/补单算法或可解性与难度验证时，先读取与任务相关的章节；无关任务无需预读全文，以节省 token。`npm run analyze:levels` 可复现策略难度对比。
 - 修改上述算法、参数或验证口径时，必须同步修订该文档的原理、参数、当前结果和适用边界；替换过时内容，保持完整、简洁，不追加开发流水账。
+- 道具生成`tool-gate`仅用于实验室与离线命令，不接入主线。配置在`configs/experiments/`，`npm run levels:generate:tool-gate`生成；几何容量无解证书与一次移出真实回放双重验收。模式字段、命令、导入和预算边界见[实验道具关生成](docs/16-tool-gate-generation.md)。固定TG01与`analyze:tool-gate`保留为独立原理回归。当前主线仍保证无道具有解，生产生成拒绝`requires-tool`模式。
 
 - [菜单交接时序和表现](docs/10-menu-handoff.md)：调整菜单交接、厨房并发、材料动效、成品路径和结算时先读，修改后同步维护。

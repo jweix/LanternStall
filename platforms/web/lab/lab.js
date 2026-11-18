@@ -83,15 +83,15 @@
     const nodes=session.engine.nodes.filter(t=>!t.removed&&($('layer').value==='all'||t.layer===Number($('layer').value))).sort(DapaidangGeometry.paintOrder);
     for(const t of nodes){const x=t.x-55-t.w/2,y=t.y-536-t.h/2;c.fillStyle=session.engine.available(t.id)?'#fff1d5':'#b9a18a';c.fillRect(x+2,y+2,t.w-4,t.h-4);c.fillStyle='#60331b';c.textAlign='center';c.font='20px sans-serif';c.fillText(foodName(t.food),x+t.w/2,y+t.h/2-5);c.font='14px sans-serif';c.fillText('L'+(t.layer+1)+' · '+t.id,x+t.w/2,y+t.h/2+24);}
   }
-  function snapshot(){const e=session.engine;return{status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(i=>i.food),stash:e.stashItems.map(i=>i.food),orderCursors:e.orderCursors,foods:e.nodes.map(t=>t.food),toolUsed:e.toolUsed};}
+  function snapshot(){const e=session.engine;return{status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(i=>i.food),stash:e.stashItems.map(i=>i.food),orderCursor:e.orderCursor,activeOrders:e.orders.filter(o=>o.recipe).map(o=>o.planIndex).sort((a,b)=>a-b),foods:e.nodes.map(t=>t.food),toolUsed:e.toolUsed};}
   async function digest(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value))))].map(n=>n.toString(16).padStart(2,'0')).join('');}
   $('export').onclick=async()=>{
-    const result={generatorVersion:4,recipeHash:await digest(recipes),layoutHash:await digest(layout),policyVersion:2,config,timeline,budget:'free',snapshot:snapshot()};
+    const result={generatorVersion:5,recipeHash:await digest(recipes),layoutHash:await digest(layout),policyVersion:3,config,timeline,budget:'free',snapshot:snapshot()};
     const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='level-'+config.level+'-trace.json';a.click();URL.revokeObjectURL(url);
   };
   $('file').onchange=async()=>{try{
     const saved=JSON.parse(await $('file').files[0].text());
-    if(saved.generatorVersion!==4||saved.recipeHash!==await digest(recipes)||saved.layoutHash!==await digest(layout))throw Error('版本或配方/布局哈希不一致，请使用对应版本');
+    if(saved.generatorVersion!==5||saved.recipeHash!==await digest(recipes)||saved.layoutHash!==await digest(layout))throw Error('版本或配方/布局哈希不一致，请使用对应版本');
     reset(saved.config);session.engine.tools=saved.budget==='none'?{undo:0,stash:0,shuffle:0}:{undo:1,stash:1,shuffle:1};
     for(const action of saved.timeline||saved.result.actions)execute(action,!saved.timeline);
     if(saved.snapshot&&JSON.stringify(snapshot())!==JSON.stringify(saved.snapshot))throw Error('回放最终状态不一致');
@@ -103,8 +103,8 @@
     if(session.engine!==observed){config=session.config;session.engine.tools={undo:1,stash:1,shuffle:1};timeline=[];pending=[];attach();lastSummary='';}
     session.frame(ms);
     renderer.draw(session.view(),{width:928,height:1695,dpr:1});drawSlice();
-    const e=session.engine,m=config.metrics,text='第 '+config.level+' 关 · '+config.difficultyName+' · '+config.shapeName+'\n'+m.totalDishes+' 份菜 / '+m.recipeTypes+' 种菜谱 / '+m.tileCount+' 张食材 / '+m.layerCount+' 层\n开局可取 '+m.openingCount+' 张；同料最多 '+m.openingDominantCount+' 张\n'+e.status+' · 已取 '+e.nodes.filter(t=>t.removed).length+' 张 · 备菜 '+e.buffer.length+' + 在途 '+e.incoming.length+' · 收入 '+e.revenue;
-    if(text!==lastSummary){$('summary').textContent=text;lastSummary=text;$('recipe-list').replaceChildren(...config.orderPlan.map((lane,i)=>{const p=document.createElement('p');p.textContent='桌 '+(i+1)+'：'+lane.map(id=>recipes.find(r=>r.id===id).name).join(' → ');return p;}));}
+    const e=session.engine,m=config.metrics,text='第 '+config.level+' 关 · '+config.difficultyName+' · '+config.shapeName+'\n'+m.totalDishes+' 份菜 / '+m.recipeTypes+' 种菜谱 / '+m.tileCount+' 张食材 / '+m.layerCount+' 层\n当前显示 '+e.orders.filter(o=>o.recipe).length+' 道\n开局可取 '+m.openingCount+' 张；同料最多 '+m.openingDominantCount+' 张\n'+e.status+' · 已取 '+e.nodes.filter(t=>t.removed).length+' 张 · 备菜 '+e.buffer.length+' + 在途 '+e.incoming.length+' · 收入 '+e.revenue;
+    if(text!==lastSummary){$('summary').textContent=text;lastSummary=text;$('recipe-list').replaceChildren(...config.orderPlan.map((id,i)=>{const p=document.createElement('p');p.textContent=(i+1)+'：'+recipes.find(r=>r.id===id).name;return p;}));}
     requestAnimationFrame(frame);
   }
   document.addEventListener('visibilitychange',()=>session.setHidden(document.hidden));

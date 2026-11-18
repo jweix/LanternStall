@@ -21,7 +21,7 @@ for(const n of [1,5,20,64])for(const policy of ['random','greedy','unlock','look
 console.log('PASS four policies × five real tool budgets replay deterministically without oracle guidance');
 function failing(){
  const ids=['d01','d02','d04'],foods=[...Array(4).fill('tomato'),...Array(4).fill('egg'),...Array(3).fill('pepper'),...Array(3).fill('pork'),'broccoli','shrimp'];
- const config={level:901,seed:42,tools:{undo:0,stash:0,shuffle:0},recipes:ids.map(id=>C.recipes.find(r=>r.id===id)),orderPlan:[Array(4).fill('d01'),Array(3).fill('d02'),['d04']],
+ const config={level:901,seed:42,tools:{undo:0,stash:0,shuffle:0},recipes:ids.map(id=>C.recipes.find(r=>r.id===id)),orderPlan:['d01','d02','d04','d01','d02','d01','d02','d01'],
   tiles:foods.map((food,i)=>({id:'f'+i,food,x:i*20,y:0,w:10,h:10,layer:0}))};
  const e=new C.Engine(config);
  for(const tile of e.nodes.filter(t=>t.food==='tomato'||t.food==='pepper'))assert(e.selectTile(tile.id).ok);
@@ -66,7 +66,7 @@ const timelineEngine=C.replayTimeline(tutorial,timeline);assert.equal(timelineEn
 const timedFile=C.path.join(dir,'timed.json');C.save(timedFile,{...C.metadata(),config:tutorial,budget:'free',timeline,snapshot:C.snapshot(timelineEngine)});
 child=run('replay-level.cjs',['--case',timedFile]);assert.equal(child.status,0,child.stderr);
 child=run('analyze-levels.cjs',['--levels','1,64','--trials','2','--policies','greedy','--tools','--solve','--nodes','100','--cases','--quiet','--out',C.path.join(dir,'analysis.json')]);assert.equal(child.status,0,child.stderr);
-const report=JSON.parse(C.fs.readFileSync(C.path.join(dir,'analysis.json')));assert.equal(report.boards.length,2);assert.equal(report.boards[0].scores.length,5);assert.equal(report.generatorVersion,4);
+const report=JSON.parse(C.fs.readFileSync(C.path.join(dir,'analysis.json')));assert.equal(report.boards.length,2);assert.equal(report.boards[0].scores.length,5);assert.equal(report.generatorVersion,5);
 const sourceBefore=C.fs.readFileSync(C.path.join(C.root,'shared/data/level-config.js'),'utf8');
 child=run('generate-levels.cjs',['--levels','1:3','--candidates','1','--trials','8','--out',C.path.join(dir,'candidates.json')]);assert.equal(child.status,0,child.stderr);
 assert.equal(C.fs.readFileSync(C.path.join(C.root,'shared/data/level-config.js'),'utf8'),sourceBefore,'Candidate analysis cannot mutate config without --apply');

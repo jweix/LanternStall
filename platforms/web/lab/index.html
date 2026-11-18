@@ -19,7 +19,7 @@
 </section>
 <div id="message" role="status">正在加载真实素材…</div>
 <section><pre id="summary"></pre><div id="recipe-list"></div>
-<details><summary>编辑本关三桌订单与布局</summary><textarea id="definition" aria-label="本关配置 JSON" spellcheck="false"></textarea><button id="apply">应用到独立试玩</button><p class="small">orders 的三个数组分别是三桌补单队列，每个菜谱 ID 代表一份。不会写回源文件。</p></details></section>
+<details><summary>编辑本关菜品列表与布局</summary><textarea id="definition" aria-label="本关配置 JSON" spellcheck="false"></textarea><button id="apply">应用到独立试玩</button><p class="small">orders 是一个完整菜品列表，每个菜谱 ID 代表一份，完成当前三道中的任意一道后补入下一道。不会写回源文件。</p></details></section>
 <section class="controls">
 <button id="solve">完整信息求解（开发）</button><button id="step">单步执行</button><button id="witness">回放生成器解（开发）</button>
 </section>

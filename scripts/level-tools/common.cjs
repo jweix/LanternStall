@@ -6,7 +6,7 @@ const recipes = require('../../shared/data/recipes.json'), layout = require('../
 const Data = require('../../shared/data/level-config.js');
 const root = path.resolve(__dirname, '../..');
 const hash = value => crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
-const metadata = () => ({ generatorVersion: Data.version, recipeHash: hash(recipes), layoutHash: hash(layout), policyVersion: 2,
+const metadata = () => ({ generatorVersion: Data.version, recipeHash: hash(recipes), layoutHash: hash(layout), policyVersion: 3,
   note: '稳定决策点、真实引擎回放。策略成绩不代表真人胜率；oracle读取完整信息；lookahead仅看当前订单与可取牌。' });
 function rng(seed) { let n = seed >>> 0; return () => ((n = (Math.imul(n, 1664525) + 1013904223) >>> 0) / 4294967296); }
 function args(argv) {
@@ -39,7 +39,7 @@ function settle(e) { e.tick(.3); if (e.wok || e.queue.length || e.deliveries.len
 function toolsFor(budget) { return budget === 'free' ? { undo: 1, stash: 1, shuffle: 1 } : { undo: 0, stash: 0, shuffle: 0 }; }
 function visibleLookahead(engine, ranked) {
   // Stop at visible menus: successors and newly revealed foods are never inspected.
-  const active = engine.orders.filter(o => o.state === 'collecting').map(o => o.recipe.ingredients);
+  const active = engine.orders.filter(o => o.state === 'collecting').sort((a,b)=>a.planIndex-b.planIndex).map(o => o.recipe.ingredients);
   const initial = engine.buffer.map(i => i.food), roots = ranked.slice(0, 6);
   function explore(foods, menus, left, depth, made) {
     if (!depth || !left.length) return made * 100 - foods.length * 2 + Math.max(0, ...menus.map(r => r.filter(f => foods.includes(f)).length)) * 3;
@@ -159,10 +159,10 @@ function replayTimeline(config,timeline,budget='free'){
   }
   return e;
 }
-function snapshot(e){return {status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(t=>t.food),stash:e.stashItems.map(t=>t.food),orderCursors:e.orderCursors,foods:e.nodes.map(t=>t.food),toolUsed:e.toolUsed};}
+function snapshot(e){return {status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(t=>t.food),stash:e.stashItems.map(t=>t.food),orderCursor:e.orderCursor,activeOrders:e.orders.filter(o=>o.recipe).map(o=>o.planIndex).sort((a,b)=>a-b),foods:e.nodes.map(t=>t.food),toolUsed:e.toolUsed};}
 function writeConfig(data) {
   const lines = ["(function (root, factory) {", "  if (typeof module === 'object' && module.exports) module.exports = factory();", "  else root.DapaidangLevelConfig = factory();", "})(typeof globalThis !== 'undefined' ? globalThis : this, function () {", "  'use strict';",
-    '  // Each orders entry is one dish; the three arrays are exact table replacement queues.',
+    '  // Each orders entry is one dish in the global FIFO menu. At most three unfinished orders are active.',
     '  // Recipe ids and ingredients: recipes.json. Edit orders, shape, layers or difficulty, then run levels:generate and npm test.',
     '  const limits = ' + JSON.stringify(data.limits) + ';', '  const profiles = ' + JSON.stringify(data.profiles) + ';', '  const levels = ['];
   data.levels.forEach(d => lines.push('    ' + JSON.stringify(d) + ','));

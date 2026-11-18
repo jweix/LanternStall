@@ -132,9 +132,9 @@
     {
       "id": "A19",
       "name": "订单向左补位",
-      "duration": 0.18,
-      "trigger": "tableCompleted",
-      "rule": "队列耗尽的空卡不显示；其右侧可见菜单按原顺序向左滑动补齐，减少动效时直接就位。仅改变绘制位置，保留原slot/orderId/table与厨房任务。"
+      "duration": 0.14,
+      "trigger": "orderExiting",
+      "rule": "旧卡退出阶段按统一列表顺序左补位；下一道在0.42秒右侧完整显示，只有列表耗尽后才减少卡数。保留slot/orderId/planIndex和厨房任务。"
     }
   ],
   "version": "v12-visual-event-driven",
@@ -157,7 +157,7 @@
     "wording": "交给大厨啦",
     "useNewSticker": false,
     "exhaustedQueue": "hide empty card; no completed placeholder",
-    "compactLeftDuration": 0.18,
+    "compactLeftDuration": 0.14,
     "compactPreservesEngineSlots": true
   },
   "ingredientStatus": {

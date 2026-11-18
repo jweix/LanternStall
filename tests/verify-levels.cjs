@@ -6,13 +6,13 @@ const full=process.argv.includes('--full'),samples=full?10000:400,coverage=new S
 const tally=list=>list.reduce((o,k)=>(o[k]=(o[k]||0)+1,o),{});
 function check(config){
  const expected={},dishes={};
- config.orderPlan.flat().forEach(id=>{dishes[id]=(dishes[id]||0)+1;for(const f of C.recipes.find(r=>r.id===id).ingredients)expected[f]=(expected[f]||0)+1;coverage.add(id);});
+ config.orderPlan.forEach(id=>{dishes[id]=(dishes[id]||0)+1;for(const f of C.recipes.find(r=>r.id===id).ingredients)expected[f]=(expected[f]||0)+1;coverage.add(id);});
  assert.deepEqual(config.ingredientCounts,expected);assert.deepEqual(tally(config.tiles.map(t=>t.food)),expected);
  assert.equal(config.tiles.length,Object.values(expected).reduce((a,b)=>a+b,0));assert.equal(config.solution.length,config.tiles.length);
  assert.equal(new Set(config.solution).size,config.tiles.length);assert(config.tiles.length<=72);assert(config.metrics.totalDishes<=24);assert(config.recipes.length<=6);
  assert.equal(config.tiles.length,config.metrics.totalDishes*2+config.metrics.tripleDishes);
- assert.equal(config.metrics.totalDishes,config.orderPlan.flat().length);
- assert.equal(config.generatorVersion,4);assert.equal(config.metrics.openingCount,config.tiles.filter((_,i)=>!Geometry.graph(config.tiles)[i].length).length);
+ assert.equal(config.metrics.totalDishes,config.orderPlan.length);
+ assert.equal(config.generatorVersion,5);assert.equal(config.metrics.openingCount,config.tiles.filter((_,i)=>!Geometry.graph(config.tiles)[i].length).length);
  assert(config.metrics.openingDominantCount<=Math.ceil(config.metrics.openingCount*.3));
  if(config.tiles.length>=20)assert(config.metrics.dominantIngredientCount<=Math.ceil(config.tiles.length*.2));
  const area=C.layout.board.area;
@@ -21,9 +21,9 @@ function check(config){
  const engine=new C.Engine(config);let peak=0;
  for(const id of config.solution){assert(engine.available(id));assert(engine.selectTile(id).ok);peak=Math.max(peak,engine.buffer.length+engine.incoming.length);assert(peak<=7);C.settle(engine);}
  engine.tick(120);assert.equal(engine.status,'won');assert.equal(peak,config.metrics.witnessPeak);
- assert.deepEqual(tally(engine.jobs.map(j=>j.recipeId)),dishes);assert(engine.jobs.every(j=>j.state==='served'));
+ assert.deepEqual(engine.jobs.map(j=>j.planIndex).sort((a,b)=>a-b),config.orderPlan.map((_,i)=>i),'Every global entry is completed exactly once');assert.deepEqual(tally(engine.jobs.map(j=>j.recipeId)),dishes);assert(engine.jobs.every(j=>j.state==='served'));
  assert.equal(new Set(engine.jobs.flatMap(j=>j.items.map(i=>i.id))).size,config.tiles.length);
- const revenue=config.orderPlan.flat().reduce((n,id)=>n+C.recipes.find(r=>r.id===id).payout,0);
+ const revenue=config.orderPlan.reduce((n,id)=>n+C.recipes.find(r=>r.id===id).payout,0);
  assert.equal(engine.revenue,revenue);assert.equal(config.metrics.expectedRevenue,revenue);
  assert.deepEqual(engine.tools,{undo:0,stash:0,shuffle:0});assert.equal(engine.buffer.length+engine.incoming.length+engine.stashItems.length,0);
  shapes.add(config.shape);sizes.add(config.tiles.length);
@@ -42,7 +42,7 @@ console.log('PASS '+samples+' variable decks: exact configured menus/materials, 
 // Explore every reachable stable state of the eleven-card tutorial; memoize equivalent histories.
 const tutorial=C.configFor(1),seen=new Set();let terminals=0;
 function allTutorial(engine){
- const key=JSON.stringify([engine.nodes.map(n=>n.removed),engine.buffer.map(i=>i.food).sort(),engine.orderCursors]);
+ const key=JSON.stringify([engine.nodes.map(n=>n.removed),engine.buffer.map(i=>i.food).sort(),[engine.orderCursor,engine.orders.map(o=>o.recipe?o.planIndex:null)]]);
  if(seen.has(key))return;seen.add(key);assert.notEqual(engine.status,'failed');
  if(engine.status==='won'){terminals++;return;}
  for(const tile of engine.nodes.filter(n=>engine.available(n.id))){const next=engine.fork();assert(next.selectTile(tile.id).ok);C.settle(next);allTutorial(next);}
@@ -59,7 +59,7 @@ for(const n of [1,2,3,5,10,14,20,21,40,44,60,64])for(const policy of ['random','
  const e=new C.Engine(config);
  for(const id of result.route){const index=config.tiles.findIndex(t=>t.id===id);state=C.Search.apply(m,state,{type:'pick',id,index});assert(e.selectTile(id).ok);C.settle(e);
   assert.deepEqual(tally(state.buffer.map(i=>m.tiles[i].food)),tally(e.buffer.map(i=>i.food)));
-  assert.deepEqual(state.cursors,e.orders.map((o,i)=>o.recipe?e.orderCursors[i]-1:e.orderPlan[i].length));
+  assert.deepEqual(state.active,e.orders.filter(o=>o.recipe).map(o=>o.planIndex).sort((a,b)=>a-b));assert.equal(state.cursor,e.orderCursor);
  }
 }
 console.log('PASS '+compared+' policy traces and per-step search states agree with the real engine');
@@ -75,15 +75,15 @@ console.log('PASS fast-input witnesses across variable counts, all eight layers 
 let lastD=0,lastN=0;
 for(let n=1;n<=60;n++){const c=C.configFor(n);assert(c.metrics.totalDishes>=lastD);lastD=c.metrics.totalDishes;lastN=c.tiles.length;}
 for(let n=61;n<=120;n++)assert.equal(C.configFor(n).metrics.totalDishes,24);
-assert.deepEqual(C.Levels.definitionFor(1).orders,[['d01','d01'],['d02','d02'],['d14']]);
-assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['missing'],['d02'],['d04']]}),/recipe/);
-assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['d01'],['d15'],['d02']]}),/Conflicting/);
-assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['d01'],['d06'],['d17']]}),/three tables/);
+assert.deepEqual(C.Levels.definitionFor(1).orders,['d01','d02','d14','d01','d02']);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:['missing','d02','d04']}),/recipe/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:['d01','d15','d02']}),/Conflicting/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['d01'],['d02'],['d14']]}),/flat/);
 assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),shape:'missing'}),/shape/);
 assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),layers:9}),/layers/);
 assert.throws(()=>C.configFor(1,-1),/seed/);
 assert.throws(()=>C.Levels.createLevel(C.recipes,C.layout,1,{difficulty:'invalid'}),/difficulty/);
-console.log('PASS editable plans: growth caps, unknown recipes, subset/common-ingredient conflicts, shape/depth/seed validation');
+console.log('PASS editable plans: growth caps, unknown recipes, flat lists and subset conflicts, shape/depth/seed validation');
 
 // These are bot regression bands over fixed authored content, not human success targets.
 const stages=[[1,1],[2,2],[3,3],[4,5],[6,8],[9,20]],rates=[];

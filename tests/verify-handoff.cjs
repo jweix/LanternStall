@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { Engine } = require('../shared/core/game-core.js');
 const M = require('../shared/core/motion.js');
 const recipes = require('../shared/data/recipes.json');
-const e = new Engine({ recipes, orderPlan: [['d01', 'd09'], [], []] });
+const e = new Engine({ recipes, orderPlan: ['d01','d02','d03','d09'] });
 const oldOrder = e.orders[0].orderId;
 for (const food of ['tomato', 'egg']) assert(e.putIngredient(food).ok);
 e.tick(.3); // t=0 at recipeAccepted
@@ -38,7 +38,7 @@ e._serve(job); e.tick(10); assert.equal(e.revenue, 32);
 console.log('PASS single real-event chain: immediate consume, .28 confirm, .42 refresh, .54 settle, 1.20 cook, .78 deliver, once-only credit');
 
 // Staggered handoffs exercise three independent clocks while the single wok is busy.
-const concurrent = new Engine({ recipes, orderPlan: [['d01', 'd01'], ['d02', 'd02'], ['d03', 'd03']] });
+const concurrent = new Engine({ recipes, orderPlan: ['d01','d02','d03','d01','d02','d03'] });
 for (const food of ['tomato', 'egg']) concurrent.putIngredient(food);
 concurrent.tick(.3);
 for (const food of ['pepper', 'pork']) concurrent.putIngredient(food);
@@ -69,16 +69,16 @@ assert.equal(new Set(events.filter(e => e.type === 'recipeAccepted').flatMap(e =
 console.log('PASS three staggered menus refresh independently with FIFO cooking and parallel delivery');
 
 // Several generations share one slot while older jobs still cook/deliver.
-const generations = new Engine({ recipes, orderPlan: [Array(5).fill('d01'), [], []] });
+const generations = new Engine({ recipes, orderPlan: Array(7).fill('d01') });
 for (let n = 0; n < 5; n++) {
   assert(generations.putIngredient('tomato').ok); assert(generations.putIngredient('egg').ok);
   generations.tick(.3);
   assert.equal(generations.jobs.length, n + 1);
   assert.equal(generations.buffer.length, 0);
-  if (n === 0) { generations.orders[0].recipe.payout = 999; generations.orders[0].table = 'changed'; }
+  if (n === 0) { generations.orders[0].recipe.payout = 999; generations.orders[0].planIndex = 999; }
   generations.tick(.42);
 }
-assert.equal(generations.jobs[0].table, '01');
+assert.equal(generations.jobs[0].planIndex,0);assert.throws(()=>{generations.jobs[0].planIndex=42;},TypeError);
 assert.equal(generations.jobs[0].payout, 32);
 assert.equal(generations.jobs[0].ingredients.join(','), 'tomato,egg');
 assert.throws(() => { generations.jobs[0].payout = 999; }, TypeError);
@@ -91,7 +91,7 @@ for (const job of generations.jobs) generations._serve(job);
 assert.equal(generations.revenue, 160);
 console.log('PASS immutable job/order/price snapshots survive five menu generations, each credited once');
 
-const hidden = new Engine({ recipes, orderPlan: [['d01', 'd01', 'd01'], [], []] });
+const hidden = new Engine({ recipes, orderPlan: ['d01','d02','d03','d01','d01'] });
 for (let n = 0; n < 3; n++) { hidden.putIngredient('tomato'); hidden.putIngredient('egg'); }
 hidden.tick(.3);
 assert.equal(hidden.jobs.length, 1); assert.equal(hidden.buffer.length, 4);
@@ -102,7 +102,7 @@ assert.deepEqual(hidden.drainEvents().filter(e => e.type === 'recipeAccepted').m
 console.log('PASS hidden successors cannot chain-consume before their own .42-second visibility deadline');
 
 // Effective inventory includes prep, incoming and stash, excluding every accepted job.
-const stock = new Engine({ recipes, orderPlan: [['d01'], [], []], tiles: [
+const stock = new Engine({ recipes, orderPlan: ['d01'], tiles: [
   { id: 'tomato', food: 'tomato', x: 0, y: 0, w: 10, h: 10 },
   { id: 'egg', food: 'egg', x: 20, y: 0, w: 10, h: 10 },
   { id: 'ear', food: 'wood_ear', x: 40, y: 0, w: 10, h: 10 }
@@ -122,7 +122,7 @@ const { Session } = require('../shared/runtime/game-session.js');
 const layout = require('../shared/data/layout.json');
 function fixtureSession() {
   const s = new Session({ recipes, layout });
-  s.engine = new Engine({ recipes, orderPlan: [['d01', 'd09'], ['d02'], []] });
+  s.engine = new Engine({ recipes, orderPlan: ['d01','d02','d09'] });
   for (const food of ['tomato', 'egg', 'pepper', 'pork']) s.engine.putIngredient(food);
   s.collectEvents(); s.advance(.3);
   return s;
@@ -240,24 +240,23 @@ function record(view) {
 }
 // Finite queues disappear; the other visible cards slide left without moving
 // their engine slot, table, recipe, or in-flight kitchen jobs.
-const compact=new Session({recipes,layout});compact.engine=new Engine({recipes,orderPlan:[['d01'],['d02'],['d03']]});
+const compact=new Session({recipes,layout});compact.engine=new Engine({recipes,orderPlan:['d01','d02','d03']});
 for(const food of ['tomato','egg'])compact.engine.putIngredient(food);compact.collectEvents();compact.advance(.3);
 const secondName=compact.engine.orders[1].recipe.displayName||compact.engine.orders[1].recipe.name;
 const secondX=v=>record(v).labels.find(l=>l.value===secondName).x;
-near(secondX(compact.view()),464);compact.advance(.42);
+near(secondX(compact.view()),464);compact.advance(.28);near(secondX(compact.view()),464);compact.advance(.07);near(secondX(compact.view()),332);compact.advance(.07);
 assert.equal(compact.engine.orders[0].recipe,null);const retiring=record(compact.view());
-assert(!retiring.labels.some(l=>String(l.value).includes('已上齐')));assert(!retiring.draws.some(d=>d.id==='overlay-clip-red'));
-near(secondX(compact.view()),464);near(secondX({...compact.view(),reducedMotion:true}),200);
-compact.advance(.09);near(secondX(compact.view()),332);compact.advance(.09);near(secondX(compact.view()),200);
+assert(!retiring.labels.some(l=>String(l.value).includes('已上齐')));assert(!retiring.labels.some(l=>/\d+桌/.test(String(l.value))),'Order cards do not display table numbers');assert(!retiring.draws.some(d=>d.id==='overlay-clip-red'));
+near(secondX(compact.view()),200);near(secondX({...compact.view(),reducedMotion:true}),200);
 assert.deepEqual(compact.engine.orders.map(o=>o.slot),[0,1,2]);assert.equal(compact.engine.wok.originSlot,0);assert.equal(compact.engine.revenue,0);
 const immutableView=compact.view(),immutableBefore=JSON.stringify(immutableView.state);record(immutableView);assert.equal(JSON.stringify(immutableView.state),immutableBefore);
-compact.engine=new Engine({recipes,orderPlan:[[],[],['d03']]});compact.effects=[];
+compact.engine=new Engine({recipes,orderPlan:['d03']});compact.effects=[];
 const lone=record(compact.view());assert.equal(lone.draws.filter(d=>/^overlay-clip-/.test(d.id)).length,1);
-const loneName=compact.engine.orders[2].recipe.displayName||compact.engine.orders[2].recipe.name;near(lone.labels.find(l=>l.value===loneName).x,200);
-compact.engine=new Engine({recipes,orderPlan:[[],[],[]]});assert(!record(compact.view()).draws.some(d=>/^overlay-clip-/.test(d.id)));
+const loneName=compact.engine.orders[0].recipe.displayName||compact.engine.orders[0].recipe.name;near(lone.labels.find(l=>l.value===loneName).x,200);
+compact.engine=new Engine({recipes,orderPlan:[]});assert(!record(compact.view()).draws.some(d=>/^overlay-clip-/.test(d.id)));
 console.log('PASS exhausted menus disappear, remaining cards compact left smoothly, reduced motion and immutable kitchen identities');
 const visual = new Session({ recipes, layout });
-visual.engine = new Engine({ recipes, orderPlan: [['d17', 'd06'], [], []] });
+visual.engine = new Engine({ recipes, orderPlan: ['d17','d06'] });
 const beforeReceived = record(visual.view()).draws.find(d => d.id === 'carrot');
 visual.engine.putIngredient('carrot'); visual.collectEvents(); visual.advance(.3);
 let drawing = record(visual.view());
@@ -297,7 +296,7 @@ console.log('PASS shared rendering: original-colour carrot and missing ingredien
 
 function prepSession() {
   const session = new Session({ recipes, layout });
-  session.engine = new Engine({ recipes, orderPlan: [['d01', 'd09'], ['d02'], ['d11']] });
+  session.engine = new Engine({ recipes, orderPlan: ['d01','d02','d11','d09'] });
   return session;
 }
 function put(session, foods) {

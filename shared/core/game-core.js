@@ -11,16 +11,13 @@
    this.config=Object.assign({},DEFAULTS,config.motion||{});this.recipes=config.recipes.map(clone);this.revenue=config.initialRevenue||0;
    // A new engine is a new run, even when restarting the same numbered level.
    this.levelId=String(config.level||'practice')+':'+(++runSequence);
-   this.now=0;this.playTime=0;this.wonAt=null;this.status='playing';this.paused=false;this.events=[];this.sequence=0;this.tableSequence=0;this.recipeCursor=0;
+   this.now=0;this.playTime=0;this.wonAt=null;this.status='playing';this.paused=false;this.events=[];this.sequence=0;this.orderSequence=0;this.recipeCursor=0;
    this.nodes=(config.tiles||[]).map((n,i)=>Object.assign({id:'tile-'+i,removed:false,layer:1},clone(n))).sort(Geometry.paintOrder);
-   this.orderPlan=config.orderPlan?clone(config.orderPlan):null;this.orderCursors=[0,0,0];
+   this.orderPlan=config.orderPlan?clone(config.orderPlan):null;this.orderCursor=0;
    if(this.orderPlan){
-    if(!Array.isArray(this.orderPlan)||this.orderPlan.length!==3||this.orderPlan.some(lane=>!Array.isArray(lane)||lane.some(id=>!this.recipes.some(r=>r.id===id))))throw Error('Invalid finite order plan.');
-    // Any future pair must be compatible, independent of handoff/cooking timing.
-    for(let a=0;a<3;a++)for(let b=a+1;b<3;b++)for(const x of this.orderPlan[a])for(const y of this.orderPlan[b]){
-     const r=this.recipes.find(r=>r.id===x),s=this.recipes.find(r=>r.id===y);
-     if(subset(r.ingredients,s.ingredients)||subset(s.ingredients,r.ingredients))throw Error('Conflicting finite orders.');
-    }
+    if(!Array.isArray(this.orderPlan)||this.orderPlan.some(id=>typeof id!=='string'||!this.recipes.some(r=>r.id===id)))throw Error('Invalid flat order plan.');
+    const pool=[...new Set(this.orderPlan)].map(id=>this.recipes.find(r=>r.id===id));
+    for(let a=0;a<pool.length;a++)for(let b=a+1;b<pool.length;b++)if(subset(pool[a].ingredients,pool[b].ingredients)||subset(pool[b].ingredients,pool[a].ingredients))throw Error('Conflicting finite orders.');
    }
    this.buffer=[];this.incoming=[];this.jobs=[];this.queue=[];this.wok=null;this.deliveries=[];this.creditedJobs=new Set();
    this.stashItems=[];this.tools=Object.assign({undo:1,stash:1,shuffle:1},config.tools||{});
@@ -33,18 +30,18 @@
    const stock=this.nodes.filter(n=>!n.removed).map(n=>n.food).concat(this.buffer.concat(this.incoming,this.stashItems).map(i=>i.food));
    return recipe.ingredients.every(food=>{const i=stock.indexOf(food);if(i<0)return false;stock.splice(i,1);return true;});
   }
-  _order(slot,recipeId,initial){
-   const completed=()=>({slot,orderId:null,table:'',recipe:null,state:'completed',bornAt:this.now,matchedAt:null,replaceAt:null});
-   if(this.orderPlan){recipeId=this.orderPlan[slot][this.orderCursors[slot]++];if(!recipeId)return completed();}
+  _order(slot,recipeId,initial,planIndex){
+   const completed=()=>({slot,orderId:null,planIndex:null,recipe:null,state:'completed',bornAt:this.now,matchedAt:null,replaceAt:null});
+   if(this.orderPlan){if(planIndex===undefined){planIndex=this.orderCursor;if(this.orderCursor<this.orderPlan.length)this.orderCursor++;}recipeId=this.orderPlan[planIndex];if(!recipeId)return completed();}
    let recipe=recipeId&&this.recipes.find(r=>r.id===recipeId);
-   if(recipe&&!initial&&!this._hasStock(recipe))return completed();
+   if(!this.orderPlan&&recipe&&!initial&&!this._hasStock(recipe))return completed();
    if(!recipe){for(let attempt=0;attempt<this.recipes.length;attempt++){
     const candidate=this.recipes[this.recipeCursor++%this.recipes.length],collecting=this.orders.filter(o=>o.state==='collecting');
     if(this._hasStock(candidate)&&collecting.every(o=>!subset(candidate.ingredients,o.recipe.ingredients)&&!subset(o.recipe.ingredients,candidate.ingredients))){recipe=candidate;break;}
    }}
    if(!recipe)return completed();
-   this.tableSequence++;
-   return{slot,orderId:'order-'+this.tableSequence,table:String(this.tableSequence).padStart(2,'0'),recipe:clone(recipe),state:'collecting',bornAt:this.now,matchedAt:null,replaceAt:null};
+   this.orderSequence++;
+   return{slot,orderId:'order-'+this.orderSequence,planIndex:this.orderPlan?planIndex:this.orderSequence-1,recipe:clone(recipe),state:'collecting',bornAt:this.now,matchedAt:null,replaceAt:null};
   }
   available(nodeId){const n=this.nodes.find(n=>n.id===nodeId);return !!n&&!n.removed&&!this.nodes.some(t=>!t.removed&&t.layer>n.layer&&overlap(n,t));}
   selectTile(nodeId){
@@ -63,11 +60,11 @@
    if(this.status!=='playing')return;
    // Only the three currently visible collecting menus can consume materials.
    // A successor is created by the handoff deadline, never by this loop.
-   for(const order of this.orders){
+   for(const order of this.orders.slice().sort((a,b)=>(a.planIndex??Infinity)-(b.planIndex??Infinity))){
     if(order.state!=='collecting'||!this._canMake(order.recipe))continue;
     const items=order.recipe.ingredients.map(food=>this.buffer.splice(this.buffer.findIndex(i=>i.food===food),1)[0]);
     const recipe=clone(order.recipe);recipe.ingredients=Object.freeze(recipe.ingredients);Object.freeze(recipe);
-    const identity={levelId:this.levelId,jobId:'job-'+(++this.sequence),orderId:order.orderId,table:order.table,originSlot:order.slot,
+    const identity={levelId:this.levelId,jobId:'job-'+(++this.sequence),orderId:order.orderId,planIndex:order.planIndex,originSlot:order.slot,
      recipeId:recipe.id,recipe,ingredients:Object.freeze(recipe.ingredients.slice()),
      payout:recipe.payout!==undefined?recipe.payout:Math.round(recipe.basePrice*(recipe.ingredients.length===3?this.config.bonus:1))};
     const job={state:'queued',acceptedAt:this.now,items:clone(items)};
@@ -75,8 +72,9 @@
     for(const [key,value] of Object.entries(identity))Object.defineProperty(job,key,{value,enumerable:true});
     const queued=!!this.wok||this.queue.length>0;
     order.state='confirming';order.matchedAt=this.now;order.replaceAt=this.now+this.config.orderConfirm+this.config.cardExit;order.jobId=job.jobId;
+    if(this.orderPlan)order.nextIndex=this.orderCursor<this.orderPlan.length?this.orderCursor++:null;
     this.jobs.push(job);this.queue.push(job);
-    this._emit('recipeAccepted',{slot:order.slot,orderId:order.orderId,jobId:job.jobId,table:order.table,recipeId:recipe.id,
+    this._emit('recipeAccepted',{slot:order.slot,orderId:order.orderId,jobId:job.jobId,planIndex:order.planIndex,recipeId:recipe.id,
      consumedItemIds:items.map(i=>i.id),items:clone(items),queued,replaceAt:order.replaceAt});
    }
    this._startCook();
@@ -97,7 +95,7 @@
    const key=job.levelId+'/'+job.jobId;
    if(job.levelId!==this.levelId||this.creditedJobs.has(key)||this.status!=='playing')return;
    this.creditedJobs.add(key);job.state='served';job.servedAt=this.now;this.revenue+=job.payout;
-   this._emit('dishServed',{jobId:job.jobId,orderId:job.orderId,originSlot:job.originSlot,table:job.table,recipeId:job.recipeId,payout:job.payout,revenue:this.revenue});
+   this._emit('dishServed',{jobId:job.jobId,orderId:job.orderId,originSlot:job.originSlot,planIndex:job.planIndex,recipeId:job.recipeId,payout:job.payout,revenue:this.revenue});
   }
   tick(seconds){
    if(this.paused)return;const target=this.now+Math.max(0,seconds);let guard=0;
@@ -117,8 +115,10 @@
      const order=this.orders[slot];
      if(order.state==='confirming'&&order.matchedAt+this.config.orderConfirm<=due+1e-9){order.state='exiting';this._emit('orderExiting',{slot,orderId:order.orderId,jobId:order.jobId});}
      if(order.replaceAt!==null&&order.replaceAt<=due+1e-9){
-      this.orders[slot]=this._order(slot);const next=this.orders[slot];replaced=true;
-      this._emit(next.recipe?'orderReplaced':'tableCompleted',{slot,previousOrderId:order.orderId,orderId:next.orderId,table:next.table,recipeId:next.recipe?next.recipe.id:null});
+      const before=this.orders.filter(o=>o.recipe).sort((a,b)=>a.planIndex-b.planIndex).map(o=>o.orderId);
+      this.orders[slot]=this._order(slot,undefined,false,order.nextIndex);const next=this.orders[slot];replaced=true;
+      const visible=this.orders.filter(o=>o.recipe).sort((a,b)=>a.planIndex-b.planIndex).map(o=>o.orderId);
+      this._emit(next.recipe?'orderReplaced':'menuCompleted',{slot,previousOrderId:order.orderId,orderId:next.orderId,planIndex:next.planIndex,recipeId:next.recipe?next.recipe.id:null,before,visible});
      }
     }
     if(replaced)this._resolve(); // New cards are now fully visible and may consume held ingredients.
@@ -130,7 +130,7 @@
    if(this.status!=='playing'||this.incoming.length||this.wok||this.queue.length||this.deliveries.length||this.orders.some(o=>o.replaceAt!==null))return;
    // Revenue never wins a level. Stash and every independent kitchen task count.
    const emptyBoard=this.nodes.length&&this.nodes.every(n=>n.removed);
-   if(emptyBoard&&!this.buffer.length&&!this.stashItems.length){this.status='won';this.wonAt=this.playTime;this._emit('levelWon',{elapsed:this.wonAt,revenue:this.revenue});return;}
+   if(emptyBoard&&!this.buffer.length&&!this.stashItems.length&&(!this.orderPlan||(this.orderCursor===this.orderPlan.length&&this.orders.every(o=>!o.recipe)))){this.status='won';this.wonAt=this.playTime;this._emit('levelWon',{elapsed:this.wonAt,revenue:this.revenue});return;}
    if(this.buffer.length>=this.config.capacity&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'prep-full'});}
    else if(emptyBoard&&!this.stashItems.length&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'stock-exhausted'});}
   }
@@ -168,7 +168,7 @@
   }
   fork(){
    const e=new Engine({recipes:this.recipes,tiles:this.nodes,orderPlan:this.orderPlan,motion:this.config,tools:this.tools,rescueLimit:this.rescueLimit});
-   Object.assign(e,this.snapshot(),{orderCursors:this.orderCursors.slice(),sequence:this.sequence,tableSequence:this.tableSequence,recipeCursor:this.recipeCursor});
+   Object.assign(e,this.snapshot(),{orderCursor:this.orderCursor,sequence:this.sequence,orderSequence:this.orderSequence,recipeCursor:this.recipeCursor});
    const jobs=new Map(e.jobs.map(j=>[j.jobId,j]));
    e.queue=this.queue.map(j=>jobs.get(j.jobId));e.wok=this.wok?jobs.get(this.wok.jobId):null;e.deliveries=this.deliveries.map(j=>jobs.get(j.jobId));
    e.toolUsed=clone(this.toolUsed);e.shuffleSeed=this.shuffleSeed;e.creditedJobs=new Set(this.creditedJobs);e.rescueRewardIds=new Set(this.rescueRewardIds);e.events=[];return e;
@@ -209,7 +209,7 @@
   }
   pause(value){this.paused=value!==false;}
   drainEvents(){const all=this.events;this.events=[];return all;}
-  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,orderCursors:this.orderCursors,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems,rescueCount:this.rescueCount,toolUsed:this.toolUsed});}
+  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,orderCursor:this.orderCursor,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems,rescueCount:this.rescueCount,toolUsed:this.toolUsed});}
  }
  return{Engine,DEFAULTS,subset,overlap};
 });

@@ -2,7 +2,7 @@
  'use strict';
  const clamp=v=>Math.max(0,Math.min(1,v)),mix=(a,b,p)=>a+(b-a)*p;
  const ease=v=>{v=clamp(v);return v<.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;};
- const timing={pick:.30,rawToWok:.28,stir:.60,pour:.32,departure:.62,reveal:.16,holdAfterPour:0,servedHold:0,orderConfirm:.28,cardExit:.14,newSettle:.12,newCue:.75,orderCompact:.18,acceptedFlight:.20,servedExit:.16,reward:.45,hudPulse:.42,resultDelay:.60,resultEnter:.34};
+ const timing={pick:.30,rawToWok:.28,stir:.60,pour:.32,departure:.62,reveal:.16,holdAfterPour:0,servedHold:0,orderConfirm:.28,cardExit:.14,newSettle:.12,newCue:.75,orderCompact:.14,acceptedFlight:.20,servedExit:.16,reward:.45,hudPulse:.42,resultDelay:.60,resultEnter:.34};
  function contain(iw,ih,x,y,w,h){const s=Math.min(w/iw,h/ih);return{x:x+(w-iw*s)/2,y:y+(h-ih*s)/2,w:iw*s,h:ih*s,scaleX:s,scaleY:s};}
  function viewport(width,height,insets){const i=Object.assign({left:0,right:0,top:0,bottom:0},insets||{}),s=Math.min((width-i.left-i.right)/928,(height-i.top-i.bottom)/1695);return{scale:s,x:i.left+(width-i.left-i.right-928*s)/2,y:i.top+(height-i.top-i.bottom-1695*s)/2};}
  function toDesign(x,y,v){return{x:(x-v.x)/v.scale,y:(y-v.y)/v.scale};}
@@ -17,10 +17,13 @@
  function orderExit(age){const p=ease(age/timing.cardExit);return{alpha:1-p,dy:-34*p,scale:1-.065*p};}
  function orderEnter(age){const p=ease(age/timing.newSettle);return{alpha:1,dy:-10*(1-p)};}
  // Display positions are independent of immutable engine slots/job identities.
- // Each exhausted queue closes one gap; empty queues at level start have no animation.
+ // Active cards follow the global recipe list; engine slots remain immutable.
  function orderPosition(order,orders,now,reduced){
   if(!order.recipe)return null;
-  return order.slot-orders.filter(o=>o.slot<order.slot&&!o.recipe).reduce((sum,o)=>sum+(reduced||!o.bornAt?1:ease((now-o.bornAt)/timing.orderCompact)),0);
+  const visible=orders.filter(o=>o.recipe).sort((a,b)=>a.planIndex-b.planIndex),rank=visible.findIndex(o=>o.orderId===order.orderId);
+  // Close gaps during the retiring cards' fade, so each successor is fully
+  // visible at its .42s deadline and never overlaps another collecting card.
+  return reduced?rank:rank-visible.slice(0,rank).reduce((n,o)=>n+(o.matchedAt===null?0:ease((now-o.matchedAt-timing.orderConfirm)/timing.orderCompact)),0);
  }
  function handoffPose(age){const exit=orderExit(age-timing.orderConfirm);return{alpha:exit.alpha,dy:exit.dy-(age<timing.orderConfirm?3*Math.sin(clamp(age/timing.orderConfirm)*Math.PI):0),scale:exit.scale,ingredientsAlpha:1-ease(age/.11),plateAlpha:ease(age/.12),lidLift:10*(1-ease(age/.16))};}
  function acceptedPose(slot,index,age,queued){const from=prepSlot(slot),p=ease((age-index*.012)/(timing.acceptedFlight-index*.012));return{x:mix(from.cx,queued?747:742+(index-1)*18,p),y:mix(from.cy,queued?1355:1405,p)-Math.sin(p*Math.PI)*38,w:mix(69,22,p),h:mix(89,24,p),alpha:1-clamp((p-.75)/.25),rotation:Math.sin(p*Math.PI)*.3};}

@@ -5,7 +5,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Geometry, Data) {
   'use strict';
   const PROFILES = Data.profiles, LIMITS = Data.limits;
-  if (Data.version !== 4 || Data.levels.some((d, i) => d.level !== i + 1)) throw Error('Configured levels must be contiguous, starting at level 1.');
+  if (Data.version !== 5 || Data.levels.some((d, i) => d.level !== i + 1)) throw Error('Configured levels must be contiguous, starting at level 1.');
   for (const [key, max] of [['maxDishes',24],['maxRecipes',6],['maxIngredients',72],['maxLayers',8]])
     if (!Number.isInteger(LIMITS[key]) || LIMITS[key] < 1 || LIMITS[key] > max) throw Error('Unsupported level limit: ' + key);
   const copy = value => JSON.parse(JSON.stringify(value));
@@ -33,9 +33,9 @@
   }
   function createDishPlan(recipes, definition) {
     const orderPlan = definition.orders;
-    if (!Array.isArray(orderPlan) || orderPlan.length !== 3 || orderPlan.some(lane => !Array.isArray(lane)))
-      throw Error('Level orders must contain exactly three table queues.');
-    const ids = [...new Set(orderPlan.flat())], totalDishes = orderPlan.flat().length;
+    if (!Array.isArray(orderPlan) || orderPlan.some(id => typeof id !== 'string'))
+      throw Error('Level orders must be one flat recipe list.');
+    const ids = [...new Set(orderPlan)], totalDishes = orderPlan.length;
     if (totalDishes < 3 || totalDishes > LIMITS.maxDishes || ids.length > LIMITS.maxRecipes)
       throw Error('Configured dish/recipe count exceeds level limits.');
     const pool = ids.map(id => {
@@ -46,63 +46,53 @@
     for (let i = 0; i < pool.length; i++) for (let j = i + 1; j < pool.length; j++)
       if (Core.subset(pool[i].ingredients, pool[j].ingredients) || Core.subset(pool[j].ingredients, pool[i].ingredients))
         throw Error('Conflicting configured recipes: ' + pool[i].id + '/' + pool[j].id);
-    const unique = orderPlan.map(lane => [...new Set(lane)]);
-    for (const a of unique[0]) for (const b of unique[1]) for (const c of unique[2]) {
-      const menus = [a, b, c].map(id => pool.find(r => r.id === id));
-      if (menus[0].ingredients.some(food => menus.slice(1).every(r => r.ingredients.includes(food))))
-        throw Error('All three tables share an ingredient: ' + [a, b, c].join('/'));
-    }
     const dishes = [], ingredients = {};
-    orderPlan.forEach((lane, slot) => [...new Set(lane)].forEach(id => {
-      const quantity = lane.filter(r => r === id).length, recipe = pool.find(r => r.id === id);
-      dishes.push({ recipeId: id, slot, quantity });
-      recipe.ingredients.forEach(food => { ingredients[food] = (ingredients[food] || 0) + quantity; });
-    }));
+    for(const id of ids){
+      const quantity=orderPlan.filter(r=>r===id).length,recipe=pool.find(r=>r.id===id);
+      dishes.push({recipeId:id,quantity});
+      recipe.ingredients.forEach(food=>{ingredients[food]=(ingredients[food]||0)+quantity;});
+    }
     const total = Object.values(ingredients).reduce((a, b) => a + b, 0);
     if (total > LIMITS.maxIngredients || Object.keys(ingredients).length > 14) throw Error('Ingredient budget exceeds level limits.');
     if (total >= 20 && Math.max(...Object.values(ingredients)) > Math.ceil(total * LIMITS.maxIngredientRatio))
       throw Error('Configured ingredients are too concentrated.');
     return { pool, dishes, ingredients, total, totalDishes, orderPlan: copy(orderPlan) };
   }
-  function activeRecipes(plan, cursors) {
-    return plan.orderPlan.map((lane, slot) => plan.pool.find(r => r.id === lane[cursors[slot]]));
-  }
-  function consume(plan, cursors, buffer) {
-    const rest = Object.assign({}, buffer), nextCursors = cursors.slice();
-    let matched = 0, changed = true;
-    while (changed) {
-      changed = false;
-      const active = activeRecipes(plan, nextCursors);
-      for (let slot = 0; slot < 3; slot++) {
-        const recipe = active[slot];
-        if (!recipe || !recipe.ingredients.every(food => rest[food] > 0)) continue;
-        for (const food of recipe.ingredients) rest[food]--;
-        nextCursors[slot]++; matched++; changed = true; break;
+  const queueStart = plan => ({active:Array.from({length:Math.min(3,plan.orderPlan.length)},(_,i)=>i),cursor:Math.min(3,plan.orderPlan.length)});
+  function activeRecipes(plan, state) {return state.active.map(i=>plan.pool.find(r=>r.id===plan.orderPlan[i]));}
+  function consume(plan, state, buffer) {
+    const rest=Object.assign({},buffer),next={active:state.active.slice(),cursor:state.cursor};let matched=0,changed=true;
+    while(changed){changed=false;
+      // Resolve the visible wave before any successor becomes eligible.
+      for(const index of next.active.slice()){
+        const recipe=plan.pool.find(r=>r.id===plan.orderPlan[index]);
+        if(!recipe.ingredients.every(food=>rest[food]>0))continue;
+        for(const food of recipe.ingredients)rest[food]--;
+        next.active.splice(next.active.indexOf(index),1);if(next.cursor<plan.orderPlan.length)next.active.push(next.cursor++);
+        matched++;changed=true;
       }
+      next.active.sort((a,b)=>a-b);
     }
-    return { buffer: rest, cursors: nextCursors, matched };
+    return {buffer:rest,state:next,matched};
   }
-  const size = buffer => Object.values(buffer).reduce((a, b) => a + b, 0);
-  function missing(plan, cursors, buffer) {
-    return Math.min(Infinity, ...activeRecipes(plan, cursors).filter(Boolean).map(r =>
-      r.ingredients.filter(food => !buffer[food]).length));
-  }
-  const finished = (plan, cursors) => plan.orderPlan.every((lane, i) => cursors[i] === lane.length);
+  const size = buffer => Object.values(buffer).reduce((a,b)=>a+b,0);
+  function missing(plan,state,buffer){return Math.min(Infinity,...activeRecipes(plan,state).map(r=>r.ingredients.filter(food=>!buffer[food]).length));}
+  const finished=(plan,state)=>!state.active.length&&state.cursor===plan.orderPlan.length;
   function createFoodSequence(plan, profile, rng) {
     const stock = Object.assign({}, plan.ingredients), foods = [], pressure = [], rejected = new Set();
     const foodIds = Object.keys(stock);
     let visited = 0;
-    function search(cursors, buffer) {
+    function search(state, buffer) {
       if (++visited > 20000) throw Error('Ingredient scheduling exceeded its bounded search budget.');
-      if (foods.length === plan.total) return finished(plan, cursors) && size(buffer) === 0;
+      if (foods.length === plan.total) return finished(plan, state) && size(buffer) === 0;
       const held = size(buffer), choices = [];
-      const key = cursors.join(',') + ':' + foodIds.map(food => buffer[food] || 0).join(',');
+      const key = state.cursor+':'+state.active.join(',') + ':' + foodIds.map(food => buffer[food] || 0).join(',');
       if (rejected.has(key)) return false;
       for (const food of foodIds) {
         if (!stock[food] || held >= profile.prepLimit) continue;
-        const next = consume(plan, cursors, Object.assign({}, buffer, { [food]: (buffer[food] || 0) + 1 }));
-        const after = size(next.buffer), need = missing(plan, next.cursors, next.buffer);
-        if (!finished(plan, next.cursors) ? after + need > profile.prepLimit : after !== 0) continue;
+        const next = consume(plan, state, Object.assign({}, buffer, { [food]: (buffer[food] || 0) + 1 }));
+        const after = size(next.buffer), need = missing(plan, next.state, next.buffer);
+        if (!finished(plan, next.state) ? after + need > profile.prepLimit : after !== 0) continue;
         // Prefer immediate matches for easy; interleave unfinished and future
         // dishes for higher tiers. Backtrack if a later menu would strand food.
         const score = profile.mixing === 0 ? next.matched * 20 - need * 3 + rng() :
@@ -112,12 +102,12 @@
       choices.sort((a, b) => b.score - a.score);
       for (const pick of choices) {
         pressure.push(held + 1); foods.push(pick.food); stock[pick.food]--;
-        if (search(pick.next.cursors, pick.next.buffer)) return true;
+        if (search(pick.next.state, pick.next.buffer)) return true;
         stock[pick.food]++; foods.pop(); pressure.pop();
       }
       rejected.add(key); return false;
     }
-    if (!search([0, 0, 0], {})) throw Error('Cannot schedule planned ingredients within prep capacity.');
+    if (!search(queueStart(plan), {})) throw Error('Cannot schedule planned ingredients within prep capacity.');
     return { foods, pressure };
   }
   function placeFoods(tiles, sequence, rng) {
@@ -201,7 +191,7 @@
     if(attempts===24)throw lastError;
     let hash = 2166136261;
     for (const ch of JSON.stringify([definition, plan.pool, layout.board],(key,value)=>['greedyTarget','lookaheadTarget','toolTarget'].includes(key)?undefined:value)) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
-    const config = { level, seed, generatorVersion: 4, contentId: 'v4-' + level + '-' + hash.toString(16) + '-' + seed,
+    const config = { level, seed, generatorVersion: 5, contentId: 'v5-' + level + '-' + hash.toString(16) + '-' + seed,
       difficulty: profile.id, difficultyName: profile.name, shape: definition.shape, shapeName: Geometry.templates[definition.shape].name,
       tools: {undo:0,stash:0,shuffle:0}, rescueLimit: LIMITS.rescueAdsPerRun, recipes: copy(plan.pool), tiles, orderPlan: plan.orderPlan, solution: placed.solution, dishPlan: plan.dishes,
       ingredientCounts: plan.ingredients, definition };
@@ -220,14 +210,14 @@
     if (!['random', 'greedy', 'unlock'].includes(policy)) throw Error('Unknown probe policy.');
     const rng = random(seed), removed = new Set(), route = [], plan = { pool: config.recipes, orderPlan: config.orderPlan };
     const graph = config.tiles.map(n => config.tiles.filter(t => t.layer > n.layer && Core.overlap(n, t)).map(t => t.id));
-    let buffer = {}, cursors = [0, 0, 0], peak = 0;
+    let buffer = {}, state = queueStart(plan), peak = 0;
     for (let step = 0; step < config.tiles.length; step++) {
       const held = size(buffer);
       if (held >= 7) return { won: false, removed: step, peak, route };
       const choices = config.tiles.map((n, i) => ({ n, i })).filter(({ n, i }) =>
         !removed.has(n.id) && graph[i].every(id => removed.has(id))).map(({ n, i }) => {
         const picked = Object.assign({}, buffer, { [n.food]: (buffer[n.food] || 0) + 1 });
-        const next = consume(plan, cursors, picked), active = activeRecipes(plan, cursors).filter(Boolean);
+        const next = consume(plan, state, picked), active = activeRecipes(plan, state).filter(Boolean);
         const match = active.some(r => r.ingredients.every(food => picked[food] > 0));
         const progress = Math.max(0, ...active.map(r => r.ingredients.includes(n.food) ?
           r.ingredients.filter(f => buffer[f] > 0).length / r.ingredients.length : 0));
@@ -240,9 +230,9 @@
       if (!choices.length) return { won: false, removed: step, peak, route };
       choices.sort((a, b) => b.score - a.score);
       const pick = choices[0]; removed.add(pick.n.id); route.push(pick.n.id);
-      peak = Math.max(peak, held + 1); buffer = pick.next.buffer; cursors = pick.next.cursors;
+      peak = Math.max(peak, held + 1); buffer = pick.next.buffer; state = pick.next.state;
     }
-    return { won: finished(plan, cursors) && size(buffer) === 0, removed: removed.size, peak, route };
+    return { won: finished(plan, state) && size(buffer) === 0, removed: removed.size, peak, route };
   }
   return { createLevel, definitionFor, profileFor, createDishPlan, verifySolution, probeLevel, PROFILES, LIMITS };
 });

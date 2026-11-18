@@ -62,7 +62,7 @@
         }
         const newAge = s.now - o.bornAt;
         c.save();c.translate((position-o.slot)*layout.stepX,0);
-        ui.renderOrderCard({ table: o.table, name: r.displayName || r.name, pay: r.payout, ing: r.ingredients,
+        ui.renderOrderCard({ name: r.displayName || r.name, pay: r.payout, ing: r.ingredients,
           done, checkAges, accepted, alpha: pose.alpha, dy: view.reducedMotion ? 0 : pose.dy,
           scale: view.reducedMotion ? 1 : pose.scale, ingredientAlpha: accepted ? pose.ingredientsAlpha : 1,
           plateAlpha: pose.plateAlpha, lidLift: view.reducedMotion ? 0 : pose.lidLift,

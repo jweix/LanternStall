@@ -13,7 +13,7 @@ for(const level of levels){
  function measure(config,count,coarse){
   let wins=0,lookahead=0,free=0;
   for(let t=1;t<=count;t++)wins+=Number(C.Levels.probeLevel(config,'greedy',t*997).won);
-  const aux=coarse?16:count;
+  const aux=coarse?8:count;
   for(let t=1;t<=aux;t++){lookahead+=Number(C.probe(config,'lookahead',t*997,'none').won);free+=Number(C.probe(config,'greedy',t*997,'free').won);}
   const rate=wins/count,lookaheadRate=lookahead/aux,freeRate=free/aux;
   const error=distance(rate,target)+(level>=4?distance(lookaheadRate,lookaheadTarget)+distance(freeRate,toolTarget)+Math.max(0,.15-(freeRate-rate)):0);
@@ -22,7 +22,7 @@ for(const level of levels){
  for(let i=0;i<candidates;i++){
   const seed=i===0?definition.seed??(Math.imul(level,7919)>>>0):Math.floor(random()*4294967296);
   try{const config=C.configFor(level,seed),item={seed,config,...measure(config,16,true)};
-   if(i===0)baseline=item;shortlist.push(item);shortlist.sort((a,b)=>a.rank-b.rank);shortlist.length=Math.min(shortlist.length,24);
+   if(i===0)baseline=item;shortlist.push(item);shortlist.sort((a,b)=>a.rank-b.rank);shortlist.length=Math.min(shortlist.length,32);
   }catch(error){lastError=error.message;rejected++;if(i===0&&candidates===1)throw error;}
  }
  if(baseline&&!shortlist.some(s=>s.seed===baseline.seed))shortlist.push(baseline);

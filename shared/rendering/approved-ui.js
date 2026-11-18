@@ -193,7 +193,7 @@ function renderOrderCard(d,i,now){
  c.save();c.globalAlpha=d.alpha??1;c.translate(x+124,y+113+dy);c.scale(s,s);c.translate(-x-124,-y-113);
  panel(x,y,248,226,30);
  if(d.isNew){c.save();c.globalAlpha*=d.cueAlpha??.6;c.strokeStyle='#f2b75e';c.lineWidth=3;rr(x+2,y+2,244,222,29);c.stroke();c.restore();}
- drawAsset(['clip-red','clip-green','clip-blue'][i],x+109,y-17);smallText(d.table+'桌',x+20,y+31,27,'#87512c','left');drawAsset('coin',x+147,y+18);smallText('+'+d.pay,x+178,y+32,29,'#7c4527','left');txt(d.name,x+124,y+67,36,'#62351e','center',700);
+ drawAsset(['clip-red','clip-green','clip-blue'][i],x+109,y-17);drawAsset('coin',x+76,y+18);smallText('+'+d.pay,x+108,y+32,29,'#7c4527','left');txt(d.name,x+124,y+67,36,'#62351e','center',700);
  const ia=d.ingredientAlpha??(d.accepted?0:1);
  if(ia>0){c.save();c.globalAlpha*=ia;d.ing.forEach((id,j)=>{const fx=x+124+(j-(d.ing.length-1)/2)*69,fy=y+139,done=(d.done||[]).includes(id);c.save();oldRecipeFood(id,fx,fy,64);c.restore();if(done){const age=d.checkAges?.[id];const pop=age>=0&&age<.16?1+.18*Math.sin(Math.PI*age/.16):1;check(fx+20,fy+23,.70*pop);}});c.restore();}
  if(d.accepted){c.save();c.globalAlpha*=d.plateAlpha??1;emptyDish(x+124,y+139,211);cloche(x+124,y+141,180,now,d.lidLift||0);c.restore();smallText('交给大厨啦',x+124,y+204,29,'#a9502c');}

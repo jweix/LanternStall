@@ -34,7 +34,7 @@ npm run build:douyin
 npm run test:douyin
 ```
 
-抖音开发者工具选「小游戏」，导入 **`platforms/douyin/game/`**。未配置正式AppID时，在导入界面选择工具提供的测试号；测试号不能上传。创建应用后，把`tt…`AppID填入`platforms/douyin/project.config.json`再构建。当前完成游戏端适配、侧边栏主页引导与每日200金币自动发放／持久化去重；资质、实际IDE编译、真机与提审验收未完成。
+抖音开发者工具选「小游戏」，导入 **`platforms/douyin/game/`**。正式AppID `tt727304ceec0e853e02`已写入`platforms/douyin/project.config.json`，构建自动同步到生成包；IDE登录账号须拥有对应开发权限。当前完成游戏端适配、侧边栏主页引导与每日200金币自动发放／持久化去重；资质、实际IDE编译、真机与提审验收未完成。
 
 全平台验证：`npm run build` 后 `npm test`。
 

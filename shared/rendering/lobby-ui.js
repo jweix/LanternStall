@@ -10,7 +10,7 @@
  const recipeArtNames=['番茄炒蛋','青椒肉片','双料香菇鸡','西兰花虾仁','芹菜牛肉','豆腐炒蛋'];
  function viewport(width,height,insets){const i=Object.assign({left:0,top:0,right:0,bottom:0},insets||{}),scale=Math.min((width-i.left-i.right)/SIZE.width,(height-i.top-i.bottom)/SIZE.height);return{scale,x:i.left+(width-i.left-i.right-SIZE.width*scale)/2,y:i.top+(height-i.top-i.bottom-SIZE.height*scale)/2};}
  function create(c,images,catalog){
-  const U=Components.create(c,images,catalog.lobbyBodyFont,catalog.assets),scene=Scenes.create(c,images,catalog.assets),outfits=Outfits.create(c,U,scene);let hits=[],v;
+  const U=Components.create(c,images,catalog.lobbyBodyFont,catalog.assets,catalog.createCanvas),scene=Scenes.create(c,images,catalog.assets),outfits=Outfits.create(c,U,scene);let hits=[],v;
   const text=U.words,display=U.display,round=U.round,grad=U.gradient,stroke=U.outline,check=U.check,chevron=U.chevron,meter=U.meter,sprite=U.sprite;
   const card=r=>U.skin('card',r),itemCard=card,paper=card;
   function hit(rect,action,value,label){hits.push({rect:rect.slice(),action,value,label});}
@@ -111,11 +111,10 @@
         catalog.recipes.slice(p * 6, p * 6 + 6).forEach((recipe, i) => {
           const r = gridRect(R.recipes.cards,i), count = v.state.dishes[recipe.id] || 0,name=recipe.displayName||recipe.name,n=Number(recipe.id.slice(1))-1,native=n<6&&n>=0&&recipeArtNames[n]===name,row=Math.floor(n/2);
           card(r);
-          if(count) U.dish(recipe.id,native?[r[0]+(n%2?52:54),r[1]+14-row*2,285,181]:[r[0]+54,r[1]+14,285,181]);
-          else { text('？',r[0]+196,r[1]+106,73,'#c99a5f','center');text('待上桌',r[0]+196,r[1]+169,25,'#9b734a','center'); }
-          if(count&&native)sprite('lobby-art-dish-'+n,[r[0]+(n%2?73:69),r[1]+201-row*2,290,47]);else display(count?name:'未点亮的家常菜',r[0]+196,r[1]+224,44,'#653710','center',370);
-          text(count?'已做'+count+'份':'首次做成后点亮',r[0]+196,r[1]+268,31,'#88592e','center');
-          hit(r, 'recipe', recipe.id, (count ? (recipe.displayName||recipe.name) : '未点亮菜谱') + '，已做' + count + '份');
+          U.dish(recipe.id,native?[r[0]+(n%2?52:54),r[1]+14-row*2,285,181]:[r[0]+54,r[1]+14,285,181],!count);
+          if(native)sprite('lobby-art-dish-'+n,[r[0]+(n%2?73:69),r[1]+201-row*2,290,47]);else display(name,r[0]+196,r[1]+224,44,'#653710','center',370);
+          text('已做'+count+'份',r[0]+196,r[1]+268,31,'#88592e','center');
+          hit(r, 'recipe', recipe.id, name + '，已做' + count + '份');
         });
         pagination(catalog.recipes.length, 6, R.recipes.pageY);
       } else if (v.sub.recipes === 'achievements') {

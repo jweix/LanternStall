@@ -42,7 +42,7 @@ GlobalFonts.registerFromPath(path.resolve(__dirname, '../shared/assets/lobby/fon
   const web=fs.readFileSync(path.resolve(__dirname,'../platforms/web/index.html'),'utf8');
   const scripts=(web.match(/<script src="\.\.\/\.\.\/shared\/[^\"]+"><\/script>/g)||[]).join('\n').replaceAll('../../shared/','../shared/');
   fs.writeFileSync(path.join(out,'lobby-review.html'),fs.readFileSync(path.join(__dirname,'lobby-review.html'),'utf8').replace('<!-- SHARED_SCRIPTS -->',scripts));
-  const canvas = createCanvas(887, 1774), renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index });
+  const canvas = createCanvas(887, 1774), renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index, createCanvas:()=>createCanvas(1,1) });
   const sheet = createCanvas(1536, 800), ctx = sheet.getContext('2d'); ctx.fillStyle = '#173638'; ctx.fillRect(0, 0, sheet.width, sheet.height);
   for (const [i, tab] of ['home', 'decor', 'recipes', 'market'].entries()) {
     app.handle('tab', tab);if(tab==='decor')app.handle('item','warm-lamp');app.hits = renderer.draw(app.view(), { width: 887, height: 1774, dpr: 1 });

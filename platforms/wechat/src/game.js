@@ -65,7 +65,7 @@ function start() {
     session = new App({ recipes, layout, rewardedRescue, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
       save: value => platform.write('lantern-stall-v2', value) });
     session.setHidden(hidden);
-    renderer = createRenderer(canvas.getContext('2d'), images, Object.assign({ recipes, ingredients, layout, assets:index }, platform.loadLobbyFonts()));
+    renderer = createRenderer(canvas.getContext('2d'), images, Object.assign({ recipes, ingredients, layout, assets:index, createCanvas:()=>wx.createCanvas() }, platform.loadLobbyFonts()));
     function frame(ms) {
       if (!hidden) session.hits = renderer.draw(session.frame(ms), geometry);
       requestAnimationFrame(frame);

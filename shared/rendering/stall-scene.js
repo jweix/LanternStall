@@ -152,7 +152,7 @@
         button('上一章', [116, 1240, 260, 95], 'page', -1, false, chapter <= 0); button('下一章', [552, 1240, 260, 95], 'page', 1, false, (chapter + 1) * 20 >= view.nextLevel);
       } else if (m.type === 'recipe') {
         const r = catalog.recipes.find(r => r.id === m.id), count = view.state.dishes[r.id] || 0;
-        label(count ? (r.displayName||r.name) : '等待端上桌的家常', 116, 440, 40, ink, 'left', 660); lobby.dish(r.id,[225,560,478,305]);
+        label(r.displayName||r.name, 116, 440, 40, ink, 'left', 660); lobby.dish(r.id,[225,560,478,305],!count);
         r.ingredients.forEach((id, i) => { image(id, 210 + i * 175, 905, 110, 110); label(catalog.ingredients.find(f => f.id === id).name, 265 + i * 175, 1060, 29, ink, 'center'); });
         label('累计制作 ' + count + ' 份', 116, 1175, 35); label('1份初次上桌 · 30份拿手家常 · 100份小摊招牌', 116, 1255, 24, '#977150');
       } else if (m.type === 'memory') {

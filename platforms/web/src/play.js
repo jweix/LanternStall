@@ -39,7 +39,7 @@
     }
     const bodyFace = new FontFace('LanternBody', 'url(../../shared/assets/lobby/fonts/LanternBody.ttf)', {weight:'500'});
     await bodyFace.load();document.fonts.add(bodyFace);
-    const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index, lobbyBodyFont: 'LanternBody' });
+    const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index, lobbyBodyFont: 'LanternBody', createCanvas:()=>document.createElement('canvas') });
     document.addEventListener('visibilitychange', () => app.setHidden(document.hidden));
     app.setHidden(document.hidden);
     const controls = document.getElementById('controls'); let previousControls = '';

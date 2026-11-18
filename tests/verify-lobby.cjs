@@ -18,7 +18,11 @@ const draws = [], labels = [], gradient = { addColorStop() {} };
 const ctx = new Proxy({ globalAlpha: 1 }, { get: (o,k) => k in o ? o[k] : k === 'measureText' ? t => ({ width: String(t).length * 23 }) :
   k === 'fillText' ? t => labels.push(String(t)) : k === 'drawImage' ? (im, ...args) => draws.push({id:im.id,args}) : /create.*Gradient/.test(k) ? () => gradient : () => {} });
 const images = Object.fromEntries(Object.entries(index).map(([id,a]) => [id, { id, width:a.width,height:a.height }]));
-const renderer = createRenderer(ctx,images,{recipes,ingredients,layout,assets:index});
+function grayCanvas(){
+  const surface={},context={drawImage(im){surface.id=im.id+'-unlit';},getImageData(){return{data:new Uint8ClampedArray([255,0,0,191,0,255,0,0])};},putImageData(pixels){surface.pixels=Array.from(pixels.data);}};
+  surface.getContext=()=>context;return surface;
+}
+const renderer = createRenderer(ctx,images,{recipes,ingredients,layout,assets:index,createCanvas:grayCanvas});
 const geometry = {width:390,height:844,dpr:3,insets:{top:95,bottom:34},nativeCapsule:true};
 const app = new App({recipes,layout,now:()=>Date.parse('2026-11-14T12:00:00+08:00')});
 function render(a=app) { draws.length=0;labels.length=0;a.hits=renderer.draw(a.view(),geometry);for(const label of labels)for(const char of label)if(/[\u3400-\u9fff]/.test(char))for(const family of ['body'])assert(fontCoverage[family].includes(char),'Missing packaged '+family+' glyph: '+char);return a.hits; }
@@ -91,6 +95,19 @@ rich.handle('tab','home');const equippedAppearance=JSON.stringify(rich.view().ap
 assert.equal(rich.sub.decor,'themes');assert(!rich.view().themePreview);assert.equal(JSON.stringify(rich.view().appearance),equippedAppearance,'Opening wardrobe keeps the saved outfit until an explicit preview');
 assert(labels.includes('点选套装，预览后再换上'));
 rich.handle('tab','recipes');render(rich);assert(rich.hits.some(h=>h.action==='recipe'&&h.value==='d01'));assert(labels.includes('已做45份'));
+const partial=new App({recipes,layout,data:{version:2,cleared:[1,2,3],dishes:{d01:2,d02:2,d06:5}}});partial.handle('tab','recipes');
+for(let page=0;page<4;page++){
+  partial.page=page;render(partial);
+  for(const recipe of recipes.slice(page*6,page*6+6)){
+    const count=partial.profile.state.dishes[recipe.id]||0,n=Number(recipe.id.slice(1))-1,id=n<6?'lobby-dish-'+n:recipe.id;
+    assert(partial.hits.some(h=>h.action==='recipe'&&h.label===(recipe.displayName||recipe.name)+'，已做'+count+'份'));
+    assert(draws.some(d=>d.id===id+(count?'':'-unlit')),'Every recipe keeps its own illustration, gray only before its first serving');
+    assert(labels.includes('已做'+count+'份'));
+  }
+  assert(!labels.some(t=>['？','待上桌','未点亮的家常菜','首次做成后点亮'].includes(t)));
+  if(!page)for(let n=0;n<6;n++)assert(draws.some(d=>d.id==='lobby-art-dish-'+n),'Unlit names keep the same lettering as lit names');
+}
+partial.handle('recipe','d03');render(partial);assert(labels.includes('双料香菇鸡'));assert(draws.some(d=>d.id==='lobby-dish-2-unlit'));
 rich.handle('tab','market');render(rich);assert(!rich.hits.some(h=>/claim|领取/.test(h.action+' '+h.label)));
 const savedBalance=rich.profile.state.coins;rich.profile.state.coins=1000000000;rich.handle('tab','home');render(rich);assert(labels.includes('10亿'));rich.profile.state.coins=savedBalance;
 for(const [w,h,top,bottom] of [[320,568,20,0],[390,844,95,34],[1024,768,0,0]]) {
@@ -162,6 +179,17 @@ for(const theme of ['base','warm','bamboo','sea','festival'])for(const r of [[25
 }
 console.log('PASS every lamp thumbnail stays centered inside outfit and event card bounds');
 const Components=require('../shared/rendering/lobby-components.js');
+const grayDraws=[];let grayCreates=0;
+const dishComponents=Components.create({drawImage:(im,...args)=>grayDraws.push({im,args})},images,'LanternBody',index,()=>{grayCreates++;return grayCanvas();});
+for(const id of ['d01','d07']){
+ const rect=[10,20,285,181],original=images[id==='d01'?'lobby-dish-0':id];
+ dishComponents.dish(id,rect);const lit=grayDraws.at(-1);dishComponents.dish(id,rect,true);const gray=grayDraws.at(-1);
+ assert.equal(lit.im,original);assert.deepEqual(gray.im.pixels,[76,76,76,191,150,150,150,0],'Grayscale preserves per-pixel alpha');
+ assert.equal(gray.im.width,original.width);assert.equal(gray.im.height,original.height);assert.deepEqual(gray.args,lit.args,'Lit and unlit dishes use exactly the same frame and crop');
+ dishComponents.dish(id,rect,true);assert.equal(grayDraws.at(-1).im,gray.im,'Gray dishes reuse the cached canvas');
+ dishComponents.dish(id,rect);assert.equal(grayDraws.at(-1).im,original,'Lighting a recipe returns to its unchanged source image');
+}
+assert.equal(grayCreates,2,'Only the two requested illustrations allocate gray canvases');
 function textPositions(fullMetrics){const positioned=[],context=new Proxy({},{get(o,k){if(k==='measureText')return()=>fullMetrics?{width:90,actualBoundingBoxAscent:999,actualBoundingBoxDescent:999}:{width:90};if(k==='fillText')return(t,x,y)=>positioned.push([t,x,y,o.textBaseline]);return k in o?o[k]:()=>{};}});const u=Components.create(context,images,'LanternBody',index);u.words('786',832,144,36);u.words('奖励：灯会棚布',336,885,28);u.words('已自动获得',802,885,23);return positioned;}
 assert.deepEqual(textPositions(true),textPositions(false),'Native width-only metrics and browser ink metrics must use identical font geometry');
 assert(textPositions(false).every(p=>p[3]==='alphabetic'&&Number.isFinite(p[2])));

@@ -16,7 +16,7 @@
     if (!template) throw Error('Unknown board shape: ' + shape);
     const rows = template.rows, cols = Math.max(...rows.map(r => r.length)), cells = [];
     rows.forEach((row, y) => [...row].forEach((v, x) => { if (v === '1') cells.push({ x, y }); }));
-    if (!Number.isInteger(depth) || depth < 1 || depth > 5 || count < depth || count > cells.length * depth)
+    if (!Number.isInteger(depth) || depth < 1 || depth > 8 || count < depth || count > cells.length * depth)
       throw Error('Shape ' + shape + ' cannot hold ' + count + ' cards in ' + depth + ' layers.');
     const cx = (cols - 1) / 2, cy = (rows.length - 1) / 2;
     cells.sort((a, z) => Math.max(Math.abs(a.x - cx), Math.abs(a.y - cy)) - Math.max(Math.abs(z.x - cx), Math.abs(z.y - cy)) ||

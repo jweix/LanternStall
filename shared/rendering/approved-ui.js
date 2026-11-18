@@ -161,9 +161,12 @@ function polishedWok(now=0,working=false,theme){
  if(working){c.save();c.translate(0,-6);pieces('chicken',now,1);c.restore();}c.restore();
  if(working)steam(742,1380,now,.5);
 }
-function toolButton(b,count){
- c.save();c.globalAlpha=.92;originalTextureButton(b);c.restore();
- const x=b.x+b.w-24,y=b.y+2;c.save();ell(x,y,22,16,'#e4bd88');c.strokeStyle='#f9e3bb';c.lineWidth=1.5; c.beginPath();c.ellipse(x,y,22,16,0,0,7);c.stroke();c.font='700 28px '+ff;c.textAlign='center';c.textBaseline='middle';c.fillStyle='#633719';c.fillText('×'+count,x,y+1);c.restore();
+function toolButton(b,label){
+ const {x,y,w,h,id}=b,texture=id==='stash'?'button-move':'button-'+id;
+ if(id==='undo')originalTextureButton(b);
+ else{c.save();c.shadowColor='#65351c44';c.shadowBlur=7;c.shadowOffsetY=4;c.drawImage(images[texture],x,y,w,h);c.restore();}
+ const value=typeof label==='number'?'×'+label:label,bw=/[\u3400-\u9fff]/.test(value)?76:54,bx=x+w-bw/2-9,by=y+3;
+ c.save();ell(bx,by,bw/2,15,'#e9bf85');c.font='700 26px '+ff;c.textAlign='center';c.textBaseline='middle';c.fillStyle='#633719';c.fillText(value,bx,by+1);c.restore();
 }
 function renderPrepStation(state={}){
  // A narrow recessed wood seam separates preparation without introducing another large backing panel.

@@ -15,9 +15,9 @@ manifest = json.loads((ROOT / 'shared/asset-manifest.json').read_text())
 result = {}
 
 
-def save(name, image):
+def save(name, image, colors=256):
     target = OUT / (name + '.png')
-    image = image.quantize(colors=256, method=Image.Quantize.FASTOCTREE)
+    image = image.quantize(colors=colors, method=Image.Quantize.FASTOCTREE)
     image.save(target, optimize=True)
     result[name] = {'path': 'assets/' + target.name, 'width': image.width, 'height': image.height}
 
@@ -37,9 +37,14 @@ def covered(image):
 
 for asset in manifest['assets']:
     kind, name = asset['kind'], asset['id']
+    # Keep the original undo artwork and the matching V4 move/shuffle variants.
+    if name in ('button-stash', 'button-hint'):
+        continue
     if kind not in ('dish', 'ingredient', 'game-background', 'game-button', 'game-overlay'):
         continue
     source = Image.open(ROOT / 'shared' / asset.get('runtimeSource',asset['path'])).convert('RGBA')
+    if asset.get('runtimeSize'):
+        source = source.resize(tuple(asset['runtimeSize']), Image.Resampling.LANCZOS)
     if kind == 'game-background':
         # Full design resolution: no downscaling of sign, awning, rim or scenery.
         target = OUT / 'scene.jpg'
@@ -54,9 +59,9 @@ for asset in manifest['assets']:
     elif kind == 'dish':
         # Preserve the full transparent frame used by the approved movie.
         source.thumbnail((384, 288), Image.Resampling.LANCZOS)
-        save(name, source)
+        save(name, source, asset.get('runtimeColors', 256))
     else:
-        save(name, source)
+        save(name, source, asset.get('runtimeColors', 256))
 
 result.update(runpy.run_path(str(ROOT / 'scripts/prepare-stall-assets.py'))['prepare'](ROOT, OUT))
 result.update(runpy.run_path(str(ROOT / 'scripts/prepare-lobby-assets.py'))['prepare'](ROOT, OUT))

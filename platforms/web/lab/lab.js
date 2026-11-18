@@ -15,7 +15,7 @@
   }
   function attach(){
     const e=session.engine;observed=e;
-    for(const method of ['selectTile','undo','stash','returnStash','hint','tick','pause','applyRewardedRescue']){
+    for(const method of ['selectTile','undo','stash','returnStash','shuffle','tick','pause','applyRewardedRescue']){
       const original=e[method].bind(e);
       e[method]=(...args)=>{
         const was=suppress;if(method==='applyRewardedRescue')suppress=true;
@@ -24,8 +24,7 @@
         else if(method==='tick')record({type:'tick',seconds:args[0]});
         else if(method==='pause')record({type:'pause',value:args[0]!==false});
         else if(result&&method==='returnStash')record({type:'return',index:args[0]||0});
-        else if(result&&method==='hint')record({type:'hint',id:result});
-        else if(result&&['undo','stash'].includes(method))record({type:method});
+        else if(result&&['undo','stash','shuffle'].includes(method))record({type:method});
         else if(result&&method==='applyRewardedRescue')record({type:'ad-'+args[0]});
         return result;
       };
@@ -35,7 +34,7 @@
     if(session)session.dispose();
     session=new DapaidangSession.Session({recipes,layout,level:next.level,levelOptions:{definition:next.definition,seed:next.seed}});
     config=JSON.parse(JSON.stringify(next));session.config=config;session.engine=new DapaidangCore.Engine(config);
-    timeline=[];pending=[];attach();$('level').value=config.level;$('seed').value=config.seed;
+    session.engine.tools={undo:1,stash:1,shuffle:1};timeline=[];pending=[];attach();$('level').value=config.level;$('seed').value=config.seed;
     $('definition').value=JSON.stringify(config.definition,null,2);
     $('layer').replaceChildren(new Option('全部层','all'),...Array.from({length:config.metrics.layerCount},(_,i)=>new Option('第 '+(i+1)+' 层',String(i))));
     lastSummary='';message('已加载 '+config.contentId);
@@ -55,11 +54,10 @@
     const e=session.engine;let ok=false;
     if(action.type==='pick')ok=session.pointer(e.nodes.find(n=>n.id===action.id));
     else if(action.type==='return')ok=e.returnStash(action.index);
-    else if(action.type==='hint')ok=e.hint()===action.id;
     else if(action.type==='tick'){session.advance(action.seconds);return;}
     else if(action.type==='pause'){e.pause(action.value);return;}
     else if(action.type.startsWith('ad-'))ok=e.applyRewardedRescue(action.type.slice(3),e.levelId+'/lab-'+timeline.length);
-    else if(action.type==='undo'||action.type==='stash')ok=e[action.type]();
+    else if(['undo','stash','shuffle'].includes(action.type))ok=e[action.type]();
     if(!ok)throw Error('当前状态拒绝操作：'+JSON.stringify(action));
     if(stable)settle();else session.collectEvents();
   }
@@ -79,22 +77,22 @@
     if((session.engine.status==='won')!==result.won)throw Error('策略模型与真实引擎不一致');
     message('策略结果：'+session.engine.status+'，取走 '+result.removed+' / '+config.tiles.length+' 张');
   }catch(error){message(error.message);}};
-  canvas.addEventListener('pointerdown',event=>{if(session.engine.status!=='playing'){message('请用加载配置或回放按钮重置');return;}const r=canvas.getBoundingClientRect();session.pointer({x:(event.clientX-r.left)*928/r.width,y:(event.clientY-r.top)*1695/r.height});});
+  canvas.addEventListener('pointerdown',event=>{if(session.engine.status==='won'){message('请用加载配置或回放按钮重置');return;}const r=canvas.getBoundingClientRect();session.pointer({x:(event.clientX-r.left)*928/r.width,y:(event.clientY-r.top)*1695/r.height});});
   function drawSlice(){
     const c=slice.getContext('2d');c.clearRect(0,0,818,791);
     const nodes=session.engine.nodes.filter(t=>!t.removed&&($('layer').value==='all'||t.layer===Number($('layer').value))).sort(DapaidangGeometry.paintOrder);
     for(const t of nodes){const x=t.x-55-t.w/2,y=t.y-536-t.h/2;c.fillStyle=session.engine.available(t.id)?'#fff1d5':'#b9a18a';c.fillRect(x+2,y+2,t.w-4,t.h-4);c.fillStyle='#60331b';c.textAlign='center';c.font='20px sans-serif';c.fillText(foodName(t.food),x+t.w/2,y+t.h/2-5);c.font='14px sans-serif';c.fillText('L'+(t.layer+1)+' · '+t.id,x+t.w/2,y+t.h/2+24);}
   }
-  function snapshot(){const e=session.engine;return{status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(i=>i.food),stash:e.stashItems.map(i=>i.food),orderCursors:e.orderCursors};}
+  function snapshot(){const e=session.engine;return{status:e.status,revenue:e.revenue,removed:e.nodes.filter(t=>t.removed).length,buffer:e.buffer.map(i=>i.food),stash:e.stashItems.map(i=>i.food),orderCursors:e.orderCursors,foods:e.nodes.map(t=>t.food),toolUsed:e.toolUsed};}
   async function digest(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value))))].map(n=>n.toString(16).padStart(2,'0')).join('');}
   $('export').onclick=async()=>{
-    const result={generatorVersion:3,recipeHash:await digest(recipes),layoutHash:await digest(layout),policyVersion:1,config,timeline,budget:'free',snapshot:snapshot()};
+    const result={generatorVersion:4,recipeHash:await digest(recipes),layoutHash:await digest(layout),policyVersion:2,config,timeline,budget:'free',snapshot:snapshot()};
     const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='level-'+config.level+'-trace.json';a.click();URL.revokeObjectURL(url);
   };
   $('file').onchange=async()=>{try{
     const saved=JSON.parse(await $('file').files[0].text());
-    if(saved.generatorVersion!==3||saved.recipeHash!==await digest(recipes)||saved.layoutHash!==await digest(layout))throw Error('版本或配方/布局哈希不一致，请使用对应版本');
-    reset(saved.config);session.engine.tools=saved.budget==='none'?{undo:0,stash:0,hint:0}:{undo:1,stash:2,hint:1};
+    if(saved.generatorVersion!==4||saved.recipeHash!==await digest(recipes)||saved.layoutHash!==await digest(layout))throw Error('版本或配方/布局哈希不一致，请使用对应版本');
+    reset(saved.config);session.engine.tools=saved.budget==='none'?{undo:0,stash:0,shuffle:0}:{undo:1,stash:1,shuffle:1};
     for(const action of saved.timeline||saved.result.actions)execute(action,!saved.timeline);
     if(saved.snapshot&&JSON.stringify(snapshot())!==JSON.stringify(saved.snapshot))throw Error('回放最终状态不一致');
     message('已复现离线记录：'+session.engine.status);
@@ -102,7 +100,7 @@
   const requested=Number(new URLSearchParams(location.search).get('level'))||1;
   reset(DapaidangLevels.createLevel(recipes,layout,requested));
   function frame(ms){
-    if(session.engine!==observed){config=session.config;timeline=[];pending=[];attach();lastSummary='';}
+    if(session.engine!==observed){config=session.config;session.engine.tools={undo:1,stash:1,shuffle:1};timeline=[];pending=[];attach();lastSummary='';}
     session.frame(ms);
     renderer.draw(session.view(),{width:928,height:1695,dpr:1});drawSlice();
     const e=session.engine,m=config.metrics,text='第 '+config.level+' 关 · '+config.difficultyName+' · '+config.shapeName+'\n'+m.totalDishes+' 份菜 / '+m.recipeTypes+' 种菜谱 / '+m.tileCount+' 张食材 / '+m.layerCount+' 层\n开局可取 '+m.openingCount+' 张；同料最多 '+m.openingDominantCount+' 张\n'+e.status+' · 已取 '+e.nodes.filter(t=>t.removed).length+' 张 · 备菜 '+e.buffer.length+' + 在途 '+e.incoming.length+' · 收入 '+e.revenue;

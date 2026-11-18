@@ -8,7 +8,7 @@
 </style>
 <main>
 <h1>关卡实验室</h1>
-<p>独立开发入口，不读写经营存档。左侧可正常取牌；离线回放与剖面用于检查规则，不代表真人局时。</p>
+<p>独立开发入口，不读写经营存档。道具按各一次免费测试。开发求解与见证读取完整信息，不能作为玩家难度；本页不产生经营奖励。</p>
 <div class="layout">
 <div class="game-frame"><canvas id="game" width="928" height="1695" aria-label="真实引擎关卡试玩"></canvas></div>
 <div>
@@ -21,7 +21,7 @@
 <section><pre id="summary"></pre><div id="recipe-list"></div>
 <details><summary>编辑本关三桌订单与布局</summary><textarea id="definition" aria-label="本关配置 JSON" spellcheck="false"></textarea><button id="apply">应用到独立试玩</button><p class="small">orders 的三个数组分别是三桌补单队列，每个菜谱 ID 代表一份。不会写回源文件。</p></details></section>
 <section class="controls">
-<button id="solve">求解当前局面</button><button id="step">单步执行</button><button id="witness">重置并回放见证</button>
+<button id="solve">完整信息求解（开发）</button><button id="step">单步执行</button><button id="witness">回放生成器解（开发）</button>
 </section>
 <section class="controls">
 <label>无道具策略<select id="policy"><option value="greedy">当前贪心</option><option value="random">随机</option><option value="unlock">几何解锁</option></select></label>
@@ -29,7 +29,7 @@
 </section>
 <section><div class="controls"><label>观察层<select id="layer"><option value="all">全部层</option></select></label><span class="small">剖面仅观察，不改变左侧几何或可选状态。</span></div><canvas id="slice" width="818" height="791" aria-label="牌位、材料与层级剖面"></canvas></section>
 <section class="controls"><button id="export">导出本次操作记录</button><label>导入离线记录<input id="file" type="file" accept="application/json,.json"></label></section>
-<p class="small">导入记录只回放已记录的操作；广告救援步骤按测试结果复现，不播放视频、不发放经营奖励。复杂策略和四种道具预算请运行 analyze:levels。</p>
+<p class="small">导入记录只回放已记录的操作；广告救援步骤按测试结果复现，不播放视频、不发放经营奖励。复杂策略和五种道具预算请运行 analyze:levels。</p>
 </div></div>
 </main>
 <script src="../../../shared/data/board-templates.js"></script>

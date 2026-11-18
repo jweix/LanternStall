@@ -19,8 +19,21 @@ module.exports = function buildMiniGame(name, label, options = {}) {
   fs.mkdirSync(dataOut, { recursive: true });
   for (const name of fs.readdirSync(path.join(root, 'shared/data')).filter(n => n.endsWith('.js'))) {
     const source = path.join(root, 'shared/data', name);
-    if (['level-config.js', 'board-templates.js'].includes(name))
-      fs.writeFileSync(path.join(dataOut, name), 'module.exports=' + JSON.stringify(require(source)) + ';\n');
+    if (['level-config.js', 'board-templates.js'].includes(name)) {
+      const data = JSON.parse(JSON.stringify(require(source), (key, value) =>
+        ['greedyTarget', 'lookaheadTarget', 'toolTarget'].includes(key) ? undefined : value));
+      if (name === 'level-config.js') {
+        // Reuse identical menus in the package; definitions are copied by Levels.
+        const menus = [], indices = new Map();
+        for (const row of data.levels.concat(data.repeat)) {
+          const key = JSON.stringify(row.orders);
+          if (!indices.has(key)) { indices.set(key, menus.length); menus.push(row.orders); }
+          row.orders = indices.get(key);
+        }
+        fs.writeFileSync(path.join(dataOut, name), 'const p=' + JSON.stringify(menus) + ',d=' + JSON.stringify(data) +
+          ';for(const r of d.levels.concat(d.repeat))r.orders=p[r.orders];module.exports=d;\n');
+      } else fs.writeFileSync(path.join(dataOut, name), 'module.exports=' + JSON.stringify(data) + ';\n');
+    }
     else fs.copyFileSync(source, path.join(dataOut, name));
   }
   for (const name of ['recipes', 'ingredients', 'layout']) {

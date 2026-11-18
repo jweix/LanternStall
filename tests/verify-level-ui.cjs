@@ -20,7 +20,7 @@ function recorder(){
  return{ctx,draws};
 }
 let checks=0;
-for(const level of [1,2,3,4,5,6,20,41,64])for(const geometry of [{width:320,height:568,dpr:1,insets:{top:20,bottom:0}},{width:390,height:844,dpr:1,insets:{top:95,bottom:34}},{width:928,height:1695,dpr:1}]){
+for(const level of [1,2,3,4,5,6,20,18,64])for(const geometry of [{width:320,height:568,dpr:1,insets:{top:20,bottom:0}},{width:390,height:844,dpr:1,insets:{top:95,bottom:34}},{width:928,height:1695,dpr:1}]){
  const s=new Session({recipes:C.recipes,layout:C.layout,level}),r=recorder(),renderer=Scene.createRenderer(r.ctx,images,{recipes:C.recipes,ingredients,layout:C.layout});
  renderer.draw(s.view(),geometry);
  const viewport=M.viewport(geometry.width,geometry.height,geometry.insets);

@@ -72,7 +72,9 @@ const pair = () => new Engine({ recipes, initialRecipes: ['d01', 'd02', 'd03'], 
 const final = pair();
 final.tick(10); assert.equal(final.status, 'playing', 'Revenue alone never completes a level');
 assert.equal('target' in final.snapshot(), false);
-final.selectTile('a'); final.tick(.3); assert(final.stash());
+final.selectTile('a'); final.tick(.3);
+// Isolate the win predicate with an already-moved ingredient; actual three-card movement is tested separately.
+final.stashItems.push(final.buffer.shift());
 final.selectTile('b'); final.tick(.3);
 assert(final.nodes.every(n => n.removed)); assert.equal(final.status, 'playing', 'Stash must still be used');
 assert(final.returnStash()); assert.equal(final.status, 'playing');

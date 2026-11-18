@@ -1124,7 +1124,8 @@
         "h": 96
       },
       "sha256": "873d1e0390e864538ff44e9595b2409ec6f5ddcbdb21e6805f275262b220bd37",
-      "source": "dapaidang-handoff-v12-complete"
+      "source": "dapaidang-handoff-v12-complete",
+      "runtimeColors": 128
     },
     {
       "id": "button-stash",
@@ -1293,6 +1294,46 @@
       },
       "padding": 24,
       "pixelRatio": 2
+    },
+    {
+      "id": "button-move",
+      "kind": "game-button",
+      "path": "assets/buttons/source/move-v4.png",
+      "width": 1962,
+      "height": 802,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 1962,
+        "h": 802
+      },
+      "runtimeSize": [
+        235,
+        96
+      ],
+      "runtimeColors": 128,
+      "sha256": "078e1b828b0502914705ecf2e01639c1837f68c4025fe257463536f5ba1b0b19",
+      "source": "imagegen-tool-art-v4-2026-11-18"
+    },
+    {
+      "id": "button-shuffle",
+      "kind": "game-button",
+      "path": "assets/buttons/source/shuffle-v4.png",
+      "width": 2083,
+      "height": 755,
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "w": 2083,
+        "h": 755
+      },
+      "runtimeSize": [
+        265,
+        96
+      ],
+      "runtimeColors": 128,
+      "sha256": "85caf0cfb2bb93840430f936ae03cdf5f6b6a3b90d59ae45e234d3ff39d8f70c",
+      "source": "imagegen-tool-art-v4-2026-11-18"
     }
   ],
   "counts": {

@@ -23,8 +23,8 @@
     }
    }
    this.buffer=[];this.incoming=[];this.jobs=[];this.queue=[];this.wok=null;this.deliveries=[];this.creditedJobs=new Set();
-   this.stashItems=[];this.tools=Object.assign({undo:1,stash:2,hint:1},config.tools||{});
-   this.rescueCount=0;this.rescueLimit=config.rescueLimit===undefined?2:config.rescueLimit;this.rescueRewardIds=new Set();
+   this.stashItems=[];this.tools=Object.assign({undo:1,stash:1,shuffle:1},config.tools||{});
+   this.rescueCount=0;this.rescueLimit=config.rescueLimit===undefined?3:config.rescueLimit;this.rescueRewardIds=new Set();this.toolUsed={undo:false,stash:false,shuffle:false};this.shuffleSeed=(config.seed||7919)>>>0;
    this.orders=[];for(let i=0;i<3;i++){const id=config.initialRecipes&&config.initialRecipes[i];this.orders.push(this._order(i,id,true));}
   }
   _emit(type,data){this.events.push(Object.assign({type,time:this.now,levelId:this.levelId},data||{}));}
@@ -134,47 +134,53 @@
    if(this.buffer.length>=this.config.capacity&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'prep-full'});}
    else if(emptyBoard&&!this.stashItems.length&&!this.orders.some(o=>o.state==='collecting'&&this._canMake(o.recipe))){this.status='failed';this._emit('levelFailed',{reason:'stock-exhausted'});}
   }
+  canUseTool(tool){
+   if(!['playing','failed'].includes(this.status)||this.incoming.length||this.toolUsed[tool])return false;
+   if(tool==='undo')return !!this.buffer.length&&(!this.nodes.length||!!this.buffer[this.buffer.length-1].source?.tileId);
+   if(tool==='stash')return this.buffer.length>=3&&!this.stashItems.length;
+   if(tool==='shuffle'){const left=this.nodes.filter(n=>!n.removed);return this.status==='playing'&&this.buffer.length<this.config.capacity&&new Set(left.map(n=>n.food)).size>1;}
+   return false;
+  }
+  _useTool(tool){
+   if(this.paused||this.tools[tool]<1||!this.canUseTool(tool))return false;
+   this.tools[tool]--;this.toolUsed[tool]=true;this.status='playing';return true;
+  }
   undo(){
-   if(this.status!=='playing'||this.paused||this.tools.undo<1||!this.buffer.length)return false;
-   const item=this.buffer.pop();if(item.source&&item.source.tileId){const n=this.nodes.find(n=>n.id===item.source.tileId);if(n)n.removed=false;}this.tools.undo--;this._emit('ingredientUndone',{item:clone(item)});return true;
+   if(!this._useTool('undo'))return false;
+   const item=this.buffer.pop();if(item.source&&item.source.tileId){const n=this.nodes.find(n=>n.id===item.source.tileId);if(n)n.removed=false;}
+   this._emit('ingredientUndone',{item:clone(item)});return true;
   }
   stash(){
-   if(this.status!=='playing'||this.paused||this.tools.stash<1||!this.buffer.length||this.stashItems.length>=2)return false;
-   const item=this.buffer.pop();this.stashItems.push(item);this.tools.stash--;this._emit('ingredientStashed',{item:clone(item)});return true;
+   if(!this._useTool('stash'))return false;
+   const items=this.buffer.splice(0,3);this.stashItems.push(...items);
+   for(const item of items)this._emit('ingredientStashed',{item:clone(item)});return true;
+  }
+  shuffle(){
+   if(!this._useTool('shuffle'))return false;
+   const left=this.nodes.filter(n=>!n.removed),foods=left.map(n=>n.food),original=foods.join(',');let seed=this.shuffleSeed^0x9e3779b9;
+   for(let i=foods.length-1;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=Math.floor(seed/4294967296*(i+1));[foods[i],foods[j]]=[foods[j],foods[i]];}
+   if(foods.join(',')===original)foods.push(foods.shift());
+   left.forEach((n,i)=>{n.food=foods[i];});this._emit('boardShuffled',{tileIds:left.map(n=>n.id)});return true;
   }
   returnStash(index){
    if(this.status!=='playing'||this.paused||this.buffer.length+this.incoming.length>=this.config.capacity||!this.stashItems[index||0])return false;
    const item=this.stashItems.splice(index||0,1)[0];this.buffer.push(item);this._emit('ingredientReturned',{item:clone(item)});this._resolve();return true;
-  }
-  hint(maxNodes){
-   if(this.status!=='playing'||this.paused||this.tools.hint<1)return null;
-   if(this.orderPlan&&this.nodes.length){
-    const result=this.continuation({maxNodes:Math.min(4000,Math.max(1,maxNodes||4000))}),action=result.actions[0];
-    if(result.status!=='solved'||!action||action.type!=='pick'||!this.available(action.id)||this.buffer.length+this.incoming.length>=this.config.capacity)return null;
-    const live=this.fork();live.paused=false;if(!live.replayActions(result.actions))return null;
-    this.tools.hint--;this._emit('hintShown',{tileId:action.id,verified:true});return action.id;
-   }
-   for(const order of this.orders.filter(o=>o.state==='collecting')){const rest=this.buffer.concat(this.incoming).map(i=>i.food);
-    for(const food of order.recipe.ingredients){const i=rest.indexOf(food);if(i>=0){rest.splice(i,1);continue;}const tile=this.nodes.find(n=>n.food===food&&this.available(n.id));
-     if(tile){this.tools.hint--;this._emit('hintShown',{tileId:tile.id});return tile.id;}
-    }
-   }return null;
   }
   fork(){
    const e=new Engine({recipes:this.recipes,tiles:this.nodes,orderPlan:this.orderPlan,motion:this.config,tools:this.tools,rescueLimit:this.rescueLimit});
    Object.assign(e,this.snapshot(),{orderCursors:this.orderCursors.slice(),sequence:this.sequence,tableSequence:this.tableSequence,recipeCursor:this.recipeCursor});
    const jobs=new Map(e.jobs.map(j=>[j.jobId,j]));
    e.queue=this.queue.map(j=>jobs.get(j.jobId));e.wok=this.wok?jobs.get(this.wok.jobId):null;e.deliveries=this.deliveries.map(j=>jobs.get(j.jobId));
-   e.creditedJobs=new Set(this.creditedJobs);e.rescueRewardIds=new Set(this.rescueRewardIds);e.events=[];return e;
+   e.toolUsed=clone(this.toolUsed);e.shuffleSeed=this.shuffleSeed;e.creditedJobs=new Set(this.creditedJobs);e.rescueRewardIds=new Set(this.rescueRewardIds);e.events=[];return e;
   }
   replayActions(actions){
    for(const action of actions){
     let ok;
     if(action.type==='pick')ok=this.selectTile(action.id).ok;
     else if(action.type==='return')ok=this.returnStash(action.index);
-    else if(action.type==='undo'||action.type==='stash')ok=this[action.type]();
-    else if(action.type==='ad-undo'||action.type==='ad-stash'){
-     const tool=action.type.slice(3);this.status='playing';this.tools[tool]++;ok=this[tool]();
+    else if(['undo','stash','shuffle'].includes(action.type))ok=this[action.type]();
+    else if(action.type.startsWith('ad-')){
+     ok=this.applyRewardedRescue(action.type.slice(3),this.levelId+'/replay-'+this.rescueCount);
     }
     if(!ok)return false;this.tick(.3);this.tick(120);this.drainEvents();
    }
@@ -185,39 +191,25 @@
    const e=this.fork();e.paused=false;e.tick(120);
    try{
     const m=Search.model({nodes:e.nodes,recipes:e.recipes,orderPlan:e.orderPlan,capacity:e.config.capacity});
-    const result=Search.solve(m,Search.initial(m,e),options);
+    const result=Search.solve(m,Search.initial(m,e),Object.assign({},options,{shuffle:!e.toolUsed.shuffle&&((options?.tools&&e.tools.shuffle>0)||options?.ads>0)}));
     if(result.status==='solved'&&!e.replayActions(result.actions))return{status:'unknown',visited:result.visited,actions:[],reason:'timed-replay'};
     return result;
    }catch(_){return{status:'unknown',visited:0,actions:[],reason:'unsupported-state'};}
   }
-  rescueOptions(maxNodes,futureAds){
-   if(!['playing','failed'].includes(this.status)||this.rescueCount>=this.rescueLimit||!this.buffer.length||this.incoming.length)return[];
-   const result=[];
-   for(const tool of ['stash','undo']){
-    if(tool==='stash'&&this.stashItems.length>=2)continue;
-    const e=this.fork();e.paused=false;e.status='playing';e.tools[tool]++;
-    if(!e[tool]())continue;
-    let check=e.continuation({tools:true,maxNodes:maxNodes||4000});
-    const extra=futureAds===undefined?this.rescueLimit-this.rescueCount-1:futureAds;
-    if(check.status!=='solved'&&extra>0)check=e.continuation({tools:true,ads:extra,maxNodes:maxNodes||4000});
-    if(check.status==='solved')result.push({tool,moreAds:check.actions.filter(a=>a.type.startsWith('ad-')).length});
-   }
-   return result.sort((a,b)=>a.moreAds-b.moreAds);
+  rescueOptions(){
+   if(this.rescueCount>=this.rescueLimit)return[];
+   return ['stash','undo','shuffle'].filter(tool=>this.canUseTool(tool)).map(tool=>({tool}));
   }
   applyRewardedRescue(tool,rewardId){
    if(typeof rewardId!=='string'||!rewardId.startsWith(this.levelId+'/')||this.rescueRewardIds.has(rewardId)||!this.rescueOptions().some(o=>o.tool===tool))return false;
-   const paused=this.paused;this.paused=false;this.status='playing';this.tools[tool]++;
+   const paused=this.paused;this.paused=false;this.tools[tool]++;
    const ok=this[tool]();this.paused=paused;
-   if(!ok)return false;this.rescueRewardIds.add(rewardId);this.rescueCount++;
-   this._emit('rewardedRescue',{tool,rewardId,count:this.rescueCount});
-   const next=this.continuation({tools:true,ads:this.rescueLimit-this.rescueCount,maxNodes:4000}),live=this.fork();live.paused=false;
-   const advice=next.status==='solved'&&live.replayActions(next.actions)?next.actions[0]:null;
-   if(advice){this._emit('rescueSuggestedAction',{action:advice});if(advice.type==='pick')this._emit('hintShown',{tileId:advice.id,verified:true,rescue:true});}
-   return true;
+   if(!ok){this.tools[tool]--;return false;}this.rescueRewardIds.add(rewardId);this.rescueCount++;
+   this._emit('rewardedRescue',{tool,rewardId,count:this.rescueCount});return true;
   }
   pause(value){this.paused=value!==false;}
   drainEvents(){const all=this.events;this.events=[];return all;}
-  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,orderCursors:this.orderCursors,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems,rescueCount:this.rescueCount});}
+  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,orderCursors:this.orderCursors,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems,rescueCount:this.rescueCount,toolUsed:this.toolUsed});}
  }
  return{Engine,DEFAULTS,subset,overlap};
 });

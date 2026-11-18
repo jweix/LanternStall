@@ -17,7 +17,7 @@
     if (buffer.concat(stash).some(i => i < 0)) throw Error('Search cannot model injected ingredients.');
     return { removed: m.tiles.reduce((bits, t, i) => t.removed ? bits | m.bits[i] : bits, 0n), buffer, stash,
       cursors: engine ? engine.orders.map((o, i) => o.recipe ? engine.orderCursors[i] - 1 : m.lanes[i].length) : [0, 0, 0],
-      tools: engine ? [engine.tools.undo, engine.tools.stash] : [0, 0], ads: 0 };
+      tools: engine ? [engine.tools.undo, engine.tools.stash] : [0, 0], used: engine ? [engine.toolUsed.undo, engine.toolUsed.stash] : [false,false], ads: 0 };
   }
   function consume(m, s) {
     let changed = true;
@@ -32,7 +32,7 @@
     }
     return s;
   }
-  const clone = s => ({ removed: s.removed, buffer: s.buffer.slice(), stash: s.stash.slice(), cursors: s.cursors.slice(), tools: s.tools.slice(), ads: s.ads });
+  const clone = s => ({ removed: s.removed, buffer: s.buffer.slice(), stash: s.stash.slice(), cursors: s.cursors.slice(), tools: s.tools.slice(), used: s.used.slice(), ads: s.ads });
   const won = (m, s) => s.removed === m.full && !s.buffer.length && !s.stash.length && m.lanes.every((lane, i) => s.cursors[i] === lane.length);
   const available = (m, s, i) => !(s.removed & m.bits[i]) && m.parents[i].every(p => s.removed & m.bits[p]);
   function actions(m, s, useTools) {
@@ -40,13 +40,12 @@
     if (s.buffer.length < m.capacity) {
       for (let i = 0; i < m.tiles.length; i++) if (available(m, s, i)) list.push({ type: 'pick', id: m.tiles[i].id, index: i });
       s.stash.forEach((_, index) => list.push({ type: 'return', index }));
-      if (useTools && s.buffer.length && s.tools[0]) list.push({ type: 'undo' });
-      if (useTools && s.buffer.length && s.tools[1] && s.stash.length < 2) list.push({ type: 'stash' });
     }
-    // Ordinary tools cannot run after failure. A completed rewarded rescue can.
+    if (useTools && !s.used[0] && s.buffer.length && s.tools[0]) list.push({type:'undo'});
+    if (useTools && !s.used[1] && s.buffer.length>=3 && s.tools[1] && !s.stash.length) list.push({type:'stash'});
     if (s.ads > 0 && s.buffer.length) {
-      list.push({ type: 'ad-undo' });
-      if (s.stash.length < 2) list.push({ type: 'ad-stash' });
+      if (!s.used[0]) list.push({ type: 'ad-undo' });
+      if (!s.used[1] && s.buffer.length >= 3 && !s.stash.length) list.push({ type: 'ad-stash' });
     }
     return list;
   }
@@ -55,10 +54,10 @@
     if (type === 'pick') { s.removed |= m.bits[action.index]; s.buffer.push(action.index); consume(m, s); }
     else if (type === 'return') { s.buffer.push(s.stash.splice(action.index, 1)[0]); consume(m, s); }
     else if (type === 'undo' || type === 'ad-undo') {
-      s.removed &= ~m.bits[s.buffer.pop()];
+      s.removed &= ~m.bits[s.buffer.pop()];s.used[0]=true;
       if (type === 'undo') s.tools[0]--; else s.ads--;
     } else if (type === 'stash' || type === 'ad-stash') {
-      s.stash.push(s.buffer.pop());
+      s.stash.push(...s.buffer.splice(0, 3));s.used[1]=true;
       if (type === 'stash') s.tools[1]--; else s.ads--;
     } else throw Error('Unknown search action.');
     return s;
@@ -80,7 +79,7 @@
     function search(s) {
       if (won(m, s)) return true;
       if (++visited > budget) { exhausted = true; return false; }
-      const key = [s.removed.toString(16), s.cursors, s.buffer, s.stash, opts.tools ? s.tools : '', s.ads].join('|');
+      const key = [s.removed.toString(16), s.cursors, s.buffer, s.stash, opts.tools ? s.tools : '', s.used, s.ads].join('|');
       if (seen.has(key)) return false;
       const choices = actions(m, s, !!opts.tools).sort((a, b) => score(m, s, b) - score(m, s, a));
       for (const action of choices) {
@@ -91,7 +90,7 @@
       seen.add(key); return false;
     }
     const solved = search(root);
-    return { status: solved ? 'solved' : exhausted ? 'unknown' : 'unsolvable', visited, actions: solved ? path.slice() : [] };
+    return { status: solved ? 'solved' : exhausted || opts.shuffle ? 'unknown' : 'unsolvable', visited, actions: solved ? path.slice() : [] };
   }
   return { model, initial, consume, clone, won, available, actions, apply, score, solve };
 });

@@ -112,7 +112,7 @@ stock.orderPlan = null; // Exercise the inventory-filtered fallback refresh path
 assert.equal(stock._hasStock(recipes.find(r => r.id === 'd09')), false);
 assert.equal(stock._order(0).recipe, null);
 assert.equal(stock.status, 'playing');
-stock.selectTile('ear'); stock.tick(.3); assert(stock.stash());
+stock.selectTile('ear'); stock.putIngredient('celery'); stock.putIngredient('carrot'); stock.tick(.3); assert(stock.stash());
 stock.putIngredient('egg'); assert.equal(stock._hasStock(recipes.find(r => r.id === 'd09')), true);
 stock.tick(.3); assert.equal(stock._hasStock(recipes.find(r => r.id === 'd09')), true);
 assert.equal(stock.orders[0].recipe.id, 'd09');
@@ -269,11 +269,12 @@ assert(drawing.checks.every(c => c.alpha === 1));
 assert(!drawing.shapes.some(d => d.color === '#ae733d40'), 'Collecting cards have no cloche');
 assert(drawing.labels.some(t => t.value === '1/3' && t.alpha === 1));
 const buttons = require('../shared/data/game-ui.js').buttons;
-for (const [id, rect] of Object.entries(buttons).filter(([id]) => ['sound', 'settings', 'undo', 'stash', 'hint'].includes(id))) {
+for (const [id, rect] of Object.entries(buttons).filter(([id]) => ['sound', 'settings'].includes(id))) {
   const draw = drawing.draws.find(d => d.id === 'button-' + id);
   near(draw.x, rect[0] + rect[2] / 2); near(draw.y, rect[1] + rect[3] / 2);
   near(draw.w, rect[2]); near(draw.h, rect[3]);
 }
+for(const [id,texture] of [['undo','button-undo'],['stash','button-move'],['shuffle','button-shuffle']]){const r=buttons[id],d=drawing.draws.find(d=>d.id===texture);assert(d,'Tool artwork '+texture);near(d.x,r[0]+r[2]/2);near(d.y,r[1]+r[3]/2);near(d.w,r[2]);near(d.h,r[3]);assert.equal(d.alpha,1);}
 assert.equal(drawing.draws.filter(d => d.id === 'scene').length, 1);
 assert.equal(buttons.stored[0][1] > 1331 && buttons.stored[0][1] + buttons.stored[0][3] < 1398, true, 'Stash retrieval stays between board and tray');
 visual.engine.putIngredient('wood_ear'); visual.engine.putIngredient('egg'); visual.collectEvents(); visual.advance(.3); visual.advance(.16);
@@ -320,9 +321,12 @@ assert.deepEqual(prep.engine.buffer.map(i => i.food), ['celery', 'carrot']);
 const prepDraws = record(prep.view()).draws;
 near(prepDraws.find(d => d.id === 'celery' && d.y > 1398).x, M.prepSlot(0).cx);
 near(prepDraws.find(d => d.id === 'carrot' && d.y > 1398).x, M.prepSlot(1).cx);
-prep.pointer({ x: 464, y: 1570 }); // Stash carrot; existing cells stay packed.
-put(prep, ['pepper']);
-prep.pointer({ x: 402, y: 1356 }); // Returned carrot precedes in-flight pepper.
+put(prep, ['wood_ear']); prep.advance(.3);
+prep.pointer({ x: 464, y: 1570 }); // Move the first three ingredients aside.
+assert.equal(prep.engine.stashItems.length,3);
+prep.pointer({ x: 350, y: 1356 });
+prep.pointer({ x: 350, y: 1356 });
+put(prep, ['pepper']); // Two returned items precede in-flight pepper.
 aligned(prep);
 assert.deepEqual(prep.engine.buffer.map(i => i.food), ['celery', 'carrot']);
 prep.advance(.3); aligned(prep);

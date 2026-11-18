@@ -15,6 +15,7 @@
     "levels:replay": "node scripts/replay-level.cjs",
     "test:levels": "node tests/verify-levels.cjs && node tests/verify-level-tools.cjs && node tests/verify-level-ui.cjs",
     "test:levels:full": "node tests/verify-levels.cjs --full && node tests/verify-level-tools.cjs && node tests/verify-level-ui.cjs",
-    "test:levels:ui": "node tests/verify-level-ui.cjs"
+    "test:levels:ui": "node tests/verify-level-ui.cjs",
+    "test:difficulty": "node scripts/generate-levels.cjs --levels 1:100 --candidates 1 --trials 64 --check --out reports/levels/difficulty-check.json"
   }
 }

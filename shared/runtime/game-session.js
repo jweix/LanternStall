@@ -36,7 +36,7 @@
     }
     setPanel(panel) {
       this.panel = panel;
-      this.engine.pause(this.hidden || !!panel);
+      this.engine.pause(this.hidden || !!panel || this.adPending);
       this.lastFrame = null;
     }
     say(text) { this.toast = { text, until: this.engine.now + 1.8 }; }
@@ -70,7 +70,7 @@
           this.alignPrep();
         }
         this.effects.push({ event, born: event.time, origins });
-        if (event.type === 'levelFailed' && this.options.rewardedRescue && this.options.rewardedRescue.available?.() !== false) this.rescueOffer = this.engine.rescueOptions()[0] || null;
+        if (event.type === 'levelFailed') this.rescueOffer = this.engine.rescueOptions().map(o=>({...o,free:this.engine.tools[o.tool]>0})).find(o=>o.free||(this.options.rewardedRescue&&this.options.rewardedRescue.available?.()!==false)) || null;
         if (event.type === 'levelWon') {
           this.wonAt = event.time;
           if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, completedLevel: this.level,
@@ -130,12 +130,13 @@
           this.collectEvents(); return true;
         }
       }
-      for (const tool of ['undo', 'stash', 'hint']) {
+      for (const tool of ['undo', 'stash', 'shuffle']) {
         if (inside(p, buttons[tool])) {
           if (!e[tool]()) {
-            if (tool !== 'hint' && this.options.rewardedRescue && e.rescueOptions().some(o => o.tool === tool)) {
+            if (!e.canUseTool(tool)) this.say(e.toolUsed[tool]?'这个道具本局已使用':tool==='stash'?'需至少三份备菜，移出后可逐张取回':tool==='shuffle'?'需空出备菜格，且牌面可重新排列':'等待食材入槽后再撤回');
+            else if (this.options.rewardedRescue && this.options.rewardedRescue.available?.()!==false) {
               this.rescueOffer = { tool }; this.requestRescue();
-            } else this.say(tool === 'hint' ? '暂时没有可提示的食材' : '当前无法使用这个道具');
+            } else this.say('激励视频暂不可用，请稍后再试');
           }
           this.collectEvents(); return true;
         }
@@ -149,7 +150,9 @@
       return selected.ok;
     }
     async requestRescue() {
-      if (!this.options.rewardedRescue || !this.rescueOffer || this.adPending) return false;
+      if (!this.rescueOffer || this.adPending) return false;
+      if(this.rescueOffer.free){const ok=this.engine[this.rescueOffer.tool]();this.rescueOffer=null;this.collectEvents();return ok;}
+      if (!this.options.rewardedRescue || this.options.rewardedRescue.available?.()===false)return false;
       const engine = this.engine, request = ++this.requestSequence, tool = this.rescueOffer.tool;
       this.adPending = true; engine.pause(true); this.lastFrame = null;
       try {
@@ -158,8 +161,6 @@
         if (completed !== true || !engine.applyRewardedRescue(tool, engine.levelId + '/' + request)) {
           this.say('视频未完成，仍可免费再试'); return false;
         }
-        const advice=engine.events.find(e=>e.type==='rescueSuggestedAction');
-        if(advice&&advice.action.type!=='pick')this.say(advice.action.index!==undefined?'先取回暂存食材再继续':'可点撤回或暂存继续整理');
         this.rescueOffer = null; this.collectEvents(); return true;
       } catch (_) {
         if (!this.disposed && this.engine === engine) this.say('视频暂不可用，仍可免费再试');

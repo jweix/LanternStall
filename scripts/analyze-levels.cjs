@@ -4,9 +4,10 @@ const options = C.args(process.argv.slice(2));
 const levels = C.range(options.levels || '1:' + (options.positionals?.[0] || 60));
 const trials = C.integer(options.trials || options.positionals?.[1], 16, 1, 1000);
 const policies = String(options.policies || (options.suite === 'full' ? 'random,greedy,unlock,lookahead' : 'random,greedy,unlock')).split(',');
-const budgets = options.tools || options.suite === 'full' ? ['none', 'free', 'ad1', 'ad2'] : ['none'];
+const budgets = options.tools || options.suite === 'full' ? ['none', 'free', 'ad1', 'ad2', 'ad3'] : ['none'];
+const policySeedOffset=C.integer(options['policy-seed-offset'],0,0,0xffffffff);
 const out = C.path.resolve(options.out || 'reports/levels/analysis.json');
-const report = { ...C.metadata(), trialsPerBoard: trials, policies, budgets, boards: [], summary: [] };
+const report = { ...C.metadata(), trialsPerBoard: trials, policySeedOffset, policies, budgets, boards: [], summary: [] };
 for (const level of levels) {
   const start = performance.now(), config = C.configFor(level), row = { level, seed: config.seed, contentId: config.contentId,
     difficulty: config.difficulty, shape: config.shape, ...config.metrics, scores: [] };
@@ -14,11 +15,11 @@ for (const level of levels) {
     let wins = 0, ads = 0, unknown = 0, removed = 0;
     const failures = [];
     for (let trial = 1; trial <= trials; trial++) {
-      const result = C.probe(config, policy, trial * 997, budget);
+      const result = C.probe(config, policy, (policySeedOffset + trial * 997) >>> 0, budget);
       wins += Number(result.won); ads += result.used.ads; unknown += Number(result.unknownRescue); removed += result.removed;
       if (!result.won && failures.length < 1 && options.cases) {
         const file = C.path.join(C.path.dirname(out), 'cases', level + '-' + policy + '-' + budget + '.json');
-        C.save(file, { ...C.metadata(), config, policy, policySeed: trial * 997, budget, result }); failures.push(file);
+        C.save(file, { ...C.metadata(), config, policy, policySeed: (policySeedOffset + trial * 997) >>> 0, budget, result }); failures.push(file);
       }
     }
     row.scores.push({ policy, budget, winRate: wins / trials, adsMean: ads / trials, unknownRescues: unknown,

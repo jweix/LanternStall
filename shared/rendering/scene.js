@@ -200,9 +200,9 @@
     function hud(view) {
       const s = view.state, bump = view.reducedMotion ? 1 : M.hud(age(view, 'dishServed'));
       c.save(); c.translate(464, 189); c.scale(bump, bump); c.translate(-464, -189); ui.renderIncome(s.revenue); c.restore();
-      for (const id of ['sound', 'settings', 'undo', 'stash', 'hint']) {
+      for (const id of ['sound', 'settings', 'undo', 'stash', 'shuffle']) {
         const [x, y, w, h] = UI.buttons[id], rect = { id, x, y, w, h, r: id === 'sound' || id === 'settings' ? 22 : 26 };
-        if (id === 'sound' || id === 'settings') ui.originalTextureButton(rect); else ui.toolButton(rect, s.tools[id]);
+        if (id === 'sound' || id === 'settings') ui.originalTextureButton(rect); else ui.toolButton(rect, s.toolUsed[id]?'已用':s.tools[id]>0?'×1':'视频');
       }
     }
     function decorations() {
@@ -244,7 +244,7 @@
       const receipt=won&&view.saveError?'存档未成功，点按钮重试结算':Number.isFinite(view.wallet)?'钱包累计 '+view.wallet.toLocaleString():'';
       ui.victory(s.revenue, elapsed, { skipDim: true, won, receipt,
         message: won ? '要继续挑战下一关吗？' : '留意配方，给备菜栏留点空位',
-        primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : view.rescueOffer ? view.adPending ? '视频加载中…' : view.rescueOffer.tool === 'stash' ? '看视频暂存一份' : '看视频撤回一步' : '再试一次',
+        primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : view.rescueOffer ? view.adPending ? '视频加载中…' : view.rescueOffer.free ? view.rescueOffer.tool === 'stash' ? '移出三张继续' : '撤回一步继续' : view.rescueOffer.tool === 'stash' ? '看视频移出三张' : '看视频撤回一步' : '再试一次',
         restLabel: view.homeEnabled ? '回小摊看看' : '先休息一下' });
       if (!won && view.rescueOffer) text('免费再试', 464, 1192, 31, '#805332');
       c.restore();

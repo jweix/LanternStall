@@ -39,6 +39,16 @@ function walk(dir) {
 walk(path.join(root, 'game')); assert(bytes < 4 * 1024 * 1024);
 console.log('PASS self-contained WeChat package, AppID, identical web/WeChat images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
 
+const sourceLevels=require('../shared/core/levels.js'),nativeLevels=require('../platforms/wechat/game/shared/core/levels.js');
+const expectedNativeData=JSON.parse(JSON.stringify(require('../shared/data/level-config.js'),(key,value)=>['greedyTarget','lookaheadTarget','toolTarget'].includes(key)?undefined:value));
+assert.deepEqual(require('../platforms/wechat/game/shared/data/level-config.js'),expectedNativeData,'Menu pooling preserves the full native catalog');
+for(const n of [1,18,64]){
+ const recipes=require('../shared/data/recipes.json'),layout=require('../shared/data/layout.json');
+ const source=sourceLevels.createLevel(recipes,layout,n),native=nativeLevels.createLevel(recipes,layout,n);
+ assert.deepEqual(native.tiles,source.tiles);assert.deepEqual(native.solution,source.solution);assert.equal(native.contentId,source.contentId,'Offline target stripping cannot change native content identity');
+}
+console.log('PASS native/web level geometry, ingredients, witness and content identity agree');
+
 const { createPlatform } = require('../platforms/wechat/src/platform.js');
 const partial = createPlatform({
   getWindowInfo: () => ({ windowWidth: 390, windowHeight: 844, pixelRatio: 3,
@@ -131,7 +141,8 @@ setImmediate(() => {
   handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + (require('../shared/data/game-ui.js').buttons.resume[1]+49) * view.scale }] });
   labels = []; frame(48); assert(!labels.includes('设置'));
   const level = require('../shared/core/levels.js').createLevel(require('../shared/data/recipes.json'), require('../shared/data/layout.json'), 1);
-  const tomato = level.tiles.find(n => n.food === 'tomato');
+  const preview = new (require('../shared/core/game-core.js').Engine)(level);
+  const tomato = level.tiles.find(n => n.food === 'tomato' && preview.available(n.id));
   handlers.touch({ touches: [{ x: view.x + tomato.x * view.scale, y: view.y + tomato.y * view.scale }] });
   frame(148); frame(248); frame(348);
   labels = []; imageDraws = []; checks = []; frame(448);

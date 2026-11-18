@@ -57,7 +57,7 @@
           add('回小摊看看', g.rescueOffer ? buttons.rescueHome : layout.result.restButton);
         } else if (g.state.status === 'playing') {
           add('暂停设置', buttons.settings);
-          for (const [key, title] of [['undo', '撤回'], ['stash', '暂存'], ['hint', '提示']]) add(title, buttons[key]);
+          for (const [key, title] of [['undo', '撤回'], ['stash', '移出三张'], ['shuffle', '洗牌']]) add(title, buttons[key]);
           g.state.stashItems.forEach((item, i) => add('取回' + ingredients.find(f => f.id === item.food).name, buttons.stored[i]));
           for (const tile of app.session.engine.nodes.filter(n => app.session.engine.available(n.id))) {
             list.push({ label: ingredients.find(i => i.id === tile.food).name + ' · ' + tile.id, rect: [tile.x - tile.w / 2, tile.y - tile.h / 2, tile.w, tile.h] });

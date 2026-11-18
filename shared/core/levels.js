@@ -5,8 +5,8 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Geometry, Data) {
   'use strict';
   const PROFILES = Data.profiles, LIMITS = Data.limits;
-  if (Data.version !== 3 || Data.levels.some((d, i) => d.level !== i + 1)) throw Error('Configured levels must be contiguous, starting at level 1.');
-  for (const [key, max] of [['maxDishes',24],['maxRecipes',6],['maxIngredients',72],['maxLayers',5]])
+  if (Data.version !== 4 || Data.levels.some((d, i) => d.level !== i + 1)) throw Error('Configured levels must be contiguous, starting at level 1.');
+  for (const [key, max] of [['maxDishes',24],['maxRecipes',6],['maxIngredients',72],['maxLayers',8]])
     if (!Number.isInteger(LIMITS[key]) || LIMITS[key] < 1 || LIMITS[key] > max) throw Error('Unsupported level limit: ' + key);
   const copy = value => JSON.parse(JSON.stringify(value));
   function random(seed) {
@@ -162,6 +162,22 @@
     if (engine.status !== 'won') throw Error('Generated route did not serve all planned dishes.');
     return { peak, revenue: engine.revenue };
   }
+  function verifyBurst(config) {
+    for(const interval of [.01,.05,.1]){
+      const e=new Core.Engine(config);let cursor=0,guard=0;
+      while(cursor<config.solution.length&&e.status==='playing'&&guard++<10000){
+        if(e.selectTile(config.solution[cursor]).ok){cursor++;e.tick(interval);}
+        else{
+          // No selection is possible while full. Skip empty input frames on the
+          // same interval grid, retaining every intervening engine deadline.
+          const due=Math.min(Infinity,...e.incoming.map(i=>i.arriveAt),...e.orders.filter(o=>o.replaceAt!==null).map(o=>o.replaceAt));
+          if(!Number.isFinite(due))throw Error('Continuous input route deadlocked.');
+          e.tick(Math.max(1,Math.ceil((due-e.now)/interval-1e-8))*interval);
+        }
+      }
+      e.tick(120);if(cursor!==config.tiles.length||e.status!=='won')throw Error('Continuous input route diverged.');
+    }
+  }
   function createLevel(recipes, layout, number, options) {
     const level = Math.max(1, Math.floor(Number(number) || 1));
     if (!Number.isSafeInteger(level)) throw Error('Invalid level number.');
@@ -172,16 +188,25 @@
     if (definition.layers > LIMITS.maxLayers) throw Error('Configured layers exceed the global limit.');
     const plan = createDishPlan(recipes, definition);
     const tiles = Geometry.create(layout, definition.shape, plan.total, definition.layers, seed);
-    const sequence = createFoodSequence(plan, profile, random(seed ^ 0x9e3779b9));
-    const placed = placeFoods(tiles, sequence, random(seed ^ 0x85ebca6b));
+    let sequence, placed, verified, attempts=0, lastError;
+    for(;attempts<24;attempts++){
+      try{
+        const salt=Math.imul(attempts,0x27d4eb2d);
+        sequence=createFoodSequence(plan,profile,random(seed^0x9e3779b9^salt));
+        placed=placeFoods(tiles,sequence,random(seed^0x85ebca6b^salt));
+        const check={level,recipes:plan.pool,tiles,orderPlan:plan.orderPlan,solution:placed.solution};
+        verified=verifySolution(check);verifyBurst(check);break;
+      }catch(error){lastError=error;}
+    }
+    if(attempts===24)throw lastError;
     let hash = 2166136261;
-    for (const ch of JSON.stringify([definition, plan.pool, layout.board])) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
-    const config = { level, seed, generatorVersion: 3, contentId: 'v3-' + level + '-' + hash.toString(16) + '-' + seed,
+    for (const ch of JSON.stringify([definition, plan.pool, layout.board],(key,value)=>['greedyTarget','lookaheadTarget','toolTarget'].includes(key)?undefined:value)) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
+    const config = { level, seed, generatorVersion: 4, contentId: 'v4-' + level + '-' + hash.toString(16) + '-' + seed,
       difficulty: profile.id, difficultyName: profile.name, shape: definition.shape, shapeName: Geometry.templates[definition.shape].name,
-      rescueLimit: LIMITS.rescueAdsPerRun, recipes: copy(plan.pool), tiles, orderPlan: plan.orderPlan, solution: placed.solution, dishPlan: plan.dishes,
+      tools: {undo:0,stash:0,shuffle:0}, rescueLimit: LIMITS.rescueAdsPerRun, recipes: copy(plan.pool), tiles, orderPlan: plan.orderPlan, solution: placed.solution, dishPlan: plan.dishes,
       ingredientCounts: plan.ingredients, definition };
-    const verified = verifySolution(config);
-    config.metrics = { totalDishes: plan.totalDishes, tileCount: plan.total, layerCount: definition.layers,
+
+    config.metrics = { generationAttempts:attempts+1, totalDishes: plan.totalDishes, tileCount: plan.total, layerCount: definition.layers,
       witnessPeak: verified.peak, witnessMean: sequence.pressure.reduce((a, b) => a + b, 0) / plan.total,
       blockerCount: placed.blockerCount, recipeTypes: plan.pool.length, ingredientTypes: Object.keys(plan.ingredients).length,
       dominantIngredientCount: Math.max(...Object.values(plan.ingredients)), openingCount: placed.openingCount,

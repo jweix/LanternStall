@@ -41,7 +41,8 @@
       23
     ],
     "lowerOffsetX": 32,
-    "lowerOffsetY": -24
+    "lowerOffsetY": -24,
+    "area": { "left": 55, "top": 536, "width": 818, "height": 791 }
   },
   "prep": {
     "left": 55,

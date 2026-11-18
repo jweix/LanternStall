@@ -52,8 +52,9 @@
         if (g.panel) {
           add('动效',buttons.reduced,{role:'switch',checked:!g.reducedMotion});add(g.panel==='rest'&&g.state.status!=='playing'?'查看本关结果':'继续营业',buttons.resume);add('重新开摊',buttons.restart);if(g.homeEnabled)add('返回首页',buttons.home);
         } else if (g.resultReady) {
-          if (!list.some(h => h.rect[1] === layout.result.nextButton[1])) add(g.state.status === 'won' ? '下一关' : '再试一次', layout.result.nextButton);
-          add('回小摊看看', layout.result.restButton);
+          if (!list.some(h => h.rect[1] === layout.result.nextButton[1])) add(g.state.status === 'won' ? '下一关' : g.rescueOffer ? '看视频继续备菜' : '再试一次', layout.result.nextButton);
+          if (g.rescueOffer) add('免费再试', buttons.rescueRetry);
+          add('回小摊看看', g.rescueOffer ? buttons.rescueHome : layout.result.restButton);
         } else if (g.state.status === 'playing') {
           add('暂停设置', buttons.settings);
           for (const [key, title] of [['undo', '撤回'], ['stash', '暂存'], ['hint', '提示']]) add(title, buttons[key]);

@@ -11,12 +11,17 @@ module.exports = function buildMiniGame(name, label, options = {}) {
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(out, { recursive: true });
   for (const dir of ['core', 'runtime', 'rendering']) {
-    fs.cpSync(path.join(root, 'shared', dir), path.join(out, 'shared', dir), { recursive: true });
+    fs.cpSync(path.join(root, 'shared', dir), path.join(out, 'shared', dir), {
+      recursive: true, filter: file => !file.endsWith('.example.js')
+    });
   }
   const dataOut = path.join(out, 'shared/data');
   fs.mkdirSync(dataOut, { recursive: true });
   for (const name of fs.readdirSync(path.join(root, 'shared/data')).filter(n => n.endsWith('.js'))) {
-    fs.copyFileSync(path.join(root, 'shared/data', name), path.join(dataOut, name));
+    const source = path.join(root, 'shared/data', name);
+    if (['level-config.js', 'board-templates.js'].includes(name))
+      fs.writeFileSync(path.join(dataOut, name), 'module.exports=' + JSON.stringify(require(source)) + ';\n');
+    else fs.copyFileSync(source, path.join(dataOut, name));
   }
   for (const name of ['recipes', 'ingredients', 'layout']) {
     const data = JSON.parse(fs.readFileSync(path.join(root, 'shared/data', name + '.json'), 'utf8'));

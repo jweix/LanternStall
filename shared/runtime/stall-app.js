@@ -19,8 +19,10 @@
         this.settlement = null; this.pending = null; return true;
       };
       if (!begin(level)) return;
+      if (this.session) this.session.dispose();
       let initial = true; this.sandbox = !!sandbox;
       this.session = new Game.Session({ recipes: this.options.recipes, layout: this.options.layout, level,
+        rewardedRescue: this.options.rewardedRescue,
         reducedMotion: this.profile.state.reducedMotion,
         onStart: n => { if (initial) { initial = false; return true; } return begin(n); },
         onSettings: v => { if (!this.profile.settings(v.reducedMotion)) { this.session.reducedMotion = this.profile.state.reducedMotion; this.say(this.profile.error); } },
@@ -40,6 +42,7 @@
     home(confirm) {
       if (this.session?.engine.status === 'playing' && !confirm) { this.session.setPanel('pause'); this.modal = { type: 'leave' }; return; }
       if (!this.credit()) return;
+      if (this.session) this.session.dispose();
       this.session = null; this.screen = 'home'; this.tab = 'home'; this.page = 0; this.modal = null; this.preview=null;this.previewFamily=null;this.selection=null;this.hits = [];
       if (this.settlement?.first && this.profile.state.cleared.length === 1 && !this.profile.state.tutorialDone) this.modal = { type: 'first' };
     }
@@ -89,6 +92,7 @@
     pointerCancel() { this.gesture=null; }
     pointer(point) {
       if (this.hidden) return false;
+      if (this.session?.adPending) return true;
       const hit = this.hits.slice().reverse().find(h => point.x >= h.rect[0] && point.y >= h.rect[1] && point.x <= h.rect[0] + h.rect[2] && point.y <= h.rect[1] + h.rect[3]);
       if (hit) {
         if (this.screen === 'game' && this.session.engine.status === 'won' && !this.credit()) return true;

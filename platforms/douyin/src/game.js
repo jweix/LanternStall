@@ -1,4 +1,7 @@
 'use strict';
+const { createRewardedRescue } = require('./rewarded-video.js');
+const adConfig = require('./ad-config.js');
+const rewardedRescue = createRewardedRescue(tt, adConfig.rewardedRescueUnitId);
 const { createPlatform, createSidebar } = require('./platform.js');
 const sidebar = createSidebar(tt);
 let hidden = false, app = null, lifecycleReady = false;
@@ -76,7 +79,7 @@ function start() {
   loadingAssets = true; loadFailed = false; lastStatus = '正在准备夜市食材…'; loading();
   platform.loadImages(index).then(images => {
     renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets: index, ...platform.loadLobbyFonts() });
-    app = new App({ recipes, layout, data: platform.read('lantern-stall-v2', null),
+    app = new App({ recipes, layout, rewardedRescue, data: platform.read('lantern-stall-v2', null),
       legacy: platform.read('lantern-progress-v1', { level: 1 }), settings: platform.read('lantern-settings-v1', {}),
       save: value => platform.write('lantern-stall-v2', value), sidebar });
     app.setHidden(hidden); sidebar.check();

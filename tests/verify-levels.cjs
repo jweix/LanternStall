@@ -1,121 +1,94 @@
 'use strict';
-const assert = require('node:assert/strict');
-const { Engine, subset, overlap } = require('../shared/core/game-core.js');
-const { createLevel, probeLevel, PROFILES } = require('../shared/core/levels.js');
-const recipes = require('../shared/data/recipes.json');
-const layout = require('../shared/data/layout.json');
-const tally = list => list.reduce((counts, id) => { counts[id] = (counts[id] || 0) + 1; return counts; }, {});
-function replay(config, route) {
-  const engine = new Engine(config);
-  let peak = 0;
-  for (const id of route) {
-    assert(engine.available(id));
-    assert(engine.selectTile(id).ok);
-    peak = Math.max(peak, engine.buffer.length + engine.incoming.length);
-    assert(peak <= 7);
-    engine.tick(.3);
-    if (engine.wok || engine.queue.length || engine.deliveries.length) engine.tick(10);
-  }
-  engine.tick(10);
-  return { engine, peak };
+const assert=require('node:assert/strict');
+const C=require('../scripts/level-tools/common.cjs'),Geometry=require('../shared/core/board-geometry.js');
+const original=JSON.stringify({recipes:C.recipes,layout:C.layout,data:C.Data});
+const full=process.argv.includes('--full'),samples=full?10000:400,coverage=new Set(),shapes=new Set(),sizes=new Set();
+const tally=list=>list.reduce((o,k)=>(o[k]=(o[k]||0)+1,o),{});
+function check(config){
+ const expected={},dishes={};
+ config.orderPlan.flat().forEach(id=>{dishes[id]=(dishes[id]||0)+1;for(const f of C.recipes.find(r=>r.id===id).ingredients)expected[f]=(expected[f]||0)+1;coverage.add(id);});
+ assert.deepEqual(config.ingredientCounts,expected);assert.deepEqual(tally(config.tiles.map(t=>t.food)),expected);
+ assert.equal(config.tiles.length,Object.values(expected).reduce((a,b)=>a+b,0));assert.equal(config.solution.length,config.tiles.length);
+ assert.equal(new Set(config.solution).size,config.tiles.length);assert(config.tiles.length<=72);assert(config.metrics.totalDishes<=24);assert(config.recipes.length<=6);
+ assert.equal(config.tiles.length,config.metrics.totalDishes*2+config.metrics.tripleDishes);
+ assert.equal(config.metrics.totalDishes,config.orderPlan.flat().length);
+ assert.equal(config.generatorVersion,3);assert.equal(config.metrics.openingCount,config.tiles.filter((_,i)=>!Geometry.graph(config.tiles)[i].length).length);
+ assert(config.metrics.openingDominantCount<=Math.ceil(config.metrics.openingCount*.3));
+ if(config.tiles.length>=20)assert(config.metrics.dominantIngredientCount<=Math.ceil(config.tiles.length*.2));
+ const area=C.layout.board.area;
+ for(const t of config.tiles){assert(t.x-t.w/2>=area.left);assert(t.x+t.w/2<=area.left+area.width);assert(t.y-t.h/2>=area.top);assert(t.y+t.h/2<=area.top+area.height);}
+ for(let a=0;a<config.tiles.length;a++)for(let b=a+1;b<config.tiles.length;b++)if(config.tiles[a].layer===config.tiles[b].layer)assert(!Geometry.overlap(config.tiles[a],config.tiles[b]));
+ const engine=new C.Engine(config);let peak=0;
+ for(const id of config.solution){assert(engine.available(id));assert(engine.selectTile(id).ok);peak=Math.max(peak,engine.buffer.length+engine.incoming.length);assert(peak<=7);C.settle(engine);}
+ engine.tick(120);assert.equal(engine.status,'won');assert.equal(peak,config.metrics.witnessPeak);
+ assert.deepEqual(tally(engine.jobs.map(j=>j.recipeId)),dishes);assert(engine.jobs.every(j=>j.state==='served'));
+ assert.equal(new Set(engine.jobs.flatMap(j=>j.items.map(i=>i.id))).size,config.tiles.length);
+ const revenue=config.orderPlan.flat().reduce((n,id)=>n+C.recipes.find(r=>r.id===id).payout,0);
+ assert.equal(engine.revenue,revenue);assert.equal(config.metrics.expectedRevenue,revenue);
+ assert.deepEqual(engine.tools,{undo:1,stash:2,hint:1});assert.equal(engine.buffer.length+engine.incoming.length+engine.stashItems.length,0);
+ shapes.add(config.shape);sizes.add(config.tiles.length);
 }
-const initialData = JSON.stringify({ recipes, layout });
-const coverage = new Set();
-for (const profile of PROFILES) {
-  for (let level = 1; level <= 100; level++) {
-    const options = { difficulty: profile.id, seed: level * 137 };
-    const config = createLevel(recipes, layout, level, options);
-    assert.deepEqual(config, createLevel(recipes, layout, level, options));
-    assert.equal(config.recipes.length, profile.recipeCount);
-    assert.equal(config.tiles.length, 40);
-    assert.equal(config.tiles.filter(t => t.layer === 1).length, 25);
-    assert.equal(config.tiles.filter(t => t.layer === 0).length, 15);
-    assert.equal(new Set(config.tiles.map(t => t.id)).size, 40);
-    assert.equal(new Set(config.solution).size, 40);
-    const plannedIngredients = {}, plannedDishes = {};
-    for (const dish of config.dishPlan) {
-      coverage.add(dish.recipeId);
-      plannedDishes[dish.recipeId] = dish.quantity;
-      const recipe = recipes.find(r => r.id === dish.recipeId);
-      for (const food of recipe.ingredients) plannedIngredients[food] = (plannedIngredients[food] || 0) + dish.quantity;
-      assert.equal(config.orderPlan[dish.slot].filter(id => id === dish.recipeId).length, dish.quantity);
-    }
-    assert.deepEqual(tally(config.orderPlan.flat()), plannedDishes);
-    assert.deepEqual(config.ingredientCounts, plannedIngredients);
-    assert.deepEqual(tally(config.tiles.map(t => t.food)), plannedIngredients);
-    assert.equal(Object.values(plannedIngredients).reduce((a, b) => a + b), 40);
-    // Every future menu is safe against any other table's current menu.
-    for (let a = 0; a < 3; a++) for (let b = a + 1; b < 3; b++) {
-      for (const x of new Set(config.orderPlan[a])) for (const y of new Set(config.orderPlan[b])) {
-        const r = recipes.find(r => r.id === x), s = recipes.find(r => r.id === y);
-        assert(!subset(r.ingredients, s.ingredients) && !subset(s.ingredients, r.ingredients));
-      }
-    }
-    const { engine, peak } = replay(config, config.solution);
-    assert.equal(engine.status, 'won');
-    assert.equal(peak, config.metrics.witnessPeak);
-    assert(peak <= profile.prepLimit);
-    assert.deepEqual(engine.tools, { undo: 1, stash: 2, hint: 1 });
-    assert(engine.nodes.every(n => n.removed));
-    assert.equal(engine.buffer.length + engine.incoming.length + engine.stashItems.length, 0);
-    const served = engine.drainEvents().filter(e => e.type === 'dishServed');
-    assert.deepEqual(tally(served.map(e => e.recipeId)), plannedDishes);
-    const revenue = config.dishPlan.reduce((n, d) => n + d.quantity * recipes.find(r => r.id === d.recipeId).payout, 0);
-    assert.equal(engine.revenue, revenue);
-    assert.equal(config.metrics.expectedRevenue, revenue);
-  }
+for(let i=0;i<samples;i++){
+ const level=i%120+1,options=i<120?{}:{seed:Math.imul(i+1,137)>>>0};
+ const config=C.Levels.createLevel(C.recipes,C.layout,level,options);check(config);
+ if(i<120)assert.deepEqual(config,C.Levels.createLevel(C.recipes,C.layout,level,options));
 }
-assert.equal(coverage.size, 20);
-assert.equal(JSON.stringify({ recipes, layout }), initialData);
-console.log('PASS 400 seeded decks: exact dishes/materials, geometric witness, seven slots, no tools, exact payouts');
+const forty=C.Levels.definitionFor(19);
+const double=forty.orders.flat().find(id=>C.recipes.find(r=>r.id===id).ingredients.length===2),triple=forty.orders.flat().find(id=>C.recipes.find(r=>r.id===id).ingredients.length===3);
+const lane=forty.orders.find(l=>l.includes(double));lane[lane.indexOf(double)]=triple;
+check(C.configFor(19,42,forty));
+assert.equal(coverage.size,20);assert.equal(shapes.size,6);for(const n of [8,11,14,17,40,66,72])assert(sizes.has(n),'Missing card count '+n);
+assert.equal(JSON.stringify({recipes:C.recipes,layout:C.layout,data:C.Data}),original);
+console.log('PASS '+samples+' variable decks: exact configured menus/materials, 8–72 cards, six shapes, 1–5 layers, no-tool witnesses and payouts');
 
-// Check the probe's simplified inventory model against the actual timed engine.
-let comparisons = 0;
-for (const profile of PROFILES) for (let level = 1; level <= 8; level++) {
-  const config = createLevel(recipes, layout, level, { difficulty: profile.id });
-  for (const policy of ['random', 'greedy']) for (const seed of [997, 1994, 2991]) {
-    const result = probeLevel(config, policy, seed), { engine, peak } = replay(config, result.route);
-    assert.equal(engine.status === 'won', result.won);
-    assert.equal(peak, result.peak);
-    comparisons++;
-  }
+// Explore every reachable stable state of the eight-card tutorial; memoize equivalent histories.
+const tutorial=C.configFor(1),seen=new Set();let terminals=0;
+function allTutorial(engine){
+ const key=JSON.stringify([engine.nodes.map(n=>n.removed),engine.buffer.map(i=>i.food).sort(),engine.orderCursors]);
+ if(seen.has(key))return;seen.add(key);assert.notEqual(engine.status,'failed');
+ if(engine.status==='won'){terminals++;return;}
+ for(const tile of engine.nodes.filter(n=>engine.available(n.id))){const next=engine.fork();assert(next.selectTile(tile.id).ok);C.settle(next);allTutorial(next);}
 }
-console.log('PASS ' + comparisons + ' policy traces agree with real cooking, deliveries and menu replacement');
+allTutorial(new C.Engine(tutorial));assert(terminals>0);assert.equal(tutorial.tiles.length,8);assert.equal(tutorial.metrics.totalDishes,4);assert.equal(tutorial.metrics.expectedRevenue,140);
+console.log('PASS tutorial exhaustive stable-state reachability: '+seen.size+' states, every terminal wins');
 
-// Broad, reproducible regression bands; these are bot scores, not human win rates.
-const rates = [], randomRates = [];
-for (const profile of PROFILES) {
-  let wins = 0, randomWins = 0;
-  for (let level = 1; level <= 50; level++) {
-    const config = createLevel(recipes, layout, level, { difficulty: profile.id });
-    for (let trial = 1; trial <= 16; trial++) {
-      wins += Number(probeLevel(config, 'greedy', trial * 997).won);
-      randomWins += Number(probeLevel(config, 'random', trial * 997).won);
-    }
-  }
-  rates.push(wins / 800); randomRates.push(randomWins / 800);
+// Compare the independent inventory model against timed real-engine traces, step by step.
+let compared=0;
+for(const n of [1,2,3,5,10,14,20,21,40,44,60,64])for(const policy of ['random','greedy','unlock'])for(const seed of [997,1994,2991]){
+ const config=C.configFor(n),result=C.Levels.probeLevel(config,policy,seed),engine=C.replay(config,result.route.map(id=>({type:'pick',id})));
+ assert.equal(engine.status==='won',result.won);assert.equal(engine.nodes.filter(n=>n.removed).length,result.removed);compared++;
+ const m=C.Search.model(config);let state=C.Search.initial(m);
+ const e=new C.Engine(config);
+ for(const id of result.route){const index=config.tiles.findIndex(t=>t.id===id);state=C.Search.apply(m,state,{type:'pick',id,index});assert(e.selectTile(id).ok);C.settle(e);
+  assert.deepEqual(tally(state.buffer.map(i=>m.tiles[i].food)),tally(e.buffer.map(i=>i.food)));
+  assert.deepEqual(state.cursors,e.orders.map((o,i)=>o.recipe?e.orderCursors[i]-1:e.orderPlan[i].length));
+ }
 }
-assert(rates[0] >= .95);
-assert(rates[1] < rates[0] - .15);
-assert(rates[2] < rates[1] - .1);
-assert(rates[3] < rates[2] - .03);
-assert(randomRates[0] > randomRates[1] + .25);
-console.log('PASS difficulty ladder: greedy bot win rates ' + rates.map(n => (n * 100).toFixed(2) + '%').join(' / '));
+console.log('PASS '+compared+' policy traces and per-step search states agree with the real engine');
 
-const finite = new Engine({ recipes, orderPlan: [['d01'], [], []],
-  tiles: [{ id: 'a', food: 'tomato', x: 0, y: 0, w: 10, h: 10 },
-    { id: 'b', food: 'egg', x: 20, y: 0, w: 10, h: 10 },
-    { id: 'c', food: 'tomato', x: 40, y: 0, w: 10, h: 10 }] });
-finite.selectTile('a'); finite.selectTile('b'); finite.tick(10);
-assert(finite.orders.every(o => o.state === 'completed' && o.recipe === null));
-assert.equal(finite.revenue, 32);
-finite.tick(100); assert.equal(finite.revenue, 32);
-finite.selectTile('c'); finite.tick(10); assert.equal(finite.status, 'failed');
-assert.throws(() => new Engine({ recipes, orderPlan: [['d01'], ['d15'], []] }), /Conflicting/);
-assert.throws(() => new Engine({ recipes, orderPlan: [['missing'], [], []] }), /Invalid/);
-assert.throws(() => createLevel(recipes, layout, 1, { difficulty: 'invalid' }), /Unknown/);
-const a = createLevel(recipes, layout, 4, { seed: 42 }), b = createLevel(recipes, layout, 4, { seed: 43 });
-assert.notDeepEqual(a.tiles, b.tiles);
-assert.equal(a.difficulty, 'expert');
-for (const t of a.tiles.filter(t => t.layer === 0)) assert(a.tiles.some(top => top.layer > t.layer && overlap(t, top)));
-console.log('PASS finite menus never invent extra orders; conflicts, seeds and difficulty inputs are checked');
+// Witnesses must also survive rapid inputs that wait only for capacity, not cooking.
+for(const n of [1,2,3,4,10,20,40,60,64])for(const interval of [.01,.05,.1]){
+ const config=C.configFor(n),e=new C.Engine(config);let cursor=0,guard=0;
+ while(cursor<config.solution.length&&e.status==='playing'&&guard++<30000){if(e.selectTile(config.solution[cursor]).ok)cursor++;e.tick(interval);assert(e.buffer.length+e.incoming.length<=7);}
+ e.tick(120);assert.equal(cursor,config.tiles.length,'Fast witness stopped at level '+n);assert.equal(e.status,'won','Fast witness failed at level '+n);
+}
+console.log('PASS fast-input witnesses across variable counts, all five layers and 72-card boundary');
+
+let lastD=0,lastN=0;
+for(let n=1;n<=60;n++){const c=C.configFor(n);assert(c.metrics.totalDishes>=lastD);assert(c.tiles.length>=lastN);lastD=c.metrics.totalDishes;lastN=c.tiles.length;}
+for(let n=61;n<=120;n++)assert.equal(C.configFor(n).metrics.totalDishes,24);
+assert.deepEqual(C.Levels.definitionFor(1).orders,[['d01','d01'],['d02'],['d04']]);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['missing'],['d02'],['d04']]}),/recipe/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['d01'],['d15'],['d02']]}),/Conflicting/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),orders:[['d01'],['d06'],['d17']]}),/three tables/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),shape:'missing'}),/shape/);
+assert.throws(()=>C.configFor(1,42,{...C.Levels.definitionFor(1),layers:6}),/layers/);
+assert.throws(()=>C.configFor(1,-1),/seed/);
+assert.throws(()=>C.Levels.createLevel(C.recipes,C.layout,1,{difficulty:'invalid'}),/difficulty/);
+console.log('PASS editable plans: growth caps, unknown recipes, subset/common-ingredient conflicts, shape/depth/seed validation');
+
+// These are bot regression bands over fixed authored content, not human success targets.
+const stages=[[1,3],[4,10],[11,20],[21,40],[41,60]],rates=[];
+for(const [a,b] of stages){let wins=0,count=0;for(let n=a;n<=b;n++){const c=C.configFor(n);for(let t=1;t<=32;t++){wins+=Number(C.Levels.probeLevel(c,'greedy',t*997).won);count++;}}rates.push(wins/count);}
+assert(rates[0]>=.98);assert(rates[1]>=.75);assert(rates[2]<rates[1]-.08);assert(rates[3]<rates[2]-.1);assert(rates[4]<rates[3]-.05);
+console.log('PASS progressive fixed-content bot bands: '+rates.map(n=>(n*100).toFixed(2)+'%').join(' / '));

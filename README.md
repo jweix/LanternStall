@@ -11,7 +11,8 @@
 | 路径 | 用途 |
 | --- | --- |
 | `AGENTS.md` | 后续 AI 接手项目的简要背景和规则 |
-| `shared/core/` | 业务状态机、动效计算、分档可解牌堆 |
+| `shared/core/` | 业务状态机、动效、可变盘面与有界求解 |
+| `shared/data/level-config.js` | 各关三桌完整菜谱队列、形状、层数和种子 |
 | `shared/runtime/` | 输入、工具、暂停、效果和换关控制 |
 | `shared/rendering/` | 不依赖平台 API 的 Canvas 2D 绘制 |
 | `shared/data/`、`shared/assets/` | 20 道菜、14 种食材、布局和原始透明 PNG |
@@ -48,7 +49,7 @@ npm test
 
 打开微信开发者工具，导入 **`platforms/wechat/`**。已配置 AppID `wx09cfd51ad5bcdb2f`、小游戏类型 `game`，游戏根目录为生成的 `game/`。
 
-微信入口使用 `wx.createCanvas`，没有 WXML、Page 或浏览器 DOM。构建只复制所需公共代码、JSON 和共享运行图（原色食材裁透明留白，成品保留透明画框，背景保留设计分辨率），不包含视频、PDF、原始大图集和离线 base64 预览。当前主包约 **3.97 MiB**，构建强制检查本项目设定的 4 MiB 预算。
+微信入口使用 `wx.createCanvas`，没有 WXML、Page 或浏览器 DOM。构建只复制所需公共代码、JSON 和共享运行图（原色食材裁透明留白，成品保留透明画框，背景保留设计分辨率），不包含视频、PDF、原始大图集、实验室、离线分析器和候选报告。当前主包接近 **4 MiB**，构建强制检查本项目设定的 4 MiB 预算。
 
 `platforms/wechat/game/` 不提交版本管理，每次修改后重新构建。请修改 `shared/` 和 `platforms/wechat/src/` 的源码。可通过环境变量 `LANTERN_PYTHON` 指定安装了 Pillow 的 Python。
 
@@ -59,6 +60,8 @@ npm run serve
 ```
 
 打开 [本机试玩](http://127.0.0.1:4173/platforms/web/)。浏览器版、抖音版与微信版复用同一套规则、控制、渲染和256张运行图片；启动时自动生成 `shared/assets/runtime/`，无需手动拷贝素材。
+
+[关卡实验室](http://127.0.0.1:4173/platforms/web/lab/)不读写经营存档，可编辑本关订单JSON、查看分层、求解与单步、运行基础策略及导入导出操作记录。复杂道具预算用 `npm run analyze:levels -- --levels 1,20,40,64 --trials 16 --tools`，扩样用 `npm run test:levels:full`。候选筛选、回放命令及配置示例见[关卡配置说明](docs/09-level-generation.md)。
 
 四个经营页签已按2026-11-14四页整体重构稿接入真实游戏，使用独立的887×1774等比画幅；闯关保持928×1695。原稿和改版说明在[工程内视觉参考](reference/lobby-redesign-2026-11-14/)，实际效果见[四页截图](previews/lobby-v4-overview.png)、[主题预览](previews/lobby-v4-themes.png)。[接入说明](docs/14-lobby-redesign.md)说明源码、资源构建、真实数据与原稿示例的区别。
 
@@ -72,6 +75,6 @@ npm run serve
 
 已接通选牌、错层遮挡、飞行预约、自动扣料、单锅排队、炒菜与送菜并行、金币结算、撤回、暂存取回、提示、暂停、失败重试、下一关与回店。三端各自在本机以lantern-stall-v2保存钱包、首通、拥有与装备、愿望、菜谱、活动、相册和减少动效，并迁移旧解锁进度；不会恢复中途牌局。当前没有音频素材、账号、云同步、支付或实际广告配置。
 
-关卡先确定各道菜的份数和三桌有限补单，再据配方生成 40 份材料，通过遮挡依赖和受控交错构造可解牌堆。前四关依次是入门、家常、忙碌、挑战，菜谱池从 3 种增至 6 种；后续按章轮换难度和全部 20 道菜。浏览器右侧可直接试玩四档。`npm run analyze:levels` 可复现策略通关率对比；固定策略结果已有梯度，真人难度仍需试玩校准。研究来源、算法和四档参数见 [关卡难度设计与实现](docs/09-level-generation.md)，项目状态见 [接手记录](docs/project-status.md)。
+V3用`shared/data/level-config.js`逐关配置三桌有限菜谱队列，材料和收入自动展开。首关3种菜共4份、8张食材，随后增加，最多24份菜／6种配方／72张牌／5层；双行、双岛、回环、阶梯桥、灯笼、双峰保留孔洞与留白。前60关逐关配置，之后用五个封顶计划与关卡种子扩展。每副牌仍有真实引擎无道具通关见证；普通玩家偏离路线可能失败。`npm run analyze:levels`给实际逐关策略结果，不代表真人胜率。提示未知不扣次数，真实广告救援适配已接但两端广告单元为空。配置、算法、工具及当前基线见[关卡配置说明](docs/09-level-generation.md)，状态见[接手说明](docs/project-status.md)。
 
 局内整体UI、纯背景、组件位置和做菜表现已移植 `dapaidang-handoff-v12-complete` 的完整交付版，位于 `shared/rendering/approved-ui.js`；真实选牌、菜单交接、FIFO厨房和经营结算继续由现有引擎事件驱动。原图已拷入shared，运行不依赖上级交付目录。取样见 `previews/ui-v12-flow.png` 与 `previews/ui-v12-comparison.png`。历史截图、视频与旧验收报告可能仍带有 `128/300` 等错误收入样式；它们仅供美术和节奏参考，当前规则以本说明与 `AGENTS.md` 为准。

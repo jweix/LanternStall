@@ -135,7 +135,7 @@ function harness(options = {}) {
   assert.equal(session.engine.now, playingTime, 'Background time is excluded while playing');
   // Complete the real engine's witness through native touch coordinates.
   const witness = session.config.solution;
-  assert(Array.isArray(witness) && witness.length === 40);
+  assert(Array.isArray(witness) && witness.length === session.config.tiles.length);
   let ms = 601000;
   for (const step of witness) {
     const id = typeof step === 'string' ? step : step.id;
@@ -145,7 +145,7 @@ function harness(options = {}) {
     for (let n = 0; n < 9; n++) h.render(ms += 100);
   }
   for (let n = 0; n < 200 && session.engine.status === 'playing'; n++) h.render(ms += 100);
-  assert.equal(session.engine.status, 'won'); assert.equal(h.storage['lantern-stall-v2'].coins, 786);
+  assert.equal(session.engine.status, 'won'); assert.equal(h.storage['lantern-stall-v2'].coins, 290);
   const saved = JSON.stringify(h.storage);
   for (let n = 0; n < 20; n++) h.render(ms += 100);
   assert.equal(JSON.stringify(h.storage), saved, 'Delivery settlement must only persist once');
@@ -154,9 +154,9 @@ function harness(options = {}) {
   h.setInfo({ windowWidth: 320, windowHeight: 568, pixelRatio: 2, safeArea: { top: 20 } });
   h.handlers.resize(); h.render(); assert.equal(h.canvas.width, 640);
   assert.equal(h.errors.length, 0);
-  console.log('PASS Douyin native touch completes level one, saves 786 once, handles safe area, lifecycle, sidebar and storage failure');
+  console.log('PASS Douyin native touch completes level one, saves 290 once, handles safe area, lifecycle, sidebar and storage failure');
   const restored = harness({ data: h.storage['lantern-stall-v2'] }); await tick(); restored.render();
-  assert.equal(restored.app.profile.state.coins, 786); assert.equal(restored.app.profile.nextLevel, 2);
+  assert.equal(restored.app.profile.state.coins, 290); assert.equal(restored.app.profile.nextLevel, 2);
   assert.equal(restored.app.screen, 'home'); assert.equal(restored.app.session, null);
 
   const wardrobe = harness({ data: { version: 2, dishes: Object.fromEntries(require('../shared/data/recipes.json').map(r => [r.id, 1])) } });

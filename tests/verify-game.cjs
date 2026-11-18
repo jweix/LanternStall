@@ -9,7 +9,7 @@ const layout = require('../shared/data/layout.json');
 for (let level = 1; level <= 100; level++) {
   const config = createLevel(recipes, layout, level), engine = new Engine(config);
   assert.equal(engine.revenue, 0);
-  assert.equal(config.tiles.length, 40);
+  assert.equal(config.tiles.length, config.metrics.tileCount);
   assert.deepEqual(config, createLevel(recipes, layout, level));
   for (const id of config.solution) {
     assert(engine.available(id), 'Solution must respect geometric occlusion');
@@ -20,11 +20,11 @@ for (let level = 1; level <= 100; level++) {
   }
   engine.tick(10);
   assert.equal(engine.status, 'won', 'Level ' + level + ' must be winnable');
-  assert.equal(config.solution.length, 40);
+  assert.equal(config.solution.length, config.tiles.length);
   assert(engine.nodes.every(n => n.removed));
   assert.equal(engine.buffer.length + engine.stashItems.length, 0);
 }
-console.log('PASS 100 deterministic decks consume all 40 ingredients and serve every dish');
+console.log('PASS 100 deterministic decks consume every configured ingredient and serve every dish');
 
 let saved = 0;
 const s = new Session({ recipes, layout, onProgress: () => saved++ });

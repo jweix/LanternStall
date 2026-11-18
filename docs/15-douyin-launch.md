@@ -35,7 +35,7 @@ npm test
 
 不能导入整个仓库、`src/` 或微信目录。修改 `shared/`、`platforms/douyin/src/` 或源码配置后需要重新构建，再在 IDE 编译。构建覆盖生成目录，IDE 内修改的 AppID／编译条件不会自动写回源码。永久 AppID 填源码配置；临时可用 `LANTERN_DOUYIN_APPID=实际AppID npm run build:douyin`。
 
-两个 native 包共用 `scripts/build-minigame.cjs`：生成 JavaScript 数据模块、复制独立运行清单内的素材与字体、检查项目自定的 4 MiB 预算。当前抖音包约 3.97 MiB，已接近该预算；后续增加素材应考虑压缩或分包，以 IDE 实际包体统计为准。平台包体规则与本项目预算不混为一谈。
+两个 native 包共用 `scripts/build-minigame.cjs`：生成 JavaScript 数据模块、复制独立运行清单内的素材与字体、检查项目自定的 4 MiB 预算。当前两端包体接近该预算；后续增加素材应考虑压缩或分包，以 IDE 实际包体统计为准。平台包体规则与本项目预算不混为一谈。
 
 ## 三种效果调试
 
@@ -83,6 +83,6 @@ IDE 的 Console 看报错，Sources 设断点，Storage 查看 `lantern-stall-v2
 
 ## 本次验证边界
 
-自动验证见 `tests/verify-douyin.cjs`：独立包结构、资源与字体字节一致、无 DOM 启动、真实触摸通关第 1 关并仅结算 786 金币一次、存储失败阻止开局、重载恢复进度、加载失败重试、鼠标、安全区、后台恢复、冷／热侧边栏来源与跳转失败。完整回归同时覆盖微信与共享引擎。
+自动验证见 `tests/verify-douyin.cjs`：独立包结构、资源与字体字节一致、无 DOM 启动、真实触摸通关V3第1关并仅结算290金币一次、存储失败阻止开局、重载恢复进度、加载失败重试、鼠标、安全区、后台恢复、冷／热侧边栏来源与跳转失败。额外救援SDK适配及回调隔离见`verify-level-tools.cjs`；完整回归同时覆盖微信与共享引擎。
 
-本机未安装抖音开发者工具，尚无抖音小游戏 AppID，未执行实际 IDE 编译、抖音手机扫码或平台上传。自动 `tt` 模拟验证和共享 Canvas 取样不能代替这些实测；以首个测试号／正式 AppID 的 IDE 与真机结果作为下一步验收证据。
+本机已安装抖音开发者工具，尚无正式小游戏AppID；V3本次未执行IDE编译、抖音手机扫码或上传。自动`tt`模拟验证不能代替这些实测，以测试号／正式AppID的IDE与真机结果作为下一步证据。两端`src/ad-config.js`的`rewardedRescueUnitId`均为空，救援入口隐藏；填真实广告单元后重新构建，仅完整播放回调发奖，不把模拟回调当作真实广告验收。

@@ -1,4 +1,7 @@
 'use strict';
+const { createRewardedRescue } = require('./rewarded-video.js');
+const adConfig = require('./ad-config.js');
+const rewardedRescue = createRewardedRescue(wx, adConfig.rewardedRescueUnitId);
 const { App } = require('./shared/runtime/stall-app.js');
 const { createRenderer } = require('./shared/rendering/stall-scene.js');
 const Motion = require('./shared/core/motion.js');
@@ -59,7 +62,7 @@ function start() {
   platform.loadImages(index).then(images => {
     const settings = platform.read('lantern-settings-v1', {});
     const progress = platform.read('lantern-progress-v1', { level: 1 });
-    session = new App({ recipes, layout, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
+    session = new App({ recipes, layout, rewardedRescue, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
       save: value => platform.write('lantern-stall-v2', value) });
     session.setHidden(hidden);
     renderer = createRenderer(canvas.getContext('2d'), images, Object.assign({ recipes, ingredients, layout, assets:index }, platform.loadLobbyFonts()));

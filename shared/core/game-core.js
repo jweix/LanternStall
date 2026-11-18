@@ -1,9 +1,9 @@
 /* Event-driven game logic. Seconds throughout; no timers, rendering or platform APIs. */
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.DapaidangCore=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./board-geometry.js'),require('./level-search.js'));else root.DapaidangCore=factory(root.DapaidangGeometry,root.DapaidangSearch);})(typeof globalThis!=='undefined'?globalThis:this,function(Geometry,Search){
  'use strict';
  const DEFAULTS={capacity:7,pickFlight:.30,rawToWok:.28,stir:.60,pour:.32,departure:.62,deliveryReveal:.16,orderConfirm:.28,cardExit:.14,cardSettle:.12,bonus:1.5};
  const subset=(a,b)=>a.every(id=>b.includes(id));
- const overlap=(a,b)=>Math.abs(a.x-b.x)<(a.w+b.w)/2-.5&&Math.abs(a.y-b.y)<(a.h+b.h)/2-.5;
+ const overlap=Geometry.overlap;
  const clone=value=>JSON.parse(JSON.stringify(value));
  let runSequence=0;
  class Engine{
@@ -12,7 +12,7 @@
    // A new engine is a new run, even when restarting the same numbered level.
    this.levelId=String(config.level||'practice')+':'+(++runSequence);
    this.now=0;this.playTime=0;this.wonAt=null;this.status='playing';this.paused=false;this.events=[];this.sequence=0;this.tableSequence=0;this.recipeCursor=0;
-   this.nodes=(config.tiles||[]).map((n,i)=>Object.assign({id:'tile-'+i,removed:false,layer:1},clone(n)));
+   this.nodes=(config.tiles||[]).map((n,i)=>Object.assign({id:'tile-'+i,removed:false,layer:1},clone(n))).sort(Geometry.paintOrder);
    this.orderPlan=config.orderPlan?clone(config.orderPlan):null;this.orderCursors=[0,0,0];
    if(this.orderPlan){
     if(!Array.isArray(this.orderPlan)||this.orderPlan.length!==3||this.orderPlan.some(lane=>!Array.isArray(lane)||lane.some(id=>!this.recipes.some(r=>r.id===id))))throw Error('Invalid finite order plan.');
@@ -24,6 +24,7 @@
    }
    this.buffer=[];this.incoming=[];this.jobs=[];this.queue=[];this.wok=null;this.deliveries=[];this.creditedJobs=new Set();
    this.stashItems=[];this.tools=Object.assign({undo:1,stash:2,hint:1},config.tools||{});
+   this.rescueCount=0;this.rescueLimit=config.rescueLimit===undefined?2:config.rescueLimit;this.rescueRewardIds=new Set();
    this.orders=[];for(let i=0;i<3;i++){const id=config.initialRecipes&&config.initialRecipes[i];this.orders.push(this._order(i,id,true));}
   }
   _emit(type,data){this.events.push(Object.assign({type,time:this.now,levelId:this.levelId},data||{}));}
@@ -145,17 +146,78 @@
    if(this.status!=='playing'||this.paused||this.buffer.length+this.incoming.length>=this.config.capacity||!this.stashItems[index||0])return false;
    const item=this.stashItems.splice(index||0,1)[0];this.buffer.push(item);this._emit('ingredientReturned',{item:clone(item)});this._resolve();return true;
   }
-  hint(){
+  hint(maxNodes){
    if(this.status!=='playing'||this.paused||this.tools.hint<1)return null;
+   if(this.orderPlan&&this.nodes.length){
+    const result=this.continuation({maxNodes:Math.min(4000,Math.max(1,maxNodes||4000))}),action=result.actions[0];
+    if(result.status!=='solved'||!action||action.type!=='pick'||!this.available(action.id)||this.buffer.length+this.incoming.length>=this.config.capacity)return null;
+    const live=this.fork();live.paused=false;if(!live.replayActions(result.actions))return null;
+    this.tools.hint--;this._emit('hintShown',{tileId:action.id,verified:true});return action.id;
+   }
    for(const order of this.orders.filter(o=>o.state==='collecting')){const rest=this.buffer.concat(this.incoming).map(i=>i.food);
     for(const food of order.recipe.ingredients){const i=rest.indexOf(food);if(i>=0){rest.splice(i,1);continue;}const tile=this.nodes.find(n=>n.food===food&&this.available(n.id));
      if(tile){this.tools.hint--;this._emit('hintShown',{tileId:tile.id});return tile.id;}
     }
    }return null;
   }
+  fork(){
+   const e=new Engine({recipes:this.recipes,tiles:this.nodes,orderPlan:this.orderPlan,motion:this.config,tools:this.tools,rescueLimit:this.rescueLimit});
+   Object.assign(e,this.snapshot(),{orderCursors:this.orderCursors.slice(),sequence:this.sequence,tableSequence:this.tableSequence,recipeCursor:this.recipeCursor});
+   const jobs=new Map(e.jobs.map(j=>[j.jobId,j]));
+   e.queue=this.queue.map(j=>jobs.get(j.jobId));e.wok=this.wok?jobs.get(this.wok.jobId):null;e.deliveries=this.deliveries.map(j=>jobs.get(j.jobId));
+   e.creditedJobs=new Set(this.creditedJobs);e.rescueRewardIds=new Set(this.rescueRewardIds);e.events=[];return e;
+  }
+  replayActions(actions){
+   for(const action of actions){
+    let ok;
+    if(action.type==='pick')ok=this.selectTile(action.id).ok;
+    else if(action.type==='return')ok=this.returnStash(action.index);
+    else if(action.type==='undo'||action.type==='stash')ok=this[action.type]();
+    else if(action.type==='ad-undo'||action.type==='ad-stash'){
+     const tool=action.type.slice(3);this.status='playing';this.tools[tool]++;ok=this[tool]();
+    }
+    if(!ok)return false;this.tick(.3);this.tick(120);this.drainEvents();
+   }
+   this.tick(120);return this.status==='won';
+  }
+  continuation(options){
+   if(!this.orderPlan||!this.nodes.length)return{status:'unknown',visited:0,actions:[]};
+   const e=this.fork();e.paused=false;e.tick(120);
+   try{
+    const m=Search.model({nodes:e.nodes,recipes:e.recipes,orderPlan:e.orderPlan,capacity:e.config.capacity});
+    const result=Search.solve(m,Search.initial(m,e),options);
+    if(result.status==='solved'&&!e.replayActions(result.actions))return{status:'unknown',visited:result.visited,actions:[],reason:'timed-replay'};
+    return result;
+   }catch(_){return{status:'unknown',visited:0,actions:[],reason:'unsupported-state'};}
+  }
+  rescueOptions(maxNodes,futureAds){
+   if(!['playing','failed'].includes(this.status)||this.rescueCount>=this.rescueLimit||!this.buffer.length||this.incoming.length)return[];
+   const result=[];
+   for(const tool of ['stash','undo']){
+    if(tool==='stash'&&this.stashItems.length>=2)continue;
+    const e=this.fork();e.paused=false;e.status='playing';e.tools[tool]++;
+    if(!e[tool]())continue;
+    let check=e.continuation({tools:true,maxNodes:maxNodes||4000});
+    const extra=futureAds===undefined?this.rescueLimit-this.rescueCount-1:futureAds;
+    if(check.status!=='solved'&&extra>0)check=e.continuation({tools:true,ads:extra,maxNodes:maxNodes||4000});
+    if(check.status==='solved')result.push({tool,moreAds:check.actions.filter(a=>a.type.startsWith('ad-')).length});
+   }
+   return result.sort((a,b)=>a.moreAds-b.moreAds);
+  }
+  applyRewardedRescue(tool,rewardId){
+   if(typeof rewardId!=='string'||!rewardId.startsWith(this.levelId+'/')||this.rescueRewardIds.has(rewardId)||!this.rescueOptions().some(o=>o.tool===tool))return false;
+   const paused=this.paused;this.paused=false;this.status='playing';this.tools[tool]++;
+   const ok=this[tool]();this.paused=paused;
+   if(!ok)return false;this.rescueRewardIds.add(rewardId);this.rescueCount++;
+   this._emit('rewardedRescue',{tool,rewardId,count:this.rescueCount});
+   const next=this.continuation({tools:true,ads:this.rescueLimit-this.rescueCount,maxNodes:4000}),live=this.fork();live.paused=false;
+   const advice=next.status==='solved'&&live.replayActions(next.actions)?next.actions[0]:null;
+   if(advice){this._emit('rescueSuggestedAction',{action:advice});if(advice.type==='pick')this._emit('hintShown',{tileId:advice.id,verified:true,rescue:true});}
+   return true;
+  }
   pause(value){this.paused=value!==false;}
   drainEvents(){const all=this.events;this.events=[];return all;}
-  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems});}
+  snapshot(){return clone({levelId:this.levelId,now:this.now,playTime:this.playTime,wonAt:this.wonAt,status:this.status,paused:this.paused,revenue:this.revenue,buffer:this.buffer,incoming:this.incoming,jobs:this.jobs,queue:this.queue,wok:this.wok,deliveries:this.deliveries,orders:this.orders,orderCursors:this.orderCursors,nodes:this.nodes,tools:this.tools,stashItems:this.stashItems,rescueCount:this.rescueCount});}
  }
  return{Engine,DEFAULTS,subset,overlap};
 });

@@ -1,101 +1,69 @@
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./game-core.js'));
-  else root.DapaidangLevels = factory(root.DapaidangCore);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(
+    require('./game-core.js'), require('./board-geometry.js'), require('../data/level-config.js'));
+  else root.DapaidangLevels = factory(root.DapaidangCore, root.DapaidangGeometry, root.DapaidangLevelConfig);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Core, Geometry, Data) {
   'use strict';
-
-  // All profiles retain 25 upper + 15 lower cards and the same seven-slot rule.
-  const PROFILES = [
-    { id: 'easy', name: '入门', tripleDishes: 4, tripleRecipes: 1, recipeCount: 3, prepLimit: 3, bury: 0, mixing: 0 },
-    { id: 'normal', name: '家常', tripleDishes: 8, tripleRecipes: 2, recipeCount: 4, prepLimit: 4, bury: .35, mixing: 1 },
-    { id: 'hard', name: '忙碌', tripleDishes: 10, tripleRecipes: 3, recipeCount: 5, prepLimit: 6, bury: .75, mixing: 2 },
-    { id: 'expert', name: '挑战', tripleDishes: 12, tripleRecipes: 5, recipeCount: 6, prepLimit: 7, bury: 1, mixing: 3 }
-  ];
+  const PROFILES = Data.profiles, LIMITS = Data.limits;
+  if (Data.version !== 3 || Data.levels.some((d, i) => d.level !== i + 1)) throw Error('Configured levels must be contiguous, starting at level 1.');
+  for (const [key, max] of [['maxDishes',24],['maxRecipes',6],['maxIngredients',72],['maxLayers',5]])
+    if (!Number.isInteger(LIMITS[key]) || LIMITS[key] < 1 || LIMITS[key] > max) throw Error('Unsupported level limit: ' + key);
+  const copy = value => JSON.parse(JSON.stringify(value));
   function random(seed) {
     let value = seed >>> 0;
-    return () => {
-      value = (Math.imul(value, 1664525) + 1013904223) >>> 0;
-      return value / 4294967296;
-    };
+    return () => ((value = (Math.imul(value, 1664525) + 1013904223) >>> 0) / 4294967296);
   }
-  function shuffle(items, rng) {
-    const result = items.slice();
-    for (let i = result.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
+  function definitionFor(level) {
+    if (!Number.isSafeInteger(level) || level < 1) throw Error('Invalid level number.');
+    const row = Data.levels.find(d => d.level === level);
+    if (row) return copy(row);
+    if (level <= Data.levels.length || !Data.repeat.length) throw Error('Missing configured level ' + level);
+    const index = (level - Data.levels.length - 1) % Data.repeat.length;
+    const bank = Object.keys(Data.seeds || {}).map(Number).filter(n => n > Data.levels.length &&
+      (n - Data.levels.length - 1) % Data.repeat.length === index).sort((a, b) => a - b);
+    const selected = Data.seeds && Data.seeds[level] !== undefined ? Data.seeds[level] : bank.length ?
+      Data.seeds[bank[Math.floor((level - Data.levels.length - 1) / Data.repeat.length) % bank.length]] : undefined;
+    return Object.assign(copy(Data.repeat[index]), { level }, selected === undefined ? {} : { seed: selected });
   }
   function profileFor(level, override) {
-    // First four introduce the ladder; later chapters include a recovery stage.
-    const index = level <= 4 ? level - 1 : [1, 2, 1, 2, 3][(level - 5) % 5];
-    const profile = override === undefined ? PROFILES[index] : PROFILES.find(p => p.id === override);
-    if (!profile) throw Error('Unknown level difficulty: ' + override);
-    return profile;
+    const id = override === undefined ? definitionFor(level).difficulty : override;
+    const profile = PROFILES.find(p => p.id === id);
+    if (!profile) throw Error('Unknown level difficulty: ' + id);
+    return copy(profile);
   }
-  function compatible(a, b) {
-    return !Core.subset(a.ingredients, b.ingredients) && !Core.subset(b.ingredients, a.ingredients);
-  }
-  function createDishPlan(recipes, profile, level, rng) {
-    const anchor = recipes[(level - 1) % recipes.length];
-    const candidates = [];
-    for (let attempt = 0; attempt < 64; attempt++) {
-      const pool = [anchor];
-      for (const recipe of shuffle(recipes.filter(r => r !== anchor), rng)) {
-        const length = recipe.ingredients.length;
-        const target = length === 3 ? profile.tripleRecipes : profile.recipeCount - profile.tripleRecipes;
-        if (pool.filter(r => r.ingredients.length === length).length >= target ||
-            !pool.every(r => compatible(r, recipe))) continue;
-        pool.push(recipe);
-      }
-      if (pool.length !== profile.recipeCount) continue;
-      const variety = new Set(pool.flatMap(r => r.ingredients)).size;
-      candidates.push({ pool, score: (profile.mixing === 0 ? -variety : variety) + rng() * 2 });
-    }
-    if (!candidates.length) throw Error('Need a compatible recipe pool with both recipe lengths.');
-    candidates.sort((a, b) => b.score - a.score);
-    const pool = shuffle(candidates[0].pool, rng);
-    const quantities = pool.map(() => 1);
-    // Solve 2 * doubleDishes + 3 * tripleDishes = 40 before placing any food.
-    for (const length of [2, 3]) {
-      const slots = pool.map((r, i) => r.ingredients.length === length ? i : -1).filter(i => i >= 0);
-      const total = length === 3 ? profile.tripleDishes : (40 - 3 * profile.tripleDishes) / 2;
-      for (let n = slots.length; n < total; n++) quantities[slots[(n - slots.length) % slots.length]]++;
-    }
-    const workloads = [0, 0, 0], orderPlan = [[], [], []];
-    const dishes = pool.map((r, i) => {
-      const slot = i < 3 ? i : workloads.indexOf(Math.min(...workloads));
-      workloads[slot] += quantities[i] * r.ingredients.length;
-      orderPlan[slot].push(...Array(quantities[i]).fill(r.id));
-      return { recipeId: r.id, slot, quantity: quantities[i] };
+  function createDishPlan(recipes, definition) {
+    const orderPlan = definition.orders;
+    if (!Array.isArray(orderPlan) || orderPlan.length !== 3 || orderPlan.some(lane => !Array.isArray(lane)))
+      throw Error('Level orders must contain exactly three table queues.');
+    const ids = [...new Set(orderPlan.flat())], totalDishes = orderPlan.flat().length;
+    if (totalDishes < 3 || totalDishes > LIMITS.maxDishes || ids.length > LIMITS.maxRecipes)
+      throw Error('Configured dish/recipe count exceeds level limits.');
+    const pool = ids.map(id => {
+      const recipe = recipes.find(r => r.id === id);
+      if (!recipe || ![2, 3].includes(recipe.ingredients.length)) throw Error('Unknown or invalid recipe: ' + id);
+      return recipe;
     });
-    const ingredients = {};
-    dishes.forEach((d, i) => pool[i].ingredients.forEach(food => {
-      ingredients[food] = (ingredients[food] || 0) + d.quantity;
+    for (let i = 0; i < pool.length; i++) for (let j = i + 1; j < pool.length; j++)
+      if (Core.subset(pool[i].ingredients, pool[j].ingredients) || Core.subset(pool[j].ingredients, pool[i].ingredients))
+        throw Error('Conflicting configured recipes: ' + pool[i].id + '/' + pool[j].id);
+    const unique = orderPlan.map(lane => [...new Set(lane)]);
+    for (const a of unique[0]) for (const b of unique[1]) for (const c of unique[2]) {
+      const menus = [a, b, c].map(id => pool.find(r => r.id === id));
+      if (menus[0].ingredients.some(food => menus.slice(1).every(r => r.ingredients.includes(food))))
+        throw Error('All three tables share an ingredient: ' + [a, b, c].join('/'));
+    }
+    const dishes = [], ingredients = {};
+    orderPlan.forEach((lane, slot) => [...new Set(lane)].forEach(id => {
+      const quantity = lane.filter(r => r === id).length, recipe = pool.find(r => r.id === id);
+      dishes.push({ recipeId: id, slot, quantity });
+      recipe.ingredients.forEach(food => { ingredients[food] = (ingredients[food] || 0) + quantity; });
     }));
-    return { pool, dishes, ingredients, orderPlan: orderPlan.map(lane => shuffle(lane, rng)) };
+    const total = Object.values(ingredients).reduce((a, b) => a + b, 0);
+    if (total > LIMITS.maxIngredients || Object.keys(ingredients).length > 14) throw Error('Ingredient budget exceeds level limits.');
+    if (total >= 20 && Math.max(...Object.values(ingredients)) > Math.ceil(total * LIMITS.maxIngredientRatio))
+      throw Error('Configured ingredients are too concentrated.');
+    return { pool, dishes, ingredients, total, totalDishes, orderPlan: copy(orderPlan) };
   }
-
-  function createGeometry(layout, profile, rng) {
-    const b = layout.board;
-    const geometry = cell => ({
-      x: b.left + cell % b.cols * (b.tileW + b.gapX) + b.tileW / 2,
-      y: b.top + Math.floor(cell / b.cols) * b.stepY + b.tileH / 2,
-      w: b.tileW, h: b.tileH
-    });
-    const top = Array.from({ length: b.cols * b.rows }, (_, cell) =>
-      Object.assign(geometry(cell), { id: 'top-' + cell, layer: 1, food: '' }));
-    const cells = top.map((_, cell) => {
-      const lower = Object.assign(geometry(cell), { id: 'under-' + cell, layer: 0, food: '' });
-      lower.x += b.lowerOffsetX; lower.y += b.lowerOffsetY;
-      const blockers = top.filter(t => Core.overlap(lower, t)).length;
-      // Edges need fewer removals; interior cards can have four blockers.
-      return { lower, score: blockers * (profile.bury * 2 - 1) + rng() * .9 };
-    }).sort((a, b) => b.score - a.score);
-    return cells.slice(0, b.lowerCells.length).map(c => c.lower).concat(top);
-  }
-  // A small, animation-free inventory model for constructive generation and probes.
-  // The final witness is checked against the real Engine, including all deliveries.
   function activeRecipes(plan, cursors) {
     return plan.orderPlan.map((lane, slot) => plan.pool.find(r => r.id === lane[cursors[slot]]));
   }
@@ -126,7 +94,7 @@
     let visited = 0;
     function search(cursors, buffer) {
       if (++visited > 20000) throw Error('Ingredient scheduling exceeded its bounded search budget.');
-      if (foods.length === 40) return finished(plan, cursors) && size(buffer) === 0;
+      if (foods.length === plan.total) return finished(plan, cursors) && size(buffer) === 0;
       const held = size(buffer), choices = [];
       const key = cursors.join(',') + ':' + foodIds.map(food => buffer[food] || 0).join(',');
       if (rejected.has(key)) return false;
@@ -153,17 +121,32 @@
     return { foods, pressure };
   }
   function placeFoods(tiles, sequence, rng) {
-    const graph = tiles.map(n => tiles.filter(t => t.layer > n.layer && Core.overlap(n, t)).map(t => t.id));
-    const removed = new Set(), solution = [];
-    for (const food of sequence.foods) {
-      const free = tiles.map((n, i) => ({ n, i })).filter(({ n, i }) =>
-        !removed.has(n.id) && graph[i].every(id => removed.has(id)));
-      const ranked = free.map(({ n }) => ({ n, score: rng() + (n.layer === 0 ? 1 : 0) }));
-      ranked.sort((a, b) => b.score - a.score);
-      const node = ranked[0].n;
-      node.food = food; removed.add(node.id); solution.push(node.id);
+    const graph = Geometry.graph(tiles), deepest = Math.max(...tiles.map(t => t.layer));
+    let best = null;
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const removed = new Set(), solution = [];
+      for (const food of sequence.foods) {
+        const free = tiles.map((n, i) => ({ n, i })).filter(({ i }) => !removed.has(i) && graph[i].every(p => removed.has(p)));
+        const ranked = free.map(({ n, i }) => ({ n, i, score: rng() + (deepest - n.layer) * .75 }));
+        ranked.sort((a, b) => b.score - a.score);
+        const pick = ranked[0];
+        pick.n.food = food; removed.add(pick.i); solution.push(pick.n.id);
+      }
+      const opening = tiles.filter((_, i) => !graph[i].length), counts = {};
+      opening.forEach(t => { counts[t.food] = (counts[t.food] || 0) + 1; });
+      const openingMax = Math.max(...Object.values(counts)), ceiling = Math.ceil(opening.length * LIMITS.maxOpeningRatio);
+      let adjacent = 0;
+      for (let i = 0; i < tiles.length; i++) for (let j = i + 1; j < tiles.length; j++) {
+        const a = tiles[i], b = tiles[j];
+        if (a.layer === b.layer && a.food === b.food && Math.hypot(a.x - b.x, a.y - b.y) < a.w * 1.1) adjacent++;
+      }
+      const score = openingMax * 5 + adjacent;
+      if (openingMax <= ceiling && (!best || score < best.score))
+        best = { score, foods: tiles.map(t => t.food), solution, openingCount: opening.length, openingMax, adjacentPairs: adjacent };
     }
-    return { solution, blockerCount: graph.reduce((n, parents) => n + parents.length, 0) };
+    if (!best) throw Error('No placement meets the opening ingredient concentration limit.');
+    tiles.forEach((t, i) => { t.food = best.foods[i]; });
+    return Object.assign(best, { blockerCount: graph.reduce((n, parents) => n + parents.length, 0) });
   }
   function verifySolution(config) {
     const engine = new Core.Engine(config);
@@ -172,36 +155,44 @@
       if (!engine.selectTile(id).ok) throw Error('Generated route violates geometry or capacity.');
       peak = Math.max(peak, engine.buffer.length + engine.incoming.length);
       engine.tick(.3);
-      // Wait only in the witness/probe; player input remains fully nonblocking.
-      if (engine.wok || engine.queue.length || engine.deliveries.length) engine.tick(10);
+      if (engine.wok || engine.queue.length || engine.deliveries.length) engine.tick(120);
       engine.drainEvents();
     }
-    engine.tick(10);
+    engine.tick(120);
     if (engine.status !== 'won') throw Error('Generated route did not serve all planned dishes.');
     return { peak, revenue: engine.revenue };
   }
   function createLevel(recipes, layout, number, options) {
     const level = Math.max(1, Math.floor(Number(number) || 1));
     if (!Number.isSafeInteger(level)) throw Error('Invalid level number.');
-    const settings = options || {}, profile = profileFor(level, settings.difficulty);
-    const seed = settings.seed === undefined ? Math.imul(level, 7919) >>> 0 : Number(settings.seed) >>> 0;
-    const rng = random(seed), plan = createDishPlan(recipes, profile, level, rng);
-    const tiles = createGeometry(layout, profile, rng), sequence = createFoodSequence(plan, profile, rng);
-    const placed = placeFoods(tiles, sequence, rng);
-    const config = { level, seed, generatorVersion: 2, difficulty: profile.id, difficultyName: profile.name,
-      recipes: plan.pool, tiles, orderPlan: plan.orderPlan, solution: placed.solution,
-      dishPlan: plan.dishes, ingredientCounts: plan.ingredients };
+    const settings = options || {}, definition = copy(settings.definition || definitionFor(level));
+    const profile = settings.difficulty === undefined ? profileFor(level, definition.difficulty) : profileFor(level, settings.difficulty);
+    const seed = settings.seed === undefined ? definition.seed === undefined ? Math.imul(level, 7919) >>> 0 : definition.seed : settings.seed;
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw Error('Invalid 32-bit level seed.');
+    if (definition.layers > LIMITS.maxLayers) throw Error('Configured layers exceed the global limit.');
+    const plan = createDishPlan(recipes, definition);
+    const tiles = Geometry.create(layout, definition.shape, plan.total, definition.layers, seed);
+    const sequence = createFoodSequence(plan, profile, random(seed ^ 0x9e3779b9));
+    const placed = placeFoods(tiles, sequence, random(seed ^ 0x85ebca6b));
+    let hash = 2166136261;
+    for (const ch of JSON.stringify([definition, plan.pool, layout.board])) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
+    const config = { level, seed, generatorVersion: 3, contentId: 'v3-' + level + '-' + hash.toString(16) + '-' + seed,
+      difficulty: profile.id, difficultyName: profile.name, shape: definition.shape, shapeName: Geometry.templates[definition.shape].name,
+      rescueLimit: LIMITS.rescueAdsPerRun, recipes: copy(plan.pool), tiles, orderPlan: plan.orderPlan, solution: placed.solution, dishPlan: plan.dishes,
+      ingredientCounts: plan.ingredients, definition };
     const verified = verifySolution(config);
-    config.metrics = { witnessPeak: verified.peak, witnessMean: sequence.pressure.reduce((a, b) => a + b, 0) / 40,
+    config.metrics = { totalDishes: plan.totalDishes, tileCount: plan.total, layerCount: definition.layers,
+      witnessPeak: verified.peak, witnessMean: sequence.pressure.reduce((a, b) => a + b, 0) / plan.total,
       blockerCount: placed.blockerCount, recipeTypes: plan.pool.length, ingredientTypes: Object.keys(plan.ingredients).length,
-      doubleDishes: plan.dishes.filter((d, i) => plan.pool[i].ingredients.length === 2).reduce((n, d) => n + d.quantity, 0),
-      tripleDishes: profile.tripleDishes, expectedRevenue: verified.revenue };
+      dominantIngredientCount: Math.max(...Object.values(plan.ingredients)), openingCount: placed.openingCount,
+      openingDominantCount: placed.openingMax, adjacentPairs: placed.adjacentPairs,
+      doubleDishes: plan.dishes.filter(d => plan.pool.find(r => r.id === d.recipeId).ingredients.length === 2).reduce((n, d) => n + d.quantity, 0),
+      tripleDishes: plan.dishes.filter(d => plan.pool.find(r => r.id === d.recipeId).ingredients.length === 3).reduce((n, d) => n + d.quantity, 0),
+      expectedRevenue: verified.revenue };
     return config;
   }
-
-  // Deterministic, bounded policy probes, not estimates of human win probability.
   function probeLevel(config, policy, seed) {
-    if (policy !== 'random' && policy !== 'greedy') throw Error('Unknown probe policy.');
+    if (!['random', 'greedy', 'unlock'].includes(policy)) throw Error('Unknown probe policy.');
     const rng = random(seed), removed = new Set(), route = [], plan = { pool: config.recipes, orderPlan: config.orderPlan };
     const graph = config.tiles.map(n => config.tiles.filter(t => t.layer > n.layer && Core.overlap(n, t)).map(t => t.id));
     let buffer = {}, cursors = [0, 0, 0], peak = 0;
@@ -216,7 +207,8 @@
         const progress = Math.max(0, ...active.map(r => r.ingredients.includes(n.food) ?
           r.ingredients.filter(f => buffer[f] > 0).length / r.ingredients.length : 0));
         // Only current orders and exposed cards inform this greedy policy.
-        const score = policy === 'random' ? rng() : Number(match) * 100 + progress * 10 -
+        const unlock = graph.filter(parents => parents.includes(n.id) && parents.every(id => id === n.id || removed.has(id))).length;
+        const score = policy === 'random' ? rng() : Number(match) * 100 + progress * 10 + (policy === 'unlock' ? unlock * 3 : 0) -
           (buffer[n.food] || 0) * 4 + rng();
         return { n, i, next, score };
       });
@@ -227,5 +219,5 @@
     }
     return { won: finished(plan, cursors) && size(buffer) === 0, removed: removed.size, peak, route };
   }
-  return { createLevel, profileFor, verifySolution, probeLevel, PROFILES };
+  return { createLevel, definitionFor, profileFor, createDishPlan, verifySolution, probeLevel, PROFILES, LIMITS };
 });

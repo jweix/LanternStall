@@ -131,15 +131,15 @@ setImmediate(() => {
   handlers.touch({ touches: [{ x: view.x + 464 * view.scale, y: view.y + (require('../shared/data/game-ui.js').buttons.resume[1]+49) * view.scale }] });
   labels = []; frame(48); assert(!labels.includes('设置'));
   const level = require('../shared/core/levels.js').createLevel(require('../shared/data/recipes.json'), require('../shared/data/layout.json'), 1);
-  const carrot = level.tiles.find(n => n.food === 'carrot' && n.layer === 1);
-  handlers.touch({ touches: [{ x: view.x + carrot.x * view.scale, y: view.y + carrot.y * view.scale }] });
+  const tomato = level.tiles.find(n => n.food === 'tomato');
+  handlers.touch({ touches: [{ x: view.x + tomato.x * view.scale, y: view.y + tomato.y * view.scale }] });
   frame(148); frame(248); frame(348);
   labels = []; imageDraws = []; checks = []; frame(448);
-  assert(labels.includes('1/3'), 'Native ingredient touch must update the collecting menu');
-  const carrots = imageDraws.filter(d => d.path === 'assets/carrot.png');
-  assert(carrots.length >= 2 && carrots.every(d => d.alpha === 1), 'Menu and board must reuse the opaque original orange carrot');
+  assert(labels.includes('1/2'), 'Native ingredient touch must update the collecting menu');
+  const tomatoes = imageDraws.filter(d => d.path === 'assets/tomato.png');
+  assert(tomatoes.length >= 2 && tomatoes.every(d => d.alpha === 1), 'Menu and board must reuse the opaque original red tomato');
   assert(checks.length > 0 && checks.every(alpha => alpha === 1), 'Received marker stays an opaque green check');
-  console.log('PASS WeChat native touch receives carrot with original sprite/opacity, green check and 1/3 progress');
+  console.log('PASS WeChat native touch receives tomato with original sprite/opacity, green check and 1/2 progress');
   handlers.hide(); frame(300000); handlers.show(); frame(600000); handlers.resize();
   for (const [w, h, top, bottom] of [[320, 568, 20, 0], [390, 844, 95, 34]]) {
     const v = M.viewport(w, h, { top, bottom });

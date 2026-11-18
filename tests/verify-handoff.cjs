@@ -177,7 +177,7 @@ console.log('PASS executable timing/layout contract, fixed serving point, contin
 
 // Burst-play full finite levels. Queue pressure cannot introduce animation locks,
 // premature failure, duplicate ingredients, or losses at the .42-second boundary.
-for (let level = 1; level <= 4; level++) {
+for (const level of [1, 4, 20, 64]) {
   const s = new Session({ recipes, layout, level });
   let acceptedInputs = 0;
   for (const id of s.config.solution) {
@@ -189,10 +189,10 @@ for (let level = 1; level <= 4; level++) {
     s.advance(.01);
   }
   s.advance(100);
-  assert.equal(acceptedInputs, 40); assert.equal(s.engine.status, 'won');
+  assert.equal(acceptedInputs, s.config.tiles.length); assert.equal(s.engine.status, 'won');
   assert.equal(s.engine.revenue, s.config.metrics.expectedRevenue);
-  assert.equal(new Set(s.engine.jobs.flatMap(j => j.items.map(i => i.id))).size, 40);
-  assert.equal(s.engine.jobs.reduce((n, j) => n + j.ingredients.length, 0), 40);
+  assert.equal(new Set(s.engine.jobs.flatMap(j => j.items.map(i => i.id))).size, s.config.tiles.length);
+  assert.equal(s.engine.jobs.reduce((n, j) => n + j.ingredients.length, 0), s.config.tiles.length);
   assert(s.engine.jobs.every(j => j.state === 'served'));
 }
 console.log('PASS four full difficulty levels with .01-second burst inputs, seven-slot reservations and exact once-only materials/revenue');

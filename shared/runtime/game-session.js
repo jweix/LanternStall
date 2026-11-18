@@ -17,8 +17,9 @@
     restart(level) {
       if (this.options.onStart && this.options.onStart(level) === false) return false;
       this.level = level;
-      this.config = Levels.createLevel(this.options.recipes, this.options.layout, level);
+      this.config = Levels.createLevel(this.options.recipes, this.options.layout, level, this.options.levelOptions);
       this.engine = new Core.Engine(this.config);
+      this.adPending = false; this.rescueOffer = null; this.requestSequence = (this.requestSequence || 0) + 1; this.disposed = false;
       this.effects = [];
       this.slots = {};
       this.prepItems = [];
@@ -30,7 +31,7 @@
     }
     setHidden(value) {
       this.hidden = !!value;
-      this.engine.pause(this.hidden || !!this.panel);
+      this.engine.pause(this.hidden || !!this.panel || this.adPending);
       this.lastFrame = null;
     }
     setPanel(panel) {
@@ -69,6 +70,7 @@
           this.alignPrep();
         }
         this.effects.push({ event, born: event.time, origins });
+        if (event.type === 'levelFailed' && this.options.rewardedRescue && this.options.rewardedRescue.available?.() !== false) this.rescueOffer = this.engine.rescueOptions()[0] || null;
         if (event.type === 'levelWon') {
           this.wonAt = event.time;
           if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, completedLevel: this.level,
@@ -90,13 +92,15 @@
     }
     view() {
       return { state: this.engine.snapshot(), effects: this.effects, slots: this.slots,
+        rescueOffer: this.rescueOffer, adPending: this.adPending,
         panel: this.panel, reducedMotion: this.reducedMotion, level: this.level, difficultyName: this.config.difficultyName,
         toast: this.toast && this.toast.until > this.engine.now ? this.toast.text : '',
         resultReady: this.engine.status === 'failed' ||
           (this.engine.status === 'won' && this.engine.now >= this.wonAt + Motion.timing.resultDelay) };
     }
     pointer(point) {
-      if (this.hidden) return false;
+      if (this.hidden || this.disposed) return false;
+      if (this.adPending) return true;
       const p = point, e = this.engine, result = this.options.layout.result;
       if (this.panel) {
         if (inside(p, buttons.resume)) this.setPanel(null);
@@ -109,8 +113,11 @@
       }
       if (e.status !== 'playing') {
         if (!this.view().resultReady) return true;
-        if (inside(p, result.nextButton)) this.restart(this.level + (e.status === 'won' ? 1 : 0));
-        else if (inside(p, result.restButton)) {
+        if (e.status === 'failed' && this.rescueOffer && inside(p, buttons.rescueRetry)) this.restart(this.level);
+        else if (inside(p, result.nextButton)) {
+          if (e.status === 'failed' && this.rescueOffer) this.requestRescue();
+          else this.restart(this.level + (e.status === 'won' ? 1 : 0));
+        } else if (inside(p, this.rescueOffer ? buttons.rescueHome : result.restButton)) {
           if (this.options.onHome) this.options.onHome(); else this.setPanel('rest');
         }
         return true;
@@ -125,7 +132,11 @@
       }
       for (const tool of ['undo', 'stash', 'hint']) {
         if (inside(p, buttons[tool])) {
-          if (!e[tool]()) this.say(tool === 'hint' ? '暂时没有可提示的食材' : '当前无法使用这个道具');
+          if (!e[tool]()) {
+            if (tool !== 'hint' && this.options.rewardedRescue && e.rescueOptions().some(o => o.tool === tool)) {
+              this.rescueOffer = { tool }; this.requestRescue();
+            } else this.say(tool === 'hint' ? '暂时没有可提示的食材' : '当前无法使用这个道具');
+          }
           this.collectEvents(); return true;
         }
       }
@@ -137,6 +148,29 @@
       this.collectEvents();
       return selected.ok;
     }
+    async requestRescue() {
+      if (!this.options.rewardedRescue || !this.rescueOffer || this.adPending) return false;
+      const engine = this.engine, request = ++this.requestSequence, tool = this.rescueOffer.tool;
+      this.adPending = true; engine.pause(true); this.lastFrame = null;
+      try {
+        const completed = await this.options.rewardedRescue({ levelId: engine.levelId, tool });
+        if (this.disposed || this.engine !== engine || request !== this.requestSequence) return false;
+        if (completed !== true || !engine.applyRewardedRescue(tool, engine.levelId + '/' + request)) {
+          this.say('视频未完成，仍可免费再试'); return false;
+        }
+        const advice=engine.events.find(e=>e.type==='rescueSuggestedAction');
+        if(advice&&advice.action.type!=='pick')this.say(advice.action.index!==undefined?'先取回暂存食材再继续':'可点撤回或暂存继续整理');
+        this.rescueOffer = null; this.collectEvents(); return true;
+      } catch (_) {
+        if (!this.disposed && this.engine === engine) this.say('视频暂不可用，仍可免费再试');
+        return false;
+      } finally {
+        if (!this.disposed && this.engine === engine && request === this.requestSequence) {
+          this.adPending = false; engine.pause(this.hidden || !!this.panel); this.lastFrame = null;
+        }
+      }
+    }
+    dispose() { this.disposed = true; this.requestSequence++; this.engine.pause(true); }
   }
   return { Session, buttons };
 });

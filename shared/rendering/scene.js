@@ -1,8 +1,8 @@
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory(
-    require('../core/motion.js'), require('./stall-art.js'), require('./approved-ui.js'), require('../data/game-ui.js'));
-  else root.DapaidangScene = factory(root.DapaidangMotion, root.DapaidangStallArt, root.DapaidangApprovedUI, root.DapaidangGameUI);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (M, Art, Approved, UI) {
+    require('../core/motion.js'), require('../core/board-geometry.js'), require('./stall-art.js'), require('./approved-ui.js'), require('../data/game-ui.js'));
+  else root.DapaidangScene = factory(root.DapaidangMotion, root.DapaidangGeometry, root.DapaidangStallArt, root.DapaidangApprovedUI, root.DapaidangGameUI);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (M, Geometry, Art, Approved, UI) {
   'use strict';
   function createRenderer(c, images, catalog) {
     const mapped = Object.assign({}, images);
@@ -85,15 +85,14 @@
       c.save(); c.globalAlpha *= .93; ui.panel(638, 487, 193, 45, 22); c.restore();
       text('三料菜 ×1.5', 734.5, 510, 26, '#8d4c20');
       c.save(); ui.round(55, 536, 818, 791, 20); c.clip();
-      for (const n of s.nodes) {
+      for (const n of s.nodes.slice().sort(Geometry.paintOrder)) {
         if (n.removed) continue;
-        const free = !s.nodes.some(t => !t.removed && t.layer > n.layer &&
-          Math.abs(t.x - n.x) < (t.w + n.w) / 2 - .5 && Math.abs(t.y - n.y) < (t.h + n.h) / 2 - .5);
+        const free = !s.nodes.some(t => !t.removed && t.layer > n.layer && Geometry.overlap(t, n));
         tile(n.food, n, !free);
-        if (free && n.layer === 0) {
+        if (free) {
           const a = age(view, 'layerMayReveal', e => {
             const t = s.nodes.find(t => t.id === e.removedTileId);
-            return t && t.layer > n.layer && Math.abs(t.x - n.x) < (t.w + n.w) / 2 - .5 && Math.abs(t.y - n.y) < (t.h + n.h) / 2 - .5;
+            return t && t.layer > n.layer && Geometry.overlap(t, n);
           });
           if (a < .65 && !view.reducedMotion) {
             c.save(); c.globalAlpha *= Math.sin(M.clamp(a / .65) * Math.PI) * .65;
@@ -245,8 +244,9 @@
       const receipt=won&&view.saveError?'存档未成功，点按钮重试结算':Number.isFinite(view.wallet)?'钱包累计 '+view.wallet.toLocaleString():'';
       ui.victory(s.revenue, elapsed, { skipDim: true, won, receipt,
         message: won ? '要继续挑战下一关吗？' : '留意配方，给备菜栏留点空位',
-        primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : '再试一次',
+        primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : view.rescueOffer ? view.adPending ? '视频加载中…' : view.rescueOffer.tool === 'stash' ? '看视频暂存一份' : '看视频撤回一步' : '再试一次',
         restLabel: view.homeEnabled ? '回小摊看看' : '先休息一下' });
+      if (!won && view.rescueOffer) text('免费再试', 464, 1192, 31, '#805332');
       c.restore();
     }
     function draw(view, geometry) {

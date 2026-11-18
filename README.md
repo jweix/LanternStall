@@ -16,7 +16,7 @@
 | `shared/runtime/` | 输入、工具、暂停、效果和换关控制 |
 | `shared/rendering/` | 不依赖平台 API 的 Canvas 2D 绘制 |
 | `shared/data/`、`shared/assets/` | 20 道菜、14 种食材、布局和原始透明 PNG |
-| `platforms/douyin/` | 抖音首发适配、入口、安全区、生命周期、本地存档和侧边栏基础接入 |
+| `platforms/douyin/` | 抖音首发适配、入口、安全区、生命周期、本地存档和侧边栏每日复访 |
 | `platforms/wechat/` | 保留微信适配与原有 AppID |
 | `platforms/web/` | 浏览器试玩；`demo/` 中保留原始固定时间轴展示 |
 | `docs/` | 已修正规则的交接说明、当前实现状态和验收说明 |
@@ -34,7 +34,7 @@ npm run build:douyin
 npm run test:douyin
 ```
 
-抖音开发者工具选「小游戏」，导入 **`platforms/douyin/game/`**。未配置正式 AppID 时，在导入界面选择工具提供的测试号；测试号不能上传。创建应用后，把 `tt…` AppID 填入 `platforms/douyin/project.config.json` 再构建。当前完成游戏端适配及侧边栏跳转／回访识别；复访礼包、资质、实际 IDE 编译、真机与提审验收未完成。
+抖音开发者工具选「小游戏」，导入 **`platforms/douyin/game/`**。未配置正式AppID时，在导入界面选择工具提供的测试号；测试号不能上传。创建应用后，把`tt…`AppID填入`platforms/douyin/project.config.json`再构建。当前完成游戏端适配、侧边栏主页引导与每日200金币自动发放／持久化去重；资质、实际IDE编译、真机与提审验收未完成。
 
 全平台验证：`npm run build` 后 `npm test`。
 

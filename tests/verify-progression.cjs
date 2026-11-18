@@ -43,6 +43,29 @@ const corrupt = hydrate({ version: 2, coins: -5, owned: ['wrong', 'sea-lamp'], e
 assert.equal(corrupt.coins, 0); assert.equal(corrupt.equipped.lamp, 'warm-lamp'); assert.deepEqual(corrupt.activity, [0, 0, 0, 0]);
 console.log('PASS atomic storage failure/retry, legacy unlock migration and malformed save recovery');
 
+let sidebarNow = Date.parse('2026-11-18T23:59:59+08:00'), sidebarSave, sidebarFail = false;
+const sidebarProfile = new Profile({ now: () => sidebarNow, save: s => { if (sidebarFail) return false; sidebarSave = s; } });
+const visit = () => ({ available: true, returned: true, enteredAt: sidebarNow });
+for (const bad of [null, {}, { ...visit(), available: false }, { ...visit(), returned: false },
+  { ...visit(), enteredAt: null }, { ...visit(), enteredAt: sidebarNow - 86400000 }]) assert.equal(sidebarProfile.rewardSidebar(bad), false);
+assert.equal(sidebarProfile.state.coins, 0);
+sidebarFail = true; assert.equal(sidebarProfile.rewardSidebar(visit()), false);
+assert.equal(sidebarProfile.state.sidebarRewardDay, ''); assert.equal(sidebarProfile.state.coins, 0); assert.equal(sidebarSave, undefined);
+sidebarFail = false; assert.equal(sidebarProfile.rewardSidebar(visit()).credited, C.economy.sidebar);
+assert.equal(sidebarSave.sidebarRewardDay, '2026-11-18'); assert.equal(sidebarSave.ledger.length, 1);
+assert.equal(sidebarProfile.rewardSidebar(visit()), false);
+const sidebarReload = new Profile({ data: sidebarSave, now: () => sidebarNow });
+assert.equal(sidebarReload.rewardSidebar(visit()), false); assert.equal(sidebarReload.state.coins, 200);
+const yesterdayVisit = visit(); sidebarNow += 2000;
+assert.equal(sidebarReload.rewardSidebar(yesterdayVisit), false, 'Remaining in the foreground across midnight is not a new visit');
+assert.equal(sidebarReload.rewardSidebar(visit()).credited, 200); assert.equal(sidebarReload.state.coins, 400);
+sidebarNow -= 86400000; assert.equal(sidebarReload.rewardSidebar(visit()), false, 'Clock rollback cannot repeat a sidebar grant');
+assert.equal(hydrate({ version: 2, coins: 355 }).sidebarRewardDay, '', 'Existing version-2 saves gain an unused sidebar reward');
+assert.equal(hydrate({ version: 2, sidebarRewardDay: 'invalid' }).sidebarRewardDay, '');
+const futureDaily = new Profile({ now: () => sidebarNow, data: { version: 2, daily: { day: '2026-11-20' } } });
+assert.equal(futureDaily.rewardSidebar(visit()), false, 'A gameplay daily date in the future also blocks clock rollback');
+console.log('PASS sidebar automatic wallet transaction, source/day validation, failed-save retry, reload deduplication and clock rollback');
+
 now = Date.parse('2026-11-13T10:00:00+08:00');
 const event = new Profile({ now: () => now, legacy: { level: 6 } });
 for (let d = 0; d < 5; d++) { for (let i = 0; i < 3; i++) finish(event, 1); now += 86400000; }

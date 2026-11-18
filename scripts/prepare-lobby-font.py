@@ -41,6 +41,11 @@ if args.body_source:
     body_subset.populate(text=text)
     body_subset.subset(body)
     body = instantiateVariableFont(body, {'wght': 500}, inplace=True)
+    # Canvas UI uses horizontal text only. Omit vertical advance tables while
+    # retaining the same outlines, horizontal metrics and shaping features.
+    for table in ['vhea', 'vmtx']:
+        if table in body:
+            del body[table]
     for record in body['name'].names:
         if record.nameID in [1, 3, 4, 6, 16]:
             record.string = 'LanternBody'.encode(record.getEncoding())

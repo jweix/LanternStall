@@ -3,7 +3,7 @@ const { createRewardedRescue } = require('./rewarded-video.js');
 const adConfig = require('./ad-config.js');
 const rewardedRescue = createRewardedRescue(tt, adConfig.rewardedRescueUnitId);
 const { createPlatform, createSidebar } = require('./platform.js');
-const sidebar = createSidebar(tt);
+const sidebar = createSidebar(tt, () => Date.now());
 let hidden = false, app = null, lifecycleReady = false;
 try { if (tt.getLaunchOptionsSync) sidebar.onShow(tt.getLaunchOptionsSync()); } catch (_) { /* onShow remains authoritative. */ }
 // Register before loading shared modules/assets, so cold and warm starts are seen.
@@ -11,7 +11,7 @@ tt.onShow(options => {
   hidden = false;
   sidebar.onShow(options);
   if (lifecycleReady) { cancel(); resize(); }
-  if (app) app.setHidden(false);
+  if (app) { app.setHidden(false); app.syncSidebar(); }
 });
 tt.onHide(() => { hidden = true; if (lifecycleReady) cancel(); if (app) app.setHidden(true); });
 
@@ -81,8 +81,9 @@ function start() {
     renderer = createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets: index, ...platform.loadLobbyFonts() });
     app = new App({ recipes, layout, rewardedRescue, data: platform.read('lantern-stall-v2', null),
       legacy: platform.read('lantern-progress-v1', { level: 1 }), settings: platform.read('lantern-settings-v1', {}),
-      save: value => platform.write('lantern-stall-v2', value), sidebar });
-    app.setHidden(hidden); sidebar.check();
+      save: value => platform.write('lantern-stall-v2', value), now: () => Date.now(), sidebar });
+    app.setHidden(hidden);
+    sidebar.check().then(() => { if (app && !hidden) app.syncSidebar(); });
     function frame(ms) {
       // onWindowResize is not present on every host; also observe size on resume.
       if (!hidden) app.hits = renderer.draw(app.frame(ms), geometry);

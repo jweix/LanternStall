@@ -74,6 +74,12 @@
       U.skin('secondary',R.home.decor);
       sprite('lobby-icon-brush',[636,R.home.decor[1]+3,48,60]);
       display('布置小摊',R.home.decor[0]+158,R.home.decor[1]+35,37,'#683b18','center');hit(R.home.decor,'tab','decor','布置小摊');
+      if(v.sidebar?.available){
+        const r=R.home.sidebar;U.skin('secondary',r);sprite('lobby-coin',[r[0]+14,r[1]+12,46,46]);
+        if(v.sidebar.rewarded)text('今日已到账',r[0]+180,r[1]+35,31,'#683b18','center');
+        else {text('复访有礼',r[0]+68,r[1]+35,31,'#683b18');text('+'+v.sidebar.amount,r[0]+r[2]-16,r[1]+35,29,'#a64a21','right');}
+        hit(r,'sidebar-reward',null,'侧边栏复访有礼，'+(v.sidebar.rewarded?'今日已到账':'每日'+v.sidebar.amount+'金币'));
+      }
       U.skin('wish',R.home.wish);
       const wy=R.home.wish[1];
       const wish=C.byId[v.state.wish],offer=v.themeOffers[wish.theme]||v.themeOffers.bamboo,owned=offer.complete,theme=C.byTheme[offer.id];

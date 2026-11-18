@@ -42,7 +42,7 @@
   items.find(i => i.id === 'recipe-plate').condition = { type: 'recipes', target: 12 };
   const byId = Object.fromEntries(items.map(i => [i.id, i]));
   const byTheme = Object.fromEntries(themes.map(t => [t.id, t]));
-  const economy = { firstWin: 150, threeWins: 150, practice: 200, ad: 200, adLimit: 3 };
+  const economy = { firstWin: 150, threeWins: 150, practice: 200, ad: 200, adLimit: 3, sidebar: 200 };
   const shopThemes = themes.filter(t => t.id !== 'base' && !t.rare);
   const rareItems = items.filter(i => i.condition);
   const rareFamilies = themes.filter(t => t.rare).map(t => ({id:t.id,name:t.name,theme:t.id,

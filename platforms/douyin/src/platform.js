@@ -59,20 +59,24 @@ function createPlatform(api, canvas) {
   };
 }
 
-function createSidebar(api) {
-  let available = false, returned = false;
+function createSidebar(api, now = () => Date.now()) {
+  let available = false, returned = false, enteredAt = null;
   return {
     // Called synchronously by the entry's onShow, even while images are loading.
     onShow(options) {
       returned = !!options && options.launch_from === 'homepage' && options.location === 'sidebar_card';
+      enteredAt = now();
     },
     check() {
-      if (!api.checkScene || !api.navigateToScene) return;
-      try {
-        api.checkScene({ scene: 'sidebar', success: result => { available = result.isExist === true; }, fail: () => { available = false; } });
-      } catch (_) { available = false; }
+      return new Promise(resolve => {
+        const done = value => { available = value; resolve(value); };
+        if (typeof api.checkScene !== 'function' || typeof api.navigateToScene !== 'function') { done(false); return; }
+        try {
+          api.checkScene({ scene: 'sidebar', success: result => done(!!result && result.isExist === true), fail: () => done(false) });
+        } catch (_) { done(false); }
+      });
     },
-    state() { return { available, returned }; },
+    state() { return { available, returned, enteredAt }; },
     open() {
       if (!available) return Promise.resolve(false);
       return new Promise(resolve => {

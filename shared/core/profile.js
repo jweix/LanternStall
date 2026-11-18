@@ -23,7 +23,7 @@
       equipped: Object.fromEntries(C.slots.map(s => [s, 'warm-' + s])), baseTheme:'warm', wish: 'bamboo-lamp', dishes: {},
       daily: { day: '', wins: 0, practice: false, ads: 0, eventWins: 0 }, activity: [0, 0, 0, 0],
       activeBook: 0, daysOpen: 0, photos: [], ledger: [], nextAttempt: 1, activeAttempt: null,
-      reducedMotion: false, tutorialDone: false };
+      sidebarRewardDay: '', reducedMotion: false, tutorialDone: false };
   }
   function hydrate(raw, legacy) {
     const s = fresh();
@@ -46,6 +46,7 @@
       for (const key of ['wins', 'ads', 'eventWins']) if (integer(raw.daily[key], key === 'wins' ? 100000 : 3)) s.daily[key] = raw.daily[key];
       s.daily.practice = raw.daily.practice === true;
     }
+    if (validDay(raw.sidebarRewardDay)) s.sidebarRewardDay = raw.sidebarRewardDay;
     if (Array.isArray(raw.activity)) s.activity = s.activity.map((_, i) => integer(raw.activity[i], 14) ? raw.activity[i] : 0);
     if (integer(raw.activeBook, 3)) s.activeBook = raw.activeBook;
     if (integer(raw.daysOpen, 100000)) s.daysOpen = raw.daysOpen;
@@ -80,6 +81,24 @@
       if (!s.daily.day || today > s.daily.day) s.daily = { day: today, wins: 0, practice: false, ads: 0, eventWins: 0 };
     }
     daily() { const s = copy(this.state); this.rollDay(s); return s.daily; }
+    sidebarRewarded() { return day(this.now()) <= this.state.sidebarRewardDay; }
+    canRewardSidebar(visit) {
+      const today = day(this.now());
+      // A navigation callback, an old foreground session, or another entry is
+      // never proof of today's sidebar visit. Keep a separate durable day so
+      // rolling gameplay's daily counters cannot reopen this reward.
+      return !!visit && visit.available === true && visit.returned === true && Number.isFinite(visit.enteredAt) &&
+        day(visit.enteredAt) === today && today >= this.state.daily.day && !this.sidebarRewarded();
+    }
+    rewardSidebar(visit) {
+      if (!this.canRewardSidebar(visit)) return false;
+      const today = day(this.now());
+      return this.transact(s => {
+        this.rollDay(s); s.sidebarRewardDay = today;
+        this.log(s, '侧边栏每日复访', C.economy.sidebar);
+        return { credited: C.economy.sidebar };
+      });
+    }
     released(book) { return day(this.now()) >= day(Date.parse(C.event.start + 'T00:00:00+08:00') + book * 7 * 86400000); }
     begin(level) {
       if (!integer(level, 10000) || level < 1 || level > this.nextLevel) return false;

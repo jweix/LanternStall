@@ -47,8 +47,28 @@
       if (this.settlement?.first && this.profile.state.cleared.length === 1 && !this.profile.state.tutorialDone) this.modal = { type: 'first' };
     }
     setHidden(value) { this.hidden = !!value; this.pointerCancel(); if (this.session) this.session.setHidden(value); }
+    syncSidebar() {
+      if (this.hidden || !this.options.sidebar) return;
+      this.sidebarSaveError = false;
+      const visit = this.options.sidebar.state();
+      if (!this.profile.canRewardSidebar(visit)) return;
+      if (this.modal?.type === 'sidebar') this.modal = { type: 'sidebar' };
+      const receipt = this.profile.rewardSidebar(visit);
+      this.sidebarSaveError = !receipt && !!this.profile.error;
+      if (receipt) {
+        this.say('复访有礼 +' + receipt.credited + ' 金币，已自动到账');
+        this.sidebarReceiptPending = { credited: receipt.credited, day: this.profile.state.sidebarRewardDay }; this.showSidebarReceipt();
+      }
+      else if (this.sidebarSaveError) this.say(this.profile.error);
+    }
+    showSidebarReceipt() {
+      if (!this.hidden && this.sidebarReceiptPending && this.screen === 'home' && (!this.modal || this.modal.type === 'sidebar')) {
+        this.modal = { type: 'sidebar', receipt: this.sidebarReceiptPending }; this.sidebarReceiptPending = null; this.toast = null; this.hits = [];
+      }
+    }
     view() {
       const state = this.profile.state;
+      const sidebar = this.options.sidebar ? this.options.sidebar.state() : null;
       const themePreview = this.screen === 'home' && this.tab === 'decor' && this.sub.decor === 'themes' && this.previewTheme;
       const previewEquipment = themePreview ? Object.fromEntries(C.slots.map(slot => [slot, this.theme + '-' + slot])) :
         this.previewFamily ? Object.fromEntries(C.slots.map(slot=>[slot,this.previewFamily+'-'+slot])) :
@@ -62,9 +82,10 @@
           wallet: state.coins, homeEnabled: true, introduceStore: state.cleared.length === 1 && !state.tutorialDone, saveError: !!this.profile.error, sandbox: this.sandbox }) : null,
         toast: this.toast && this.toast.until > (this.options.now ? this.options.now() : Date.now()) ? this.toast.text : '',
         released: C.event.books.map((_, i) => this.profile.released(i)), memories: this.profile.memories(), adAvailable: !!this.options.rewardedAd,
-        sidebar: this.options.sidebar ? this.options.sidebar.state() : null };
+        sidebar: sidebar ? Object.assign({}, sidebar, {
+          amount: C.economy.sidebar, rewarded: this.profile.sidebarRewarded(), saveError: !!this.sidebarSaveError && this.profile.canRewardSidebar(sidebar) }) : null };
     }
-    frame(ms) { if (this.screen === 'game') this.session.frame(ms); return this.view(); }
+    frame(ms) { if (this.screen === 'game') this.session.frame(ms); this.showSidebarReceipt(); return this.view(); }
     scrollRegion(point) {
       if(this.hidden||this.modal||this.screen!=='home'||this.tab!=='decor')return null;
       return this.hits.find(h=>h.action==='scroll-region'&&(!point||point.x>=h.rect[0]&&point.x<=h.rect[0]+h.rect[2]&&point.y>=h.rect[1]&&point.y<=h.rect[1]+h.rect[3]));
@@ -107,9 +128,20 @@
     }
     handle(action, value) {
       const s = this.profile.state;
+      if (action === 'sidebar-reward') {
+        if (this.options.sidebar?.state().available && this.screen === 'home') { this.modal = { type: 'sidebar', receipt: this.sidebarReceiptPending }; this.sidebarReceiptPending = null; this.toast = null; }
+        return;
+      }
+      if (action === 'sidebar-retry') { this.syncSidebar(); return; }
       if (action === 'sidebar') {
-        if (!this.options.sidebar || !this.options.sidebar.state().available) return;
-        this.options.sidebar.open().then(ok => { if (!ok) this.say('暂时无法打开，请重试'); });
+        if (!this.options.sidebar?.state().available || this.sidebarNavigating || this.profile.sidebarRewarded()) return;
+        this.modal = null; this.hits = []; this.sidebarNavigating = true;
+        this.options.sidebar.open().then(ok => {
+          if (!ok) {
+            if (this.screen === 'home' && !this.modal) this.modal = { type: 'sidebar' };
+            this.say('暂时无法打开，请重试');
+          }
+        }).finally(() => { this.sidebarNavigating = false; });
         return;
       }
       if(['tab','sub','category','category-page','tutorial'].includes(action)){this.decorScroll=0;this.pointerCancel();}

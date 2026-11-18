@@ -34,6 +34,11 @@ module.exports = function buildMiniGame(name, label, options = {}) {
           ';for(const r of d.levels.concat(d.repeat))r.orders=p[r.orders];module.exports=d;\n');
       } else fs.writeFileSync(path.join(dataOut, name), 'module.exports=' + JSON.stringify(data) + ';\n');
     }
+    else if (['game-ui.js', 'lobby-layout.js', 'lobby-font-metrics.js'].includes(name)) {
+      // These exports are plain data; native packages need neither the browser
+      // wrapper nor source formatting. Keep their values identical on both ends.
+      fs.writeFileSync(path.join(dataOut, name), 'module.exports=' + JSON.stringify(require(source)) + ';\n');
+    }
     else fs.copyFileSync(source, path.join(dataOut, name));
   }
   for (const name of ['recipes', 'ingredients', 'layout']) {
@@ -52,6 +57,19 @@ module.exports = function buildMiniGame(name, label, options = {}) {
     fs.copyFileSync(path.join(root, 'shared/assets/lobby/fonts', file), path.join(out, 'assets/fonts', file));
   }
   if (options.projectConfig) fs.writeFileSync(path.join(out, 'project.config.json'), JSON.stringify(options.projectConfig, null, 2) + '\n');
+  function compact(dir) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file=path.join(dir,entry.name);
+      if(entry.isDirectory()) compact(file);
+      else if(entry.name.endsWith('.js')) {
+        const source=fs.readFileSync(file,'utf8');
+        // Retain every newline for ASI/debugging. Skip any file that could have
+        // significant indentation inside a template or continued string.
+        if(!source.includes('`')&&!/\\\r?\n|[\u2028\u2029]/.test(source)) fs.writeFileSync(file,source.replace(/^[\t ]+|[\t ]+$/gm,''));
+      }
+    }
+  }
+  compact(out);
   function size(dir) {
     return fs.readdirSync(dir, { withFileTypes: true }).reduce((n, item) => n +
       (item.isDirectory() ? size(path.join(dir, item.name)) : fs.statSync(path.join(dir, item.name)).size), 0);

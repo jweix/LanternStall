@@ -37,6 +37,51 @@
       button('下一页', [598, y, 230, 82], 'page', 1, false, p >= max); return p;
     }
     function appearance(equipped) { return Object.fromEntries(C.slots.map(slot => [slot, C.byTheme[C.byId[equipped[slot]].theme]])); }
+    function sidebarGuide() {
+      const s=view.sidebar,receipt=view.modal.receipt,done=s.rewarded||!!receipt,amount=receipt?receipt.credited:s.amount,accent=done?'#59814b':'#b84429';
+      const words=shop.words;
+      ui.panel(55,190,818,1350,48,'wood');box(68,203,792,1324,cream,38);
+      button('关闭',[724,224,100,72],'close');
+      label(done?'复访奖励到账':'复访有礼',464,304,50,ink,'center');
+      words(done?'奖励已存入小摊钱包':'每天从首页侧边栏回到小摊',464,374,30,muted,'center');
+      function step(n,title,y) {
+        box(112,y-25,50,50,done?'#e7efd4':accent,25);
+        if(done)shop.check(136,y,12);else words(n,137,y,31,'#fff5db','center');
+        words(title,181,y,34,ink);
+      }
+      function arrow(x,y) {
+        c.save();c.strokeStyle='#ffcf62';c.lineWidth=9;c.lineCap='round';c.lineJoin='round';
+        c.beginPath();c.moveTo(x+44,y+35);c.lineTo(x,y);c.lineTo(x+4,y+29);c.moveTo(x,y);c.lineTo(x+29,y-1);c.stroke();c.restore();
+      }
+      step(1,'打开首页侧边栏',444);
+      box(112,490,704,174,'#252a30',22);
+      words('首页示意',790,516,24,'#b8bfc7','right');
+      c.save();c.strokeStyle='#ffcf62';c.lineWidth=5;c.beginPath();c.arc(176,569,42,0,Math.PI*2);c.stroke();
+      c.strokeStyle='#fff5db';c.lineWidth=6;c.lineCap='round';
+      for(let i=0;i<3;i++){c.beginPath();c.moveTo(157,555+i*14);c.lineTo(195-i*7,555+i*14);c.stroke();}
+      c.restore();
+      words('同城',310,570,31,'#bfc3c9','center');words('商城',452,570,31,'#bfc3c9','center');words('推荐',594,570,34,'#ffffff','center');
+      shop.round([572,603,44,5],'#fff5db',2);
+      c.save();c.strokeStyle='#e4e7ea';c.lineWidth=4;c.beginPath();c.arc(749,566,16,0,Math.PI*2);c.moveTo(761,580);c.lineTo(776,595);c.stroke();c.restore();
+      arrow(210,603);words('点这里',286,632,26,'#ffdb88');
+      words('下方按钮也可直接前往',464,698,27,muted,'center');
+      step(2,'找到「灯火大排档」',758);
+      box(112,803,704,235,'#fffdf5',22);
+      words('常用小游戏',142,839,28,ink);words('侧边栏示意',786,839,24,muted,'right');
+      const target=[134,871,224,151];shop.outline(target,done?'#6f9958':'#d48735',4,18);
+      box(199,886,94,82,'#f8d6a0',16);image('lobby-nav-home',206,889,80,76);
+      words('灯火大排档',246,996,28,ink,'center');
+      for(const x of [473,697]){
+        box(x-41,886,82,82,'#e9e4d8',16);
+        c.save();c.fillStyle='#c8bdab';c.beginPath();c.arc(x,927,18,0,Math.PI*2);c.fill();c.restore();
+        words('其他游戏',x,996,26,'#aaa08f','center');
+      }
+      step(3,done?'金币已自动到账':'返回游戏得金币',1090);
+      c.save();const glow=c.createRadialGradient(385,1194,10,385,1194,104);glow.addColorStop(0,'#ffe599cc');glow.addColorStop(1,'#ffe59900');c.fillStyle=glow;c.beginPath();c.arc(385,1194,104,0,Math.PI*2);c.fill();c.restore();
+      image('lobby-coin',319,1128,132,132);label('+'+amount,475,1195,74);
+      words(s.saveError?'保存失败，奖励尚未到账':done?'奖励已自动到账，感谢回来逛逛':'每日一次，用金币布置喜欢的小摊',464,1292,29,s.saveError?'#b84429':muted,'center');
+      button(done?'开心收下':s.saveError?'重试保存':'去首页侧边栏',[145,1361,638,108],done?'close':s.saveError?'sidebar-retry':'sidebar',null,true);
+    }
     function modal() {
       const m = view.modal; if (!m) return;
       hits = [];
@@ -44,8 +89,9 @@
         const sidebar=view.sidebar&&view.sidebar.available;
         const layout=ui.settingsPanel(view.state.reducedMotion,{words:shop.words,sidebar});
         hits.push({rect:layout.toggle,action:'reduced',label:'动效',role:'switch',checked:!view.state.reducedMotion},{rect:layout.close,action:'close',label:'关闭'});
-        if(sidebar){button('去首页侧边栏',[160,1050,608,88],'sidebar');shop.words(view.sidebar.returned?'已从侧边栏返回':'下次从首页侧边栏回到小摊',464,1184,27,muted,'center');}return;
+        if(sidebar){button('侧边栏复访有礼',[160,1050,608,88],'sidebar-reward');shop.words(view.sidebar.rewarded?'今日复访奖励已到账':'从首页侧边栏回来，每日得'+view.sidebar.amount+'金币',464,1184,27,muted,'center');}return;
       }
+      if(m.type==='sidebar'){sidebarGuide();return;}
       ui.panel(55, 263, 818, 1170, 48, 'wood');
       box(68, 276, 792, 1144, cream, 38); button('关闭', [687, 306, 134, 80], 'close');
       if (m.type === 'purchase') {

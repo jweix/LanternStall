@@ -94,20 +94,22 @@ render(rich);assert(labels.includes('星河琉璃 · 使用中')&&!rich.hits.som
 rich.handle('tab','home');const equippedAppearance=JSON.stringify(rich.view().appearance);tap('tab','decor',rich);render(rich);
 assert.equal(rich.sub.decor,'themes');assert(!rich.view().themePreview);assert.equal(JSON.stringify(rich.view().appearance),equippedAppearance,'Opening wardrobe keeps the saved outfit until an explicit preview');
 assert(labels.includes('点选套装，预览后再换上'));
-rich.handle('tab','recipes');render(rich);assert(rich.hits.some(h=>h.action==='recipe'&&h.value==='d01'));assert(labels.includes('已做45份'));
+rich.handle('tab','recipes');render(rich);assert(!rich.hits.some(h=>h.action==='recipe'));assert(labels.includes('已做45份'));
 const partial=new App({recipes,layout,data:{version:2,cleared:[1,2,3],dishes:{d01:2,d02:2,d06:5}}});partial.handle('tab','recipes');
 for(let page=0;page<4;page++){
   partial.page=page;render(partial);
   for(const recipe of recipes.slice(page*6,page*6+6)){
     const count=partial.profile.state.dishes[recipe.id]||0,n=Number(recipe.id.slice(1))-1,id=n<6?'lobby-dish-'+n:recipe.id;
-    assert(partial.hits.some(h=>h.action==='recipe'&&h.label===(recipe.displayName||recipe.name)+'，已做'+count+'份'));
+    const i=recipes.indexOf(recipe)%6,g=Lobby.R.recipes.cards;
+    assert.equal(partial.pointer({x:g.x+i%g.columns*g.dx+g.w/2,y:g.y+Math.floor(i/g.columns)*g.dy+g.h/2}),false,'Recipe cards are display-only');
+    assert.equal(partial.modal,null,'Tapping a lit or unlit dish never opens an introduction');
     assert(draws.some(d=>d.id===id+(count?'':'-unlit')),'Every recipe keeps its own illustration, gray only before its first serving');
     assert(labels.includes('已做'+count+'份'));
   }
   assert(!labels.some(t=>['？','待上桌','未点亮的家常菜','首次做成后点亮'].includes(t)));
+  assert(!partial.hits.some(h=>h.action==='recipe'),'No native or accessible recipe buttons remain');
   if(!page)for(let n=0;n<6;n++)assert(draws.some(d=>d.id==='lobby-art-dish-'+n),'Unlit names keep the same lettering as lit names');
 }
-partial.handle('recipe','d03');render(partial);assert(labels.includes('双料香菇鸡'));assert(draws.some(d=>d.id==='lobby-dish-2-unlit'));
 rich.handle('tab','market');render(rich);assert(!rich.hits.some(h=>/claim|领取/.test(h.action+' '+h.label)));
 const savedBalance=rich.profile.state.coins;rich.profile.state.coins=1000000000;rich.handle('tab','home');render(rich);assert(labels.includes('10亿'));rich.profile.state.coins=savedBalance;
 for(const [w,h,top,bottom] of [[320,568,20,0],[390,844,95,34],[1024,768,0,0]]) {
@@ -164,7 +166,7 @@ for(const f of ['../scripts/prepare-lobby-assets.py','../shared/rendering/lobby-
 }
 // A partial final page creates exactly two recipe cards, not six prepainted slots.
 rich.handle('tab','recipes');rich.page=3;render(rich);
-assert.equal(rich.hits.filter(h=>h.action==='recipe').length,2);
+assert(!rich.hits.some(h=>h.action==='recipe'));
 const cardSlices=draws.filter(d=>d.id==='lobby-card'&&d.args.length===8&&d.args[5]>=Lobby.R.recipes.cards.y-1&&d.args[5]<1455);
 assert.equal(cardSlices.length,18,'Two cards, each with nine independently scaled slices');
 assert(!draws.some(d=>d.id==='d01'||d.id==='lobby-dish-0'),'No baked first-page dish under the last page');

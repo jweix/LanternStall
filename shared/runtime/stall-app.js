@@ -240,7 +240,6 @@
         } return;
       }
       if (action === 'equip-theme') { if (this.check(this.profile.equipTheme(value), '先配齐主题再换上')) { this.preview = null; this.selection = null; this.say('已换上整套主题'); } return; }
-      if (action === 'recipe') { this.modal = { type: 'recipe', id: value }; return; }
       if (action === 'photo') { if (this.check(this.profile.photo(), s.photos.length >= 24 ? '相册已满，请先删除一张照片' : '首通10关后可以拍照')) this.say('小摊的模样已存进经营相册'); return; }
       if (action === 'photo-view') { this.modal = { type: 'photo', id: value }; return; }
       if (action === 'memory') { this.modal = { type: 'memory', id: value }; return; }

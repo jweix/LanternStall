@@ -114,7 +114,6 @@
           U.dish(recipe.id,native?[r[0]+(n%2?52:54),r[1]+14-row*2,285,181]:[r[0]+54,r[1]+14,285,181],!count);
           if(native)sprite('lobby-art-dish-'+n,[r[0]+(n%2?73:69),r[1]+201-row*2,290,47]);else display(name,r[0]+196,r[1]+224,44,'#653710','center',370);
           text('已做'+count+'份',r[0]+196,r[1]+268,31,'#88592e','center');
-          hit(r, 'recipe', recipe.id, name + '，已做' + count + '份');
         });
         pagination(catalog.recipes.length, 6, R.recipes.pageY);
       } else if (v.sub.recipes === 'achievements') {
@@ -198,7 +197,7 @@
       text(v.sub.market === 'archive' ? '已开启的活动册永久保留' : '闯关攒进度，奖励自动入收藏', 444, 1552.5, 29, '#7b461e', 'center');
     }
     function draw(view){v=view;hits=[];scene.backdrop((v.savedAppearance||v.appearance).background.id,[0,0,SIZE.width,SIZE.height]);if(v.tab!=='home')U.panel(v.tab);header();({home,decor,recipes,market}[v.tab]||home)();wallet();footer();return hits;}
-    return{draw,backdrop:scene.backdrop,preview:drawPreview,item:drawItem,memory:drawMemory,dish:U.dish};
+    return{draw,backdrop:scene.backdrop,preview:drawPreview,item:drawItem,memory:drawMemory};
  }
  return{create,SIZE,R,viewport};
 });

@@ -7,6 +7,7 @@
  const SIZE=L.size,R=L,slots=['lamp','awning','tables','ornament','menu','plate','wok'];
  const slotNames={lamp:'灯串',awning:'棚布',tables:'桌饰',ornament:'摆件',menu:'招牌',plate:'餐盘',wok:'炒锅',chef:'大厨',background:'场景'};
  const navs=[['home','小摊'],['decor','装扮'],['recipes','菜谱'],['market','夜市']];
+ // Literal names in the reference lettering; renamed recipes use live text.
  const recipeArtNames=['番茄炒蛋','青椒肉片','双料香菇鸡','西兰花虾仁','芹菜牛肉','豆腐炒蛋'];
  function viewport(width,height,insets){const i=Object.assign({left:0,top:0,right:0,bottom:0},insets||{}),scale=Math.min((width-i.left-i.right)/SIZE.width,(height-i.top-i.bottom)/SIZE.height);return{scale,x:i.left+(width-i.left-i.right-SIZE.width*scale)/2,y:i.top+(height-i.top-i.bottom-SIZE.height*scale)/2};}
  function create(c,images,catalog){

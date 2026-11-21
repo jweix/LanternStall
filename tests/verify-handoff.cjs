@@ -284,7 +284,7 @@ assert(lid.rx < 211 * .42, 'Native lid fits inside the plate rim');
 assert(drawing.labels.some(t => t.value === '交给大厨啦'));
 visual.advance(.26); drawing = record(visual.view());
 assert(!drawing.shapes.some(d => d.color === '#ae733d40'));
-assert(drawing.labels.some(t => t.value === '豆腐炒蛋' && t.alpha === 1));
+assert(drawing.labels.some(t => t.value === '鸡蛋炒豆腐' && t.alpha === 1));
 visual.advance(1.56); drawing = record(visual.view());
 const servedArt = drawing.draws.find(d => d.id === 'd17');
 near(servedArt.x, 735); near(servedArt.y, 188);

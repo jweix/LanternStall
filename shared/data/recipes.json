@@ -66,7 +66,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "双料香菇鸡"
+    "displayName": "香菇鸡丁"
   },
   {
     "id": "d04",
@@ -116,7 +116,7 @@
   },
   {
     "id": "d06",
-    "name": "豆腐炒蛋",
+    "name": "鸡蛋炒豆腐",
     "ingredients": [
       "tofu",
       "egg"
@@ -135,7 +135,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "豆腐炒蛋"
+    "displayName": "鸡蛋炒豆腐"
   },
   {
     "id": "d07",
@@ -208,7 +208,7 @@
   },
   {
     "id": "d10",
-    "name": "香菇豆腐",
+    "name": "香菇烧豆腐",
     "ingredients": [
       "shiitake",
       "tofu"
@@ -227,7 +227,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "香菇豆腐"
+    "displayName": "香菇烧豆腐"
   },
   {
     "id": "d11",
@@ -251,7 +251,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "香菇鸡丁"
+    "displayName": "葱香鸡丁"
   },
   {
     "id": "d12",
@@ -347,7 +347,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "番茄豆腐蛋"
+    "displayName": "番茄豆腐炒蛋"
   },
   {
     "id": "d16",
@@ -371,7 +371,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "青椒香菇鸡"
+    "displayName": "青椒香菇鸡丁"
   },
   {
     "id": "d17",
@@ -395,7 +395,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "木耳胡萝卜蛋"
+    "displayName": "胡萝卜炒蛋"
   },
   {
     "id": "d18",
@@ -419,11 +419,11 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "青椒虾仁蛋"
+    "displayName": "青椒虾仁炒蛋"
   },
   {
     "id": "d19",
-    "name": "葱香豆腐牛肉",
+    "name": "牛肉烧豆腐",
     "ingredients": [
       "scallion",
       "tofu",
@@ -443,7 +443,7 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "葱香豆腐牛肉"
+    "displayName": "牛肉烧豆腐"
   },
   {
     "id": "d20",
@@ -467,6 +467,6 @@
     },
     "width": 1024,
     "height": 768,
-    "displayName": "菌菇西兰肉片"
+    "displayName": "西兰花炒肉"
   }
 ]

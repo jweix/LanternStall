@@ -5,11 +5,11 @@ d02 青椒肉片 | 青椒＋猪肉 | shared/assets/dishes/d02.png
 d03 香菇鸡丁 | 香菇＋鸡肉 | shared/assets/dishes/d03.png
 d04 西兰花虾仁 | 西兰花＋虾仁 | shared/assets/dishes/d04.png
 d05 芹菜牛肉 | 芹菜＋牛肉 | shared/assets/dishes/d05.png
-d06 豆腐炒蛋 | 豆腐＋鸡蛋 | shared/assets/dishes/d06.png
+d06 鸡蛋炒豆腐 | 豆腐＋鸡蛋 | shared/assets/dishes/d06.png
 d07 胡萝卜肉丝 | 胡萝卜＋猪肉 | shared/assets/dishes/d07.png
 d08 葱爆牛肉 | 葱＋牛肉 | shared/assets/dishes/d08.png
 d09 木耳炒蛋 | 木耳＋鸡蛋 | shared/assets/dishes/d09.png
-d10 香菇豆腐 | 香菇＋豆腐 | shared/assets/dishes/d10.png
+d10 香菇烧豆腐 | 香菇＋豆腐 | shared/assets/dishes/d10.png
 d11 葱香香菇鸡丁 | 香菇＋鸡肉＋葱 | shared/assets/dishes/d11.png
 d12 青椒胡萝卜牛肉 | 青椒＋胡萝卜＋牛肉 | shared/assets/dishes/d12.png
 d13 芹菜木耳肉片 | 芹菜＋木耳＋猪肉 | shared/assets/dishes/d13.png
@@ -18,7 +18,7 @@ d15 番茄豆腐炒蛋 | 番茄＋豆腐＋鸡蛋 | shared/assets/dishes/d15.png
 d16 青椒香菇鸡丁 | 青椒＋香菇＋鸡肉 | shared/assets/dishes/d16.png
 d17 木耳胡萝卜炒蛋 | 木耳＋胡萝卜＋鸡蛋 | shared/assets/dishes/d17.png
 d18 青椒虾仁炒蛋 | 青椒＋虾仁＋鸡蛋 | shared/assets/dishes/d18.png
-d19 葱香豆腐牛肉 | 葱＋豆腐＋牛肉 | shared/assets/dishes/d19.png
+d19 牛肉烧豆腐 | 葱＋豆腐＋牛肉 | shared/assets/dishes/d19.png
 d20 香菇西兰花肉片 | 香菇＋西兰花＋猪肉 | shared/assets/dishes/d20.png
 
 食材14张 透明PNG 512×512

@@ -111,7 +111,11 @@ for(let page=0;page<4;page++){
   }
   assert(!labels.some(t=>['？','待上桌','未点亮的家常菜','首次做成后点亮'].includes(t)));
   assert(!partial.hits.some(h=>h.action==='recipe'),'No native or accessible recipe buttons remain');
-  if(!page)for(let n=0;n<6;n++)assert(draws.some(d=>d.id==='lobby-art-dish-'+n),'Unlit names keep the same lettering as lit names');
+  if(!page){
+    for(const n of [0,1,3,4])assert(draws.some(d=>d.id==='lobby-art-dish-'+n),'Unchanged dish names retain their original lettering');
+    assert(labels.includes('香菇鸡丁')&&labels.includes('鸡蛋炒豆腐'),'Lit and unlit renamed dishes show their current catalog names');
+    for(const n of [2,5])assert(!draws.some(d=>d.id==='lobby-art-dish-'+n),'Old name artwork cannot override a renamed dish');
+  }
 }
 rich.handle('tab','market');render(rich);assert(!rich.hits.some(h=>/claim|领取/.test(h.action+' '+h.label)));
 const savedBalance=rich.profile.state.coins;rich.profile.state.coins=1000000000;rich.handle('tab','home');render(rich);assert(labels.includes('10亿'));rich.profile.state.coins=savedBalance;

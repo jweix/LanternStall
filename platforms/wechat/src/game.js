@@ -62,7 +62,7 @@ function start() {
   platform.loadImages(index).then(images => {
     const settings = platform.read('lantern-settings-v1', {});
     const progress = platform.read('lantern-progress-v1', { level: 1 });
-    session = new App({ recipes, layout, rewardedRescue, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
+    session = new App({ recipes, layout, rewardedRescue, audio:platform.createAudio(),analytics:platform.analytics, data: platform.read('lantern-stall-v2', null), legacy: progress, settings,
       save: value => platform.write('lantern-stall-v2', value) });
     session.setHidden(hidden);
     renderer = createRenderer(canvas.getContext('2d'), images, Object.assign({ recipes, ingredients, layout, assets:index, createCanvas:()=>wx.createCanvas() }, platform.loadLobbyFonts()));

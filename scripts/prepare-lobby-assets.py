@@ -125,7 +125,7 @@ def prepare(root, out):
         if asset.get('format') in ['jpeg', 'jpeg-shape']:
             image.thumbnail(tuple(asset['maxSize']), Image.Resampling.LANCZOS)
             name = asset['id'] + '.jpg'
-            image.convert('RGB').save(out/name, quality=asset.get('quality',74 if asset['id'].startswith('lobby-environment-') else 84), optimize=True)
+            image.convert('RGB').save(out/name, quality=asset.get('quality',74 if asset['id'].startswith('lobby-environment-') else 84), optimize=True, progressive=True)
             result[asset['id']] = {'path':'assets/'+name,'width':image.width,'height':image.height}
             if asset.get('format') == 'jpeg-shape': result[asset['id']]['shape'] = outline(image)
             digest = hashlib.sha256((out/name).read_bytes()).hexdigest()

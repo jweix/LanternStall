@@ -40,7 +40,7 @@ walk(path.join(root, 'game')); assert(bytes < 4 * 1024 * 1024);
 console.log('PASS self-contained WeChat package, AppID, identical web/WeChat images, ' + (bytes / 1024 / 1024).toFixed(2) + ' MiB');
 
 const sourceLevels=require('../shared/core/levels.js'),nativeLevels=require('../platforms/wechat/game/shared/core/levels.js');
-const expectedNativeData=JSON.parse(JSON.stringify(require('../shared/data/level-config.js'),(key,value)=>['greedyTarget','lookaheadTarget','toolTarget'].includes(key)?undefined:value));
+const expectedNativeData=JSON.parse(JSON.stringify(require('../shared/data/level-config.js'),(key,value)=>['greedyTarget','lookaheadTarget','toolTarget','toolGainTarget'].includes(key)?undefined:value));
 assert.deepEqual(require('../platforms/wechat/game/shared/data/level-config.js'),expectedNativeData,'Menu pooling preserves the full native catalog');
 for(const n of [1,18,64]){
  const recipes=require('../shared/data/recipes.json'),layout=require('../shared/data/layout.json');

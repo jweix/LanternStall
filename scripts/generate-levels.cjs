@@ -16,7 +16,8 @@ for(const level of levels){
   const aux=coarse?8:count;
   for(let t=1;t<=aux;t++){lookahead+=Number(C.probe(config,'lookahead',t*997,'none').won);free+=Number(C.probe(config,'greedy',t*997,'free').won);}
   const rate=wins/count,lookaheadRate=lookahead/aux,freeRate=free/aux;
-  const error=distance(rate,target)+(level>=4?distance(lookaheadRate,lookaheadTarget)+distance(freeRate,toolTarget)+Math.max(0,.15-(freeRate-rate)):0);
+  const gain=definition.toolGainTarget===undefined?.15:definition.toolGainTarget;
+  const error=distance(rate,target)+(level>=4?distance(lookaheadRate,lookaheadTarget)+distance(freeRate,toolTarget)+Math.max(0,gain-(freeRate-rate)):0);
   return {rate,lookaheadRate,freeRate,error,rank:error*10+Math.abs(rate-(target[0]+target[1])/2)+(level>=4?Math.abs(freeRate-.45)*.2:0)};
  }
  for(let i=0;i<candidates;i++){

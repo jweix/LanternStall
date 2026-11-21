@@ -7,7 +7,7 @@
     "build": "node scripts/build-all.cjs",
     "build:douyin": "node scripts/build-douyin.cjs",
     "build:wechat": "node scripts/build-wechat.cjs",
-    "test": "node tests/verify-core.cjs && node tests/verify-order-queue.cjs && node tests/verify-handoff.cjs && node tests/verify-game.cjs && node tests/verify-levels.cjs && node tests/verify-level-tools.cjs && node tests/verify-tool-gate.cjs && node tests/verify-tool-generation.cjs && node tests/verify-level-ui.cjs && node tests/verify-progression.cjs && node tests/verify-wechat.cjs && node tests/verify-douyin.cjs && node tests/verify-lobby.cjs",
+    "test": "node tests/verify-core.cjs && node tests/verify-order-queue.cjs && node tests/verify-handoff.cjs && node tests/verify-game.cjs && node tests/verify-levels.cjs && node tests/verify-level-tools.cjs && node tests/verify-tool-gate.cjs && node tests/verify-tool-generation.cjs && node tests/verify-level-ui.cjs && node tests/verify-progression.cjs && node tests/verify-wechat.cjs && node tests/verify-douyin.cjs && node tests/verify-lobby.cjs && node tests/verify-retention.cjs",
     "test:douyin": "node tests/verify-douyin.cjs",
     "serve": "node scripts/serve.cjs",
     "analyze:levels": "node scripts/analyze-levels.cjs",
@@ -19,6 +19,7 @@
     "test:tool-gate": "node tests/verify-tool-gate.cjs && node tests/verify-tool-generation.cjs",
     "analyze:tool-gate": "node scripts/analyze-tool-gate.cjs",
     "test:levels:ui": "node tests/verify-level-ui.cjs",
-    "test:difficulty": "node scripts/generate-levels.cjs --levels 1:100 --candidates 1 --trials 64 --check --out reports/levels/difficulty-check.json"
+    "test:difficulty": "node scripts/generate-levels.cjs --levels 1:100 --candidates 1 --trials 64 --check --out reports/levels/difficulty-check.json",
+    "test:retention": "node tests/verify-retention.cjs"
   }
 }

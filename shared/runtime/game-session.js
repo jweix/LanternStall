@@ -13,6 +13,7 @@
       this.hidden = false;
       this.reducedMotion = !!options.reducedMotion;
       this.restart(options.level || 1);
+      if(options.resume)this.restore(options.resume);
     }
     restart(level) {
       if (this.options.onStart && this.options.onStart(level) === false) return false;
@@ -27,14 +28,41 @@
       this.lastFrame = null;
       this.toast = null;
       this.wonAt = null;
+      this.actions = [];this.checkpointAt=0;this.failureReason=null;
       this.engine.pause(this.hidden);
+      if(this.options.onStarted)this.options.onStarted(this.config);
+    }
+    act(type, value) {
+      const e=this.engine;
+      const ok=type==='pick'?e.selectTile(value).ok:type==='return'?e.returnStash(value):
+        type.startsWith('ad-')?e.applyRewardedRescue(type.slice(3),e.levelId+'/action-'+this.actions.length):e[type]();
+      if(ok)this.actions.push({type,value,at:e.now});
+      return ok;
+    }
+    checkpoint() { return {version:1,contentId:this.config.contentId,actions:this.actions.map(a=>({...a})),elapsed:this.engine.now}; }
+    saveCheckpoint() {
+      if(this.options.onCheckpoint&&this.options.onCheckpoint(this.checkpoint())===false)return false;
+      this.checkpointAt=this.engine.now;return true;
+    }
+    restore(saved) {
+      if(saved.version!==1||saved.contentId!==this.config.contentId||!Array.isArray(saved.actions)||saved.actions.length>1000||
+        !Number.isFinite(saved.elapsed)||saved.elapsed<0||saved.elapsed>86400)throw Error('Checkpoint does not match this menu');
+      for(const a of saved.actions){
+        if(!a||!Number.isFinite(a.at)||a.at<this.engine.now-1e-8||a.at>saved.elapsed+1e-8||!['pick','return','ad-undo','ad-stash','ad-shuffle'].includes(a.type))throw Error('Invalid checkpoint action');
+        this.engine.tick(Math.max(0,a.at-this.engine.now));
+        if(!this.act(a.type,a.value))throw Error('Checkpoint replay rejected');
+      }
+      this.engine.tick(saved.elapsed-this.engine.now);this.collectEvents();
+      this.effects=[];this.lastFrame=null;this.checkpointAt=this.engine.now;
     }
     setHidden(value) {
+      if(value)this.saveCheckpoint();
       this.hidden = !!value;
       this.engine.pause(this.hidden || !!this.panel || this.adPending);
       this.lastFrame = null;
     }
     setPanel(panel) {
+      if(panel)this.saveCheckpoint();
       this.panel = panel;
       this.engine.pause(this.hidden || !!panel || this.adPending);
       this.lastFrame = null;
@@ -70,7 +98,8 @@
           this.alignPrep();
         }
         this.effects.push({ event, born: event.time, origins });
-        if (event.type === 'levelFailed') this.rescueOffer = this.engine.rescueOptions().map(o=>({...o,free:this.engine.tools[o.tool]>0})).find(o=>o.free||(this.options.rewardedRescue&&this.options.rewardedRescue.available?.()!==false)) || null;
+        if(this.options.onEvent)this.options.onEvent(event);
+        if (event.type === 'levelFailed') { this.failureReason=event.reason;this.rescueOffer = this.engine.rescueOptions().map(o=>({...o,free:this.engine.tools[o.tool]>0})).find(o=>o.free||(this.options.rewardedRescue&&this.options.rewardedRescue.available?.()!==false)) || null; }
         if (event.type === 'levelWon') {
           this.wonAt = event.time;
           if (this.options.onProgress) this.options.onProgress({ level: this.level + 1, completedLevel: this.level,
@@ -88,12 +117,16 @@
       const delta = this.lastFrame === null ? 0 : Math.max(0, Math.min(.1, (ms - this.lastFrame) / 1000));
       this.lastFrame = ms;
       this.advance(delta);
+      if(this.engine.now-this.checkpointAt>=5&&this.engine.status==='playing')this.saveCheckpoint();
       return this.view();
     }
     view() {
       return { state: this.engine.snapshot(), effects: this.effects, slots: this.slots,
         rescueOffer: this.rescueOffer, adPending: this.adPending,
         panel: this.panel, reducedMotion: this.reducedMotion, level: this.level, difficultyName: this.config.difficultyName,
+        failureReason:this.failureReason,
+        tutorial: this.level===1&&!this.options.daily&&this.engine.status==='playing'&&this.engine.jobs.length===0 ? '照订单配不同食材，配齐就自动开炒' :
+          this.level===2&&!this.options.daily&&this.engine.jobs.length<2 ? '亮牌才能拿；先看订单，再给备菜留空位' : '',
         toast: this.toast && this.toast.until > this.engine.now ? this.toast.text : '',
         resultReady: this.engine.status === 'failed' ||
           (this.engine.status === 'won' && this.engine.now >= this.wonAt + Motion.timing.resultDelay) };
@@ -116,6 +149,7 @@
         if (e.status === 'failed' && this.rescueOffer && inside(p, buttons.rescueRetry)) this.restart(this.level);
         else if (inside(p, result.nextButton)) {
           if (e.status === 'failed' && this.rescueOffer) this.requestRescue();
+          else if(e.status==='won'&&this.options.onNext)this.options.onNext();
           else this.restart(this.level + (e.status === 'won' ? 1 : 0));
         } else if (inside(p, this.rescueOffer ? buttons.rescueHome : result.restButton)) {
           if (this.options.onHome) this.options.onHome(); else this.setPanel('rest');
@@ -123,11 +157,11 @@
         return true;
       }
       if (inside(p, buttons.settings)) { this.setPanel('pause'); return true; }
-      if (inside(p, buttons.sound)) { this.say('音效素材待接入，当前为静音试玩'); return true; }
+      if (inside(p, buttons.sound)) { if(this.options.onSound)this.options.onSound();return true; }
       for (let i = 0; i < buttons.stored.length; i++) {
         if (e.stashItems[i] && inside(p, buttons.stored[i])) {
-          if (!e.returnStash(i)) this.say('备菜栏放不下啦');
-          this.collectEvents(); return true;
+          if (!this.act('return',i)) this.say('备菜栏放不下啦');
+          this.collectEvents();this.saveCheckpoint(); return true;
         }
       }
       for (const tool of ['undo', 'stash', 'shuffle']) {
@@ -143,11 +177,15 @@
       }
       const tile = e.nodes.slice().reverse().find(n => e.available(n.id) &&
         Math.abs(p.x - n.x) <= n.w / 2 && Math.abs(p.y - n.y) <= n.h / 2);
-      if (!tile) return false;
-      const selected = e.selectTile(tile.id);
-      if (!selected.ok) this.say('备菜栏已满，等食材到位再试试');
+      if (!tile) {
+        if(e.nodes.some(n=>!n.removed&&Math.abs(p.x-n.x)<=n.w/2&&Math.abs(p.y-n.y)<=n.h/2))this.say('这张被压住了，先取上面的亮牌');
+        return false;
+      }
+      const selected = this.act('pick',tile.id);
+      if (!selected) this.say('备菜栏已满，等食材到位再试试');
       this.collectEvents();
-      return selected.ok;
+      if(selected)this.saveCheckpoint();
+      return selected;
     }
     async requestRescue() {
       if (!this.rescueOffer || this.adPending) return false;
@@ -158,10 +196,10 @@
       try {
         const completed = await this.options.rewardedRescue({ levelId: engine.levelId, tool });
         if (this.disposed || this.engine !== engine || request !== this.requestSequence) return false;
-        if (completed !== true || !engine.applyRewardedRescue(tool, engine.levelId + '/' + request)) {
+        if (completed !== true || !this.act('ad-'+tool)) {
           this.say('视频未完成，仍可免费再试'); return false;
         }
-        this.rescueOffer = null; this.collectEvents(); return true;
+        this.rescueOffer = null; this.collectEvents();this.saveCheckpoint(); return true;
       } catch (_) {
         if (!this.disposed && this.engine === engine) this.say('视频暂不可用，仍可免费再试');
         return false;

@@ -173,7 +173,9 @@ function toolButton(b,label){
 function renderPrepStation(state={}){
  // A narrow recessed wood seam separates preparation without introducing another large backing panel.
  stroke(55,1331,873,1331,'#75441e55',2);stroke(55,1334,873,1334,'#f7cc8b72',1.5);
- c.font='700 32px '+ff;c.textAlign='left';c.fillStyle='#633316';c.fillText('备菜 '+((state.prepItems||[]).length+(state.reservedCount||0))+'/7',64,1360);
+ const occupied=(state.prepItems||[]).length+(state.reservedCount||0);
+ c.font='700 32px '+ff;c.textAlign='left';c.fillStyle=occupied>=5?'#a84928':'#633316';c.fillText('备菜 '+occupied+'/7',64,1360);
+ if(occupied>=5&&!state.hasStash){c.font='600 25px '+ff;c.textAlign='center';c.fillText('先配齐一道，腾出空位',416,1360);}
  c.font='700 29px '+ff;c.textAlign='center';c.fillStyle='#633316';c.fillText(state.kitchenLabel||'自动快炒',747,1359);
  paintPrepTray(state);
  stroke(613,1378,613,1503,'#86502448',2);stroke(616,1378,616,1503,'#edbc7a5c',1);

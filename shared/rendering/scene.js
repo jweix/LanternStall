@@ -135,6 +135,7 @@
       const s = view.state, job = s.wok;
       ui.renderPrepStation({ prepItems: s.buffer.map(i => ({ food: i.food, slot: view.slots[i.id] })),
         reservedCount: s.incoming.length,
+        hasStash:s.stashItems.length>0,
         kitchenLabel: job ? s.queue.length ? '快炒中 · 待' + s.queue.length : '快炒中' : '自动快炒' });
       // Retrieval lives in the unused centre of the prep heading, never over live tiles.
       s.stashItems.forEach((item, i) => {
@@ -204,6 +205,7 @@
         const [x, y, w, h] = UI.buttons[id], rect = { id, x, y, w, h, r: id === 'sound' || id === 'settings' ? 22 : 26 };
         if (id === 'sound' || id === 'settings') ui.originalTextureButton(rect); else ui.toolButton(rect, s.toolUsed[id]?'已用':s.tools[id]>0?'×1':'视频');
       }
+      if(view.sound===false){c.strokeStyle='#a14e32';c.lineWidth=4;c.beginPath();c.moveTo(42,33);c.lineTo(88,76);c.stroke();}
     }
     function decorations() {
       if (!appearance) return;
@@ -243,9 +245,9 @@
       c.save(); if (!view.reducedMotion) { c.globalAlpha *= pose.alpha; c.translate(464, 850); c.scale(pose.scale, pose.scale); c.translate(-464, -850); }
       const receipt=won&&view.saveError?'存档未成功，点按钮重试结算':Number.isFinite(view.wallet)?'钱包累计 '+view.wallet.toLocaleString():'';
       ui.victory(s.revenue, elapsed, { skipDim: true, won, receipt,
-        message: won ? '要继续挑战下一关吗？' : '留意配方，给备菜栏留点空位',
-        primaryLabel: won ? view.introduceStore ? '回店点亮第一盏灯' : '下一关' : view.rescueOffer ? view.adPending ? '视频加载中…' : view.rescueOffer.free ? view.rescueOffer.tool === 'stash' ? '移出三张继续' : '撤回一步继续' : view.rescueOffer.tool === 'stash' ? '看视频移出三张' : '看视频撤回一步' : '再试一次',
-        restLabel: view.homeEnabled ? '回小摊看看' : '先休息一下' });
+        message: won ? view.settlement?.rewards?.length?'获得 '+view.settlement.rewards[0]:view.menu?'今日小炒奖励已自动入账':view.goal?.detail||'这一锅很香，再来一道？' : view.failureReason==='stock-exhausted'?'余料没配成菜，再试一次就更熟了':'备菜有点挤，照着订单重新配一锅',
+        primaryLabel: won ? view.introduceStore ? '看看星河灯串' : view.menu ? view.dailyMenuDone.length===3?'今晚收摊':'下一道小炒' : '下一关' : view.rescueOffer ? view.adPending ? '视频加载中…' : view.rescueOffer.free ? view.rescueOffer.tool === 'stash' ? '移出三张继续' : '撤回一步继续' : view.rescueOffer.tool === 'stash' ? '看视频移出三张' : '看视频撤回一步' : '再试一次',
+        restLabel: view.introduceStore?'下一关':view.settlement?.rewardIds?.length?'看看新装扮':view.homeEnabled ? '回小摊看看' : '先休息一下' });
       if (!won && view.rescueOffer) text('免费再试', 464, 1192, 31, '#805332');
       c.restore();
     }
@@ -256,6 +258,7 @@
       c.save(); c.translate(v.x, v.y); c.scale(v.scale, v.scale); c.beginPath(); c.rect(0, 0, W, H); c.clip();
       c.drawImage(images.scene, 0, 0, W, H);
       decorations(); hud(view); orders(view); board(view); station(view); effects(view);
+      if(view.tutorial&&!view.panel&&!view.resultReady){ui.panel(104,559,720,66,24);text(view.tutorial,464,592,28);}
       if (view.toast) { ui.panel(124, 1150, 680, 66, 24); text(view.toast, 464, 1183, 27); }
       overlay(view); c.restore();
     }

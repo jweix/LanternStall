@@ -21,7 +21,7 @@ module.exports = function buildMiniGame(name, label, options = {}) {
     const source = path.join(root, 'shared/data', name);
     if (['level-config.js', 'board-templates.js'].includes(name)) {
       const data = JSON.parse(JSON.stringify(require(source), (key, value) =>
-        ['greedyTarget', 'lookaheadTarget', 'toolTarget'].includes(key) ? undefined : value));
+        ['greedyTarget', 'lookaheadTarget', 'toolTarget', 'toolGainTarget'].includes(key) ? undefined : value));
       if (name === 'level-config.js') {
         // Reuse identical menus in the package; definitions are copied by Levels.
         const menus = [], indices = new Map();
@@ -49,6 +49,7 @@ module.exports = function buildMiniGame(name, label, options = {}) {
   const assets = path.join(root, 'shared/assets/runtime');
   const index = JSON.parse(fs.readFileSync(path.join(assets, 'asset-index.json'), 'utf8'));
   fs.mkdirSync(path.join(out, 'assets/fonts'), { recursive: true });
+  fs.cpSync(path.join(root,'shared/assets/audio'),path.join(out,'assets/audio'),{recursive:true,filter:file=>fs.statSync(file).isDirectory()||file.endsWith('.wav')});
   for (const asset of Object.values(index)) {
     fs.copyFileSync(path.join(assets, path.basename(asset.path)), path.join(out, asset.path));
   }

@@ -1,6 +1,7 @@
 /* Platform-neutral components. An image owns its edge/highlight/shadow once. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./stall-art.js'),require('../data/lobby-layout.js'),require('../data/lobby-font-metrics.js'));else root.DapaidangLobbyComponents=factory(root.DapaidangStallArt,root.DapaidangLobbyLayout,root.DapaidangLobbyFontMetrics);})(typeof globalThis!=='undefined'?globalThis:this,function(Art,L,FontMetrics){
  'use strict';
+ FontMetrics=FontMetrics||{unitsPerEm:1000,bounds:{}};
  const fallback='"Hiragino Sans GB","PingFang SC","Microsoft YaHei",sans-serif';
  const tabIds={'摊位':'stall','大厨':'chef','场景':'background','主题':'themes','菜谱':'recipes','成就':'achievements','相册':'photos','当期':'current','往期':'archive','每日':'daily'};
  const lettering={'小摊装扮':'title-decor','把小摊布置成喜欢的样子':'subtitle-decor','家常菜谱':'title-recipes','夜市活动':'title-market','开张营业':'label-play','布置小摊':'label-decor','查看关卡':'label-map','番茄炒蛋':'dish-0','青椒肉片':'dish-1','双料香菇鸡':'dish-2','西兰花虾仁':'dish-3','芹菜牛肉':'dish-4','豆腐炒蛋':'dish-5','秋夜灯会':'banner-title','初点灯火':'book-0','河岸晚风':'book-1','热锅小调':'book-2','满街暖光':'book-3'};

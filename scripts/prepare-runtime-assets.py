@@ -48,7 +48,7 @@ for asset in manifest['assets']:
     if kind == 'game-background':
         # Full design resolution: no downscaling of sign, awning, rim or scenery.
         target = OUT / 'scene.jpg'
-        source.convert('RGB').save(target, quality=82, subsampling=0, optimize=True)
+        source.convert('RGB').save(target, quality=76, subsampling=0, optimize=True)
         result[name] = {'path': 'assets/scene.jpg', 'width': source.width, 'height': source.height}
     elif kind == 'ingredient':
         box = asset['bbox']

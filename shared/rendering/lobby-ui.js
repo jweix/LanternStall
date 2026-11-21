@@ -43,7 +43,7 @@
     const cy=walletRect[1]+walletRect[3]/2;
     U.skin('secondary',walletRect);sprite('lobby-coin',[walletRect[0]+14,cy-28,56,56]);
     const n=v.state.coins,short=(x,u)=>x.toFixed(2).replace(/\.?0+$/,'')+u,s=n>=1e8?short(n/1e8,'亿'):n>=1e5?short(n/1e4,'万'):n.toLocaleString();text(s,walletRect[0]+walletRect[2]-24,cy,s.length>5?36:42,'#623715','right',walletRect[2]-108);hit(walletRect,'ledger',null,'金币余额 '+n);
-    for(const [id,key,label] of [['sound','sound','声音设置'],['settings','settings','设置']]){const r=R.header[key],pad=16;U.skin('icon',r);sprite('lobby-icon-'+id,[r[0]+pad,r[1]+pad,r[2]-pad*2,r[3]-pad*2]);hit(r,id==='sound'?'sound':'settings',null,label);}
+    for(const [id,key,label] of [['sound','sound','声音设置'],['settings','settings','设置']]){const r=R.header[key],pad=16;U.skin('icon',r);sprite('lobby-icon-'+id,[r[0]+pad,r[1]+pad,r[2]-pad*2,r[3]-pad*2]);if(id==='sound'&&v.state.sound===false){c.strokeStyle='#a14e32';c.lineWidth=4;c.beginPath();c.moveTo(r[0]+18,r[1]+17);c.lineTo(r[0]+r[2]-17,r[1]+r[3]-18);c.stroke();}hit(r,id==='sound'?'sound':'settings',null,id==='sound'?(v.state.sound?'关闭声音':'打开声音'):label);}
   }
   function footer(){
     const fy=R.footer.rect[1],dy=0;
@@ -74,6 +74,7 @@
       U.skin('secondary',R.home.decor);
       sprite('lobby-icon-brush',[636,R.home.decor[1]+3,48,60]);
       display('布置小摊',R.home.decor[0]+158,R.home.decor[1]+35,37,'#683b18','center');hit(R.home.decor,'tab','decor','布置小摊');
+      if(v.state.cleared.length)secondary('今日小炒 '+v.dailyMenu.done.length+'/3',R.home.daily,'daily-menu');
       if(v.sidebar?.available){
         const r=R.home.sidebar;U.skin('secondary',r);sprite('lobby-coin',[r[0]+14,r[1]+12,46,46]);
         if(v.sidebar.rewarded)text('今日已到账',r[0]+180,r[1]+35,31,'#683b18','center');
@@ -82,14 +83,22 @@
       }
       U.skin('wish',R.home.wish);
       const wy=R.home.wish[1];
+      if(v.goal){
+        const goal=v.goal,item=C.byId[goal.id];
+        if(item)drawItem(item.slot,item.theme,[66,wy+22,156,128]);else sprite('lobby-icon-recipes',[96,wy+37,92,92]);
+        display(goal.title,256,wy+44,34,'#673512','left',504);text(goal.detail,256,wy+90,27,'#734421','left',504);
+        meter(goal.value,goal.target,[256,wy+125,504,20]);chevron(804,wy+86,1,14);hit(R.home.wish,'goal',null,goal.title+'，'+goal.detail);
+      }else{
       const wish=C.byId[v.state.wish],offer=v.themeOffers[wish.theme]||v.themeOffers.bamboo,owned=offer.complete,theme=C.byTheme[offer.id];
       const a=Object.fromEntries(C.slots.map(slot=>[slot,theme]));
       scene.draw(a,[62,wy+26,166,120],{camera:'preview'});
       display(owned?'看看珍藏新搭配':'下个套装 '+theme.name,256,wy+44,34,'#673512','left',504);
       text(owned?'去装扮页看看已获得的珍藏':v.state.coins.toLocaleString()+' / '+offer.price.toLocaleString()+' 金币',256,wy+90,27,'#734421');
       meter(owned?1:v.state.coins,owned?1:offer.price,[256,wy+125,504,20]);chevron(804,wy+86,1,14);hit(R.home.wish,'wish-open',null,'查看当前愿望');
-      U.skin('primary',R.home.play);display('开张营业',R.home.play[0]+338,R.home.play[1]+44,68,'#fff0c5','center');display('第'+v.nextLevel+'关',447,R.home.play[1]+103,33,'#fff0c5','center');U.ornament(328,R.home.play[1]+103,1,null,true);U.ornament(566,R.home.play[1]+103,-1,null,true);
-      hit(R.home.play,'play',null,'开张营业，第'+v.nextLevel+'关');
+      }
+      const saved=v.state.suspended,run=v.state.activeAttempt,playName=saved?'接着营业':'开张营业',detail=saved?(run?.menu?'今日小炒 · 第'+(run.menu.index+1)+'道':'第'+saved.level+'关 · 备菜已收好'):'第'+v.nextLevel+'关';
+      U.skin('primary',R.home.play);display(playName,R.home.play[0]+338,R.home.play[1]+44,68,'#fff0c5','center');display(detail,447,R.home.play[1]+103,33,'#fff0c5','center');
+      hit(R.home.play,'play',null,playName+'，'+detail);
       display('查看关卡',R.home.map[0]+156.5,R.home.map[1]+16,31,'#fff0c5','center');hit(R.home.map,'map',null,'查看关卡');
     }
     function decor() {
@@ -105,7 +114,7 @@
       title('家常菜谱'); U.skin('tag',[300,294,287,44]);
       text('已收集 ' + Object.keys(v.state.dishes).length + ' / 20 道', 443.5, 316, 27, '#74401a', 'center');
       tabs([['recipes', '菜谱'], ['achievements', '成就'], ['photos', '相册']], v.sub.recipes, R.recipes.tabs);
-      if (v.state.cleared.length < 3) { gate('首通3关，打开小摊菜谱', 565); return; }
+      if (v.state.cleared.length < 1) { gate('完成第一锅，留下你的第一张菜谱', 565); return; }
       if (v.sub.recipes === 'recipes') {
         const lit=[],unlit=[];
         catalog.recipes.forEach(recipe=>(v.state.dishes[recipe.id]>0?lit:unlit).push(recipe));
@@ -116,7 +125,7 @@
           card(r);
           U.dish(recipe.id,native?[r[0]+(n%2?52:54),r[1]+14-row*2,285,181]:[r[0]+54,r[1]+14,285,181],!count);
           if(native)sprite('lobby-art-dish-'+n,[r[0]+(n%2?73:69),r[1]+201-row*2,290,47]);else display(name,r[0]+196,r[1]+224,44,'#653710','center',370);
-          text('已做'+count+'份',r[0]+196,r[1]+268,31,'#88592e','center');
+          text('已做'+count+'份'+(count>=100?' · 小摊招牌':count>=30?' · 拿手家常':''),r[0]+196,r[1]+268,29,'#88592e','center',370);
         });
         pagination(catalog.recipes.length, 6, R.recipes.pageY);
       } else if (v.sub.recipes === 'achievements') {
@@ -142,7 +151,9 @@
     }
     function drawMemory(memory,r){
       const a=Object.fromEntries(C.slots.map(slot=>[slot,C.byTheme[memory.theme]]));
-      if(memory.kind==='sticker'){
+      if(memory.recipeId){
+        round(r,'#f9e5b8',28);U.dish(memory.recipeId,[r[0]+r[2]*.12,r[1]+r[3]*.05,r[2]*.76,r[3]*.75],false);text(memory.title,r[0]+r[2]/2,r[1]+r[3]*.87,26,'#754923','center',r[2]-20);
+      }else if(memory.kind==='sticker'){
         const cx=r[0]+r[2]/2,cy=r[1]+r[3]/2;
         round(r,'#f9e5b8',28);c.save();c.fillStyle='#fff7de';c.beginPath();c.arc(cx,cy,r[3]*.43,0,Math.PI*2);c.fill();c.restore();
         scene.item('ornament',memory.theme,[cx-r[3]*.35,cy-r[3]*.38,r[3]*.70,r[3]*.74]);
@@ -161,14 +172,22 @@
     function market() {
       title('夜市活动');
       tabs([['current', '当期'], ['archive', '往期'], ['daily', '每日']], v.sub.market, R.market.tabs);
-      if (v.state.cleared.length < 5) { paper([22, 422, 843, 1170]); gate('首通5关，参加夜市活动', 643); return; }
+      if (v.state.cleared.length < 1) { paper([22, 422, 843, 1170]); gate('完成第一锅，今晚就能参加夜市', 643); return; }
       if (v.sub.market === 'daily') {
-        paper([23, 402, 840, 1197]); text('今天开张 ' + v.daily.wins + ' 局', 68, 475, 43);
-        [['每日首胜', '150 金币', v.daily.wins >= 1], ['每日完成三局', '150 金币', v.daily.wins >= 3], ['每日首次重玩', '200 金币', v.daily.practice]].forEach(([a, b, done], i) => {
-          const r = [43, 550 + i * 205, 800, 187]; itemCard(r); text(a, 78, r[1] + 48, 35); text(b, 78, r[1] + 116, 31, '#98622d'); text(done ? '已入账' : '待完成', 808, r[1] + 80, 30, done ? '#5c802b' : '#957148', 'right');
+        const menu=v.dailyMenu;
+        card([24,410,837,174]);display('今日小炒',63,457,48,'#653710','left');text(menu.day+' · 每天换新菜单',65,529,28,'#875332');
+        menu.names.forEach((name,i)=>{
+          const r=[25,610+i*223,836,203],done=menu.done.includes(i);card(r);
+          U.dish(menu.cards[i].ids[0],[42,r[1]+43,144,110],false);
+          display(name,201,r[1]+48,38,'#653710','left');text(menu.cards[i].names.join(' · '),203,r[1]+93,26,'#875332','left',600);
+          text((5+i)+'份小菜 · '+(done?'奖励已到账':'完成 +'+menu.rewards[i]+'金币'),203,r[1]+151,27,'#875332','left',348);
+          secondary(done?'再炒一遍':'开炒',[574,r[1]+111,250,70],'daily-play',i);
+          hits[hits.length-1].label=(done?'再炒一遍':'开炒')+'，'+name;
         });
-        text('夜市今日进度 ' + v.daily.eventWins + ' / 3', 70, 1216, 32); text('累计营业 ' + v.state.daysOpen + ' 天', 70, 1296, 32);
-        text('每日奖励随通关自动入账', 444, 1430, 29, '#8b5d30', 'center'); return;
+        card([25,1301,836,283]);
+        text('今日首胜 +150 '+(v.daily.wins>=1?'已到账':'待完成'),67,1353,29);text('完成三局 +150 '+(v.daily.wins>=3?'已到账':v.daily.wins+'/3'),67,1408,29);
+        text('夜市今日进度 '+v.daily.eventWins+'/3 · 累计营业 '+v.state.daysOpen+'天',67,1465,28);
+        text(menu.done.length===3?'今晚三道都完成了，明天来尝新口味':'奖励自动入账，主线卡关也能轻松开炒',444,1541,27,'#875332','center');return;
       }
       if(v.sub.market==='archive'){archive();return;}
       const active = v.state.activeBook, n = v.state.activity[active];

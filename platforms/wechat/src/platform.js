@@ -28,6 +28,19 @@ function createPlatform(api, canvas) {
   }
   return {
     geometry,
+    createAudio() {
+      const Audio=require('./shared/runtime/feedback-audio.js');
+      return Audio.create(name=>{
+        if(!api.createInnerAudioContext)return {play(){},stop(){}};
+        const voice=api.createInnerAudioContext();voice.src='assets/audio/'+name+'.wav';voice.volume=.45;
+        if(voice.onError)voice.onError(()=>{});
+        return {play:()=>voice.play(),stop:()=>voice.stop(),destroy:()=>voice.destroy()};
+      });
+    },
+    analytics(name,fields) {
+      if(!api.reportAnalytics)return;
+      try{api.reportAnalytics(name,Object.fromEntries(Object.entries(fields||{}).map(([key,value])=>[key,String(value)])));}catch(_){}
+    },
     loadLobbyFonts() {
       // Mini Game loadFont returns the native family identifier. Pass that
       // identifier to the shared renderer, rather than guessing the file name.

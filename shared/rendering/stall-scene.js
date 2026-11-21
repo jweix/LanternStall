@@ -135,12 +135,15 @@
         button('试穿这件',[145,1080,638,82],'preview-rare-item',item.id,false);
         button(offer.owned?(offer.equipped?'这件正在使用':'换上这件 · '+item.name):offer.source==='recipes'?'去查看菜谱':'去参加夜市',[145,1240,638,111],offer.owned?'equip':'tab',offer.owned?item.id:offer.source,true,offer.equipped);
       } else if (m.type === 'first') {
-        label('第一锅，赚到了！', 116, 456, 49); label('金币已经存进小摊钱包。', 116, 575, 33);
-        label('暖红整套已拥有，看看下个套装愿望。', 116, 642, 30); lobby.preview(view.appearance, [112, 700, 704, 423]);
-        button('去看看主题套装', [127, 1235, 674, 116], 'tutorial', null, true);
+        label('第一盏星河灯，送给你', 116, 456, 45); label('第一锅赚到了，灯串也已永久获得。', 116, 575, 31);
+        label('换上看看，让小摊有一点你的模样。', 116, 642, 30);lobby.item('lamp','star',[280,705,368,385]);
+        button('试穿星河灯串', [127, 1235, 674, 116], 'tutorial', null, true);
       } else if (m.type === 'leave') {
-        label('返回首页？', 116, 480, 47); label('本关尚未完成，返回后需重新开局。', 116, 625, 31); label('已保存的金币与装扮都会留下。', 116, 693, 31);
-        button('留在本关', [145, 1058, 638, 110], 'close', null, true); button('返回首页', [145, 1210, 638, 110], 'leave');
+        label('先回小摊歇一歇？', 116, 480, 47); label('备菜和正在做的菜都会收好。', 116, 625, 31); label('回来点「接着营业」，继续这一锅。', 116, 693, 31);
+        button('继续这一锅', [145, 1058, 638, 110], 'close', null, true); button('收好备菜，回小摊', [145, 1210, 638, 110], 'leave');
+      } else if(m.type==='replace-run'){
+        label('另开一锅？',116,480,47);label('收好的这一局会结束，重新摆好食材。',116,625,30);label('金币、装扮和收藏都会留下。',116,693,31);
+        button('接着之前那一锅',[145,1058,638,110],'resume-run',null,true);button('另开一锅',[145,1210,638,110],'replace-run');
       } else if (m.type === 'ledger') {
         label('小摊账本', 116, 440, 49); label('余额 ' + view.state.coins.toLocaleString() + ' 金币', 116, 525, 37);
         const entries = view.state.ledger.slice().reverse(), p = pages(entries.length, 7, 1295);
@@ -175,9 +178,11 @@
       c.save(); c.translate(vp.x, vp.y); c.scale(vp.scale, vp.scale); c.beginPath(); c.rect(0, 0, size.width, size.height); c.clip();
       if (!isGame) hits = lobby.draw(v, geometry);
       else if (v.game.resultReady && v.game.state.status === 'won' && !v.game.panel) {
-        if (!v.state.tutorialDone && v.state.cleared.length === 1) hits.push({ rect: catalog.layout.result.nextButton, action: 'leave', label: '回店挑灯串' });
+        if (v.game.introduceStore){hits.push({ rect: catalog.layout.result.nextButton, action: 'first-reward', label: '看看星河灯串' });hits.push({rect:catalog.layout.result.restButton,action:'next-run',label:'下一关'});}
+        else if(v.settlement?.rewardIds?.length)hits.push({rect:catalog.layout.result.restButton,action:'result-reward',value:v.settlement.rewardIds[0],label:'看看新装扮'});
         if (v.adAvailable && v.settlement && !v.settlement.adTaken && v.daily.ads < 3) button('可选视频 · 补贴200', [230, 1342, 468, 85], 'ad');
       }
+      if(isGame&&v.game.resultReady&&v.game.state.status==='failed'&&!v.game.panel&&v.state.cleared.length&&!v.game.rescueOffer)button('换道今日小炒',[224,1169,480,51],'easy-daily');
       if (v.modal) {
         c.fillStyle = '#21180fba'; c.fillRect(0, 0, size.width, size.height);
         // Existing modal business and layout are retained under a uniform inset.

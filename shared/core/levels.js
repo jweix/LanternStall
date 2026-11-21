@@ -191,7 +191,7 @@
     }
     if(attempts===24)throw lastError;
     let hash = 2166136261;
-    for (const ch of JSON.stringify([definition, plan.pool, layout.board],(key,value)=>['greedyTarget','lookaheadTarget','toolTarget'].includes(key)?undefined:value)) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
+    for (const ch of JSON.stringify([definition, plan.pool, layout.board],(key,value)=>['greedyTarget','lookaheadTarget','toolTarget','toolGainTarget'].includes(key)?undefined:value)) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619) >>> 0;
     const config = { level, seed, generatorVersion: 5, contentId: 'v5-' + level + '-' + hash.toString(16) + '-' + seed,
       difficulty: profile.id, difficultyName: profile.name, shape: definition.shape, shapeName: Geometry.templates[definition.shape].name,
       tools: {undo:0,stash:0,shuffle:0}, rescueLimit: LIMITS.rescueAdsPerRun, recipes: copy(plan.pool), tiles, orderPlan: plan.orderPlan, solution: placed.solution, dishPlan: plan.dishes,

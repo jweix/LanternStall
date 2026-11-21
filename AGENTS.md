@@ -19,7 +19,7 @@
 - 微信 AppID `wx09cfd51ad5bcdb2f`，`compileType: game`。`platforms/wechat/game/` 是生成目录，勿手改；开发者工具导入 `platforms/wechat/`。
 - 抖音正式 AppID `tt727304ceec0e853e02`，源码配置在 `platforms/douyin/project.config.json`；构建生成 `platforms/douyin/game/`，抖音工具导入该生成目录，不能手改。`LANTERN_DOUYIN_APPID` 可临时覆盖，传空值构建后可在 IDE 选择测试号。
 - 环境：Node.js 18+、Python 3 + Pillow。全部构建 `npm run build`，随后 `npm test`；单端构建 `npm run build:douyin`／`npm run build:wechat`；试玩 `npm run serve`。
-- 已接通小摊/装扮/菜谱/夜市与真实闯关，`shared/core/profile.js`管经营事务，`shared/data/progression.js`管经济与物品；三端各自本机存档`lantern-stall-v2`含金币、购买装备、收藏与活动，迁移旧关卡。真机触摸/性能、真人难度校准、音频、云同步、商业化和发布验收未完成。
+- 已接通小摊/装扮/菜谱/夜市与真实闯关，`shared/core/profile.js`管经营事务，`shared/data/progression.js`管经济与物品；三端各自本机存档`lantern-stall-v2`含金币、购买装备、收藏与活动，迁移旧关卡；首胜赠星河灯串，每日三道独立小炒，支持真实引擎回放续玩、六种轻音效与静音保存。留存版难度与收益见09／12文档；真机触摸/性能/音频、真人难度校准、账号云同步、商业化和发布验收未完成。
 
 ## 按需文档
 

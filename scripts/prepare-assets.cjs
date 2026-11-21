@@ -7,5 +7,7 @@ module.exports = function prepareAssets() {
   const result = spawnSync(python, [path.join(__dirname, 'prepare-runtime-assets.py')], { encoding: 'utf8' });
   if (result.status !== 0) throw new Error('资源构建需要 Python 3 + Pillow：\n' + result.stderr);
   process.stdout.write(result.stdout);
+  const audio=spawnSync(python,[path.join(__dirname,'prepare-audio.py')],{encoding:'utf8'});
+  if(audio.status!==0)throw Error(audio.stderr);process.stdout.write(audio.stdout);
 };
 if (require.main === module) module.exports();

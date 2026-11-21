@@ -130,7 +130,7 @@ firstUi.hits = renderer.draw(firstUi.view(), { width: 928, height: 1695, dpr: 1 
 assert(firstUi.pointer({ x: 464, y: 1118 })); assert.equal(firstUi.screen, 'home'); assert.equal(firstUi.modal.type, 'first');
 firstUi.hits = renderer.draw(firstUi.view(), { width: 928, height: 1695, dpr: 1 });
 const tutorialHit = firstUi.hits.find(h => h.action === 'tutorial'); assert(tutorialHit);
-assert(firstUi.pointer({ x: tutorialHit.rect[0] + tutorialHit.rect[2] / 2, y: tutorialHit.rect[1] + tutorialHit.rect[3] / 2 })); assert.equal(firstUi.tab, 'decor'); assert.equal(firstUi.theme, 'bamboo');
+assert(firstUi.pointer({ x: tutorialHit.rect[0] + tutorialHit.rect[2] / 2, y: tutorialHit.rect[1] + tutorialHit.rect[3] / 2 })); assert.equal(firstUi.tab, 'decor'); assert.equal(firstUi.preview, 'star-lamp');
 assert.equal(firstUi.modal, null);
 const savedOutfit = JSON.stringify(app.profile.state.equipped), savedCoins = app.profile.state.coins;
 app.handle('tab', 'decor'); app.handle('sub', 'themes'); app.handle('theme', 'sea');
@@ -142,20 +142,20 @@ app.handle('preview-rare-item','star-lamp'); assert.equal(app.view().themePrevie
 assert.equal(app.view().appearance.awning.id, app.profile.appearance().awning.id, 'A single-item preview must not replace unrelated slots');
 assert.equal(JSON.stringify(app.profile.state.equipped),savedOutfit);assert.equal(app.profile.state.coins,savedCoins);
 app.handle('tab', 'home'); assert.equal(JSON.stringify(app.profile.state.equipped), savedOutfit);
-assert.equal(C.items.filter(i => i.theme === 'bamboo').reduce((s, i) => s + i.price, 0), 6000);
+assert.equal(C.items.filter(i => i.theme === 'bamboo').reduce((s, i) => s + i.price, 0), C.byTheme.bamboo.total);
 console.log('PASS all four shared Canvas screens, bounded hit coordinates and catalog price budget');
 
 // Bundles retain discounts for legacy pieces, atomically purchase/equip, and never sell rare items.
 const legacyOwned={version:2,coins:100000,cleared:Array.from({length:41},(_,i)=>i+1),owned:['bamboo-lamp']};
 const bundles=new Profile({data:legacyOwned,now:()=>now});
 assert.equal(bundles.purchase('bamboo-awning'),false,'Ordinary components have no single-piece commerce');
-assert.equal(bundles.themeOffer('bamboo').price,5875);assert.equal(bundles.themeOffer('bamboo').owned,1);
+assert.equal(bundles.themeOffer('bamboo').price,C.byTheme.bamboo.total-C.byId['bamboo-lamp'].price);assert.equal(bundles.themeOffer('bamboo').owned,1);
 const bundleBefore=JSON.stringify(bundles.state);let bundleWrites=0;
 bundles.options.save=()=>{bundleWrites++;return false;};
 assert.equal(bundles.purchaseTheme('bamboo'),false);assert.equal(JSON.stringify(bundles.state),bundleBefore);
 bundles.options.save=()=>{bundleWrites++;return true;};const beforeBundleBalance=bundles.state.coins;
 assert(bundles.purchaseTheme('bamboo'));assert.equal(bundleWrites,2);
-assert.equal(bundles.state.coins,beforeBundleBalance-5875);
+assert.equal(bundles.state.coins,beforeBundleBalance-(C.byTheme.bamboo.total-C.byId['bamboo-lamp'].price));
 assert(C.slots.every(slot=>bundles.state.equipped[slot]==='bamboo-'+slot));
 assert.equal(bundles.purchaseTheme('bamboo'),false,'Repeated confirmation cannot charge twice');
 assert(bundles.equip('base-chef'));const freeBalance=bundles.state.coins;
@@ -164,7 +164,7 @@ assert.equal(bundles.equipTheme('sea'),false);assert.equal(bundles.themeOffer('s
 assert.equal(bundles.purchaseTheme('star'),false);assert.equal(bundles.themeOffer('base'),null);
 const legacyAutumn=new Profile({data:{...legacyOwned,owned:['festival-ornament','festival-awning']}});
 assert.equal(legacyAutumn.themeOffer('festival').owned,2);
-assert.equal(legacyAutumn.themeOffer('festival').price,15750,'Legacy autumn gifts retain their allocated credit');
+assert.equal(legacyAutumn.themeOffer('festival').price,C.byTheme.festival.total-C.byId['festival-ornament'].price-C.byId['festival-awning'].price,'Legacy autumn gifts retain their allocated credit');
 assert(legacyAutumn.purchaseTheme('festival'));
 assert(new Profile({data:legacyAutumn.state}).themeOffer('festival').complete);
 const rare=new Profile({data:{version:2,coins:5000,dishes:Object.fromEntries(recipes.slice(0,8).map(r=>[r.id,1])),activity:[6,0,0,0]}});
@@ -189,7 +189,7 @@ assert.equal(fixture(null),null);assert.equal(fixture('invalid'),null);
 const starterFixture=fixture('starter'),collectionFixture=fixture('collection');
 assert.notEqual(starterFixture.key,C.saveKey);assert.notEqual(collectionFixture.key,C.saveKey);assert.notEqual(starterFixture.key,collectionFixture.key);
 const snapshot=JSON.stringify(starterFixture.data),testProfile=new Profile({data:starterFixture.data});
-assert(testProfile.purchaseTheme('bamboo'));assert.equal(testProfile.state.coins,4000);
+assert(testProfile.purchaseTheme('bamboo'));assert.equal(testProfile.state.coins,10000-C.byTheme.bamboo.total);
 assert.equal(JSON.stringify(starterFixture.data),snapshot,'Hydration and purchase do not mutate fixture source or another profile');
 assert.equal(fixture('starter').data.coins,10000);
 assert(new Profile({data:collectionFixture.data}).equipRareFamily('harvest'));

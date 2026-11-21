@@ -18,7 +18,8 @@
     const settings = read('lantern-settings-v1', {});
     const params=new URLSearchParams(location.search),requested=Number(params.get('level'));
     const playtest=DapaidangOutfitPlaytest(params.get('wardrobe')),saveKey=playtest?playtest.key:'lantern-stall-v2';
-    const app = new DapaidangApp.App({ recipes, layout, data: read(saveKey, playtest?playtest.data:null), legacy: progress, settings,
+    const audio=DapaidangAudio.create(name=>{const voice=new Audio('../../shared/assets/audio/'+name+'.wav');voice.volume=.45;return {play:()=>voice.play(),stop:()=>{voice.pause();voice.currentTime=0;}};});
+    const app = new DapaidangApp.App({ recipes, layout,audio, data: read(saveKey, playtest?playtest.data:null), legacy: progress, settings,
       previewLevel: Number.isSafeInteger(requested) && requested > 0 ? Math.min(requested, 10000) : null,
       save: value => write(saveKey, value) });
     if(playtest){
@@ -41,6 +42,7 @@
     await bodyFace.load();document.fonts.add(bodyFace);
     const renderer = DapaidangStallScene.createRenderer(canvas.getContext('2d'), images, { recipes, ingredients, layout, assets:index, lobbyBodyFont: 'LanternBody', createCanvas:()=>document.createElement('canvas') });
     document.addEventListener('visibilitychange', () => app.setHidden(document.hidden));
+    window.addEventListener('pagehide',()=>app.setHidden(true));
     app.setHidden(document.hidden);
     const controls = document.getElementById('controls'); let previousControls = '';
     DapaidangWebInput.bind(app,canvas,controls,()=>renderer.designSize(app.screen));
@@ -54,9 +56,11 @@
         } else if (g.resultReady) {
           if (!list.some(h => h.rect[1] === layout.result.nextButton[1])) add(g.state.status === 'won' ? '下一关' : g.rescueOffer ? '看视频继续备菜' : '再试一次', layout.result.nextButton);
           if (g.rescueOffer) add('免费再试', buttons.rescueRetry);
-          add('回小摊看看', g.rescueOffer ? buttons.rescueHome : layout.result.restButton);
+          const rest=g.rescueOffer ? buttons.rescueHome : layout.result.restButton;
+          if(!list.some(h=>h.rect.every((n,i)=>n===rest[i])))add('回小摊看看',rest);
         } else if (g.state.status === 'playing') {
           add('暂停设置', buttons.settings);
+          add(g.sound?'关闭声音':'打开声音',buttons.sound);
           for (const [key, title] of [['undo', '撤回'], ['stash', '移出三张'], ['shuffle', '洗牌']]) add(title, buttons[key]);
           g.state.stashItems.forEach((item, i) => add('取回' + ingredients.find(f => f.id === item.food).name, buttons.stored[i]));
           for (const tile of app.session.engine.nodes.filter(n => app.session.engine.available(n.id))) {

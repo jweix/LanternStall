@@ -35,7 +35,10 @@ for(let i=0;i<samples;i++){
 }
 // Every supported silhouette remains valid even if it is not in this authored chapter.
 check(C.configFor(1,42,{...C.Levels.definitionFor(1),shape:'pairs'}));
-assert.equal(coverage.size,20);assert.equal(shapes.size,6);for(const n of [11,20,30,36,42,48,54,60,66,72])assert(sizes.has(n),'Missing card count '+n);
+assert.equal(coverage.size,20);assert.equal(shapes.size,6);for(const n of [11,18,28,32,40,58,64])assert(sizes.has(n),'Missing card count '+n);
+const triple=require('../shared/data/daily-menu.js').definition(C.recipes,'2027-01-31',1).orders.slice(0,3);
+assert(triple.every(id=>C.recipes.find(r=>r.id===id).ingredients.length===3));
+check(C.configFor(1,42,{...C.Levels.definitionFor(1),shape:'lantern',layers:8,orders:Array.from({length:24},(_,i)=>triple[i%3])}));
 assert.equal(JSON.stringify({recipes:C.recipes,layout:C.layout,data:C.Data}),original);
 console.log('PASS '+samples+' variable decks: exact configured menus/materials, 11–72 cards, six shapes, 2–8 layers, no-tool witnesses and payouts');
 
@@ -88,6 +91,7 @@ console.log('PASS editable plans: growth caps, unknown recipes, flat lists and s
 // These are bot regression bands over fixed authored content, not human success targets.
 const stages=[[1,1],[2,2],[3,3],[4,5],[6,8],[9,20]],rates=[];
 for(const [a,b] of stages){let wins=0,count=0;for(let n=a;n<=b;n++){const c=C.configFor(n);for(let t=1;t<=32;t++){wins+=Number(C.Levels.probeLevel(c,'greedy',t*997).won);count++;}}rates.push(wins/count);}
-assert.equal(rates[0],1);assert(rates[1]>=.6&&rates[1]<=.9);assert(rates[2]>=.25&&rates[2]<=.6);
-assert(rates[3]<.32);assert(rates[4]<.14);assert(rates[5]<=.1);
-console.log('PASS accelerated fixed-content bot bands: '+rates.map(n=>(n*100).toFixed(2)+'%').join(' / '));
+assert.equal(rates[0],1);assert(rates[1]>=.9);assert(rates[2]>=.8);
+assert(rates[3]>=.8);assert(rates[4]>=.6);assert(rates[5]>=.55);
+assert(C.configFor(8).definition.greedyTarget[0]>C.configFor(7).definition.greedyTarget[0],'A relief board follows the first challenge');
+console.log('PASS paced fixed-content bot bands: '+rates.map(n=>(n*100).toFixed(2)+'%').join(' / '));

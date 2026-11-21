@@ -23,7 +23,7 @@
       equipped: Object.fromEntries(C.slots.map(s => [s, 'warm-' + s])), baseTheme:'warm', wish: 'bamboo-lamp', dishes: {},
       daily: { day: '', wins: 0, practice: false, ads: 0, eventWins: 0 }, activity: [0, 0, 0, 0],
       activeBook: 0, daysOpen: 0, photos: [], ledger: [], nextAttempt: 1, activeAttempt: null,
-      sidebarRewardDay: '', reducedMotion: false, tutorialDone: false };
+      sidebarRewardDay: '', reducedMotion: false, sound: true, tutorialDone: false, suspended: null, menuClaims: {},goalPreference:'near' };
   }
   function hydrate(raw, legacy) {
     const s = fresh();
@@ -51,19 +51,29 @@
     if (integer(raw.activeBook, 3)) s.activeBook = raw.activeBook;
     if (integer(raw.daysOpen, 100000)) s.daysOpen = raw.daysOpen;
     if (integer(raw.nextAttempt, Number.MAX_SAFE_INTEGER - 1) && raw.nextAttempt > 0) s.nextAttempt = raw.nextAttempt;
-    // In-progress games are deliberately not restored. A fresh attempt gets a new durable identity.
+    // A checkpoint is replayed and validated by the real engine before use.
+    // Keep its original attempt identity so a restored win cannot be credited twice.
+    if(raw.suspended && raw.activeAttempt && integer(raw.activeAttempt.id,Number.MAX_SAFE_INTEGER-1) && raw.activeAttempt.id>0 &&
+      integer(raw.activeAttempt.level,10000) && raw.activeAttempt.level>0 && raw.suspended.attempt===raw.activeAttempt.id &&
+      raw.suspended.level===raw.activeAttempt.level && Array.isArray(raw.suspended.actions) && raw.suspended.actions.length<=1000){
+      s.activeAttempt=copy(raw.activeAttempt);s.suspended=copy(raw.suspended);
+      s.nextAttempt=Math.max(s.nextAttempt,s.activeAttempt.id+1);
+    }
+    for(const [date,indices] of Object.entries(raw.menuClaims||{}).sort().slice(-14))if(validDay(date)&&Array.isArray(indices))
+      s.menuClaims[date]=[...new Set(indices.filter(n=>integer(n,2)))];
     if (Array.isArray(raw.photos)) s.photos = raw.photos.filter(p => p && typeof p.id === 'string' && p.equipped && C.slots.every(slot => C.byId[p.equipped[slot]] && C.byId[p.equipped[slot]].slot === slot)).slice(-24).map(p => ({ id: p.id, date: String(p.date).slice(0, 10), level: integer(p.level, 10000) ? p.level : 0, equipped: copy(p.equipped) }));
     if (Array.isArray(raw.ledger)) s.ledger = raw.ledger.filter(l => l && typeof l.label === 'string' && Number.isSafeInteger(l.amount)).slice(-30).map(l => ({ label: l.label.slice(0, 50), amount: l.amount, date: String(l.date).slice(0, 10) }));
     if (C.slots.every(slot => raw.equipped?.[slot] === 'base-' + slot))
       s.equipped = Object.fromEntries(C.slots.map(slot => [slot,'warm-' + slot]));
     if (!C.shopThemes.some(t=>t.id===C.byId[s.wish]?.theme&&t.total)) s.wish = 'bamboo-lamp';
     unlockRares(s);
-    s.reducedMotion = !!raw.reducedMotion; s.tutorialDone = !!raw.tutorialDone;
+    s.reducedMotion = !!raw.reducedMotion; s.sound = raw.sound !== false; s.tutorialDone = !!raw.tutorialDone;
+    s.goalPreference=raw.goalPreference==='theme'?'theme':'near';
     return s;
   }
   class Profile {
     constructor(options) {
-      this.options = options || {}; this.now = this.options.now || (() => Date.now());
+      this.options = Object.assign({},options); this.now = this.options.now || (() => Date.now());
       this.state = hydrate(this.options.data, this.options.legacy); this.error = '';
       if (!this.options.data && this.options.settings) this.state.reducedMotion = !!this.options.settings.reducedMotion;
     }
@@ -71,7 +81,8 @@
     commit(next) {
       try {
         if (this.options.save && this.options.save(copy(next)) === false) throw Error('save failed');
-        this.state = next; this.error = ''; return true;
+        const previous=this.state;this.state = next; this.error = '';
+        try{this.options.onCommit?.(next,previous);}catch(_){}return true;
       } catch (_) { this.error = '存档未成功，请检查存储空间后重试'; return false; }
     }
     transact(change) { const s = copy(this.state), result = change(s); if (result === false) return false; return this.commit(s) ? result === undefined ? true : result : false; }
@@ -100,10 +111,17 @@
       });
     }
     released(book) { return day(this.now()) >= day(Date.parse(C.event.start + 'T00:00:00+08:00') + book * 7 * 86400000); }
-    begin(level) {
+    begin(level, menu) {
       if (!integer(level, 10000) || level < 1 || level > this.nextLevel) return false;
-      return this.transact(s => { const id = s.nextAttempt++; s.activeAttempt = { id, level }; return id; });
+      if(menu&&(!this.state.cleared.length||menu.day!==day(this.now())||menu.day<this.state.daily.day||!integer(menu.index,2)))return false;
+      return this.transact(s => { const id = s.nextAttempt++; s.activeAttempt = { id, level, ...(menu?{menu:copy(menu)}:{}) };s.suspended=null; return id; });
     }
+    checkpoint(attempt, value) {
+      if(!this.state.activeAttempt||this.state.activeAttempt.id!==attempt)return false;
+      return this.transact(s=>{s.suspended=Object.assign(copy(value),{attempt,level:s.activeAttempt.level});});
+    }
+    discardCheckpoint() { return this.transact(s=>{s.suspended=null;s.activeAttempt=null;}); }
+    menuDone(date) { return (this.state.menuClaims[date]||[]).slice(); }
     log(s, label, amount) { if (!amount) return; s.coins += amount; s.ledger.push({ label, amount, date: day(this.now()) }); s.ledger = s.ledger.slice(-30); }
     grant(s, id, rewards) { if (!s.owned.includes(id)) { s.owned.push(id); rewards.push(C.byId[id].name); } }
     settle(attempt, result) {
@@ -111,14 +129,21 @@
         !integer(result.revenue, 1000000) || !Array.isArray(result.dishes)) return false;
       return this.transact(s => {
         this.rollDay(s);
-        const first = !s.cleared.includes(result.level), practice = !first && !s.daily.practice;
+        const menu=s.activeAttempt.menu;
+        const first = !menu&&!s.cleared.includes(result.level), practice = !menu&&!first && !s.daily.practice;
+        const menuFirst=!!menu&&!(s.menuClaims[menu.day]||[]).includes(menu.index);
         const before = s.coins, rewards = [], newly = [];
+        if(menuFirst){
+          (s.menuClaims[menu.day]||=([])).push(menu.index);
+          for(const date of Object.keys(s.menuClaims).sort().slice(0,-14))delete s.menuClaims[date];
+          this.log(s,'今日小炒 · 第'+(menu.index+1)+'道',[120,160,200][menu.index]);
+        }
         if (first) { s.cleared.push(result.level); this.log(s, '第' + result.level + '关首通', result.revenue); }
         else if (practice) { s.daily.practice = true; this.log(s, '每日重玩补贴', C.economy.practice); }
         s.daily.wins++;
         if (s.daily.wins === 1) { s.daysOpen++; this.log(s, '每日首胜', C.economy.firstWin); }
         if (s.daily.wins === 3) this.log(s, '每日三胜', C.economy.threeWins);
-        if (first || practice) for (const id of result.dishes) {
+        if (first || practice || menuFirst) for (const id of result.dishes) {
           if (!/^d\d\d$/.test(id)) continue;
           if (!s.dishes[id]) newly.push(id);
           s.dishes[id] = (s.dishes[id] || 0) + 1;
@@ -128,12 +153,13 @@
         if (count >= 12) this.grant(s, 'recipe-plate', rewards);
         let book = s.activeBook;
         if (s.activity[book] >= 14 || !this.released(book)) book = s.activity.findIndex((n, i) => n < 14 && this.released(i));
-        if (s.cleared.length >= 5 && s.daily.eventWins < 3 && book >= 0) {
+        if (s.cleared.length >= 1 && s.daily.eventWins < 3 && book >= 0 && (!menu||menuFirst)) {
           s.activeBook = book; s.daily.eventWins++; s.activity[book]++;
         }
         unlockRares(s,rewards);
-        s.activeAttempt = null;
-        return { first, practice, credited: s.coins - before, revenue: result.revenue, newly: [...new Set(newly)], rewards, activity: s.activity.slice(), level: result.level, adTaken: false };
+        s.activeAttempt = null;s.suspended=null;
+        return { first, practice, menu:menu||null, menuFirst, credited: s.coins - before, revenue: result.revenue, newly: [...new Set(newly)], rewards,
+          rewardIds:C.rareItems.filter(i=>rewards.includes(i.name)).map(i=>i.id), activity: s.activity.slice(), level: result.level, adTaken: false };
       });
     }
     // Retired single-piece commerce. Old owned IDs still migrate and offset bundles.
@@ -154,7 +180,7 @@
       // One durable transaction owns and equips the entire set; a failed save
       // cannot leave a partly purchased outfit or debit any of the wallet.
       return this.transact(s => {
-        this.log(s, '配齐' + offer.name, -offer.price);s.baseTheme=id;
+        this.log(s, '配齐' + offer.name, -offer.price);s.baseTheme=id;s.goalPreference='near';
         for (const slot of C.slots) {
           const item = id + '-' + slot;
           if (!s.owned.includes(item)) s.owned.push(item);
@@ -186,9 +212,21 @@
       return {id,description,value:Math.min(value,target),target,owned:this.state.owned.includes(id),
         equipped:this.state.equipped[item.slot]===id,source:condition.type==='recipes'?'recipes':'market'};
     }
-    wish(id) { return C.byId[id] && C.byId[id].source === 'coins' && this.transact(s => { s.wish = id; }); }
+    wish(id) { return C.byId[id] && C.byId[id].source === 'coins' && this.transact(s => { s.wish = id;s.goalPreference='theme'; }); }
     selectBook(book) { return integer(book, 3) && this.released(book) && this.transact(s => { s.activeBook = book; }); }
     settings(value) { return this.transact(s => { s.reducedMotion = !!value; }); }
+    toggleSound() { return this.transact(s=>{s.sound=!s.sound;}); }
+    nextGoal() {
+      const s=this.state;
+      if(!s.tutorialDone&&s.owned.includes('star-lamp'))return {id:'star-lamp',title:'第一盏星河灯',detail:'已经获得，给小摊换上看看',value:1,target:1,owned:true};
+      if(s.goalPreference==='theme')return null;
+      const candidates=C.rareItems.filter(i=>!s.owned.includes(i.id)&&i.condition.type==='recipes');
+      const item=candidates.sort((a,b)=>a.condition.target-b.condition.target)[0];
+      if(item){const offer=this.rareOffer(item.id);return {id:item.id,title:'下一件 '+item.name,detail:offer.description+' · '+offer.value+'/'+offer.target,value:offer.value,target:offer.target,owned:false};}
+      const mastered=Object.values(s.dishes).filter(n=>n>=30).length;
+      if(mastered<20)return {id:'mastery',title:'练成小摊拿手菜',detail:'每道做满30份 · 已练成'+mastered+'/20道',value:mastered,target:20,owned:false};
+      return null;
+    }
     photo() { return this.state.cleared.length >= 10 && this.state.photos.length < 24 && this.transact(s => { s.photos.push({ id: 'photo-' + s.nextAttempt + '-' + this.now(), date: day(this.now()), level: s.cleared.length, equipped: copy(s.equipped) }); }); }
     removePhoto(id) { return this.transact(s => { s.photos = s.photos.filter(p => p.id !== id); }); }
     memories() {
@@ -199,6 +237,8 @@
         for (const threshold of [3, 6, 9]) if (n >= threshold) out.push({ id: theme.id + '-' + threshold, title: theme.name + ['贴纸', '相框', '纪念照'][[3, 6, 9].indexOf(threshold)], description: '收藏' + threshold + '件主题装扮', kind:threshold===3?'sticker':threshold===6?'frame':'photo', theme: theme.id });
       }
       if (Object.keys(s.dishes).length >= 20) out.push({ id: 'recipes-20', title: '完整家常菜谱纪念框', description: '点亮全部20道家常菜', kind:'frame', theme: 'sea' });
+      for(const [id,count] of Object.entries(s.dishes))for(const [target,name] of [[30,'拿手家常'],[100,'小摊招牌']])if(count>=target)
+        out.push({id:'mastery-'+id+'-'+target,title:(this.options.recipes?.find(r=>r.id===id)?.displayName||'家常小炒')+' · '+name,description:'这道菜已经上桌'+count+'份',kind:'sticker',theme:target===100?'star':'warm',recipeId:id});
       s.activity.forEach((n, i) => { for (const threshold of [3, 10]) if (n >= threshold) out.push({ id: 'event-' + i + '-' + threshold, title: C.event.books[i] + (threshold === 3 ? '贴纸' : '相框'), description: '活动册累计' + threshold + '进度', kind:threshold===3?'sticker':'frame', theme: 'festival' }); });
       return out;
     }

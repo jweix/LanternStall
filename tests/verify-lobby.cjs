@@ -18,6 +18,9 @@ const draws = [], labels = [], gradient = { addColorStop() {} };
 const ctx = new Proxy({ globalAlpha: 1 }, { get: (o,k) => k in o ? o[k] : k === 'measureText' ? t => ({ width: String(t).length * 23 }) :
   k === 'fillText' ? t => labels.push(String(t)) : k === 'drawImage' ? (im, ...args) => draws.push({id:im.id,args}) : /create.*Gradient/.test(k) ? () => gradient : () => {} });
 const images = Object.fromEntries(Object.entries(index).map(([id,a]) => [id, { id, width:a.width,height:a.height }]));
+const fontless={DapaidangStallArt:require('../shared/rendering/stall-art.js'),DapaidangLobbyLayout:require('../shared/data/lobby-layout.js')};
+require('node:vm').runInNewContext(fs.readFileSync(require.resolve('../shared/rendering/lobby-components.js'),'utf8'),fontless);
+assert.doesNotThrow(()=>fontless.DapaidangLobbyComponents.create(ctx,images).words('小摊',100,100,30),'A missing optional ink-metrics script cannot blank the lobby');
 function grayCanvas(){
   const surface={},context={drawImage(im){surface.id=im.id+'-unlit';},getImageData(){return{data:new Uint8ClampedArray([255,0,0,191,0,255,0,0])};},putImageData(pixels){surface.pixels=Array.from(pixels.data);}};
   surface.getContext=()=>context;return surface;
@@ -40,8 +43,8 @@ for(const tab of ['decor','recipes','market','home']) {
   assert.equal(app.hits.filter(h=>h.action==='tab'&&h.rect[1]===Lobby.R.footer.rect[1]&&['home','decor','recipes','market'].includes(h.value)).length,4);
   for(const h of app.hits){assert(h.rect.every(Number.isFinite));assert(h.rect[0]>=0&&h.rect[1]>=0);assert(h.rect[0]+h.rect[2]<=887.01&&h.rect[1]+h.rect[3]<=1774.01);}
 }
-tap('tab','recipes');render();assert(labels.includes('首通3关，打开小摊菜谱'));assert(!app.hits.some(h=>h.action==='recipe'));
-tap('tab','market');render();assert(labels.includes('首通5关，参加夜市活动'));
+tap('tab','recipes');render();assert(labels.includes('完成第一锅，留下你的第一张菜谱'));assert(!app.hits.some(h=>h.action==='recipe'));
+tap('tab','market');render();assert(labels.includes('完成第一锅，今晚就能参加夜市'));
 tap('tab','decor');render();assert.deepEqual(app.hits.filter(h=>h.action==='sub').map(h=>h.value),['themes','rares']);
 assert(app.hits.some(h=>h.action==='theme'&&h.value==='warm'));assert(labels.includes('已拥有')||labels.includes('使用中'));
 assert(!app.hits.some(h=>h.action==='buy'||h.action==='category-page'),'No single-piece shop remains');
@@ -77,8 +80,8 @@ rich.handle('tab','decor');tap('theme','bamboo',rich);render(rich);
 assert(draws.some(d=>d.id==='lobby-scene-chef-bamboo'));
 const richBefore=JSON.stringify(rich.profile.state);tap('theme-details','bamboo',rich);tap('close',undefined,rich);assert.equal(JSON.stringify(rich.profile.state),richBefore);
 tap('theme-details','bamboo',rich);const balance=rich.profile.state.coins;tap('confirm-buy-theme','bamboo',rich);
-assert.equal(rich.profile.state.coins,balance-6000);assert(C.slots.every(slot=>rich.profile.state.equipped[slot]==='bamboo-'+slot));
-rich.handle('confirm-buy-theme','bamboo');assert.equal(rich.profile.state.coins,balance-6000);
+assert.equal(rich.profile.state.coins,balance-C.byTheme.bamboo.total);assert(C.slots.every(slot=>rich.profile.state.equipped[slot]==='bamboo-'+slot));
+rich.handle('confirm-buy-theme','bamboo');assert.equal(rich.profile.state.coins,balance-C.byTheme.bamboo.total);
 tap('sub','rares',rich);tap('rare-family','star',rich);tap('rare-mode','owned',rich);const wear=JSON.stringify(rich.profile.state.equipped),rareCoins=rich.profile.state.coins;
 const beforeItemTrial=JSON.stringify(rich.profile.state);tap('preview-owned-rare','star-lamp',rich);
 assert.equal(JSON.stringify(rich.profile.state),beforeItemTrial,'Owned card taps preview without saving');assert.equal(rich.view().appearance.lamp.id,'star');
@@ -94,7 +97,7 @@ render(rich);assert(labels.includes('星河琉璃 · 使用中')&&!rich.hits.som
 rich.handle('tab','home');const equippedAppearance=JSON.stringify(rich.view().appearance);tap('tab','decor',rich);render(rich);
 assert.equal(rich.sub.decor,'themes');assert(!rich.view().themePreview);assert.equal(JSON.stringify(rich.view().appearance),equippedAppearance,'Opening wardrobe keeps the saved outfit until an explicit preview');
 assert(labels.includes('点选套装，预览后再换上'));
-rich.handle('tab','recipes');render(rich);assert(!rich.hits.some(h=>h.action==='recipe'));assert(labels.includes('已做45份'));
+rich.handle('tab','recipes');render(rich);assert(!rich.hits.some(h=>h.action==='recipe'));assert(labels.includes('已做45份 · 拿手家常'));
 const partial=new App({recipes,layout,data:{version:2,cleared:[1,2,3],dishes:{d01:2,d02:2,d06:5}}});partial.handle('tab','recipes');
 for(let page=0;page<4;page++){
   partial.page=page;render(partial);
@@ -139,10 +142,10 @@ render(rich);rich.pointerStart(inside);rich.setHidden(true);rich.pointerEnd(insi
 rich.handle('sub','themes');render(rich);assert.deepEqual(rich.hits.filter(h=>h.action==='theme').map(h=>h.value),['warm','bamboo','sea','festival']);
 assert(!rich.hits.some(h=>h.action==='item'),'Theme cards contain sets, not component purchase offers');
 console.log('PASS atomic set purchase, rare-only component equip, clipped scrolling, drag-vs-tap and portable viewport transforms');
-const poor=new App({recipes,layout,data:{...rich.profile.state,coins:10000,owned:C.slots.map(s=>'warm-'+s),equipped:Object.fromEntries(C.slots.map(s=>[s,'warm-'+s]))}});
+const poor=new App({recipes,layout,data:{...rich.profile.state,coins:1000,owned:C.slots.map(s=>'warm-'+s),equipped:Object.fromEntries(C.slots.map(s=>[s,'warm-'+s]))}});
 poor.handle('tab','decor');tap('theme','sea',poor);render(poor);
-assert(labels.includes('购买海风 · 12,000金币'));assert(!labels.some(t=>t.includes('还差')));
-tap('theme-details','sea',poor);render(poor);assert(labels.includes('12,000 金币'));assert(!labels.some(t=>t.includes('还差')||t.includes('购买后余额')));
+assert(labels.includes('购买海风 · 9,000金币'));assert(!labels.some(t=>t.includes('还差')));
+tap('theme-details','sea',poor);render(poor);assert(labels.includes('9,000 金币'));assert(!labels.some(t=>t.includes('还差')||t.includes('购买后余额')));
 assert(!poor.hits.some(h=>h.action==='confirm-buy-theme'),'Insufficient balance still shows full price but cannot confirm a purchase');
 const poorBefore=JSON.stringify(poor.profile.state);poor.handle('confirm-buy-theme','sea');assert.equal(JSON.stringify(poor.profile.state),poorBefore);
 

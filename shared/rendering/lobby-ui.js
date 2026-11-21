@@ -107,8 +107,11 @@
       tabs([['recipes', '菜谱'], ['achievements', '成就'], ['photos', '相册']], v.sub.recipes, R.recipes.tabs);
       if (v.state.cleared.length < 3) { gate('首通3关，打开小摊菜谱', 565); return; }
       if (v.sub.recipes === 'recipes') {
+        const lit=[],unlit=[];
+        catalog.recipes.forEach(recipe=>(v.state.dishes[recipe.id]>0?lit:unlit).push(recipe));
+        const ordered=lit.concat(unlit);
         const p = Math.min(v.page, Math.ceil(catalog.recipes.length / 6) - 1);
-        catalog.recipes.slice(p * 6, p * 6 + 6).forEach((recipe, i) => {
+        ordered.slice(p * 6, p * 6 + 6).forEach((recipe, i) => {
           const r = gridRect(R.recipes.cards,i), count = v.state.dishes[recipe.id] || 0,name=recipe.displayName||recipe.name,n=Number(recipe.id.slice(1))-1,native=n<6&&n>=0&&recipeArtNames[n]===name,row=Math.floor(n/2);
           card(r);
           U.dish(recipe.id,native?[r[0]+(n%2?52:54),r[1]+14-row*2,285,181]:[r[0]+54,r[1]+14,285,181],!count);
